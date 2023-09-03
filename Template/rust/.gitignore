@@ -1,0 +1,12 @@
+# Wasm
+node_modules
+/dist
+/pkg
+/wasm-pack.log
+
+# Target
+/target
+
+# Nix Things
+result
+.direnv
