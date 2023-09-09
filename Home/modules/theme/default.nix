@@ -57,13 +57,13 @@ in
       iconTheme = cfg.gtk.iconTheme;
       cursorTheme = cfg.gtk.cursorTheme;
     };
-    home.pointerCursor = {
-      name = cfg.gtk.cursorTheme.name;
-      package = cfg.gtk.cursorTheme.package;
-      size = 48;
-      gtk.enable = true;
-      x11.enable = true;
-    };
+    # home.pointerCursor = {
+    #   name = cfg.gtk.cursorTheme.name;
+    #   package = cfg.gtk.cursorTheme.package;
+    #   size = 48;
+    #   gtk.enable = true;
+    #   x11.enable = true;
+    # };
 
     # specialisation.Doom-One.configuration = {
     #   config.modules = {
