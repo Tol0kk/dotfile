@@ -11,6 +11,7 @@
       "${config.system.path}"
     ];
     NIXOS_DOTFILE_DIR = "${self}";
+    WLR_NO_HARDWARE_CURSORS = "1";
   };
 
 
@@ -25,29 +26,29 @@
     pulse.enable = true;
   };
 
-  # hardware.opengl = {
-  #   enable = true;
-  #   driSupport = true;
-  #   driSupport32Bit = true;
-  #   extraPackages = with pkgs; [
-  #     vaapiVdpau
-  #   ];
-  # };
+   hardware.opengl = {
+     enable = true;
+     driSupport = true;
+      driSupport32Bit = true;
+     extraPackages = with pkgs; [
+       vaapiVdpau
+     ];
+   };
   # boot.kernelParams = lib.mkDefault [ "acpi_rev_override" ];
   hardware.nvidia = {
-    # modesetting.enable = true;
-    nvidiaSettings = true;
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
-    # prime = {
-    # offload.enable = true;
-    # offload.enableOffloadCmd = true;
-    # intelBusId = "PCI:0:2:0";
-    # nvidiaBusId = "PCI:1:0:0";
-    # };
-    # powerManagement = {
-    #   enable = true;
-    #   # finegrained = true;
-    # };
+     modesetting.enable = true;
+     nvidiaSettings = true;
+     package = config.boot.kernelPackages.nvidiaPackages.latest;
+  #   # prime = {
+  #   # offload.enable = true;
+  #   # offload.enableOffloadCmd = true;
+  #   # intelBusId = "PCI:0:2:0";
+  #   # nvidiaBusId = "PCI:1:0:0";
+  #   # };
+  #   # powerManagement = {
+  #   #   enable = true;
+  #   #   # finegrained = true;
+  #   # };
   };
   # services.xserver.videoDrivers = [ "nvidia" "modesetting" "fbdev" ];
   services.xserver.videoDrivers = [ "nvidia" ];
@@ -66,29 +67,29 @@
 
   # Bootloader
   boot.loader = {
-    timeout = 1;
+    timeout = 5;
     efi.canTouchEfiVariables = true;
     grub = {
       enable = true;
       device = "nodev";
       efiSupport = true;
       gfxmodeEfi = "3840x2400";
-      fontSize = 36;
+      fontSize = 12;
       font = "${pkgs.hack-font}/share/fonts/hack/Hack-Regular.ttf";
-    #  extraEntries = '' 
-    #   menuentry "Windows" {
-    #    insmod part_gpt
-    #    insmod fat
-    #    search --no-floppy --fs-uuid --set=root B4C8-4FD5
-    #    chainloader /efi/Microsoft/Boot/bootmgfw.efi
-    #   }
-    #   menuentry "Reboot" {
-    #    reboot
-    #   }
-    #   menuentry "Poweroff" {
-    #    halt
-    #   }
-    #  '';
+     extraEntries = '' 
+      menuentry "Windows" {
+       insmod part_gpt
+       insmod fat
+       search --no-floppy --fs-uuid --set=root 3EBE-7C56    
+       chainloader /efi/Microsoft/Boot/bootmgfw.efi
+      }
+      menuentry "Reboot" {
+       reboot
+      }
+      menuentry "Poweroff" {
+       halt
+      }
+     '';
     };
   };
   services.fwupd.enable = true;
@@ -133,7 +134,6 @@
     })
 
   ];
-  services.upower.enable = true;
   programs.dconf.enable = true;
 
 
@@ -238,6 +238,7 @@
 
     direnv
     nixpkgs-fmt
+    home-manager
 
     gpu-viewer
     nvitop
@@ -277,11 +278,17 @@
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "23.05"; # Did you read the comment?
 
-  # fileSystems."/Windows" = {
-  #   device = "/dev/disk/by-uuid/1C86D5F686D5D07E";
-  #   fsType = "ntfs-3g";
-  #   options = [ "rw" ];
-  # };
+  fileSystems."/Windows/Divers" = {
+    device = "/dev/disk/by-uuid/0AC06BC1C06BB19D";
+    fsType = "ntfs-3g";
+    options = [ "rw" ];
+  };
+
+  fileSystems."/Windows/Données" = {
+    device = "/dev/disk/by-uuid/64948C42948C18A6";
+    fsType = "ntfs-3g";
+    options = [ "rw" ];
+  };
 
   programs.adb.enable = true;
 }
