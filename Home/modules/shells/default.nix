@@ -9,6 +9,7 @@ in
     ./zsh.nix
     ./fish.nix
     ./bash.nix
+    ./nushell.nix
     ./starship.nix
   ];
   

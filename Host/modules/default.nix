@@ -3,5 +3,7 @@
 {
   imports = [
     ./nvidia
+    ./virtualisation
+    ./fonts
   ];
 }

@@ -65,21 +65,21 @@ in
       x11.enable = true;
     };
 
-    specialisation.Doom-One.configuration = {
-      config.modules = {
-        theme = themes.Doom-One;
-      };
-    };
-    specialisation.Doom-One-Light.configuration = {
-      config.modules = {
-        theme = themes.Doom-One-Light;
-      };
-    };
-    specialisation.Catppuccin-Mocha.configuration = {
-      config.modules = {
-        theme = themes.Catppuccin-Mocha;
-      };
-    };
+    # specialisation.Doom-One.configuration = {
+    #   config.modules = {
+    #     theme = themes.Doom-One;
+    #   };
+    # };
+    # specialisation.Doom-One-Light.configuration = {
+    #   config.modules = {
+    #     theme = themes.Doom-One-Light;
+    #   };
+    # };
+    # specialisation.Catppuccin-Mocha.configuration = {
+    #   config.modules = {
+    #     theme = themes.Catppuccin-Mocha;
+    #   };
+    # };
   };
 
 

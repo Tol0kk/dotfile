@@ -24,12 +24,12 @@ in
     modules.git.enable = true;
     home.packages = with pkgs; [
       vscodium-fhs
-      vscode-fhs
       blender
       platformio # update/upload firmware on a board
       printrun # control 3dprinter manualy
       minicom # serial comunication
       openocd # on-chip debugging
+      traceroute
       ripgrep
       lsof
       wget

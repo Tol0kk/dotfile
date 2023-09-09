@@ -1,7 +1,6 @@
 { pkgs, config, username, ... }:
 {
   config.modules = {
-
     anyrun.enable = true;
     avizo.enable = true;
     ags.enable = true;
@@ -31,12 +30,13 @@
       zsh.enable = true;
       fish.enable = true;
       bash.enable = true;
+      nushell.enable = true;
       startship.enable = true;
     };
     wayland = {
       enable = true;
       hyprland.enable = true;
-      sway.enable = false;
+      sway.enable = true;
       newm.enable = false;
     };
     wpaperd.enable = true;

@@ -12,8 +12,8 @@ in {
   };
 
   config = mkIf cfg.enable {
-    home.packages = [ 
-      ]; # Dependency
-
+    home.packages = [
+      # eww-wayland # Dependency
+    ]; 
   };
 }

@@ -3,6 +3,8 @@ nixpkgs.lib.nixosSystem (
   let
     configuration = "${self}/Host/${hostname}/configuration.nix";
     hardware = "${self}/Host/${hostname}/hardware.nix";
+    SelectedModules = "${self}/Host/${hostname}/modules.nix";
+    modules = "${self}/Host/modules";
     overlays = (import ./overlay.nix { inherit inputs self;});
 
     pkgs = import nixpkgs {
@@ -41,6 +43,8 @@ nixpkgs.lib.nixosSystem (
         globalConfig
         configuration
         hardware
+        modules
+        SelectedModules
       ]
       # ++ __attrValues self.nixosModules
     ;

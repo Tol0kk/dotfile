@@ -25,33 +25,6 @@
     pulse.enable = true;
   };
 
-  # hardware.opengl = {
-  #   enable = true;
-  #   driSupport = true;
-  #   driSupport32Bit = true;
-  #   extraPackages = with pkgs; [
-  #     vaapiVdpau
-  #   ];
-  # };
-  # boot.kernelParams = lib.mkDefault [ "acpi_rev_override" ];
-  hardware.nvidia = {
-    # modesetting.enable = true;
-    nvidiaSettings = true;
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
-    # prime = {
-    # offload.enable = true;
-    # offload.enableOffloadCmd = true;
-    # intelBusId = "PCI:0:2:0";
-    # nvidiaBusId = "PCI:1:0:0";
-    # };
-    # powerManagement = {
-    #   enable = true;
-    #   # finegrained = true;
-    # };
-  };
-  # services.xserver.videoDrivers = [ "nvidia" "modesetting" "fbdev" ];
-  services.xserver.videoDrivers = [ "nvidia" ];
-
   programs.steam.enable = true;
   hardware.steam-hardware.enable = true;
   programs.steam.gamescopeSession.enable = true;
@@ -99,9 +72,9 @@
 
   boot.kernelPackages = pkgs.linuxPackages_6_4;
 
-  # services.xserver.enable = true;
-  # services.xserver.displayManager.sddm.enable = true;
-  # services.xserver.displayManager.sddm.theme = "${../../Pkgs/sddm-chili}";
+  services.xserver.enable = true;
+  services.xserver.displayManager.sddm.enable = true;
+  services.xserver.displayManager.sddm.theme = "${../../Pkgs/sddm-chili}";
 
   programs.waybar.enable = true;
   programs.fish.enable = true;
@@ -140,7 +113,7 @@
   services.flatpak.enable = true;
   xdg.portal = {
     enable = true;
-    extraPortals = [ inputs.hyprland.packages.${pkgs.system}.xdg-desktop-portal-hyprland ];
+    # extraPortals = [ inputs.hyprland.packages.${pkgs.system}.xdg-desktop-portal-hyprland ];
   };
   security.sudo.wheelNeedsPassword = false;
 
@@ -200,12 +173,20 @@
     isNormalUser = true;
     description = "titouan";
     shell = pkgs.fish;
-    extraGroups = [ "networkmanager" "wheel" "audio" "video" "docker" "adbusers" "dialout"];
+    extraGroups = [ "networkmanager" "wheel" "audio" "video" "docker" "adbusers" "dialout" ];
     packages = with pkgs; [ ];
   };
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
+
+  hardware.nvidia = {
+    # modesetting.enable = true;
+    nvidiaSettings = true;
+    package = config.boot.kernelPackages.nvidiaPackages.stable;
+  };
+  # services.xserver.videoDrivers = [ "nvidia" "modesetting" "fbdev" ];
+  services.xserver.videoDrivers = [ "nvidia" ];
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
@@ -246,7 +227,7 @@
 
     imagemagick # utils
     vulkan-tools # utils-gpu
-    inputs.eww.packages.${pkgs.system}.eww-wayland
+    # inputs.eww.packages.${pkgs.system}.eww-wayland
     (callPackage "${self}/Pkgs/nixer" { })
     (callPackage "${self}/Pkgs/sddm-chili" { username = "titouan"; }) # for sddm
   ];

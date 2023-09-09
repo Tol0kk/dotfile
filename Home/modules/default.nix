@@ -64,6 +64,10 @@
     sops # For Sops-nix. has a home-manager module
   ];
 
+  home.sessionPath = [
+    "$HOME/.cargo/bin"
+  ];
+
   nix.registry = {
     MyTemplate = {
       from = {
