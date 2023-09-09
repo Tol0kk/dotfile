@@ -9,8 +9,8 @@ in
 inputs.home-manager-stable.lib.homeManagerConfiguration {
   inherit pkgs;
   modules = [
-    ../Home/${username}
-    ../Home/modules
+    "${self}/Home/${username}"
+    "${self}/Home/modules"
     {
       home.stateVersion = stateVersion;
       home.username = username;

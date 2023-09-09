@@ -15,10 +15,11 @@ in
   };
 
   config = mkIf cfg.enable {
-    wayland.windowManager.hyprland.enable = true;
-    wayland.windowManager.hyprland.nvidiaPatches = true;
-    # wayland.windowManager.hyprland.nvidiaPatches = nvidiacfg;
-
+    wayland.windowManager.hyprland = {
+      enable = true;
+      xwayland.enable = true;
+      enableNvidiaPatches = false;
+    };
     xdg.configFile."hypr/hyprland.conf".source = ./hyprland.conf;
     home.packages = with pkgs; [
       hyprpicker
