@@ -23,6 +23,7 @@ in
     xdg.configFile."hypr/hyprland.conf".source = ./hyprland.conf;
     home.packages = with pkgs; [
       hyprpicker
+      playerctl
     ];
   };
 }
