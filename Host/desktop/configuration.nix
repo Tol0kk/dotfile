@@ -20,37 +20,6 @@
 
   console.font = "${pkgs.terminus_font}/share/consolefonts/ter-132b.psf.gz";
 
-  # Bootloader
-  boot.loader = {
-    timeout = 5;
-    efi.canTouchEfiVariables = true;
-    grub = {
-      enable = true;
-      device = "nodev";
-      efiSupport = true;
-      gfxmodeEfi = "3840x2400";
-      fontSize = 12;
-      font = "${pkgs.hack-font}/share/fonts/hack/Hack-Regular.ttf";
-      extraEntries = '' 
-      menuentry "Windows" {
-       insmod part_gpt
-       insmod fat
-       search --no-floppy --fs-uuid --set=root 3EBE-7C56    
-       chainloader /efi/Microsoft/Boot/bootmgfw.efi
-      }
-      menuentry "Reboot" {
-       reboot
-      }
-      menuentry "Poweroff" {
-       halt
-      }
-      menuentry "UEFI Firmware Settings" {
-       fwsetup
-      }
-     '';
-    };
-  };
-
   services.fwupd.enable = true;
 
   services.udisks2.enable = true;

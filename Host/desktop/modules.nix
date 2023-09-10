@@ -16,6 +16,11 @@
     udev.ArduinoMega.enable = true;
     sddm.enable = true;
 
+    dualboot = {
+      enable = true;
+      windowsUUID = "3EBE-7C56";
+    };
+
     general.sessionVariables = {
       XCURSOR_SIZE = "128";
       XCURSOR_PATH = [
