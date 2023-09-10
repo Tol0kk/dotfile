@@ -1,7 +1,7 @@
 {
   description = "My Nixos flake Configuration";
   inputs = {
-    # stable.url = "github:nixos/nixpkgs/nixos-23.05";
++   # stable.url = "github:nixos/nixpkgs/nixos-23.05";
     # home-manager-stable.url = "github:nix-community/home-manager/release-23.05";
     stable.url = "github:nixos/nixpkgs/nixos-unstable";
     home-manager-stable.url = "github:nix-community/home-manager";
