@@ -30,6 +30,7 @@ in
       nvidiaSettings = true;
       package = config.boot.kernelPackages.nvidiaPackages.stable;
     };
+    
     services.xserver.videoDrivers = [ "nvidia" ];
 
     hardware.nvidia.prime = mkIf cfg.offload.enable {
@@ -38,15 +39,5 @@ in
       intelBusId = "PCI:0:2:0";
       nvidiaBusId = "PCI:1:0:0";
     };
-
-    # hardware.opengl = {
-    #   enable = true;
-    #   driSupport = true;
-    #   driSupport32Bit = true;
-    #   extraPackages = with pkgs; [
-    #     vaapiVdpau
-    #   ];
-    # };
-    # boot.kernelParams = lib.mkDefault [ "acpi_rev_override" ];
   };
 }
