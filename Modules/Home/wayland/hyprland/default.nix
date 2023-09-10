@@ -18,7 +18,7 @@ in
     wayland.windowManager.hyprland = {
       enable = true;
       xwayland.enable = true;
-      enableNvidiaPatches = false;
+      enableNvidiaPatches = true;
     };
     xdg.configFile."hypr/hyprland.conf".source = ./hyprland.conf;
     home.packages = with pkgs; [

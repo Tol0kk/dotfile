@@ -24,7 +24,13 @@ in
       driSupport = true;
       driSupport32Bit = true;
     };
- 
+
+    hardware.nvidia = {
+      modesetting.enable = true;
+      nvidiaSettings = true;
+      package = config.boot.kernelPackages.nvidiaPackages.stable;
+    };
+    services.xserver.videoDrivers = [ "nvidia" ];
 
     hardware.nvidia.prime = mkIf cfg.offload.enable {
       offload.enable = true;

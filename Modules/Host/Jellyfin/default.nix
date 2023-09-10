@@ -2,18 +2,18 @@
 
 with lib;
 let
-  cfg = config.modules.gaming;
+  cfg = config.modules.jellyfin;
 in
 {
-  options.modules.gaming = {
+  options.modules.jellyfin = {
     enable = mkOption {
-      description = "Enable gaming";
+      description = "Enable Jellyfin";
       type = types.bool;
       default = false;
     };
   };
 
   config = mkIf cfg.enable {
-    programs.steam.enable = true;
+    services.jellyfin.enable = true;
   };
 }
