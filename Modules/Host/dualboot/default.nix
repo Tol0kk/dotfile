@@ -12,7 +12,7 @@ in
       default = false;
     };
     windowsUUID = mkOption {
-      description = "Select the Disk where windows is installed by UUID. You can find the UUID with lsblk -fa";
+      description = "Select the Disk where windows is installed by UUID. This Speed up the processed from Osprober. You can find the UUID with lsblk -fa";
       type = types.str;
       default = "";
     };
