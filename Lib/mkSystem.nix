@@ -4,8 +4,7 @@ nixpkgs.lib.nixosSystem (
     configuration = "${self}/Host/${hostname}/configuration.nix";
     hardware = "${self}/Host/${hostname}/hardware.nix";
     SelectedModules = "${self}/Host/${hostname}/modules.nix";
-    modules = "${self}/Host/modules";
-    overlays = (import ./overlay.nix { inherit inputs self;});
+    overlays = (import ./overlay.nix { inherit inputs self; });
 
     pkgs = import nixpkgs {
       inherit system overlays;
@@ -20,6 +19,8 @@ nixpkgs.lib.nixosSystem (
       };
     };
 
+    host_modules = (builtins.map (dir: "${self}/Modules/Host/" + dir)
+      (builtins.attrNames (builtins.readDir "${self}/Modules/Host")));
 
     globalConfig = {
       boot.tmp.cleanOnBoot = true;
@@ -43,9 +44,8 @@ nixpkgs.lib.nixosSystem (
         globalConfig
         configuration
         hardware
-        modules
         SelectedModules
-      ]
+      ] ++ host_modules
       # ++ __attrValues self.nixosModules
     ;
   }

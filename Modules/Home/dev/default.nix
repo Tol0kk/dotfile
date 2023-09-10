@@ -1,17 +1,15 @@
-{ pkgs, lib, config, ... }:
+{ pkgs, lib, config, self, ... }:
 
 with lib;
 let
   cfg = config.modules.dev;
 in
 {
-  imports = [
-    ./nix
-    ./octave
-    ./R
-    ./rust
-    ./android
-  ];
+  imports =
+    (builtins.map (dir: "${self}/Modules/Home/dev/" + dir)
+      (builtins.filter (name: !(hasSuffix ".nix" name))
+        (builtins.attrNames (builtins.readDir "${self}/Modules/Home/dev"))));
+
   options.modules.dev = {
     enable = mkOption {
       description = "Enable dev basic component";
@@ -23,7 +21,7 @@ in
   config = mkIf cfg.enable {
     modules.git.enable = true;
     home.packages = with pkgs; [
-      vscodium-fhs
+      vscodium
       blender
       platformio # update/upload firmware on a board
       printrun # control 3dprinter manualy

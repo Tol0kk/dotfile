@@ -14,8 +14,6 @@
   };
 
 
-  # boot.kernelParams = lib.mkDefault [ "acpi_rev_override" ];
-  # boot.initrd.kernelModules = [ "i915" ];
   sound.enable = true;
   security.rtkit.enable = true;
   services.pipewire = {
@@ -86,29 +84,8 @@
 
   services.gvfs.enable = true; # auto mount thunar
 
-  services.udev.enable = true;
-  services.udev.packages = [
-    (pkgs.writeTextFile {
-      name = "openocd";
-      text = ''
-        # STM32F3DISCOVERY - ST-LINK/V2.1
-        ATTRS{idVendor}=="0483", ATTRS{idProduct}=="374b", MODE:="0666"
-      '';
-      destination = "/etc/udev/rules.d/99-openocd.rules";
-    })
-    (pkgs.writeTextFile {
-      name = "arduino";
-      text = ''
-        # SATMEGA ARDUINO 3Dprinter
-        ATTRS{idVendor}=="2341", ATTRS{idProduct}=="0042", MODE:="0666"
-      '';
-      destination = "/etc/udev/rules.d/99-arduino-udev.rules";
-    })
-
-  ];
   services.upower.enable = true;
   programs.dconf.enable = true;
-
 
   services.flatpak.enable = true;
   xdg.portal = {

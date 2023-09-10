@@ -1,4 +1,4 @@
-{ pkgs, config, username, ... }:
+{ pkgs, config, username, self, ... }:
 {
   config.modules = {
     anyrun.enable = true;
@@ -42,6 +42,35 @@
     wpaperd.enable = true;
     xdg.enable = true;
     zoxide.enable = true;
+
+    general = {
+      packages = with pkgs; [
+        foliate
+        zathura
+        imv
+        tldr
+        mpv
+        ffmpeg
+        unzip
+        pfetch
+        bat
+        yt-dlp
+        onlyoffice-bin
+        discord
+        # ani-cli
+        fzf
+        aria
+        sops # For Sops-nix. has a home-manager module
+      ];
+      sessionVariables = {
+        XCURSOR_SIZE = "128";
+        XCURSOR_PATH = "$HOME/.icons:$HOME/.nix-profile/share/icons/";
+        NIXOS_DOTFILE_DIR = "${self}";
+      };
+      sessionPath = [
+        "$HOME/.cargo/bin"
+      ];
+    };
   };
 
 

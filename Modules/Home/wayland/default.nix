@@ -1,15 +1,14 @@
-{ pkgs, lib, config, ... }:
+{ pkgs, lib, config, self, ... }:
 
 with lib;
 let
   cfg = config.modules.wayland;
 in
 {
-  imports = [
-    ./hyprland
-    ./sway
-    ./newm
-  ];
+  imports =
+    (builtins.map (dir: "${self}/Modules/Home/wayland/" + dir)
+      (builtins.filter (name: !(hasSuffix ".nix" name))
+        (builtins.attrNames (builtins.readDir "${self}/Modules/Home/wayland"))));
 
   options.modules.wayland = {
     enable = mkOption {
@@ -22,6 +21,9 @@ in
 
   config = mkIf cfg.enable {
     modules.avizo.enable = true;
+    home.sessionVariables = {
+      NIXOS_OZONE_WL = "1";
+    };
     home.packages = with pkgs; [
       # screenshot
       grim
