@@ -13,7 +13,8 @@ in {
 
   config = mkIf cfg.enable {
     home.packages = [
-      # eww-wayland # Dependency
+      pkgs.eww-wayland # Dependency
+      pkgs.pulseaudio
     ]; 
   };
 }
