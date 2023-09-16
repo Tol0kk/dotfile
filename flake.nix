@@ -20,4 +20,5 @@
       homeConfigurations = import ./Home inputs;
       templates = import ./Template;
     };
-}
+} 
+
