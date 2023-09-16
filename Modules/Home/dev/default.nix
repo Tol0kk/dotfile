@@ -32,6 +32,8 @@ in
       lsof
       wget
       curl
+      poppler_utils # BASH SYS
+      img2pdf # BASH SYS
       tldr
     ];
   };
