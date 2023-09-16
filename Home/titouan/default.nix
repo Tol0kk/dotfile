@@ -23,6 +23,7 @@
     git.enable = true;
     gpg.enable = true;
     kitty.enable = true;
+    alacritty.enable = true;
     lsd.enable = true;
     nix-index.enable = true;
     shells = {
@@ -45,6 +46,7 @@
 
     general = {
       packages = with pkgs; [
+        firefox
         foliate
         zathura
         imv
