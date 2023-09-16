@@ -1,8 +1,22 @@
-{ pkgs, lib, config, ... }:
+{ pkgs, lib, config, self, ... }:
 with lib;
 let
   cfg = config.modules.theme;
-  themes = import ./colorSchemes { inherit pkgs; };
+  # imports =
+  # (builtins.map (dir: "${self}/Modules/Home/wayland/" + dir)
+  #   (builtins.filter (name: !(hasSuffix ".nix" name))
+  #     (builtins.attrNames (builtins.readDir "${self}/Modules/Home/wayland"))));
+  # themes = import "${self}/Lib/colorSchemes" { inherit pkgs; };
+  themes =
+    lib.attrsets.genAttrs
+      (lib.lists.flatten
+        (builtins.map
+          (name: lib.lists.take 1
+            (lib.strings.splitString "." name))
+          (builtins.attrNames
+            (builtins.readDir "${self}/Lib/colorrSchemes"))))
+      (name: builtins.readFile
+        ("${self}/Lib/colorrSchemes/" + name + ".nix"));
   defaultTheme = themes.Doom-One;
 in
 {
@@ -65,21 +79,21 @@ in
     #   x11.enable = true;
     # };
 
-    # specialisation.Doom-One.configuration = {
-    #   config.modules = {
-    #     theme = themes.Doom-One;
-    #   };
-    # };
-    # specialisation.Doom-One-Light.configuration = {
-    #   config.modules = {
-    #     theme = themes.Doom-One-Light;
-    #   };
-    # };
-    # specialisation.Catppuccin-Mocha.configuration = {
-    #   config.modules = {
-    #     theme = themes.Catppuccin-Mocha;
-    #   };
-    # };
+    specialisation.Doom-One.configuration = {
+      config.modules = {
+        theme = themes.Doom-One;
+      };
+    };
+    specialisation.Doom-One-Light.configuration = {
+      config.modules = {
+        theme = themes.Doom-One-Light;
+      };
+    };
+    specialisation.Catppuccin-Mocha.configuration = {
+      config.modules = {
+        theme = themes.Catppuccin-Mocha;
+      };
+    };
   };
 
 
