@@ -7,8 +7,6 @@ stdenv.mkDerivation rec {
     rev = "173e36d47a1fd898145a6129f8a199527fefa6a0";
   };
 
-  unpackPhase = "false";
-
   installPhase = ''
     mkdir -p $out
     cp * $out/.
