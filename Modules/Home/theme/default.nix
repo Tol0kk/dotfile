@@ -21,40 +21,37 @@ in
 {
   options.modules.theme = {
     kitty-theme = mkOption {
-      description = "Name of the theme (use for the name inside kitty)";
+      description = "Name of the theme (use for the name inside kitty). Don't affect kitty themes only used to create the theme";
       type = types.str;
       default = defaultTheme.kitty-theme;
     };
     kind = mkOption {
-      description = "";
       type = types.str;
       default = defaultTheme.kind;
     };
+    base_opacity = mkOption {
+      type = types.str;
+      default = defaultTheme.base_opacity;
+    };
     colorScheme = mkOption {
-      description = "";
       default = defaultTheme.colorScheme;
     };
     gtk = {
       theme = mkOption {
-        description = "";
         default = defaultTheme.gtk.theme;
       };
       iconTheme = mkOption {
-        description = "";
         default = defaultTheme.gtk.iconTheme;
       };
       cursorTheme = mkOption {
-        description = "";
         default = defaultTheme.gtk.cursorTheme;
       };
     };
     font = {
       name = mkOption {
-        description = "";
         default = defaultTheme.font.name;
       };
       package = mkOption {
-        description = "";
         default = defaultTheme.font.package;
       };
     };

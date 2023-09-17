@@ -2,8 +2,8 @@
 with lib;
 let 
 cfg = config.modules.wpaperd;
-# myWallpapers = pkgs.callPackage "${self}/Pkgs/myWallpapers" {};
-myWallpapers = "";
+myWallpapers = pkgs.callPackage "${self}/Pkgs/myWallpapers" {};
+# myWallpapers = "";
 
 in {
   options.modules.wpaperd = {
@@ -18,8 +18,8 @@ in {
     home.packages = [ pkgs.wpaperd ];
     xdg.configFile."wpaperd/wallpaper.toml".text = ''
       [default]
-      # path = "${myWallpapers}"
-      path = "/home/titouan/Pictures/Wallpapers/"
+      path = "${myWallpapers}"
+      # path = "/home/titouan/Pictures/Wallpapers/"
       duration = "30m"
       sorting = "ascending"
     '';
