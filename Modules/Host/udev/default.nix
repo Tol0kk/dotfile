@@ -37,6 +37,15 @@ in
         '';
         destination = "/etc/udev/rules.d/99-arduino-udev.rules";
       }))
+      (pkgs.writeTextFile {
+        name = "arduino2";
+        text = ''
+          # CP210X USB UART
+          ATTRS{idVendor}=="10c4", ATTRS{idProduct}=="ea[67][013]", MODE:="0666", ENV{ID_MM_DEVICE_IGNORE}="1", ENV{ID_MM_PORT_IGNORE}="1"
+          ATTRS{idVendor}=="10c4", ATTRS{idProduct}=="80a9", MODE:="0666", ENV{ID_MM_DEVICE_IGNORE}="1", ENV{ID_MM_PORT_IGNORE}="1"
+        '';
+        destination = "/etc/udev/rules.d/99-platformio-udev.rules";
+      })
 
     ];
   };
