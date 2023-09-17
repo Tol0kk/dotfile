@@ -17,6 +17,7 @@
     direnv.enable = true;
     dunst.enable = false;
     swaync.enable = true;
+    tldr.enable = true;
     emacs.enable = true;
     eww.enable = true;
     gaming.enable = true;
