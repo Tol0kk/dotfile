@@ -24,6 +24,7 @@ in
       vscodium
       blender
       platformio # update/upload firmware on a board
+      avrdude
       printrun # control 3dprinter manualy
       minicom # serial comunication
       openocd # on-chip debugging
