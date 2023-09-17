@@ -27,7 +27,6 @@ in {
           darkreader
           tridactyl
           youtube-shorts-block
-          tree-style-tab
         ];
 
         bookmarks = [
