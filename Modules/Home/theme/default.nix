@@ -14,9 +14,8 @@ let
           (name: lib.lists.take 1
             (lib.strings.splitString "." name))
           (builtins.attrNames
-            (builtins.readDir "${self}/Lib/colorrSchemes"))))
-      (name: builtins.readFile
-        ("${self}/Lib/colorrSchemes/" + name + ".nix"));
+            (builtins.readDir "${self}/Lib/themes"))))
+      (name: import "${self}/Lib/themes/${name}.nix" { inherit pkgs; });
   defaultTheme = themes.Doom-One;
 in
 {
@@ -31,12 +30,9 @@ in
       type = types.str;
       default = defaultTheme.kind;
     };
-    colorSchemes = mkOption {
+    colorScheme = mkOption {
       description = "";
-      type = attrsOf (types.str);
-      default = {
-        "aa" = "dd";
-      };
+      default = defaultTheme.colorScheme;
     };
     gtk = {
       theme = mkOption {
