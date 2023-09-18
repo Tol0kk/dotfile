@@ -15,5 +15,4 @@ in {
     programs.lsd.enable = true;
     xdg.configFile."lsd/config.yaml".source = ./config.yaml;
   };
-  # TODO Fix fonts
 }
