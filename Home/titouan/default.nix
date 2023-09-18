@@ -19,6 +19,7 @@
     swaync.enable = true;
     emacs.enable = true;
     eww.enable = true;
+    firefox.enable = true;
     gaming.enable = true;
     git.enable = true;
     gpg.enable = true;
@@ -46,11 +47,9 @@
 
     general = {
       packages = with pkgs; [
-        firefox
         foliate
         zathura
         imv
-        tldr
         mpv
         ffmpeg
         unzip

@@ -20,10 +20,17 @@ in
 
   config = mkIf cfg.enable {
     modules.git.enable = true;
+
+    home.sessionVariables = {
+      PLATFORMIO_CORE_DIR = "${config.xdg.cacheHome}/platformio";
+    };
+
+
     home.packages = with pkgs; [
       vscodium
       blender
       platformio # update/upload firmware on a board
+      avrdude
       printrun # control 3dprinter manualy
       minicom # serial comunication
       openocd # on-chip debugging
@@ -34,7 +41,6 @@ in
       curl
       poppler_utils # BASH SYS
       img2pdf # BASH SYS
-      tldr
     ];
   };
 }
