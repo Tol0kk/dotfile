@@ -1,7 +1,7 @@
 { pkgs, ... }: {
   kind = "Dark";
   kitty-theme = "Doom One";
-  base_opacity = "0.60";
+  base_opacity = 1;
   font = {
     name = "Cascadia Code";
     package = pkgs.cascadia-code;
@@ -58,19 +58,19 @@
       violet = base0F;
 
       foreground = base07;
-      background = "#282c34";
-      selection_foreground = base07;
-      selection_background = "#434a57";
+      background = base00;
+      selection_foreground = base02;
+      selection_background = base07;
       cursor = base07;
-      cursor_text_color = "#282c34";
+      cursor_text_color = base00;
       url_color = base0C;
       active_border_color = "#46D9FF";
       inactive_border_color = base02;
       bell_border_color = base09;
-      active_tab_foreground = "#282c34";
+      active_tab_foreground = base00;
       active_tab_background = "#DFDFDF";
       inactive_tab_foreground = base02;
       inactive_tab_background = "#5B6268";
     };
-    
+
 }

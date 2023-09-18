@@ -30,7 +30,7 @@ in
       default = defaultTheme.kind;
     };
     base_opacity = mkOption {
-      type = types.str;
+      description = "Opacity in purcentage(0.XX)";
       default = defaultTheme.base_opacity;
     };
     colorScheme = mkOption {
