@@ -7,6 +7,9 @@ let
   };
   home_modules = (builtins.map (dir: "${self}/Modules/Home/" + dir)
     (builtins.attrNames (builtins.readDir "${self}/Modules/Home")));
+  color = import ./color.nix {
+    lib = pkgs.lib;
+  };
 in
 inputs.home-manager-stable.lib.homeManagerConfiguration {
   inherit pkgs;
@@ -37,6 +40,6 @@ inputs.home-manager-stable.lib.homeManagerConfiguration {
   ] ++ home_modules;
 
   extraSpecialArgs = {
-    inherit self inputs username;
+    inherit self inputs username color;
   };
 }
