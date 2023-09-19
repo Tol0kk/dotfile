@@ -40,6 +40,15 @@
       base0D = "#51afef"; # Blue
       base0E = "#c678dd"; # Magenta
       base0F = "#9B8CE4"; # Violet
+
+      base10 = "#ff6c6b"; # Bright Red
+      base11 = "#F69573"; # Bright Orange
+      base12 = "#ECBE7B"; # Bright Yellow
+      base13 = "#98be65"; # Bright Green
+      base14 = "#46D9FF"; # Bright Cyan
+      base15 = "#51afef"; # Bright Blue
+      base16 = "#c678dd"; # Bright Magenta
+      base17 = "#9B8CE4"; # Bright Violet
     in
     {
       inherit
@@ -72,5 +81,5 @@
       inactive_tab_foreground = base02;
       inactive_tab_background = "#5B6268";
     };
-    
+
 }
