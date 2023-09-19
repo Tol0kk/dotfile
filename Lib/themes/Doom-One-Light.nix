@@ -39,6 +39,15 @@
       base0D = "#4078f2"; # Blue
       base0E = "#b751b6"; # Magenta
       base0F = "#7C65D4"; # Violet
+
+      base10 = "#e45649"; # Bright Red
+      base11 = "#BE5F25"; # Bright Orange
+      base12 = "#986801"; # Bright Yellow
+      base13 = "#50a14f"; # Bright Green
+      base14 = "#0184bc"; # Bright Cyan
+      base15 = "#4078f2"; # Bright Blue
+      base16 = "#b751b6"; # Bright Magenta
+      base17 = "#7C65D4"; # Bright Violet
     in
     {
       inherit
