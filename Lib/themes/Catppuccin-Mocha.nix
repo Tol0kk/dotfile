@@ -1,7 +1,7 @@
 { pkgs, ... }: {
   kind = "Light";
   kitty-theme = "Catppuccin-Mocha";
-  base_opacity = "0.60";
+  base_opacity = 0.65;
   font = {
     name = "Cascadia Code";
     package = pkgs.cascadia-code;
@@ -22,14 +22,14 @@
   };
   colorScheme =
     let
-      base00 = "#45475A"; # Darker
+      base00 = "#1E1E2E"; # Darker
       base01 = "#4F5165";
       base02 = "#585B70";
       base03 = "#72768D";
       base04 = "#8C92AB";
       base05 = "#A6ADC8";
       base06 = "#B0B8D3";
-      base07 = "#BAC2DE"; # Lighter
+      base07 = "#CDD6F4"; # Lighter
 
       base08 = "#F38BA8"; # Red
       base09 = "#F6B7AC"; # Orange
@@ -65,19 +65,19 @@
       magenta = base0E;
       violet = base0F;
 
-      foreground = "#CDD6F4";
-      background = "#1E1E2E";
-      selection_foreground = "#1E1E2E";
-      selection_background = "#F5E0DC";
-      cursor = "#F5E0DC";
-      cursor_text_color = "#1E1E2E";
-      url_color = "#F5E0DC";
-      active_border_color = "#B4BEFE";
-      inactive_border_color = "#6C7086";
+      foreground = base07;
+      background = base00;
+      selection_foreground = base00;
+      selection_background = base06;
+      cursor = base06;
+      cursor_text_color = base00;
+      url_color = base06;
+      active_border_color = base04;
+      inactive_border_color = base02;
       bell_border_color = "#F9E2AF";
       active_tab_foreground = "#11111B";
       active_tab_background = "#CBA6F7";
-      inactive_tab_foreground = "#CDD6F4";
+      inactive_tab_foreground = base07;
       inactive_tab_background = "#181825";
     };
 

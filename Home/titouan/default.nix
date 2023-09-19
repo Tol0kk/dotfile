@@ -48,7 +48,6 @@
     general = {
       packages = with pkgs; [
         foliate
-        zathura
         imv
         mpv
         ffmpeg
