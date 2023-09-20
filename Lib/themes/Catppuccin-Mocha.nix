@@ -20,7 +20,7 @@
       package = pkgs.phinger-cursors;
     };
   };
-colorScheme =
+  colorScheme =
     let
       base00 = "#1E1E2E"; # Darker
       base01 = "#4F5165";
@@ -39,6 +39,15 @@ colorScheme =
       base0D = "#89B4FA"; # Blue
       base0E = "#F5C2E7"; # Magenta
       base0F = "#BFBBF1"; # Violet
+
+      base10 = "#F38BA8"; # Bright Red
+      base11 = "#F6B7AC"; # Bright Orange
+      base12 = "#F9E2AF"; # Bright Yellow
+      base13 = "#A6E3A1"; # Bright Green
+      base14 = "#94E2D5"; # Bright Cyan
+      base15 = "#89B4FA"; # Bright Blue
+      base16 = "#F5C2E7"; # Bright Magenta
+      base17 = "#BFBBF1"; # Bright Violet
     in
     {
       inherit
@@ -71,5 +80,5 @@ colorScheme =
       inactive_tab_foreground = base07;
       inactive_tab_background = "#181825";
     };
- 
+
 }
