@@ -19,6 +19,7 @@ in {
       extraConfig = {
         init = { defaultBranch = "main"; };
       };
+      signing.key = "7E71419D61969A2C";
       # TODO Setup sign commit
       # signing.signByDefault = true;
 		  # signing.key = null;
