@@ -27,6 +27,9 @@ in
 
 
     home.packages = with pkgs; [
+      # jetbrains-toolbox
+      gdb
+      jetbrains.rust-rover
       vscodium
       blender
       platformio # update/upload firmware on a board

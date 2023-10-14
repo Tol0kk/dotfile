@@ -28,7 +28,7 @@ in
       # screenshot
       grim
       slurp
-
+      swappy
       # idle/lock
       # swaybg
       # swaylock-effects

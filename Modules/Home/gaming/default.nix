@@ -13,6 +13,7 @@ in {
 
   config = mkIf cfg.enable {
     home.packages = with pkgs;[
+      deluge
       heroic
       inputs.prismlauncher.packages.${pkgs.system}.prismlauncher
       lutris

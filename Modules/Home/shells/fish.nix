@@ -18,6 +18,7 @@ in
       enable = true;
       interactiveShellInit = ''
         set fish_greeting # Disable greeting
+        bind \cw backward-kill-bigword
       '';
       shellAbbrs = import ./aliases.nix;
     };
