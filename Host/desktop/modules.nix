@@ -8,6 +8,7 @@
     virtualisation.virtualbox.enable = true;
     virtualisation.docker.enable = true;
     virtualisation.waydroid.enable = true;
+    virtualisation.virt-manager.enable = true;
     thunar.enable = true;
     gaming.enable = true;
     bluetooth.enable = true;
