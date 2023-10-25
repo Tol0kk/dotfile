@@ -1,11 +1,24 @@
 keys:
-  # - &titouan 6FB5C12C5AEEE68E3D8FC41E788D14B3E8438BB3
-  # - &laptop  age1ma7clz2l7v2jqzr9z0pvyjtau8ca3uquk54uj5ah4h37uujzkquq38nwqk 
+  - &titouan 1747A2739C3A398E30309BF49E14FC5969AF7844
+  - &laptop age1ma7clz2l7v2jqzr9z0pvyjtau8ca3uquk54uj5ah4h37uujzkquq38nwqk
 
 creation_rules:
-  - path_regex: secrets/[^/]+\.(yaml|json|env|ini)$
-    # key_groups:
-    # - pgp:
-    #   - *titouan
-    #   age:
-    #   - *laptop
+  - path_regex: Host/laptop/[^/]+\.(yaml|json|env|ini)$
+    key_groups:
+      - pgp:
+          - *titouan
+        age:
+          - *laptop
+  - path_regex: Home/titouan/[^/]+\.(yaml|json|env|ini)$
+    key_groups:
+      - pgp:
+          - *titouan
+        age:
+          - *laptop
+  - path_regex: Lib/secrets/[^/]+\.(yaml|json|env|ini)$
+    key_groups:
+      - pgp:
+          - *titouan
+        age:
+          - *laptop
+    

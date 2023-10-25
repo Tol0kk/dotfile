@@ -30,10 +30,19 @@ nixpkgs.lib.nixosSystem (
         neovim
         home-manager
       ];
+      sops.defaultSopsFile = ./secrets/test1.yaml;
+      sops.secrets.example_key = {
+        owner = "titouan";
+        path = "/home/titouan/exemple_key";
+      };
+
+
+
       documentation.man = {
         enable = true;
         generateCaches = true;
       };
+
     };
   in
   {
@@ -45,6 +54,7 @@ nixpkgs.lib.nixosSystem (
         configuration
         hardware
         SelectedModules
+        inputs.sops-nix.nixosModules.sops
       ] ++ host_modules
       # ++ __attrValues self.nixosModules
     ;

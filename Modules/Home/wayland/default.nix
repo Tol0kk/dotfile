@@ -28,6 +28,8 @@ in
       # screenshot
       grim
       slurp
+      watershot
+      neofetch
 
       # idle/lock
       # swaybg

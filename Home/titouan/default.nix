@@ -9,9 +9,10 @@
       languages = {
         nix.enable = true;
         octave.enable = false;
-        R.enable = false;
+        R.enable = true;
         rust.enable = true;
         android.enable = true;
+        asm.enable = true;
       };
     };
     direnv.enable = true;
@@ -48,7 +49,6 @@
     general = {
       packages = with pkgs; [
         foliate
-        imv
         mpv
         ffmpeg
         unzip
@@ -62,11 +62,14 @@
         aria
         sops # For Sops-nix. has a home-manager module
       ];
+
       sessionVariables = {
+        EDITOR = "${pkgs.neovim}/bin/nvim";
         XCURSOR_SIZE = "128";
         XCURSOR_PATH = "$HOME/.icons:$HOME/.nix-profile/share/icons/";
         NIXOS_DOTFILE_DIR = "${self}";
       };
+      
       sessionPath = [
         "$HOME/.cargo/bin"
       ];

@@ -3,8 +3,8 @@
 let
   inherit (builtins) getAttr hasAttr;
   inherit (lib.lists) foldl all drop head last tail;
-  inherit (lib.strings) stringToCharacters toUpper match floatToString;
-  inherit (lib.trivial) max min;
+  inherit (lib.strings) stringToCharacters toUpper match floatToString concatStringsSep;
+  inherit (lib.trivial) max min toHexString;
   ## 8BIT
   # Check if `v` is in 8Bit format
   _is8Bit = (a: b: v: (v <= max a b) && (v >=min a b)) 0.0 255.0;
@@ -17,7 +17,7 @@ let
   #
   # Es: _match3hex "#001122" => ["00" "11" "22"]
   _match3hex = match "#([[:xdigit:]]{2})([[:xdigit:]]{2})([[:xdigit:]]{2})";
-
+  
   # Parse input for hex quadruplet
   #
   # Es: _match3hex "#00112233" => ["00" "11" "22" "33"]
@@ -56,6 +56,11 @@ let
       values = map _parseDigit characters;
     in
     foldl (acc: n: acc * 16 + n) 0 values;
+
+  # Convert decimal to hex
+  _decToHex =
+    toHexString;
+
 in
 rec {
   # RGBA constructor
@@ -121,4 +126,31 @@ rec {
       _a = floatToString (a / 255.0);
     in
     "rgba(${_r},${_g},${_b},${_a})";
+
+  # Print rgba(r, g, b, a)
+  toRGB = { r, g, b, a ? 255.0 }:
+    let
+      _r = floatToString r;
+      _g = floatToString g;
+      _b = floatToString b;
+    in
+    "rgba(${_r},${_g},${_b})";
+
+  # Print #aarrggbb
+  to0xARGB = { r, g, b, a ? 255.0 }:
+    let
+      _r = _decToHex r;
+      _g = _decToHex g;
+      _b = _decToHex b;
+      _a = _decToHex a;
+    in
+    "0x${_a}${_r}${_g}${_b}";
+
+  toGradiant = hexList: angle:
+    let
+      argblist = map (hex: (to0xARGB (hexToRgba hex))) hexList;
+      argbstring = concatStringsSep " " argblist;
+      _angle = floatToString angle;
+    in
+    "${argbstring} ${_angle}deg";
 }

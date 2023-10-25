@@ -12,6 +12,9 @@ in {
   };
 
   config = mkIf cfg.enable {
+    # sops.secrets."hello" = {
+    #   path = "${config.home.homeDirectory}/.ssh/config.d/cerebre";
+    # };
     programs.git = {
       enable = true;
       userName = "Tol0kk";
@@ -19,9 +22,11 @@ in {
       extraConfig = {
         init = { defaultBranch = "main"; };
       };
+
+
       # TODO Setup sign commit
       # signing.signByDefault = true;
-		  # signing.key = null;
+      # signing.key = null;
     };
   };
 }

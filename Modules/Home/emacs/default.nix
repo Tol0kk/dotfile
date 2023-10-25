@@ -22,6 +22,7 @@ in {
     home.packages = with pkgs; [
       glib-networking
       fd
+      texlive.combined.scheme-full
 
       #LSP
       rpm
@@ -65,7 +66,6 @@ in {
       zig
 
       #JAVA
-      openjdk17-bootstrap
       clang-tools
 
       #MARKDOWN

@@ -15,9 +15,6 @@ in
   };
 
   config = mkIf cfg.enable {
-    home.packages = with pkgs; [
-      zathura
-    ];
     programs.zathura = {
       enable = true;
       mappings = {
@@ -30,7 +27,10 @@ in
         "<C-w>" = "zoom best-fit";
         "<A-c>" = "recolor";
       };
-      options = with colorScheme; {
+      options = with colorScheme; let 
+      background_alpha = color.toRGBA (color.hexAndOpacityToRgba base00 themecfg.base_opacity) ;
+      background_00 = color.toRGBA (color.hexAndOpacityToRgba base00 0.00) ;
+      in {
         # Config
         recolor = "true";
         selection-clipboard = "clipboard";
@@ -39,7 +39,7 @@ in
 
         # Theme
         default-fg = base07;
-        default-bg = color.toRGBA (color.hexAndOpacityToRgba base00 themecfg.base_opacity);
+        default-bg = background_alpha;
 
         completion-bg = base01;
         completion-fg = base07;
@@ -49,7 +49,7 @@ in
         completion-group-fg = cyan;
 
         statusbar-fg = base07;
-        statusbar-bg = base01;
+        statusbar-bg = background_00;
 
         notification-bg = base01;
         notification-fg = base07;
@@ -59,9 +59,9 @@ in
         notification-warning-fg = yellow;
 
         inputbar-fg = base07;
-        inputbar-bg = base01;
+        inputbar-bg = background_00;
 
-        recolor-lightcolor = color.toRGBA (color.hexAndOpacityToRgba base00 0.00);
+        recolor-lightcolor = background_00;
 
         index-fg = base07;
         index-bg = base00;
