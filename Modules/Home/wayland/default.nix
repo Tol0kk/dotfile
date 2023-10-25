@@ -28,7 +28,7 @@ in
       # screenshot
       grim
       slurp
-      watershot
+      swappy      watershot
       neofetch
 
       # idle/lock
