@@ -29,10 +29,13 @@ in
       pkgs.man-pages
       pkgs.man-pages-posix
       wireshark
+      # jetbrains-toolbox
+      gdb
+      # jetbrains.rust-rover
       vscodium
       vscode-fhs
-      blender
-      platformio # update/upload firmware on a board
+      # blender
+      # platformio # update/upload firmware on a board
       avrdude
       printrun # control 3dprinter manualy
       minicom # serial comunication

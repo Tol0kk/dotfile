@@ -17,5 +17,8 @@ in
     programs.steam.enable = true;
     hardware.steam-hardware.enable = true;
     programs.steam.gamescopeSession.enable = true;
+    environment.systemPackages = with pkgs; [
+      wineWowPackages.waylandFull
+    ];
   };
 }

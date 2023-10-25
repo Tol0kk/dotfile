@@ -39,7 +39,7 @@ in {
           isNormalUser = true;
           description = "titouan";
           shell = pkgs.fish;
-          extraGroups = [ "wireshark" "seat" "networkmanager" "wheel" "audio" "video" "docker" "adbusers" "dialout" ];
+          extraGroups = [ "wireshark" "libvirtd" "seat" "networkmanager" "wheel" "audio" "video" "docker" "adbusers" "dialout" ];
           packages = with pkgs; [ ];
         };
         security.sudo.wheelNeedsPassword = false;
@@ -49,7 +49,7 @@ in {
         services.openssh.enable = true;
         services.openssh.knownHosts."github.com".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl";
         security.pam.enableSSHAgentAuth = true;
-        security.pam.services.sudo.sshAgentAuth = true;
+        # security.pam.services.sudo.sshAgentAuth = true;
         services.openssh.settings.PasswordAuthentication = false;
         programs.ssh.startAgent = true;
 

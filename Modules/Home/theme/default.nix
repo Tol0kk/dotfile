@@ -2,11 +2,6 @@
 with lib;
 let
   cfg = config.modules.theme;
-  # imports =
-  # (builtins.map (dir: "${self}/Modules/Home/wayland/" + dir)
-  #   (builtins.filter (name: !(hasSuffix ".nix" name))
-  #     (builtins.attrNames (builtins.readDir "${self}/Modules/Home/wayland"))));
-  # themes = import "${self}/Lib/colorSchemes" { inherit pkgs; };
   themes =
     lib.attrsets.genAttrs
       (lib.lists.flatten
@@ -64,13 +59,17 @@ in
       iconTheme = cfg.gtk.iconTheme;
       cursorTheme = cfg.gtk.cursorTheme;
     };
-    # home.pointerCursor = {
-    #   name = cfg.gtk.cursorTheme.name;
-    #   package = cfg.gtk.cursorTheme.package;
-    #   size = 48;
-    #   gtk.enable = true;
-    #   x11.enable = true;
-    # };
+
+    home.pointerCursor = {
+      name = cfg.gtk.cursorTheme.name;
+      package = cfg.gtk.cursorTheme.package;
+      size = 24;
+      gtk.enable = true;
+      x11 = {
+        enable = true;
+        defaultCursor = cfg.gtk.cursorTheme.name;
+      };
+    };
 
     specialisation.Doom-One.configuration = {
       config.modules = {
