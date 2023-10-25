@@ -1,7 +1,7 @@
 { pkgs, ... }: {
   kind = "Dark";
   kitty-theme = "Doom One";
-  base_opacity = 1;
+  base_opacity = 0.65;
   font = {
     name = "Cascadia Code";
     package = pkgs.cascadia-code;
@@ -68,6 +68,10 @@
 
       foreground = base07;
       background = base00;
+      background-alt = base01;
+      border1 = base0E;
+      border2 = base0F;
+
       selection_foreground = base02;
       selection_background = base07;
       cursor = base07;

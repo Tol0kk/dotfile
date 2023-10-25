@@ -67,6 +67,10 @@
 
       foreground = base07;
       background = base00;
+      background-alt = base01;
+      border1 = base0E;
+      border2 = base0F;
+
       selection_foreground = base00;
       selection_background = base06;
       cursor = base06;

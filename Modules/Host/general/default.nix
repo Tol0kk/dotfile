@@ -24,6 +24,14 @@ in {
   config =
     (mkMerge [
       ({
+        environment.systemPackages = [
+          pkgs.eclipses.eclipse-java
+        ];
+        programs.java.enable = true;
+        programs.java.package = pkgs.jdk17;
+        documentation.dev.enable = true;
+
+
         ### Common Config Across Any Machine
 
         # Set Default User on the system. User should be suders
@@ -31,7 +39,7 @@ in {
           isNormalUser = true;
           description = "titouan";
           shell = pkgs.fish;
-          extraGroups = [ "seat" "networkmanager" "wheel" "audio" "video" "docker" "adbusers" "dialout" ];
+          extraGroups = [ "wireshark" "seat" "networkmanager" "wheel" "audio" "video" "docker" "adbusers" "dialout" ];
           packages = with pkgs; [ ];
         };
         security.sudo.wheelNeedsPassword = false;
@@ -87,6 +95,11 @@ in {
 
         # Configure console keymap
         console.keyMap = "fr";
+
+
+        environment.sessionVariables = {
+          TEST_SOPS = config.sops.secrets.example_key.path;
+        };
 
       })
       ({

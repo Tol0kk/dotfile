@@ -11,6 +11,7 @@
     gaming.enable = true;
     bluetooth.enable = true;
     jellyfin.enable = false;
+    wireshark.enable = true;
     udev.STM32DISCOVERY.enable = true;
     udev.ArduinoMega.enable = true;
     dualboot = {
@@ -38,6 +39,7 @@
       brave
       vscodium
       libsForQt5.qt5.qtgraphicaleffects # sddm
+      file
 
       zip
       wpaperd
@@ -61,7 +63,7 @@
       unigine-heaven
 
       imagemagick # utils
-      vulkan-tools # utils-gpu
+      # vulkan-tools # utils-gpu
       (callPackage "${self}/Pkgs/nixer" { })
     ];
   };

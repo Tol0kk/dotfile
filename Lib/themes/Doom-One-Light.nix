@@ -66,7 +66,12 @@
       violet = base0F;
 
       foreground = base07;
-      background = "#fafafa";
+      background = base01;
+      background-alt = base02;
+      border1 = base0E;
+      border2 = base0F;
+
+
       selection_foreground = base07;
       selection_background = "#dfdfdf";
       cursor = base06;

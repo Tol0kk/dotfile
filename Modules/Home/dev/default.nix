@@ -25,9 +25,12 @@ in
       PLATFORMIO_CORE_DIR = "${config.xdg.cacheHome}/platformio";
     };
 
-
     home.packages = with pkgs; [
+      pkgs.man-pages
+      pkgs.man-pages-posix
+      wireshark
       vscodium
+      vscode-fhs
       blender
       platformio # update/upload firmware on a board
       avrdude

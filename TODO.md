@@ -15,3 +15,13 @@ Systems Module
 Agenix. Keep secrets well-kept.
 Impermanace
 
+# Application Idea :
+## Image Viewer
+Feature :
+ - like imv and feh
+ - transparent background
+## PDF Viewer/Editor
+ Features : 
+  - like zathura
+  - annotation
+  - highlight

@@ -18,6 +18,13 @@ inputs.home-manager-stable.lib.homeManagerConfiguration {
       home.stateVersion = stateVersion;
       home.username = username;
       home.homeDirectory = /home/${username};
+      manual.html.enable = false;
+      manual.manpages.enable = false;
+      manual.json.enable = false;
+
+      # sops.defaultSopsFile = "${self}/Lib/secrets/home.yaml";
+  
+
       # nixpkgs.overlays = (import ./overlay.nix { inherit inputs self; });
 
       nix.registry = {
@@ -35,7 +42,7 @@ inputs.home-manager-stable.lib.homeManagerConfiguration {
     }
     inputs.hyprland.homeManagerModules.default
     inputs.anyrun.homeManagerModules.default
-    inputs.sops-nix.homeManagerModules.sops
+    # inputs.sops-nix.homeManagerModules.sops
     "${self}/Home/${username}"
   ] ++ home_modules;
 
