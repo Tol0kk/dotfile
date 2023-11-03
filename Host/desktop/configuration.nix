@@ -25,7 +25,7 @@
   services.udisks2.enable = true;
   services.gvfs.enable = true; # auto mount thunar
 
-  boot.kernelPackages = pkgs.linuxPackages_6_4;
+  boot.kernelPackages = pkgs.linuxPackages_6_5;
 
   programs.dconf.enable = true;
 

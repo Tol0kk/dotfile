@@ -2,21 +2,18 @@
 with lib;
 let
   cfg = config.modules.theme;
-  themes =
-    lib.attrsets.genAttrs
-      (lib.lists.flatten
-        (builtins.map
-          (name: lib.lists.take 1
-            (lib.strings.splitString "." name))
-          (builtins.attrNames
-            (builtins.readDir "${self}/Lib/themes"))))
-      (name: import "${self}/Lib/themes/${name}.nix" { inherit pkgs; });
+  themes = lib.attrsets.genAttrs
+    (lib.lists.flatten
+      (builtins.map (name: lib.lists.take 1 (lib.strings.splitString "." name))
+        (builtins.attrNames (builtins.readDir "${self}/Lib/themes"))))
+    (name: import "${self}/Lib/themes/${name}.nix" { inherit pkgs; });
   defaultTheme = themes.Doom-One;
 in
 {
   options.modules.theme = {
     kitty-theme = mkOption {
-      description = "Name of the theme (use for the name inside kitty). Don't affect kitty themes only used to create the theme";
+      description =
+        "Name of the theme (use for the name inside kitty). Don't affect kitty themes only used to create the theme";
       type = types.str;
       default = defaultTheme.kitty-theme;
     };
@@ -28,27 +25,15 @@ in
       description = "Opacity in purcentage(0.XX)";
       default = defaultTheme.base_opacity;
     };
-    colorScheme = mkOption {
-      default = defaultTheme.colorScheme;
-    };
+    colorScheme = mkOption { default = defaultTheme.colorScheme; };
     gtk = {
-      theme = mkOption {
-        default = defaultTheme.gtk.theme;
-      };
-      iconTheme = mkOption {
-        default = defaultTheme.gtk.iconTheme;
-      };
-      cursorTheme = mkOption {
-        default = defaultTheme.gtk.cursorTheme;
-      };
+      theme = mkOption { default = defaultTheme.gtk.theme; };
+      iconTheme = mkOption { default = defaultTheme.gtk.iconTheme; };
+      cursorTheme = mkOption { default = defaultTheme.gtk.cursorTheme; };
     };
     font = {
-      name = mkOption {
-        default = defaultTheme.font.name;
-      };
-      package = mkOption {
-        default = defaultTheme.font.package;
-      };
+      name = mkOption { default = defaultTheme.font.name; };
+      package = mkOption { default = defaultTheme.font.package; };
     };
   };
 
@@ -60,10 +45,13 @@ in
       cursorTheme = cfg.gtk.cursorTheme;
     };
 
+    # stylix.image = "${self}/Assets/avatar.png";
+    # stylix.polarity = "dark";
+
     home.pointerCursor = {
-      name = cfg.gtk.cursorTheme.name;
-      package = cfg.gtk.cursorTheme.package;
-      size = 24;
+      name = lib.mkForce cfg.gtk.cursorTheme.name;
+      package = lib.mkForce cfg.gtk.cursorTheme.package;
+      size = lib.mkForce 28; # TODO Should be manage with stylix
       gtk.enable = true;
       x11 = {
         enable = true;
@@ -72,21 +60,14 @@ in
     };
 
     specialisation.Doom-One.configuration = {
-      config.modules = {
-        theme = themes.Doom-One;
-      };
+      config.modules = { theme = themes.Doom-One; };
     };
     specialisation.Doom-One-Light.configuration = {
-      config.modules = {
-        theme = themes.Doom-One-Light;
-      };
+      config.modules = { theme = themes.Doom-One-Light; };
     };
     specialisation.Catppuccin-Mocha.configuration = {
-      config.modules = {
-        theme = themes.Catppuccin-Mocha;
-      };
+      config.modules = { theme = themes.Catppuccin-Mocha; };
     };
   };
-
 
 }

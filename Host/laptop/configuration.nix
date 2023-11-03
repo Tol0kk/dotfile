@@ -21,7 +21,7 @@
 
   services.udisks2.enable = true;
 
-  boot.kernelPackages = pkgs.linuxPackages_6_4;
+  boot.kernelPackages = pkgs.linuxPackages_6_5;
 
   services.gvfs.enable = true; # auto mount thunar
 
@@ -43,9 +43,6 @@
 
   # Enable networking
   networking.networkmanager.enable = true;
-
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
 
   security.polkit.enable = true;
 
@@ -70,4 +67,19 @@
   };
 
   programs.adb.enable = true;
+
+  services.tlp.enable = true;
+
+  services.tlp.settings = {
+
+    CPU_SCALING_GOVERNOR_ON_AC = "performance";
+    CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
+    CPU_MAX_PERF_ON_AC = 100;
+    CPU_MAX_PERF_ON_BAT = 50;
+  };
+
+  systemd = {
+    targets.network-online.wantedBy = pkgs.lib.mkForce [ ]; # Normally ["multi-user.target"]
+    services.NetworkManager-wait-online.wantedBy = pkgs.lib.mkForce [ ]; # Normally ["network-online.target"]
+  };
 }

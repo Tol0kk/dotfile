@@ -2,7 +2,8 @@
 {
   config.modules = {
     fonts.enable = true;
-    nvidia.enable = true;
+    # nvidia.enable = true;
+    # nvidia.offload.enable = true;
     virtualisation.enable = true;
     virtualisation.virtualbox.enable = true;
     virtualisation.docker.enable = true;
@@ -35,6 +36,8 @@
       wget
       git
       kitty
+      gparted
+      polkit_gnome
       rofi-wayland
       brave
       vscodium
