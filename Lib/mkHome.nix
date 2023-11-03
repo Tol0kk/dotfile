@@ -40,8 +40,8 @@ inputs.home-manager-stable.lib.homeManagerConfiguration {
         };
       };
     }
-    inputs.hyprland.homeManagerModules.default
     inputs.anyrun.homeManagerModules.default
+    # inputs.stylix.homeManagerModules.stylix
     # inputs.sops-nix.homeManagerModules.sops
     "${self}/Home/${username}"
   ] ++ home_modules;

@@ -56,9 +56,6 @@ in {
         # NTFS Support
         boot.supportedFilesystems = [ "ntfs" ];
 
-        # Allow unfree packages
-        nixpkgs.config.allowUnfree = true;
-
         # Setup Nix Index insted of command-ot-found.
         programs.nix-index.enable = true;
         programs.nix-index.enableZshIntegration = true;
@@ -101,6 +98,7 @@ in {
           TEST_SOPS = config.sops.secrets.example_key.path;
         };
 
+        nix.settings.auto-optimise-store = true;
       })
       ({
         environment.systemPackages = cfg.systemPackages;

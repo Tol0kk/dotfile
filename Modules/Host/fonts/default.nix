@@ -21,7 +21,7 @@ in
       # enableDefaultPackages = true;
       # fontconfig.enable = true;
       # enableGhostscriptFonts = true;
-      fonts = with pkgs; [
+      packages = with pkgs; [
       # packages = with pkgs; [
         powerline-fonts
         # carlito

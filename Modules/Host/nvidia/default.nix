@@ -23,6 +23,12 @@ in
       enable = true;
       driSupport = true;
       driSupport32Bit = true;
+      extraPackages = with pkgs; [
+        intel-media-driver # LIBVA_DRIVER_NAME=iHD
+        vaapiIntel # LIBVA_DRIVER_NAME=i965 (older but works better for Firefox/Chromium)
+        vaapiVdpau
+        libvdpau-va-gl
+      ];
     };
 
     hardware.nvidia = {
@@ -30,7 +36,7 @@ in
       nvidiaSettings = true;
       package = config.boot.kernelPackages.nvidiaPackages.stable;
     };
-    
+
     services.xserver.videoDrivers = [ "nvidia" ];
 
     hardware.nvidia.prime = mkIf cfg.offload.enable {
