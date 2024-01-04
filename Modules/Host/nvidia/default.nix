@@ -1,0 +1,50 @@
+{ pkgs, lib, config, ... }:
+with lib;
+let
+  cfg = config.modules.nvidia;
+in
+{
+  options.modules.nvidia = {
+    enable = mkOption {
+      description = "Enable nvidia";
+      type = types.bool;
+      default = false;
+    };
+    offload.enable = mkOption {
+      description = "Enable nvidia PRIME offload";
+      type = types.bool;
+      default = false;
+    };
+    offload.intelBusId = mkOption {
+      description = "Bus ID of the Intel GPU. You can find it using lspci; for example if lspci shows the Intel GPU at “00:02.0”, set this option to “PCI:0:2:0”.";
+      type = types.str;
+      default = "";
+    };
+    offload.nvidiaBusId = mkOption {
+      description = "Bus ID of the NVIDIA GPU. You can find it using lspci; for example if lspci shows the NVIDIA GPU at “01:00.0”, set this option to “PCI:1:0:0”.";
+      type = types.str;
+      default = "";
+    };
+  };
+
+  config = mkIf cfg.enable {
+    hardware.opengl = {
+      enable = true;
+      driSupport = true;
+    };
+    hardware.nvidia = {
+      modesetting.enable = true;
+      nvidiaSettings = true;
+      powerManagement.enable = true;
+      package = config.boot.kernelPackages.nvidiaPackages.stable;
+    };
+    services.xserver.videoDrivers = [ "nvidia" ];
+    hardware.nvidia.prime = mkIf cfg.offload.enable {
+
+      offload.enable = true;
+      offload.enableOffloadCmd = true;
+      intelBusId = offload.intelBusId;
+      nvidiaBusId = offload.nvidiaBusId;
+    };
+  };
+}
