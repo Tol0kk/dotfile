@@ -1,4 +1,9 @@
-{ self, ... } @ inputs: {
-  laptop = self.lib.mkSystem inputs "laptop" inputs.stable "x86_64-linux";
-  desktop = self.lib.mkSystem inputs "desktop" inputs.stable "x86_64-linux";
+{ self, nixpkgs, ... } @ inputs: {
+  # <machine-name> = self.lib.mkSystem inputs "<machine-name> pkgs "<system-arch>";"
+  laptop = self.lib.mkSystem inputs {
+    inherit nixpkgs;
+    hostname = "laptop";
+    system = "x86_64-linux";
+  };
+  desktop = self.lib.mkSystem inputs "desktop" nixpkgs "x86_64-linux";
 }

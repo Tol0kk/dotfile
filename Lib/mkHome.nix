@@ -1,4 +1,4 @@
-{ self, stable, ... }@inputs: username: nixpkgs: system: stateVersion:
+{ self, ... }@inputs: username: nixpkgs: system:
 let
   pkgs = import nixpkgs {
     inherit system;
@@ -11,21 +11,16 @@ let
     lib = pkgs.lib;
   };
 in
-inputs.home-manager-stable.lib.homeManagerConfiguration {
+inputs.home-manager.lib.homeManagerConfiguration {
   inherit pkgs;
   modules = [
     {
-      home.stateVersion = stateVersion;
+      home.stateVersion = "23.11";
       home.username = username;
       home.homeDirectory = /home/${username};
       manual.html.enable = false;
       manual.manpages.enable = false;
       manual.json.enable = false;
-
-      # sops.defaultSopsFile = "${self}/Lib/secrets/home.yaml";
-  
-
-      # nixpkgs.overlays = (import ./overlay.nix { inherit inputs self; });
 
       nix.registry = {
         MyTemplate = {
@@ -40,10 +35,9 @@ inputs.home-manager-stable.lib.homeManagerConfiguration {
         };
       };
     }
-    inputs.anyrun.homeManagerModules.default
-    # inputs.stylix.homeManagerModules.stylix
-    # inputs.sops-nix.homeManagerModules.sops
-    "${self}/Home/${username}"
+    inputs.stylix.homeManagerModules.stylix
+    inputs.sops-nix.homeManagerModules.sops
+    "${self}/Home/${username}/home.nix"
   ] ++ home_modules;
 
   extraSpecialArgs = {

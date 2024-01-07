@@ -1,9 +1,8 @@
-{ pkgs, lib, config, color, ... }:
+{ pkgs, lib, config, ... }:
 with lib;
 let
   cfg = config.modules.zathura;
-  themecfg = config.modules.theme;
-  colorScheme = config.modules.theme.colorScheme;
+  color = pkgs.color;
 in
 {
   options.modules.zathura = {
@@ -15,6 +14,7 @@ in
   };
 
   config = mkIf cfg.enable {
+    stylix.targets.zathura.enable = false;
     programs.zathura = {
       enable = true;
       mappings = {
@@ -27,54 +27,41 @@ in
         "<C-w>" = "zoom best-fit";
         "<A-c>" = "recolor";
       };
-      options = with colorScheme; let 
-      background_alpha = color.toRGBA (color.hexAndOpacityToRgba base00 themecfg.base_opacity) ;
-      background_00 = color.toRGBA (color.hexAndOpacityToRgba base00 0.00) ;
-      in {
-        # Config
-        recolor = "true";
-        selection-clipboard = "clipboard";
-        vertical-center = "true";
-        zoom-center = "true";
+      options = with config.lib.stylix.colors;
+        let
+          base00_alpha = color.toRGBA (color.hexAndOpacityToRgba base00 config.stylix.opacity.terminal);
+          base00_00 = color.toRGBA (color.hexAndOpacityToRgba base00 0.00);
+          base02_30 = color.toRGBA (color.hexAndOpacityToRgba base02 0.30);
+        in
+        {
+          # Config
+          recolor = "true";
+          selection-clipboard = "clipboard";
+          vertical-center = "true";
+          zoom-center = "true";
 
-        # Theme
-        default-fg = base07;
-        default-bg = background_alpha;
-
-        completion-bg = base01;
-        completion-fg = base07;
-        completion-highlight-bg = base03;
-        completion-highlight-fg = base07;
-        completion-group-bg = base01;
-        completion-group-fg = cyan;
-
-        statusbar-fg = base07;
-        statusbar-bg = background_00;
-
-        notification-bg = base01;
-        notification-fg = base07;
-        notification-error-bg = base01;
-        notification-error-fg = red;
-        notification-warning-bg = base01;
-        notification-warning-fg = yellow;
-
-        inputbar-fg = base07;
-        inputbar-bg = background_00;
-
-        recolor-lightcolor = background_00;
-
-        index-fg = base07;
-        index-bg = base00;
-        index-active-fg = base07;
-        index-active-bg = base01;
-
-        render-loading-bg = base00;
-        render-loading-fg = base07;
-
-        highlight-color = base03;
-        highlight-fg = magenta;
-        highlight-active-color = magenta;
-      };
+          # default-bg = "#${base00}";
+          default-bg = base00_alpha;
+          default-fg = "#${base01}";
+          statusbar-fg = "#${base04}";
+          statusbar-bg = base02_30;
+          inputbar-bg = "#${base00}";
+          inputbar-fg = "#${base07}";
+          notification-bg = "#${base00}";
+          notification-fg = "#${base07}";
+          notification-error-bg = "#${base00}";
+          notification-error-fg = "#${base08}";
+          notification-warning-bg = "#${base00}";
+          notification-warning-fg = "#${base08}";
+          highlight-color = "#${base0A}";
+          highlight-active-color = "#${base0D}";
+          completion-bg = "#${base01}";
+          completion-fg = "#${base0D}";
+          completion-highlight-fg = "#${base07}";
+          completion-highlight-bg = "#${base0D}";
+          recolor-lightcolor = base00_00;
+          recolor-darkcolor = "#${base06}";
+        };
     };
   };
 }

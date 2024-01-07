@@ -15,13 +15,13 @@ let
 
   # Parse input for hex triplet
   #
-  # Es: _match3hex "#001122" => ["00" "11" "22"]
-  _match3hex = match "#([[:xdigit:]]{2})([[:xdigit:]]{2})([[:xdigit:]]{2})";
+  # Es: _match3hex "001122" => ["00" "11" "22"]
+  _match3hex = match "([[:xdigit:]]{2})([[:xdigit:]]{2})([[:xdigit:]]{2})";
   
   # Parse input for hex quadruplet
   #
-  # Es: _match3hex "#00112233" => ["00" "11" "22" "33"]
-  _match4hex = match "#([[:xdigit:]]{2})([[:xdigit:]]{2})([[:xdigit:]]{2})([[:xdigit:]]{2})";
+  # Es: _match3hex "00112233" => ["00" "11" "22" "33"]
+  _match4hex = match "([[:xdigit:]]{2})([[:xdigit:]]{2})([[:xdigit:]]{2})([[:xdigit:]]{2})";
 
   # Parse a single hexadecimal digit to an integer
   _parseDigit = c:
@@ -83,8 +83,8 @@ rec {
   ## DESERIALIZATION
   # Parse a hex color string to a RGBA color
   #
-  # Es: hexToRgba "#0000FF" => { a = 255; b = 255; g = 0; r = 0; }
-  # Es: hexToRgba "#00FF0055" => { a = 85; b = 0; g = 255; r = 0; }
+  # Es: hexToRgba "0000FF" => { a = 255; b = 255; g = 0; r = 0; }
+  # Es: hexToRgba "00FF0055" => { a = 85; b = 0; g = 255; r = 0; }
   hexToRgba = hex:
     let
       rgbaVal = _match4hex hex;
@@ -101,8 +101,8 @@ rec {
 
   # Parse a hex color string and a Opacity to a RGBA color
   #
-  # Es: hexToRgba "#0000FF" 0.60 => { a = 255; b = 255; g = 0; r = 0; }
-  # Es: hexToRgba "#00FF0055" 0.60 => { a = 85; b = 0; g = 255; r = 0; }
+  # Es: hexToRgba "0000FF" 0.60 => { a = 255; b = 255; g = 0; r = 0; }
+  # Es: hexToRgba "00FF0055" 0.60 => { a = 85; b = 0; g = 255; r = 0; }
   hexAndOpacityToRgba = hex: opacity:
     let
       rgbVal = _match3hex hex;

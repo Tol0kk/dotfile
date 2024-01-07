@@ -1,73 +1,83 @@
-{ pkgs, lib, config, self, ... }:
+{ pkgs, lib, config, ... }:
+
 with lib;
 let
   cfg = config.modules.theme;
-  themes = lib.attrsets.genAttrs
-    (lib.lists.flatten
-      (builtins.map (name: lib.lists.take 1 (lib.strings.splitString "." name))
-        (builtins.attrNames (builtins.readDir "${self}/Lib/themes"))))
-    (name: import "${self}/Lib/themes/${name}.nix" { inherit pkgs; });
-  defaultTheme = themes.Doom-One;
 in
 {
   options.modules.theme = {
-    kitty-theme = mkOption {
-      description =
-        "Name of the theme (use for the name inside kitty). Don't affect kitty themes only used to create the theme";
+    theme = mkOption {
+      description = "Set theme. List inside {pkgs.base16-schemes}/share/themes";
       type = types.str;
-      default = defaultTheme.kitty-theme;
+      # default = "onedark";
+      default = "gruvbox-dark-medium";
     };
-    kind = mkOption {
-      type = types.str;
-      default = defaultTheme.kind;
+    opacity = mkOption {
+      description = "Set theme opacity";
+      default = 0.80;
     };
-    base_opacity = mkOption {
-      description = "Opacity in purcentage(0.XX)";
-      default = defaultTheme.base_opacity;
-    };
-    colorScheme = mkOption { default = defaultTheme.colorScheme; };
-    gtk = {
-      theme = mkOption { default = defaultTheme.gtk.theme; };
-      iconTheme = mkOption { default = defaultTheme.gtk.iconTheme; };
-      cursorTheme = mkOption { default = defaultTheme.gtk.cursorTheme; };
-    };
-    font = {
-      name = mkOption { default = defaultTheme.font.name; };
-      package = mkOption { default = defaultTheme.font.package; };
+    font-size = mkOption {
+      description = "Set theme font_size";
+      default = 11;
     };
   };
-
   config = {
-    gtk = {
+    programs.wpaperd = {
       enable = true;
-      theme = cfg.gtk.theme;
-      iconTheme = cfg.gtk.iconTheme;
-      cursorTheme = cfg.gtk.cursorTheme;
-    };
-
-    # stylix.image = "${self}/Assets/avatar.png";
-    # stylix.polarity = "dark";
-
-    home.pointerCursor = {
-      name = lib.mkForce cfg.gtk.cursorTheme.name;
-      package = lib.mkForce cfg.gtk.cursorTheme.package;
-      size = lib.mkForce 28; # TODO Should be manage with stylix
-      gtk.enable = true;
-      x11 = {
-        enable = true;
-        defaultCursor = cfg.gtk.cursorTheme.name;
+      settings = {
+        default = {
+          path = "${pkgs.assets}/background.jpg";
+        };
       };
     };
 
-    specialisation.Doom-One.configuration = {
-      config.modules = { theme = themes.Doom-One; };
+    gtk.enable = true;
+    gtk.iconTheme.package = pkgs.colloid-icon-theme;
+    gtk.iconTheme.name = "Colloid-dark";
+
+    stylix.image = "${pkgs.assets}/background.jpg";
+    stylix.polarity = "dark";
+    
+    stylix.base16Scheme = mkIf (cfg.theme != "") "${pkgs.base16-schemes}/share/themes/${cfg.theme}.yaml";
+
+    stylix.opacity = {
+      terminal = cfg.opacity;
+      popups = cfg.opacity;
     };
-    specialisation.Doom-One-Light.configuration = {
-      config.modules = { theme = themes.Doom-One-Light; };
+
+    stylix.cursor = with pkgs; {
+      package = phinger-cursors;
+      name = "phinger-cursors";
+      size = 24;
     };
-    specialisation.Catppuccin-Mocha.configuration = {
-      config.modules = { theme = themes.Catppuccin-Mocha; };
+
+    stylix.fonts = with pkgs; {
+      serif = {
+        package = noto-fonts-cjk-sans;
+        name = "Noto Sans CJK JP";
+      };
+
+      sansSerif = {
+        package = noto-fonts-cjk-sans;
+        name = "Noto Sans CJK JP";
+      };
+
+      monospace = {
+        package = maple-mono;
+        name = "Maple Mono";
+      };
+
+      emoji = {
+        package = noto-fonts-emoji;
+        name = "Noto Color Emoji";
+      };
+
+      sizes = {
+        applications = cfg.font-size;
+        desktop = cfg.font-size;
+        popups = cfg.font-size;
+        terminal = cfg.font-size;
+      };
     };
   };
-
 }

@@ -8,7 +8,7 @@ in
 {
   options.modules.fonts = {
     enable = mkOption {
-      description = "Enable wayland";
+      description = "Enable fonts";
       type = types.bool;
       default = true;
     };
@@ -17,26 +17,21 @@ in
 
   config = mkIf cfg.enable {
     fonts = {
-      # fontDir.enable = true;
-      # enableDefaultPackages = true;
-      # fontconfig.enable = true;
-      # enableGhostscriptFonts = true;
       packages = with pkgs; [
-      # packages = with pkgs; [
-        powerline-fonts
+        # powerline-fonts
         # carlito
-        vegur
-        noto-fonts
-        source-code-pro
+        # vegur
+        # noto-fonts
+        # source-code-pro
         # corefonts
         font-awesome
-        font-awesome_5
-        line-awesome
+        # font-awesome_5
+        # line-awesome
         # SF-Mono
         cascadia-code
-        twitter-color-emoji
-        emacs-all-the-icons-fonts
-        creep
+        # twitter-color-emoji
+        # emacs-all-the-icons-fonts
+        # creep
         (nerdfonts.override {
           fonts = [
             "Cousine"

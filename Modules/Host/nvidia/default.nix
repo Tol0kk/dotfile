@@ -1,5 +1,4 @@
 { pkgs, lib, config, ... }:
-
 with lib;
 let
   cfg = config.modules.nvidia;
@@ -16,34 +15,35 @@ in
       type = types.bool;
       default = false;
     };
+    offload.intelBusId = mkOption {
+      description = "Bus ID of the Intel GPU. You can find it using lspci; for example if lspci shows the Intel GPU at “00:02.0”, set this option to “PCI:0:2:0”.";
+      type = types.str;
+      default = "";
+    };
+    offload.nvidiaBusId = mkOption {
+      description = "Bus ID of the NVIDIA GPU. You can find it using lspci; for example if lspci shows the NVIDIA GPU at “01:00.0”, set this option to “PCI:1:0:0”.";
+      type = types.str;
+      default = "";
+    };
   };
 
   config = mkIf cfg.enable {
     hardware.opengl = {
       enable = true;
       driSupport = true;
-      driSupport32Bit = true;
-      extraPackages = with pkgs; [
-        intel-media-driver # LIBVA_DRIVER_NAME=iHD
-        vaapiIntel # LIBVA_DRIVER_NAME=i965 (older but works better for Firefox/Chromium)
-        vaapiVdpau
-        libvdpau-va-gl
-      ];
     };
-
     hardware.nvidia = {
       modesetting.enable = true;
       nvidiaSettings = true;
-      package = config.boot.kernelPackages.nvidiaPackages.stable;
+      powerManagement.enable = true;
+      package = config.boot.kernelPackages.nvidiaPackages.production;
     };
-
     services.xserver.videoDrivers = [ "nvidia" ];
-
     hardware.nvidia.prime = mkIf cfg.offload.enable {
       offload.enable = true;
       offload.enableOffloadCmd = true;
-      intelBusId = "PCI:0:2:0";
-      nvidiaBusId = "PCI:1:0:0";
+      intelBusId = cfg.offload.intelBusId;
+      nvidiaBusId = cfg.offload.nvidiaBusId;
     };
   };
 }

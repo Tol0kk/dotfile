@@ -7,7 +7,7 @@ in {
     enable = mkOption {
       description = "Enable avizo";
       type = types.bool;
-      default = false;
+      default = true;
     };
   };
 
@@ -21,7 +21,7 @@ in {
         block-height = 10;
         block-spacing = 5;
         block-count = 20;
-        background = "rgba (140, 140, 140, 0.4)";
+        # background = "rgba (140, 140, 140, 0.4)";
       };
     };
   };

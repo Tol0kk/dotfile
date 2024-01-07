@@ -1,9 +1,13 @@
-{ self, ... } @ inputs: hostname: nixpkgs: system:
+{ self, ... }@inputs: { hostname
+                      , nixpkgs
+                      , system
+                      , cudaSupport ? false
+                      }:
 nixpkgs.lib.nixosSystem (
   let
     configuration = "${self}/Host/${hostname}/configuration.nix";
     hardware = "${self}/Host/${hostname}/hardware.nix";
-    SelectedModules = "${self}/Host/${hostname}/modules.nix";
+    # SelectedModules = "${self}/Host/${hostname}/modules.nix";
     overlays = (import ./overlay.nix { inherit inputs self; });
 
     pkgs = import nixpkgs {
@@ -12,6 +16,7 @@ nixpkgs.lib.nixosSystem (
         allowUnsupportedSystem = false;
         allowBroken = false;
         allowUnfree = true;
+        inherit cudaSupport;
         experimental-features = "nix-command flakes";
         keep-derivations = true;
         keep-outputs = true;
@@ -30,19 +35,10 @@ nixpkgs.lib.nixosSystem (
         neovim
         home-manager
       ];
-      sops.defaultSopsFile = ./secrets/test1.yaml;
-      sops.secrets.example_key = {
-        owner = "titouan";
-        path = "/home/titouan/exemple_key";
-      };
-
-
-
       documentation.man = {
         enable = true;
         generateCaches = true;
       };
-
     };
   in
   {
@@ -53,10 +49,9 @@ nixpkgs.lib.nixosSystem (
         globalConfig
         configuration
         hardware
-        SelectedModules
+        # SelectedModules
         inputs.sops-nix.nixosModules.sops
       ] ++ host_modules
-      # ++ __attrValues self.nixosModules
     ;
   }
 )
