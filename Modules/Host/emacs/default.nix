@@ -20,7 +20,7 @@ in
     enable = mkOption {
       description = "Enable emacs";
       type = types.bool;
-      default = true;
+      default = false;
     };
   };
 

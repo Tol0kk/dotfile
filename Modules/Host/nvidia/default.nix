@@ -36,15 +36,14 @@ in
       modesetting.enable = true;
       nvidiaSettings = true;
       powerManagement.enable = true;
-      package = config.boot.kernelPackages.nvidiaPackages.stable;
+      package = config.boot.kernelPackages.nvidiaPackages.production;
     };
     services.xserver.videoDrivers = [ "nvidia" ];
     hardware.nvidia.prime = mkIf cfg.offload.enable {
-
       offload.enable = true;
       offload.enableOffloadCmd = true;
-      intelBusId = offload.intelBusId;
-      nvidiaBusId = offload.nvidiaBusId;
+      intelBusId = cfg.offload.intelBusId;
+      nvidiaBusId = cfg.offload.nvidiaBusId;
     };
   };
 }

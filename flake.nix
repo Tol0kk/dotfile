@@ -21,7 +21,7 @@
   };
 
 
-  outputs = { self, ... } @ inputs:
+  outputs = { self, blender-bin, ... } @ inputs:
     {
       lib = import ./Lib inputs;
       nixosConfigurations = import ./Host inputs;

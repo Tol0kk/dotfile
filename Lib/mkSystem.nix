@@ -1,4 +1,8 @@
-{ self, ... } @ inputs: hostname: nixpkgs: system:
+{ self, ... }@inputs: { hostname
+                      , nixpkgs
+                      , system
+                      , cudaSupport ? false
+                      }:
 nixpkgs.lib.nixosSystem (
   let
     configuration = "${self}/Host/${hostname}/configuration.nix";
@@ -12,6 +16,7 @@ nixpkgs.lib.nixosSystem (
         allowUnsupportedSystem = false;
         allowBroken = false;
         allowUnfree = true;
+        inherit cudaSupport;
         experimental-features = "nix-command flakes";
         keep-derivations = true;
         keep-outputs = true;

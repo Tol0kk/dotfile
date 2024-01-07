@@ -9,6 +9,7 @@ in
     theme = mkOption {
       description = "Set theme. List inside {pkgs.base16-schemes}/share/themes";
       type = types.str;
+      # default = "onedark";
       default = "gruvbox-dark-medium";
     };
     opacity = mkOption {
