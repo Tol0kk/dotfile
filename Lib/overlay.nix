@@ -27,4 +27,5 @@
     assets = prev.callPackage "${self}/Pkgs/assetsPkgs" { };
     color = import ./color.nix { lib = prev.lib; };
   })
+  inputs.blender-bin.overlays.default
 ]

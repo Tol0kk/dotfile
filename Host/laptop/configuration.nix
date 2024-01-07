@@ -1,4 +1,4 @@
-{ config, pkgs, self, inputs,... }:
+{ config, pkgs, self, inputs, ... }:
 
 {
   modules = {
@@ -7,6 +7,11 @@
     fonts.enable = true;
     gaming.enable = true;
     nvidia.enable = true;
+    nvidia.offload = {
+      enable = true;
+      intelBusId = "PCI:0:2:0";
+      nvidiaBusId = "PCI:1:0:0";
+    };
     samba.enable = false;
     sddm.enable = true;
     udev.enableExtraRules = true;
@@ -26,7 +31,9 @@
     zoxide
     btop
     lsd
+    file
     kitty
+    blender_4_0
     wpaperd
     wofi
     onagre
