@@ -9,7 +9,7 @@ in
     enable = mkOption {
       description = "Enable zathura";
       type = types.bool;
-      default = true;
+      default = false;
     };
   };
 

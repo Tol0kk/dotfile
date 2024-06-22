@@ -1,4 +1,9 @@
-{ pkgs, lib, config, ... }:
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
 
 with lib;
 let
@@ -14,7 +19,7 @@ in
     };
     opacity = mkOption {
       description = "Set theme opacity";
-      default = 0.80;
+      default = 0.8;
     };
     font-size = mkOption {
       description = "Set theme font_size";
@@ -35,10 +40,14 @@ in
     gtk.iconTheme.package = pkgs.colloid-icon-theme;
     gtk.iconTheme.name = "Colloid-dark";
 
+    stylix.targets.vscode.enable = false; # TODO remove
+
     stylix.image = "${pkgs.assets}/background.jpg";
     stylix.polarity = "dark";
-    
-    stylix.base16Scheme = mkIf (cfg.theme != "") "${pkgs.base16-schemes}/share/themes/${cfg.theme}.yaml";
+
+    stylix.base16Scheme = mkIf (
+      cfg.theme != ""
+    ) "${pkgs.base16-schemes}/share/themes/${cfg.theme}.yaml";
 
     stylix.opacity = {
       terminal = cfg.opacity;
@@ -47,7 +56,7 @@ in
 
     stylix.cursor = with pkgs; {
       package = phinger-cursors;
-      name = "phinger-cursors";
+      name = "phinger-cursors-light";
       size = 24;
     };
 

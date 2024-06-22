@@ -18,8 +18,10 @@ in
     hardware.steam-hardware.enable = true;
     programs.steam.gamescopeSession.enable = true;
     environment.systemPackages = with pkgs; [
-      wineWowPackages.waylandFull
-      winetricks
+      prismlauncher
+      heroic
+      # unigine-heaven
+      lutris
     ];
   };
 }

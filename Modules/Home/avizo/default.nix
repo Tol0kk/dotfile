@@ -7,7 +7,7 @@ in {
     enable = mkOption {
       description = "Enable avizo";
       type = types.bool;
-      default = true;
+      default = false;
     };
   };
 

@@ -1,4 +1,4 @@
-{ pkgs, lib, config, ... }:
+{ lib, config, ... }:
 with lib;
 let
   cfg = config.modules.nvidia;
@@ -7,7 +7,7 @@ in
   options.modules.nvidia = {
     enable = mkOption {
       description = "Enable nvidia";
-      type = types.bool;
+       type = types.bool;
       default = false;
     };
     offload.enable = mkOption {
@@ -25,6 +25,11 @@ in
       type = types.str;
       default = "";
     };
+    PowerManagement.enable = mkOption {
+      description = "Enable nvidia PowerManagement";
+      type = types.bool;
+      default = false;
+    };
   };
 
   config = mkIf cfg.enable {
@@ -35,7 +40,7 @@ in
     hardware.nvidia = {
       modesetting.enable = true;
       nvidiaSettings = true;
-      powerManagement.enable = true;
+      powerManagement.enable = cfg.PowerManagement.enable;
       package = config.boot.kernelPackages.nvidiaPackages.production;
     };
     services.xserver.videoDrivers = [ "nvidia" ];
