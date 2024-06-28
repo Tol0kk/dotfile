@@ -1,0 +1,8 @@
+keys:
+  - &titouan age1aejhqus9tnmuace0u4xgltzuhcjfry6rnmkjwwh6ptarr6zcf42sa7d84a
+
+creation_rules:
+  - path_regrex: secrets/secrets.yaml
+    key_groups:
+    - age: 
+      - *titouan

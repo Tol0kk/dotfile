@@ -57,7 +57,7 @@
       ntfs3g
       ripgrep
     ];
-
+    environment.variables.EDITOR = "nvim";
     boot.supportedFilesystems = [ "ntfs" ];
     programs.nix-index.enable = true;
     programs.nix-index.enableZshIntegration = true;

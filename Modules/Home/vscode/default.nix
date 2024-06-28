@@ -19,7 +19,7 @@ in
 
   config = mkIf cfg.enable {
     home.packages = [ pkgs.nixpkgs-fmt ];
-
+    stylix.targets.vscode.enable = false;
     programs.vscode = {
       enable = true;
       package = pkgs.vscodium;

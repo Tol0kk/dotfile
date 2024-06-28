@@ -6,23 +6,18 @@
 
 {
   modules = {
-    # bluetooth.enable = true;
+    bluetooth.enable = true;
     workstation = {
       enable = true;
       hypr.enable = true;
       gnome.enable = true;
     };
     fonts.enable = true;
+    # gitea.enable = true;
+    sops.enable = true;
     tools.security.enable = true;
     gaming.enable = true;
-    nvidia = {
-      enable = false;
-      offload = {
-        enable = true;
-        intelBusId = "PCI:0:2:0";
-        nvidiaBusId = "PCI:1:0:0";
-      };
-    };
+    nvidia.enable = true;
     # nixvim.enable = true;
     boot.grub.enable = true;
     # virtualisation.docker.enable = true;
@@ -32,16 +27,6 @@
     # samba.enable = false;
     # udev.enableSExtraRules = true;
   };
-
-
-  services.fprintd = {
-	enable = true;
-	tod.enable = true;
-	tod.driver = pkgs.libfprint-2-tod1-goodix;
-  };
-  security.pam.services.titouan.fprintAuth = true;
-
- 
 
   system.stateVersion = "24.05"; # Did you read the comment?
 }

@@ -23,8 +23,6 @@ in
 inputs.home-manager.lib.homeManagerConfiguration {
   inherit pkgs;
   modules = [
-    inputs.stylix.homeManagerModules.stylix
-    inputs.sops-nix.homeManagerModules.sops
     "${self}/Home/${username}/home.nix"
     globalConfig
   ] ++ home_modules;

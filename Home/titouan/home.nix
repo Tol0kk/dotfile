@@ -7,6 +7,8 @@
     shell.enable = true;
     emails.enable = true;
     emacs.enable = true;
+    hypr.enable = true;
+    anyrun.enable = true;
   };
 
    home.sessionVariables = {

@@ -5,5 +5,9 @@
     hostname = "laptop";
     system = "x86_64-linux";
   };
-  desktop = self.lib.mkSystem inputs "desktop" nixpkgs "x86_64-linux";
+  desktop = self.lib.mkSystem inputs {
+    inherit nixpkgs;
+    system = "x86_64-linux";
+  hostname = "desktop";
+  };
 }

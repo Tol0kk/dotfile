@@ -38,7 +38,10 @@ nixpkgs.lib.nixosSystem (
         enable = true;
         generateCaches = true;
       };
-      nix.settings.experimental-features = [ "nix-command" "flakes" ];
+      nix.settings = {
+        experimental-features = [ "nix-command" "flakes" ];
+        builders-use-substitutes = true;
+      } // (import ./substituters.nix);
     };
   in
   {
@@ -50,7 +53,6 @@ nixpkgs.lib.nixosSystem (
       globalConfig
       configuration
       hardware
-      inputs.sops-nix.nixosModules.sops
       inputs.nix-index-database.nixosModules.nix-index
     ] ++ host_modules;
   }
