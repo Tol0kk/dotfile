@@ -22,6 +22,7 @@ in
       heroic
       # unigine-heaven
       lutris
+      bottles
     ];
   };
 }
