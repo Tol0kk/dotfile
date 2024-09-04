@@ -1,5 +1,6 @@
-{ self, ... }@inputs:
+{ self,nixpkgs-stable, nixpkgs-unstable,  ... }@inputs:
 { hostname
+, main_username
 , nixpkgs
 , system
 , cudaSupport ? false
@@ -13,6 +14,32 @@ nixpkgs.lib.nixosSystem (
     overlays = (import ./overlay.nix { inherit inputs self; });
 
     pkgs = import nixpkgs {
+      inherit system overlays;
+      config = {
+        allowUnsupportedSystem = false;
+        allowBroken = false;
+        allowUnfree = true;
+        inherit cudaSupport;
+        experimental-features = "nix-command flakes";
+        keep-derivations = true;
+        keep-outputs = true;
+      };
+    };
+
+    pkgs-unstable = import nixpkgs-unstable {
+      inherit system overlays;
+      config = {
+        allowUnsupportedSystem = false;
+        allowBroken = false;
+        allowUnfree = true;
+        inherit cudaSupport;
+        experimental-features = "nix-command flakes";
+        keep-derivations = true;
+        keep-outputs = true;
+      };
+    };
+
+    pkgs-stable = import nixpkgs-stable {
       inherit system overlays;
       config = {
         allowUnsupportedSystem = false;
@@ -47,7 +74,8 @@ nixpkgs.lib.nixosSystem (
   {
     inherit system pkgs;
     specialArgs = {
-      inherit inputs self;
+      inherit inputs self pkgs-stable pkgs-unstable;
+      mainUser = main_username;
     };
     modules = [
       globalConfig

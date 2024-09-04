@@ -26,26 +26,10 @@
       xkb.variant = "";
     };
 
+      programs.ssh.startAgent = true;
+
     # Configure console keymap
     console.keyMap = "fr";
-
-    # Define a user account. Don't forget to set a password with ‘passwd’.
-    users.users.titouan = {
-      isNormalUser = true;
-      extraGroups = [
-        "scanner"
-        "lp"
-        "mpd"
-        "storage"
-        "networkmanager"
-        "wheel"
-        "wireshark"
-        "docker"
-        "libvirtd"
-        "input"
-      ];
-    };
-    users.defaultUserShell = pkgs.fish;
     programs.fish.enable = true;
 
     environment.systemPackages = with pkgs; [
