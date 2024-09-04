@@ -9,6 +9,7 @@
     emacs.enable = true;
     hypr.enable = true;
     anyrun.enable = true;
+    zathura.enable = true;
   };
 
    home.sessionVariables = {
