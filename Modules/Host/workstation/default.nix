@@ -70,7 +70,7 @@ in
         typst-lsp
         typst
         tinymist
-	vdhcoapp # for Video DownloadHelper Firefox extension
+	      vdhcoapp # for Video DownloadHelper Firefox extension
 
         oculante # Image Viewer / editor
       ];
