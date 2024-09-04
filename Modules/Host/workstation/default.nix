@@ -65,6 +65,11 @@ in
         imv
         unzip
         vlc
+        qbittorrent
+        gnome-multi-writer
+        typst-lsp
+        typst
+        tinymist
 
         oculante # Image Viewer / editor
       ];
