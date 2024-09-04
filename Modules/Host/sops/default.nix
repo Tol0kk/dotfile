@@ -1,4 +1,4 @@
-{ pkgs, lib, config, inputs, self, ... }:
+{ pkgs, lib, config, inputs, self, mainUser, ... }:
 
 with lib;
 let
@@ -20,14 +20,14 @@ in
       sops
     ];
 
-    sops.age.keyFile = "/home/titouan/.config/sops/age/personal_key.txt"; 
+    sops.age.keyFile = "${config.users.users.${mainUser}.home}/.config/sops/age/keys.txt"; 
     sops.defaultSopsFormat = "yaml";
     sops.defaultSopsFile = "${self}/secrets/secrets.yaml";
 
-    sops.secrets."personal/email" = { owner = "titouan"; };
-    sops.secrets."personal/firstname" = { };
-    sops.secrets."personal/lastname" = { };
+    sops.secrets."${mainUser}/email" = { owner = "titouan"; };
+    sops.secrets."${mainUser}/firstname" = { };
+    sops.secrets."${mainUser}/lastname" = { };
     sops.secrets."services/vaultwarden" = { };
-    sops.secrets."services/vpn" = { };
+    sops.secrets."services/vpn" = {  };
   };
 }

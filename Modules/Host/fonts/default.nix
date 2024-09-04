@@ -10,7 +10,7 @@ in
     enable = mkOption {
       description = "Enable fonts";
       type = types.bool;
-      default = true;
+      default = false;
     };
   };
 

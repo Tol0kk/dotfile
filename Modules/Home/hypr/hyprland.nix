@@ -1,4 +1,4 @@
-{ pkgs, inputs, lib, config, ... }:
+{ pkgs, inputs, lib, config, pkgs-stable,... }:
 
 with lib;
 let
@@ -6,6 +6,7 @@ let
 in
 mkIf cfg.enable {
   wayland.windowManager.hyprland = {
+    package = pkgs-stable.hyprland;
     enable = true;
     extraConfig = ''
       monitor=,preferred,auto,auto

@@ -1,4 +1,4 @@
-{ pkgs, self, inputs, lib, config, ... }:
+{ pkgs, self, inputs, lib, config, pkgs-stable,... }:
 
 
 with lib;
@@ -31,8 +31,8 @@ in
   #   ] else [ ];
 
   config = mkMerge [
-    (import ./gnome {inherit pkgs self inputs lib config;})
-    (import ./hypr {inherit pkgs self inputs lib config;})
+    (import ./gnome {inherit pkgs self inputs lib config pkgs-stable;})
+    (import ./hypr {inherit pkgs self inputs lib config pkgs-stable;})
     (mkIf cfg.enable {
       # desktop
       programs.firefox.enable = true;
@@ -65,6 +65,7 @@ in
         imv
         unzip
         vlc
+	vdhcoapp # for Video DownloadHelper Firefox extension
 
         oculante # Image Viewer / editor
       ];
