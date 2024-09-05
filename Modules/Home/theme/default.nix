@@ -1,6 +1,7 @@
 { pkgs
 , lib
 , config
+, inputs
 , ...
 }:
 
@@ -10,7 +11,7 @@ let
 in
 {
     
-  import = [inputs.stylix.homeManagerModules.stylix];
+  imports = [inputs.stylix.homeManagerModules.stylix];
   options.modules.theme = {
     theme = mkOption {
       description = "Set theme. List inside {pkgs.base16-schemes}/share/themes";

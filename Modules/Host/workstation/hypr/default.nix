@@ -11,6 +11,6 @@ mkIf cfg.enable  {
     # This set other option for hyprland, like polkit, portal, dconf, ect... 
     programs.hyprland.enable = true;
     programs.hyprland.xwayland.enable = false;
-    programs.hyprland.package = pkgs-stable.hyprland;
+    programs.hyprland.package = pkgs.hyprland;
     programs.hyprland.portalPackage = pkgs-stable.xdg-desktop-portal-hyprland;
 }

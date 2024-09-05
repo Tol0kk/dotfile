@@ -5,8 +5,10 @@ let
   cfg = config.modules.hypr;
 in
 mkIf cfg.enable {
+      services.hyprpaper.enable = false;
+      stylix.targets.hyprland.enable = false;
   wayland.windowManager.hyprland = {
-    package = pkgs-stable.hyprland;
+    ##package = pkgs-stable.hyprland;
     enable = true;
     extraConfig = ''
       monitor=,preferred,auto,auto
@@ -21,7 +23,7 @@ mkIf cfg.enable {
       $browser = ${pkgs.firefox}/bin/firefox
       $wallpaper_daemon = ${pkgs.wpaperd}/bin/wpaperd
       $locker = hyprlock
-      $file_manager = ${pkgs.gnome.nautilus}/bin/nautilus
+      $file_manager = ${pkgs.nautilus}/bin/nautilus
       $launcher = anyrun
       $bar = ${pkgs.waybar}/bin/waybar
 
@@ -137,12 +139,11 @@ mkIf cfg.enable {
       bind = $mainMod, D, exec, $launcher
 
       # WM actions
-      bind = $mainMod, I, toggleopaque, 
+      bind = $mainMod, I, exec, hyprctl setprop active opaque toggle, 
       bind = $mainMod, Q, killactive, 
       bind = $mainMod SHIFT, K, exit, 
       bind = $mainMod, V, togglefloating, 
       bind = $mainMod, F, fullscreen, 
-      bind = $mainMod SHIFT, F, fakefullscreen, 
       bind = $mainMod, P, pseudo, # dwindle
       bind = $mainMod, J, togglesplit, # dwindle
 

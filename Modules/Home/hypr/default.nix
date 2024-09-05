@@ -1,4 +1,4 @@
-{ pkgs, inputs, lib, config, ... }:
+{ pkgs, inputs, lib, config, pkgs-stable,... }:
 with lib;
 let
   cfg = config.modules.hypr;
@@ -19,7 +19,7 @@ in
       };
     }
     (import ./hyprland.nix {
-      inherit inputs pkgs lib config;
+      inherit inputs pkgs lib config pkgs-stable;
     })
   ];
 }
