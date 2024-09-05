@@ -48,6 +48,8 @@
     ];
   };
   users.defaultUserShell = pkgs.fish;
+    hardware.graphics.enable = true;
+  
 
   sops.secrets."services/cloudflared_HOME_TOKEN" = { owner = config.services.cloudflared.user; };
   # sops.secrets."services/cloudflared_HOME_TOKEN" = { owner = "titouan"; };
@@ -58,10 +60,6 @@
       "ab1ecc34-4d1c-4356-88e7-ba7889c654ad" = {
         credentialsFile = "${config.sops.secrets."services/cloudflared_HOME_TOKEN".path}";
         ingress = {
-          # "home.toloklab.com" = {
-          #   service = "http://localhost:8000";
-          #   path = "/index.html";
-          # };
            "python.home.toloklab.com" = {
             service = "http://localhost:8000";
             path = "/index.html";
@@ -81,7 +79,6 @@
   environment.systemPackages = with pkgs; [
     colmena
   ];
-
 
   boot.binfmt.emulatedSystems = [ "i686-linux" "aarch64-linux" ];
 

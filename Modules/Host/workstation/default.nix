@@ -55,7 +55,7 @@ in
       environment.systemPackages = with pkgs; [
         ani-cli
         onlyoffice-bin
-        blender_4_0
+        # blender_4_0
         xarchiver
         vulkan-tools
         iperf # network benchmark
@@ -71,7 +71,8 @@ in
         typst
         tinymist
 	      vdhcoapp # for Video DownloadHelper Firefox extension
-
+        colmena  # Nixos Deploy Framework
+        pavucontrol # Audio Control Panel
         oculante # Image Viewer / editor
       ];
     })

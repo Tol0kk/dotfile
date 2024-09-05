@@ -7,7 +7,7 @@
 
 {
   modules = {
-    # bluetooth.enable = true;
+    bluetooth.enable = true;
     workstation = {
       enable = true;
       hypr.enable = true;
@@ -27,16 +27,19 @@
     # nixvim.enable = true;
     boot.grub.enable = true;
     # virtualisation.docker.enable = true;
-    virtualisation.kvm.enable = true;
+    virtualisation.kvm.enable = false;
     # virtualisation.virtualbox.enable = false;
     # virtualisation.waydroid.enable = false;
     # samba.enable = false;
     # udev.enableSExtraRules = true;
   };
+    hardware.graphics = {
+      enable = true;
+      enable32Bit = true;
+    };
 
     # Define a user account. Don't forget to set a password with ‘passwd’.
     users.users.${mainUser} = {
-      description = "Main user of the laptop.";
       isNormalUser = true;
       extraGroups = [
         "scanner"
@@ -56,12 +59,12 @@
     users.defaultUserShell = pkgs.fish;
 
 
-  services.fprintd = {
-	enable = true;
-	tod.enable = true;
-	tod.driver = pkgs.libfprint-2-tod1-goodix;
-  };
-  security.pam.services.${mainUser}.fprintAuth = true;
+  # services.fprintd = {
+	# enable = true;
+	# tod.enable = true;
+	# tod.driver = pkgs.libfprint-2-tod1-goodix;
+  # };
+  # security.pam.services.${mainUser}.fprintAuth = true;
 
  
 

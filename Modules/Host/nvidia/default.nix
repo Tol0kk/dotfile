@@ -33,7 +33,6 @@ in
   };
 
   config = mkIf cfg.enable {
-    # hardware.graphics.enable = true;
     hardware.nvidia = {
       modesetting.enable = true;
       nvidiaSettings = true;
