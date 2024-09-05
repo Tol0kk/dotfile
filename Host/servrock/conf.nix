@@ -32,7 +32,7 @@
   nixpkgs.hostPlatform = lib.mkDefault "aarch64-linux";
 
   # nixpkgs.crossSystem.system = "aarch64-linux";
-  # nixpkgs.buildPlatform.system = "x86_64-linux";
+  nixpkgs.buildPlatform.system = "x86_64-linux";
 
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.efiSysMountPoint = "/boot";

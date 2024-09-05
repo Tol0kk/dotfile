@@ -37,58 +37,28 @@
     in
     {
       lib = import ./Lib inputs;
-      nixosConfigurations = import ./Host inputs;
+      # nixosConfigurations = import ./Host inputs;
       homeConfigurations = import ./Home inputs;
 
-      colmena = {
-        meta = {
-          nixpkgs = import inputs.nixpkgs-stable {
-            system = "aarch64-linux";
-            overlays = [ ];
-          };
-          # nodeNixpkgs = builtins.mapAttrs (name: value: value.pkgs) conf;
-          # nodeSpecialArgs = builtins.mapAttrs (name: value: value._module.specialArgs) conf;
-          # nodeNixpkgs = {
-          #   laptop = import inputs.nixpkgs-unstable {
-          #     system = "x86_64-linux";
-          #     overlays = [ ];
-          #   };
-          # };
+      colmena = import ./Lib/mkColmena.nix inputs {
+        laptop = {
+          system ="x86_64-linux"; 
+          mainUser = "titouan";
+          nixpkgs = inputs.nixpkgs-unstable;
+          allowLocalDeployment = true;
         };
-
-        # laptop = { name, pkgs, lib, modulesPath, ... }: {
-
-
-        #   networking.hostName = "laptop";
-        # };
-
-        servrock = { name, pkgs, lib, modulesPath, ... }: {
-          deployment = {
-            targetHost = "servrock";
-            targetUser = "root";
-          };
-
-          imports = [
-            ./Host/servrock/conf.nix
-            ./Modules/Host/common
-            {
-              documentation.man = {
-                enable = true;
-                generateCaches = true;
-              };
-            }
-          ];
+        desktop = {
+          system ="x86_64-linux"; 
+          mainUser = "titouan"; 
+          nixpkgs = inputs.nixpkgs-unstable;
+          allowLocalDeployment = true;
+        };
+        servrock = {
+          system = "aarch64-linux"; 
+          mainUser = "titouan"; 
+          nixpkgs = inputs.nixpkgs-stable;
+          allowLocalDeployment = false;
         };
       };
-      # // builtins.mapAttrs (name: value: { 
-      #   deployment = inputs.nixpkgs-stable.lib.mkIf (name != "servrock") {
-      #       targetHost = "servrock";
-      #       targetUser = "root";
-      #   };
-      #   nixpkgs.hostPlatform =  inputs.nixpkgs-stable.lib.mkIf (name != "servrock") "aarch64-linux";
-      #   imports = value._module.args.modules;
-
-      #    }) conf;
-      # templates = import ./Template;
     };
 }

@@ -5,7 +5,9 @@
 { config, lib, pkgs, ... }:
 
 {
-  nixpkgs.hostPlatform = "aarch64-linux";
+    nixpkgs.config.allowUnsupportedSystem = true;     
+    nixpkgs.hostPlatform.system = "aarch64-linux";                                                           
+    nixpkgs.buildPlatform.system = "x86_64-linux"; 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.efiSysMountPoint = "/boot";
