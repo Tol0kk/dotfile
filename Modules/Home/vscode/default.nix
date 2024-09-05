@@ -52,6 +52,7 @@ in
         "explorer.confirmDragAndDrop" = false;
         "window.menuBarVisibility" = "toggle";
         "git.confirmSync" = false;
+        "explorer.confirmDelete"= false;
 
 
         # Nix IDE
