@@ -9,7 +9,6 @@ let
   );
   nixpkgs_config = {
     allowUnsupportedSystem = false;
-    allowBroken = false;
     allowUnfree = true;
     experimental-features = "nix-command flakes";
     keep-derivations = true;
