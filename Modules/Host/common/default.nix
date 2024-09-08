@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, mainUser, ... }:
 
 {
   config = {
@@ -19,6 +19,7 @@
       LC_TELEPHONE = "fr_FR.UTF-8";
       LC_TIME = "fr_FR.UTF-8";
     };
+    console.keyMap = "fr";
 
     # Configure keymap in X11
     services.xserver = {
@@ -26,10 +27,29 @@
       xkb.variant = "";
     };
 
-      programs.ssh.startAgent = true;
+    # nix.channel.enable = false;
+    nix.nixPath = [ "nixpkgs=flake:nixpkgs" ];
+
+    users.users.${mainUser} = {
+      isNormalUser = true;
+      extraGroups = [
+        "scanner"
+        "lp"
+        "mpd"
+        "storage"
+        "networkmanager"
+        "wheel"
+        "wireshark"
+        "docker"
+        "libvirtd"
+        "input"
+      ];
+      useDefaultShell = true;
+      createHome = true;
+    };
+    users.defaultUserShell = pkgs.fish;
 
     # Configure console keymap
-    console.keyMap = "fr";
     programs.fish.enable = true;
 
     environment.systemPackages = with pkgs; [
@@ -40,56 +60,19 @@
       lsd
       ntfs3g
       ripgrep
+      btop
+      colmena
     ];
     environment.variables.EDITOR = "nvim";
+
     boot.supportedFilesystems = [ "ntfs" ];
-    programs.nix-index.enable = true;
-    programs.nix-index.enableZshIntegration = true;
-    programs.nix-index.enableFishIntegration = true;
-    programs.nix-index.enableBashIntegration = true;
-    programs.command-not-found.enable = false;
-    programs.direnv.enable = true;
-    programs.direnv.silent = true;
-    programs.direnv.nix-direnv.enable = true;
 
-    services.openssh.enable = true;
-
-    # Allow unfree packages
-    # security.polkit.enable = true;
-    # systemd = {
-    #   user.services.polkit-gnome-authentication-agent-1 = {
-    #     description = "polkit-gnome-authentication-agent-1";
-    #     wantedBy = [ "graphical-session.target" ];
-    #     wants = [ "graphical-session.target" ];
-    #     after = [ "graphical-session.target" ];
-    #     serviceConfig = {
-    #       Type = "simple";
-    #       ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
-    #       Restart = "on-failure";
-    #       RestartSec = 1;
-    #       TimeoutStopSec = 10;
-    #     };
-    #   };
-    # };
-
-    # programs.gnupg.agent = {
-    #   enable = true;
-    #   enableSSHSupport = true;
-    # };
-    # services.openssh.enable = true;
-
-
-
-    # xdg.mime.defaultApplications = {
-    #   "application/pdf" = [
-    #     "zathura.desktop"
-    #     "firefox.desktop"
-    #   ];
-    #   "image/png" = [
-    #     "sxiv.desktop"
-    #     "gimp.desktop"
-    #   ];
-    # };
-
+    services.openssh = {
+      enable = true;
+      settings.PasswordAuthentication = false;
+      settings.KbdInteractiveAuthentication = false;
+      knownHosts.titouan.publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEKzcm3GzMAzxobh8g3xGwI4RbgKLUc9k4mm+bT4MXtH titouan.le.dilavrec@gmail.com";
+      knownHosts.root.publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEKzcm3GzMAzxobh8g3xGwI4RbgKLUc9k4mm+bT4MXtH titouan.le.dilavrec@gmail.com";
+    };
   };
 }
