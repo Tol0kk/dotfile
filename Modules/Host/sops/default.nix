@@ -24,10 +24,8 @@ in
     sops.defaultSopsFormat = "yaml";
     sops.defaultSopsFile = "${self}/secrets/secrets.yaml";
 
-    sops.secrets."${mainUser}/email" = { owner = "titouan"; };
-    sops.secrets."${mainUser}/firstname" = { };
-    sops.secrets."${mainUser}/lastname" = { };
-    sops.secrets."services/vaultwarden" = { };
-    sops.secrets."services/vpn" = {  };
+    sops.secrets."${mainUser}/email" = { owner = mainUser; };
+    sops.secrets."${mainUser}/firstname" = { owner = mainUser; };
+    sops.secrets."${mainUser}/lastname" = { owner = mainUser; };
   };
 }
