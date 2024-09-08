@@ -16,5 +16,10 @@
     MY_BROWSER = "${pkgs.firefox}/bin/firefox"; # TODO: move to browser config file later
   };
 
+  home.packages = [
+    pkgs.swaynotificationcenter
+    pkgs.libnotify
+  ];
+
   services.amberol.enable = true;
 }
