@@ -9,7 +9,6 @@ let
   );
   nixpkgs_config = {
     allowUnsupportedSystem = false;
-    allowBroken = false;
     allowUnfree = true;
     experimental-features = "nix-command flakes";
     keep-derivations = true;
@@ -58,7 +57,7 @@ in
       nodes;
   };
 } // builtins.mapAttrs
-  (name: { allowLocalDeployment, ... }@value:
+  (name: { allowLocalDeployment, nixpkgs, ... }@value:
     {
       deployment = {
         inherit allowLocalDeployment;
@@ -69,6 +68,8 @@ in
         "${self}/Host/${name}/hardware.nix"
         {
             networking.hostName = name;
+    nix.registry.nixpkgs.flake = nixpkgs;
+         
           nix.settings = {
             experimental-features = [ "nix-command" "flakes" ];
             builders-use-substitutes = true;

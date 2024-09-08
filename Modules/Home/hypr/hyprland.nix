@@ -8,7 +8,6 @@ mkIf cfg.enable {
       services.hyprpaper.enable = false;
       stylix.targets.hyprland.enable = false;
   wayland.windowManager.hyprland = {
-    ##package = pkgs-stable.hyprland;
     enable = true;
     extraConfig = ''
       monitor=,preferred,auto,auto

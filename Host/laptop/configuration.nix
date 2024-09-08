@@ -33,40 +33,18 @@
     # samba.enable = false;
     # udev.enableSExtraRules = true;
   };
-    hardware.graphics = {
-      enable = true;
-      enable32Bit = true;
-    };
-
-    # Define a user account. Don't forget to set a password with ‘passwd’.
-    users.users.${mainUser} = {
-      isNormalUser = true;
-      extraGroups = [
-        "scanner"
-        "lp"
-        "mpd"
-        "storage"
-        "networkmanager"
-        "wheel"
-        "wireshark"
-        "docker"
-        "libvirtd"
-        "input"
-      ];
-      useDefaultShell = true;
-      createHome = true;
-    };
-    users.defaultUserShell = pkgs.fish;
+  hardware.graphics = {
+    enable = true;
+    enable32Bit = true;
+  };
 
 
   # services.fprintd = {
-	# enable = true;
-	# tod.enable = true;
-	# tod.driver = pkgs.libfprint-2-tod1-goodix;
+  # enable = true;
+  # tod.enable = true;
+  # tod.driver = pkgs.libfprint-2-tod1-goodix;
   # };
   # security.pam.services.${mainUser}.fprintAuth = true;
-
- 
 
   system.stateVersion = "24.05"; # Did you read the comment?
 }

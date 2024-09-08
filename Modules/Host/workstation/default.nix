@@ -1,4 +1,4 @@
-{ pkgs, self, inputs, lib, config, pkgs-stable,... }:
+{ pkgs, self, inputs, lib, config, pkgs-stable,pkgs-unstable,... }:
 
 
 with lib;
@@ -51,6 +51,18 @@ in
         pulse.enable = true;
       };
 
+      programs.ssh.startAgent = true;
+
+
+      programs.nix-index.enable = true;
+      programs.nix-index.enableZshIntegration = true;
+      programs.nix-index.enableFishIntegration = true;
+      programs.nix-index.enableBashIntegration = true;
+      programs.command-not-found.enable = false;
+      programs.direnv.enable = true;
+      programs.direnv.silent = true;
+      programs.direnv.nix-direnv.enable = true;
+
       ## package
       environment.systemPackages = with pkgs; [
         ani-cli
@@ -72,6 +84,8 @@ in
         tinymist
 	      vdhcoapp # for Video DownloadHelper Firefox extension
         colmena  # Nixos Deploy Framework
+        lego
+        pkgs-unstable.cloudflared
         pavucontrol # Audio Control Panel
         oculante # Image Viewer / editor
       ];
