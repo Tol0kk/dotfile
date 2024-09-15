@@ -1,0 +1,3 @@
+# Waybar debug
+
+run with GTK_DEBUG=interactive waybar

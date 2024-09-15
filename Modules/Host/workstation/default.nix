@@ -1,4 +1,4 @@
-{ pkgs, self, inputs, lib, config, pkgs-stable,pkgs-unstable,... }:
+{ pkgs, self, inputs, lib, config, pkgs-stable, pkgs-unstable, ... }:
 
 
 with lib;
@@ -31,8 +31,8 @@ in
   #   ] else [ ];
 
   config = mkMerge [
-    (import ./gnome {inherit pkgs self inputs lib config pkgs-stable;})
-    (import ./hypr {inherit pkgs self inputs lib config pkgs-stable;})
+    (import ./gnome { inherit pkgs self inputs lib config pkgs-stable; })
+    (import ./hypr { inherit pkgs self inputs lib config pkgs-stable; })
     (mkIf cfg.enable {
       # desktop
       programs.firefox.enable = true;
@@ -66,6 +66,7 @@ in
       ## package
       environment.systemPackages = with pkgs; [
         ani-cli
+        pkgs.diffsitter.out
         onlyoffice-bin
         # blender_4_0
         xarchiver
@@ -82,8 +83,8 @@ in
         typst-lsp
         typst
         tinymist
-	      vdhcoapp # for Video DownloadHelper Firefox extension
-        colmena  # Nixos Deploy Framework
+        vdhcoapp # for Video DownloadHelper Firefox extension
+        colmena # Nixos Deploy Framework
         lego
         pkgs-unstable.cloudflared
         pavucontrol # Audio Control Panel

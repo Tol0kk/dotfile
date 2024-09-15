@@ -1,4 +1,4 @@
-{ self,nixpkgs-stable, nixpkgs-unstable,  ... }@inputs:
+{ self, nixpkgs-stable, nixpkgs-unstable, ... }@inputs:
 { hostname
 , main_username
 , nixpkgs

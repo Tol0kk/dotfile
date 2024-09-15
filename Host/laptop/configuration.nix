@@ -24,7 +24,7 @@
         nvidiaBusId = "PCI:1:0:0";
       };
     };
-    # nixvim.enable = true;
+    nixvim.enable = true;
     boot.grub.enable = true;
     # virtualisation.docker.enable = true;
     virtualisation.kvm.enable = false;

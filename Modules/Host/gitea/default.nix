@@ -17,7 +17,7 @@ in
   };
 
   config = mkIf cfg.enable {
-    
+
     # Cloudflare Tunnel (Reverse Proxy)
     services.cloudflared = {
       tunnels."${tunnelId}".ingress."${domain}" = {

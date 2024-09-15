@@ -6,7 +6,7 @@
   la = "lsd -a";
   lla = "lsd -la";
   lts = "lsd -la --total-size";
-  
+
   ".." = "cd ..";
   "..." = "cd ../..";
 

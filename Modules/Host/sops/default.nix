@@ -20,7 +20,7 @@ in
       sops
     ];
 
-    sops.age.keyFile = "${config.users.users.${mainUser}.home}/.config/sops/age/keys.txt"; 
+    sops.age.keyFile = "${config.users.users.${mainUser}.home}/.config/sops/age/keys.txt";
     sops.defaultSopsFormat = "yaml";
     sops.defaultSopsFile = "${self}/secrets/secrets.yaml";
 

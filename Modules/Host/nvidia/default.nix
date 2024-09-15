@@ -7,7 +7,7 @@ in
   options.modules.nvidia = {
     enable = mkOption {
       description = "Enable nvidia";
-       type = types.bool;
+      type = types.bool;
       default = false;
     };
     offload.enable = mkOption {
