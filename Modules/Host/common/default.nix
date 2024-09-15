@@ -1,4 +1,4 @@
-{ pkgs, mainUser, ... }:
+{ pkgs, mainUser, pkgs-unstable, ... }:
 
 {
   config = {
@@ -46,7 +46,11 @@
       ];
       useDefaultShell = true;
       createHome = true;
+      openssh.authorizedKeys.keys = [
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEKzcm3GzMAzxobh8g3xGwI4RbgKLUc9k4mm+bT4MXtH titouan.le.dilavrec@gmail.com"
+      ];
     };
+
     users.defaultUserShell = pkgs.fish;
 
     # Configure console keymap
@@ -67,12 +71,21 @@
 
     boot.supportedFilesystems = [ "ntfs" ];
 
+    # SSH 
+
+    programs.ssh = {
+      extraConfig = ''
+        Host servrock.tolok.org
+          ProxyCommand ${pkgs-unstable.cloudflared}/bin/cloudflared access ssh --hostname %h
+        Host desktop.tolok.org
+          ProxyCommand ${pkgs-unstable.cloudflared}/bin/cloudflared access ssh --hostname %h
+        Host laptop.tolok.org
+          ProxyCommand ${pkgs-unstable.cloudflared}/bin/cloudflared access ssh --hostname %h
+      '';
+    };
     services.openssh = {
       enable = true;
       settings.PasswordAuthentication = false;
-      settings.KbdInteractiveAuthentication = false;
-      knownHosts.titouan.publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEKzcm3GzMAzxobh8g3xGwI4RbgKLUc9k4mm+bT4MXtH titouan.le.dilavrec@gmail.com";
-      knownHosts.root.publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEKzcm3GzMAzxobh8g3xGwI4RbgKLUc9k4mm+bT4MXtH titouan.le.dilavrec@gmail.com";
     };
   };
 }

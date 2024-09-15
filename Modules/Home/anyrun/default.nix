@@ -62,37 +62,37 @@ in
           paddingValue = "8px";
         in
         ''
-          * {
-          	transition: 200ms ease;
-          	font-family: ${fontFamily};
-          	font-size: ${fontSize};
-          }
+           * {
+           	transition: 200ms ease;
+           	font-family: ${fontFamily};
+           	font-size: ${fontSize};
+           }
           
-          #window,
-         {
-          	background: ${transparentColor};
-          }
-          /*
-          #match:selected {
-          	background: ${rgbaColor};
-          }
+           #window,
+          {
+           	background: ${transparentColor};
+           }
+           /*
+           #match:selected {
+           	background: ${rgbaColor};
+           }
           
-          #match {
-          	padding: 3px;
-          	border-radius: ${borderRadius};
-          }
+           #match {
+           	padding: 3px;
+           	border-radius: ${borderRadius};
+           }
           
-          #entry,
-          #plugin:hover {
-          	border-radius: ${borderRadius};
-          }
+           #entry,
+           #plugin:hover {
+           	border-radius: ${borderRadius};
+           }
           
-          box#main {
-          	background: ${bgColor};
-          	border: 1px solid ${borderColor};
-          	border-radius: ${borderRadius};
-          	padding: ${paddingValue};
-          } */
+           box#main {
+           	background: ${bgColor};
+           	border: 1px solid ${borderColor};
+           	border-radius: ${borderRadius};
+           	padding: ${paddingValue};
+           } */
         '';
 
       # Application plugin configuration

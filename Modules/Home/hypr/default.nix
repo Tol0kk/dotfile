@@ -1,4 +1,4 @@
-{ pkgs, inputs, lib, config, pkgs-stable,... }:
+{ pkgs, inputs, lib, config, pkgs-stable, ... }:
 with lib;
 let
   cfg = config.modules.hypr;

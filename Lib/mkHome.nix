@@ -2,7 +2,7 @@
 username: nixpkgs: system:
 
 let
-    overlays = (import ./overlay.nix { inherit inputs self; });
+  overlays = (import ./overlay.nix { inherit inputs self; });
   pkgs = import nixpkgs {
     inherit system overlays;
     config.allowUnfree = true;

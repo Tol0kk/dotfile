@@ -1,4 +1,4 @@
-{ pkgs, lib, config, pkgs-unstable,... }:
+{ pkgs, lib, config, pkgs-unstable, ... }:
 
 with lib;
 let
@@ -11,7 +11,7 @@ in
       type = types.bool;
       default = false;
     };
-    domain =  mkOption {
+    domain = mkOption {
       description = "Domain to link the provided tunnel.";
       type = types.str;
     };
@@ -51,7 +51,7 @@ in
         };
       };
     };
-    
+
     environment.systemPackages = with pkgs; [
       pkgs-unstable.cloudflared
     ];

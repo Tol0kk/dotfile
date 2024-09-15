@@ -67,9 +67,9 @@ in
         "${self}/Host/${name}/configuration.nix"
         "${self}/Host/${name}/hardware.nix"
         {
-            networking.hostName = name;
-    nix.registry.nixpkgs.flake = nixpkgs;
-         
+          networking.hostName = name;
+          nix.registry.nixpkgs.flake = nixpkgs;
+
           nix.settings = {
             experimental-features = [ "nix-command" "flakes" ];
             builders-use-substitutes = true;

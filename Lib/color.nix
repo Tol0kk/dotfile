@@ -17,7 +17,7 @@ let
   #
   # Es: _match3hex "001122" => ["00" "11" "22"]
   _match3hex = match "([[:xdigit:]]{2})([[:xdigit:]]{2})([[:xdigit:]]{2})";
-  
+
   # Parse input for hex quadruplet
   #
   # Es: _match3hex "00112233" => ["00" "11" "22" "33"]
