@@ -17,9 +17,9 @@
     tools.security.enable = true;
     gaming.enable = true;
     nvidia = {
-      enable = false;
+      enable = true;
       offload = {
-        enable = true;
+        enable = false;
         intelBusId = "PCI:0:2:0";
         nvidiaBusId = "PCI:1:0:0";
       };

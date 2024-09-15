@@ -16,9 +16,20 @@
     MY_BROWSER = "${pkgs.firefox}/bin/firefox"; # TODO: move to browser config file later
   };
 
-  home.packages = [
+  home.packages = with pkgs;[
+    pkgs.grim
+    pkgs.slurp
+    pkgs.swappy
+    wl-clipboard
+
     pkgs.swaynotificationcenter
     pkgs.libnotify
+    pkgs.jq
+    pkgs.ags
+          gtksourceview
+      webkitgtk
+      accountsservice
+      pkgs.libdbusmenu-gtk3
   ];
 
   services.amberol.enable = true;
