@@ -26,10 +26,10 @@
     pkgs.libnotify
     pkgs.jq
     pkgs.ags
-          gtksourceview
-      webkitgtk
-      accountsservice
-      pkgs.libdbusmenu-gtk3
+    gtksourceview
+    webkitgtk
+    accountsservice
+    pkgs.libdbusmenu-gtk3
   ];
 
   services.amberol.enable = true;

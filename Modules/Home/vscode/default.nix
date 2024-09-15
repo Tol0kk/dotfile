@@ -39,7 +39,7 @@ in
         jnoortheen.nix-ide
         eamodio.gitlens
         pkief.material-icon-theme
-	soerenuhrbach.vscode-deepl
+        soerenuhrbach.vscode-deepl
       ];
       userSettings = {
         "files.autoSave" = "onFocusChange";
