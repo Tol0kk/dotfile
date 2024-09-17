@@ -61,6 +61,7 @@ in
           "uptime"
           "packages"
           "shell"
+          "cpu"
           "memory"
         ];
       };

@@ -34,12 +34,13 @@ in
         tamasfe.even-better-toml
         serayuzgur.crates
         ziglang.vscode-zig
-        ms-python.python
+        # ms-python.python
         ms-toolsai.jupyter
         jnoortheen.nix-ide
         eamodio.gitlens
         pkief.material-icon-theme
-        soerenuhrbach.vscode-deepl
+        davidlday.languagetool-linter
+        # soerenuhrbach.vscode-deepl # Not yet available on nixpkgs
       ];
       userSettings = {
         "files.autoSave" = "onFocusChange";
