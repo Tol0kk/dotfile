@@ -47,7 +47,7 @@
       useDefaultShell = true;
       createHome = true;
       openssh.authorizedKeys.keys = [
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEKzcm3GzMAzxobh8g3xGwI4RbgKLUc9k4mm+bT4MXtH titouan.le.dilavrec@gmail.com"
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDuwJLenPhKU+HBxEF1X/pgfU21b5Mr03gRxVrGb5ds+ titouan.le.dilavrec@gmail.com"
       ];
     };
 
