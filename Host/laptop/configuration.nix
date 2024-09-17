@@ -27,7 +27,7 @@
     nixvim.enable = true;
     boot.grub.enable = true;
     # virtualisation.docker.enable = true;
-    virtualisation.kvm.enable = false;
+    virtualisation.kvm.enable = true;
     # virtualisation.virtualbox.enable = false;
     # virtualisation.waydroid.enable = false;
     # samba.enable = false;
