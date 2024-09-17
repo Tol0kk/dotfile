@@ -71,6 +71,7 @@ in
         # blender_4_0
         xarchiver
         vulkan-tools
+        obsidian
         iperf # network benchmark
         onagre
         file
