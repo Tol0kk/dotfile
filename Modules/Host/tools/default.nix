@@ -24,5 +24,6 @@ in {
       exploitdb
       metasploit
     ];
+    programs.wireshark.enable = true;
   };
 }
