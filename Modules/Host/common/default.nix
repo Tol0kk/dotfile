@@ -67,6 +67,7 @@
       ripgrep
       btop
       colmena
+      bitwarden-cli
     ];
     environment.variables.EDITOR = "nvim";
 

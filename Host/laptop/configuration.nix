@@ -29,10 +29,11 @@
     boot.grub.enable = true;
     virtualisation.docker.enable = true;
     virtualisation.kvm.enable = true;
+    # ttrss.enable = true;
     # virtualisation.virtualbox.enable = false;
     # virtualisation.waydroid.enable = false;
     # samba.enable = false;
-    # udev.enableSExtraRules = true;
+    udev.enableExtraRules = true;
   };
   hardware.graphics = {
     enable = true;

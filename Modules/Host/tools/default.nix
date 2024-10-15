@@ -13,11 +13,18 @@ in {
 
   config = mkIf cfg.security.enable {
     environment.systemPackages = with pkgs; [
+      # Web enumeration
+      # Domain Info 
+      inetutils # (telnet, whois, ping, traceroute)
+      dig.dnsutils # (dig, nslookup, nsupdate, delv)
+      amass # (amass)
+      # Port Info/Enumeration
+      nmap # (nmap)
+
+
       openvpn
-      nmap
       samba
       findutils.locate
-      inetutils
       tmux
       gobuster
       whatweb
