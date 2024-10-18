@@ -13,6 +13,7 @@
       hypr.enable = true;
       gnome.enable = true;
     };
+    syncthing.enable = true;
     fonts.enable = true;
     tools.security.enable = true;
     gaming.enable = true;
@@ -26,12 +27,13 @@
     };
     nixvim.enable = true;
     boot.grub.enable = true;
-    # virtualisation.docker.enable = true;
+    virtualisation.docker.enable = true;
     virtualisation.kvm.enable = true;
+    # ttrss.enable = true;
     # virtualisation.virtualbox.enable = false;
     # virtualisation.waydroid.enable = false;
     # samba.enable = false;
-    # udev.enableSExtraRules = true;
+    udev.enableExtraRules = true;
   };
   hardware.graphics = {
     enable = true;

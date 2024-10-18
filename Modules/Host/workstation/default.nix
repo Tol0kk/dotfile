@@ -29,18 +29,27 @@ in
   #     # ./gnome/default.nix
   #     # ./hypr/default.nix
   #   ] else [ ];
-
+  imports = [ inputs.nix-flatpak.nixosModules.nix-flatpak ];
   config = mkMerge [
     (import ./gnome { inherit pkgs self inputs lib config pkgs-stable; })
     (import ./hypr { inherit pkgs self inputs lib config pkgs-stable; })
     (mkIf cfg.enable {
-    programs.wireshark.enable = true;
+      programs.wireshark.enable = true;
+      # Flatpack
+
+      services.flatpak.enable = true;
+      services.flatpak.packages = [
+        { appId = "io.github.zen_browser.zen"; origin = "flathub"; }
+      ];
+
+
       # desktop
       programs.firefox.enable = true;
       networking.networkmanager.enable = true;
       services.udisks2.enable = true;
-      services.flatpak.enable = true;
       services.printing.enable = true;
+      programs.dconf.enable = true;
+
 
       ## audio
       hardware.pulseaudio.enable = false;
@@ -63,6 +72,7 @@ in
       programs.direnv.enable = true;
       programs.direnv.silent = true;
       programs.direnv.nix-direnv.enable = true;
+
 
       ## package
       environment.systemPackages = with pkgs; [

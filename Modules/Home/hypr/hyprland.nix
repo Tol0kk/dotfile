@@ -19,7 +19,7 @@ mkIf cfg.enable {
 
             $mainMod = SUPER
             $term = ${pkgs.kitty}/bin/kitty
-            $browser = ${pkgs.firefox}/bin/firefox
+            $browser = io.github.zen_browser.zen
             $wallpaper_daemon = ${pkgs.wpaperd}/bin/wpaperd
             $locker = hyprlock
             $file_manager = ${pkgs.nautilus}/bin/nautilus

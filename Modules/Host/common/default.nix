@@ -69,6 +69,7 @@
       colmena
       tmux
       jq
+      bitwarden-cli
     ];
     environment.variables.EDITOR = "nvim";
 

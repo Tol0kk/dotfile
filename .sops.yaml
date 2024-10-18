@@ -1,8 +1,9 @@
 keys:
   - &titouan age1aejhqus9tnmuace0u4xgltzuhcjfry6rnmkjwwh6ptarr6zcf42sa7d84a
-
+  - &laptop age1w6v2we3gsw3jed26xl2ucpc8dcsc90a2e4n69mrcpmue2d3gdylqn2sy3q
 creation_rules:
   - path_regrex: secrets/secrets.yaml
     key_groups:
     - age: 
       - *titouan
+      - *laptop
