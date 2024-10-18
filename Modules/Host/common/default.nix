@@ -67,6 +67,8 @@
       ripgrep
       btop
       colmena
+      tmux
+      jq
     ];
     environment.variables.EDITOR = "nvim";
 

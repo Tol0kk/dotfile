@@ -34,6 +34,7 @@ in
     (import ./gnome { inherit pkgs self inputs lib config pkgs-stable; })
     (import ./hypr { inherit pkgs self inputs lib config pkgs-stable; })
     (mkIf cfg.enable {
+    programs.wireshark.enable = true;
       # desktop
       programs.firefox.enable = true;
       networking.networkmanager.enable = true;
@@ -65,6 +66,7 @@ in
 
       ## package
       environment.systemPackages = with pkgs; [
+          busybox
         ani-cli
         pkgs.diffsitter.out
         onlyoffice-bin
