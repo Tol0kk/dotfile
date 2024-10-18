@@ -35,8 +35,13 @@ in
     (import ./hypr { inherit pkgs self inputs lib config pkgs-stable; })
     (mkIf cfg.enable {
       programs.wireshark.enable = true;
-      # Flatpack
+      # University VPN Config need openfortivpn package
+      sops.secrets."titouan/univ_vpn_file" = {
+        # owner = "titouan";
+        path = "/etc/open‐fortivpn/config";
+      };
 
+      # Flatpack
       services.flatpak.enable = true;
       services.flatpak.packages = [
         { appId = "io.github.zen_browser.zen"; origin = "flathub"; }
@@ -77,6 +82,8 @@ in
       ## package
       environment.systemPackages = with pkgs; [
           busybox
+        openssl
+        openfortivpn # University VPN
         ani-cli
         pkgs.diffsitter.out
         onlyoffice-bin
