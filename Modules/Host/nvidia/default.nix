@@ -37,7 +37,8 @@ in
       modesetting.enable = true;
       nvidiaSettings = true;
       powerManagement.enable = cfg.PowerManagement.enable;
-      package = config.boot.kernelPackages.nvidiaPackages.production;
+      package = config.boot.kernelPackages.nvidiaPackages.stable;
+      open = false;
     };
     services.xserver.videoDrivers = [ "nvidia" ];
     hardware.nvidia.prime = mkIf cfg.offload.enable {

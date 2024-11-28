@@ -81,6 +81,14 @@ in
 
       ## package
       environment.systemPackages = with pkgs; [
+        (pkgs.buildFHSUserEnv {
+            name = "zed";
+            targetPkgs = pkgs:
+              with pkgs; [
+                zed-editor
+              ];
+            runScript = "zed";
+          })
           busybox
         openssl
         openfortivpn # University VPN

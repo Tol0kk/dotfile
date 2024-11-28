@@ -21,7 +21,7 @@
     tools.security.enable = true;
     gaming.enable = true;
     nvidia.enable = true;
-    nixvim.enable = true;
+    nixvim.enable = false;
     boot.grub.enable = true;
     # virtualisation.docker.enable = true;
     virtualisation.kvm.enable = true;

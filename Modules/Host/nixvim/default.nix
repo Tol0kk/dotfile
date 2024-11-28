@@ -32,7 +32,7 @@ in
       extraPlugins = with pkgs.vimPlugins; [
         gruvbox
       ];
-      colorscheme = "gruvbox";
+      # colorscheme = "gruvbox";
       options = {
         clipboard.register = "unnamed";
         clipboard.clipboard.providers.wl-copy.enable = true;
