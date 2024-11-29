@@ -3,13 +3,16 @@
 {
   modules = {
     sops.enable = true;
-    cloudflared = {
-      enable = true;
-      domain = "tolok.org";
-      tunnelId = "ab1ecc34-4d1c-4356-88e7-ba7889c654ad";
+
+    server = {
+      cloudflared = {
+        enable = true;
+        domain = "tolok.org";
+        tunnelId = "ab1ecc34-4d1c-4356-88e7-ba7889c654ad";
+      };
+      gitea.enable = true;
+      vaultwarden.enable = true;
     };
-    gitea.enable = true;
-    vaultwarden.enable = true;
   };
 
   # Cross Compile
@@ -26,5 +29,37 @@
   programs.command-not-found.enable = false;
 
   system.stateVersion = "24.05"; # Did you read the comment?
+
+  # Server Service #
+
+  # CloudFlare Tunnels
+  sops.secrets."services/cloudflared_HOME_TOKEN" = { owner = config.services.cloudflared.user; };
+  services.cloudflared = {
+    package = pkgs-unstable.cloudflared;
+    enable = true;
+    tunnels = {
+      "${cfg.tunnelId}" = {
+        credentialsFile = "${config.sops.secrets."services/cloudflared_HOME_TOKEN".path}";
+        ingress = {
+          "www.tolok.org" = {
+            service = "http://localhost:8000";
+            path = "/index.html";
+          };
+          "servrock.tolok.org" = {
+            service = "ssh://servrock:22";
+          };
+          "desktop.tolok.org" = {
+            service = "ssh://desktop:22";
+          };
+          "laptop.tolok.org" = {
+            service = "ssh://laptop:22";
+          };
+        };
+        default = "http_status:404";
+      };
+    };
+  };
+
+
 }
 

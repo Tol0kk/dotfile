@@ -40,7 +40,6 @@
     enable32Bit = true;
   };
 
-
   # services.fprintd = {
   # enable = true;
   # tod.enable = true;

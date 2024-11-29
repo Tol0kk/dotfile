@@ -2,13 +2,13 @@
 
 with lib;
 let
-  cfg = config.modules.vaultwarden;
+  cfg = config.modules.server.vaultwarden;
   serverDomain = config.modules.cloudflared.domain;
   tunnelId = config.modules.cloudflared.tunnelId;
   domain = "vaultwarden.${serverDomain}";
 in
 {
-  options.modules.vaultwarden = {
+  options.modules.server.vaultwarden = {
     enable = mkOption {
       description = "Enable Vaultwarden services";
       type = types.bool;

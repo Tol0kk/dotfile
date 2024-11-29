@@ -106,6 +106,7 @@ in
         imv
         unzip
         vlc
+        compose2nix
         qbittorrent
         gnome-multi-writer
         typst-lsp

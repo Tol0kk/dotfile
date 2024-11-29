@@ -2,13 +2,13 @@
 
 with lib;
 let
-  cfg = config.modules.gitea;
+  cfg = config.modules.server.gitea;
   serverDomain = config.modules.cloudflared.domain;
   tunnelId = config.modules.cloudflared.tunnelId;
   domain = "git.${serverDomain}";
 in
 {
-  options.modules.gitea = {
+  options.modules.server.gitea = {
     enable = mkOption {
       description = "Enable Gitea services";
       type = types.bool;
