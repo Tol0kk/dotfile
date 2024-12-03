@@ -35,10 +35,8 @@
   # CloudFlare Tunnels
   sops.secrets."services/cloudflared_HOME_TOKEN" = { owner = config.services.cloudflared.user; };
   services.cloudflared = {
-    package = pkgs-unstable.cloudflared;
-    enable = true;
     tunnels = {
-      "${cfg.tunnelId}" = {
+      "${config.modules.server.cloudflared.tunnelId}" = {
         credentialsFile = "${config.sops.secrets."services/cloudflared_HOME_TOKEN".path}";
         ingress = {
           "www.tolok.org" = {

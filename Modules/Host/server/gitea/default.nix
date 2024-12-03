@@ -3,8 +3,8 @@
 with lib;
 let
   cfg = config.modules.server.gitea;
-  serverDomain = config.modules.cloudflared.domain;
-  tunnelId = config.modules.cloudflared.tunnelId;
+  serverDomain = config.modules.server.cloudflared.domain;
+  tunnelId = config.modules.server.cloudflared.tunnelId;
   domain = "git.${serverDomain}";
 in
 {

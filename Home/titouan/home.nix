@@ -1,4 +1,4 @@
-{ self, pkgs, config, ... }:
+{ self, lib, pkgs, config, ... }:
 {
   modules = {
     kitty.enable = true;
@@ -16,20 +16,73 @@
     MY_BROWSER = "${pkgs.firefox}/bin/firefox"; # TODO: move to browser config file later
   };
 
-  home.packages = with pkgs;[
-    pkgs.grim
-    pkgs.slurp
-    pkgs.swappy
-    wl-clipboard
+  programs.zed-editor = {
+    enable = true;
+    extensions = [ "nix" "toml" "elixir" "make" ];
+    userSettings = {
+      hour_format = "hour24";
+      auto_update = false;
+      load_direnv = "shell_hook";
+      base_keymap = "VSCode";
+      theme = {
+        mode = "system";
+        light = "One Light";
+        dark = "One Dark";
+      };
+      show_whitespaces = "all";
+      assistant = {
+        enabled = true;
+        version = "2";
+        default_open_ai_model = null;
+        default_model = {
+          provider = "zed.dev";
+          model = "claude-3-5-sonnet-latest";
+        };
+      };
+      node = {
+        path = lib.getExe pkgs.nodejs;
+        npm_path = lib.getExe' pkgs.nodejs "npm";
+      };
+      lsp = {
+        rust-analyzer = {
 
-    pkgs.swaynotificationcenter
-    pkgs.libnotify
-    pkgs.jq
-    pkgs.ags
+          binary = {
+            path = "rust-analyzer";
+          };
+        };
+        nix = {
+          binary = {
+            path_lookup = true;
+          };
+        };
+
+        elixir-ls = {
+          binary = {
+            path_lookup = true;
+          };
+          settings = {
+            dialyzerEnabled = true;
+          };
+        };
+      };
+    };
+  };
+
+
+  home.packages = with pkgs;[
+    grim
+    slurp
+    swappy
+    wl-clipboard
+    nil
+    swaynotificationcenter
+    libnotify
+    jq
+    ags
     gtksourceview
     webkitgtk
     accountsservice
-    pkgs.libdbusmenu-gtk3
+    libdbusmenu-gtk3
   ];
 
   services.amberol.enable = true;

@@ -78,17 +78,10 @@ in
       programs.direnv.silent = true;
       programs.direnv.nix-direnv.enable = true;
 
+      
 
       ## package
       environment.systemPackages = with pkgs; [
-        (pkgs.buildFHSUserEnv {
-            name = "zed";
-            targetPkgs = pkgs:
-              with pkgs; [
-                zed-editor
-              ];
-            runScript = "zed";
-          })
           busybox
         openssl
         openfortivpn # University VPN
@@ -101,23 +94,27 @@ in
         obsidian
         iperf # network benchmark
         onagre
+        zoxide
+        yazi
+        tldr
         file
         btop
+        jq
         imv
         unzip
         vlc
-        compose2nix
+        discord
         qbittorrent
         gnome-multi-writer
+        vdhcoapp # for Video DownloadHelper Firefox extension
+        colmena # Nixos Deploy Framework
+        pavucontrol # Audio Control Panel
+        oculante # Image Viewer / editor
+   
+        # Typst 
         typst-lsp
         typst
         tinymist
-        vdhcoapp # for Video DownloadHelper Firefox extension
-        colmena # Nixos Deploy Framework
-        lego
-        pkgs-unstable.cloudflared
-        pavucontrol # Audio Control Panel
-        oculante # Image Viewer / editor
       ];
     })
   ];

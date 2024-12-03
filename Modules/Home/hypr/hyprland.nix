@@ -83,10 +83,12 @@ mkIf cfg.enable {
                     passes = 2
                 }
 
-                drop_shadow = yes
-                shadow_range = 4
-                shadow_render_power = 3
-                col.shadow = rgba(33ccffee)
+                shadow {
+                    enabled = true
+                    range = 4
+                    render_power = 3
+                    color = rgba(33ccffee)
+                }
             }
             animations {
                 enabled = yes

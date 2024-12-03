@@ -31,6 +31,9 @@
     # udev.enableSExtraRules = true;
   };
 
+  powerManagement.cpuFreqGovernor = "performance";
+  powerManagement.enable = true;
+
   boot.binfmt.emulatedSystems = [ "i686-linux" "aarch64-linux" ];
 
   system.stateVersion = "24.05"; # Did you read the comment?
