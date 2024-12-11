@@ -10,6 +10,9 @@
     hypr.enable = true;
     anyrun.enable = true;
     zathura.enable = true;
+    mpv.enable = true;
+    yazi.enable = true;
+    zoxide.enable = true;
   };
 
   home.sessionVariables = {

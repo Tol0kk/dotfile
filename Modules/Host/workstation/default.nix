@@ -94,7 +94,6 @@ in
         obsidian
         iperf # network benchmark
         onagre
-        zoxide
         yazi
         tldr
         file

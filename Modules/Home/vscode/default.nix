@@ -18,7 +18,7 @@ in
   };
 
   config = mkIf cfg.enable {
-    home.packages = [ pkgs.nixpkgs-fmt ];
+    home.packages = [ pkgs.nixpkgs-fmt pkgs.bruno ];
     stylix.targets.vscode.enable = false;
     programs.vscode = {
       enable = true;
@@ -40,7 +40,36 @@ in
         eamodio.gitlens
         pkief.material-icon-theme
         davidlday.languagetool-linter
+        golang.go
+        aaron-bond.better-comments
+
+        # Java 
+        vscjava.vscode-java-test
+        vscjava.vscode-maven
+        vscjava.vscode-java-dependency
+        vscjava.vscode-java-debug
+        vscjava.vscode-gradle
+        redhat.java
+        redhat.vscode-xml
+        redhat.vscode-yaml
+        redhat.ansible
+
+        # Web
+        angular.ng-template
+        ecmel.vscode-html-css
+        esbenp.prettier-vscode
+        svelte.svelte-vscode
+
+golang.go
+
         # soerenuhrbach.vscode-deepl # Not yet available on nixpkgs
+      ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
+        {
+          name = "bruno";
+          publisher = "bruno-api-client";
+          version = "3.1.0";
+          sha256 = "sha256-jLQincxitnVCCeeaoX0SOuj5PJyR7CdOjK4Kl52ShlA=";
+        }
       ];
       userSettings = {
         "files.autoSave" = "onFocusChange";
@@ -55,6 +84,7 @@ in
         "window.menuBarVisibility" = "toggle";
         "git.confirmSync" = false;
         "explorer.confirmDelete" = false;
+        "redhat.telemetry.enabled" = false;
 
 
         # Nix IDE
