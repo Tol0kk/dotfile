@@ -82,6 +82,8 @@
     libnotify
     jq
     ags
+    waybar
+    discord-canary
     gtksourceview
     webkitgtk
     accountsservice

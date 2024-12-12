@@ -49,12 +49,11 @@ in
 
 
       # desktop
-      programs.firefox.enable = true;
+      # programs.firefox.enable = true;
       networking.networkmanager.enable = true;
       services.udisks2.enable = true;
       services.printing.enable = true;
       programs.dconf.enable = true;
-
 
       ## audio
       hardware.pulseaudio.enable = false;
@@ -97,6 +96,7 @@ in
         yazi
         tldr
         file
+        jetbrains.webstorm
         btop
         jq
         imv

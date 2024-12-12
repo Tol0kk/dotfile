@@ -17,6 +17,9 @@ in
       modules = {
         avizo.enable = true;
       };
+      # programs.waybar = {
+      #   enable = true;
+      # };
     }
     (import ./hyprland.nix {
       inherit inputs pkgs lib config pkgs-stable;
