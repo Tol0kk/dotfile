@@ -32,20 +32,21 @@ in
         # twitter-color-emoji
         # emacs-all-the-icons-fonts
         # creep
-        (nerdfonts.override {
-          fonts = [
-            "Cousine"
-            "FiraCode"
-            "Hasklig"
-            "DroidSansMono"
-            "DejaVuSansMono"
-            "iA-Writer"
-            "JetBrainsMono"
-            "Meslo"
-            "SourceCodePro"
-            "Inconsolata"
-          ];
-        })
+	 nerd-fonts.fira-code
+	 nerd-fonts.cousine
+	 nerd-fonts.cousine
+        # (nerdfonts.override {
+        #   fonts = [
+        #     "Hasklig"
+        #     "DroidSansMono"
+        #     "DejaVuSansMono"
+        #     "iA-Writer"
+        #     "JetBrainsMono"
+        #     "Meslo"
+        #     "SourceCodePro"
+        #     "Inconsolata"
+        #   ];
+        # })
       ];
       fontconfig.defaultFonts = {
         monospace = [ "JetBrainsMono" "font-awesome" ];
