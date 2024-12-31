@@ -57,7 +57,12 @@
       };
     };
   };
+  
+  # Fix shell 
 
+  environment.shellInit = ''
+    export TERM=xterm
+  '';
 
 }
 
