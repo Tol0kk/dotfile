@@ -14,5 +14,5 @@ let
       ));
 in
 {
-  imports = builtins.trace "${lib.concatStrings server_modules}" server_modules;
+  imports = server_modules;
 }
