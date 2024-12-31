@@ -49,9 +49,11 @@
       openssh.authorizedKeys.keys = [
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDuwJLenPhKU+HBxEF1X/pgfU21b5Mr03gRxVrGb5ds+ titouan.le.dilavrec@gmail.com"
         "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEKzcm3GzMAzxobh8g3xGwI4RbgKLUc9k4mm+bT4MXtH titouan.le.dilavrec@gmail.com"
+        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAID0FfndDkmaTNmM4XRWe5Qi1avRbhmNEGAjvJWr4GR9t titouan@laptop"
       ];
     };
 
+    zramSwap.enable = true;
     users.defaultUserShell = pkgs.fish;
 
     # Configure console keymap
@@ -69,13 +71,14 @@
       colmena
       tmux
       jq
-      bitwarden-cli
     ];
     environment.variables.EDITOR = "nvim";
 
     boot.supportedFilesystems = [ "ntfs" ];
 
     # SSH 
+
+    environment.shellAliases = (import ./aliases.nix);
 
     programs.ssh = {
       extraConfig = ''
