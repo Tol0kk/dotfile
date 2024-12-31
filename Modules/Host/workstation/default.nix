@@ -77,11 +77,11 @@ in
       programs.direnv.silent = true;
       programs.direnv.nix-direnv.enable = true;
 
-      
+
 
       ## package
       environment.systemPackages = with pkgs; [
-          busybox
+        busybox
         openssl
         openfortivpn # University VPN
         ani-cli
@@ -101,6 +101,7 @@ in
         jq
         imv
         unzip
+        bitwarden-cli
         vlc
         discord
         qbittorrent
@@ -109,7 +110,7 @@ in
         colmena # Nixos Deploy Framework
         pavucontrol # Audio Control Panel
         oculante # Image Viewer / editor
-   
+
         # Typst 
         typst-lsp
         typst
