@@ -27,11 +27,6 @@
       auto_update = false;
       load_direnv = "shell_hook";
       base_keymap = "VSCode";
-      theme = {
-        mode = "system";
-        light = "One Light";
-        dark = "One Dark";
-      };
       show_whitespaces = "all";
       assistant = {
         enabled = true;
@@ -83,7 +78,6 @@
     jq
     ags
     waybar
-    discord-canary
     gtksourceview
     webkitgtk
     accountsservice
