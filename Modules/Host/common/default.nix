@@ -72,11 +72,9 @@
       bitwarden-cli
     ];
     environment.variables.EDITOR = "nvim";
-
     boot.supportedFilesystems = [ "ntfs" ];
 
     # SSH 
-
     programs.ssh = {
       extraConfig = ''
         Host servrock.tolok.org

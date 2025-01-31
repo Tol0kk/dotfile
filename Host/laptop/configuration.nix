@@ -1,7 +1,6 @@
 { pkgs
-, self
-, inputs
-, mainUser
+, config
+, lib
 , ...
 }:
 
@@ -36,10 +35,13 @@
     # samba.enable = false;
     udev.enableExtraRules = true;
   };
+
   hardware.graphics = {
     enable = true;
     enable32Bit = true;
   };
+  # Prevent sshd to start automaticly on laptop. (make the system safer)
+  systemd.services.sshd.wantedBy = lib.mkForce [ ];
 
   # services.fprintd = {
   # enable = true;

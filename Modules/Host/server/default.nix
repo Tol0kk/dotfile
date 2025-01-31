@@ -1,14 +1,13 @@
-{ pkgs, self, inputs, lib, config, pkgs-stable, pkgs-unstable, ... }:
+{ self, lib, ... }:
 
 
-with lib;
 let
   server_modules = (
-    builtins.map 
+    builtins.map
       (dir: "${self}/Modules/Host/server/" + dir)
-      (builtins.filter 
+      (builtins.filter
         (name: !lib.strings.hasSuffix ".nix" name)
-        (builtins.attrNames 
+        (builtins.attrNames
           (builtins.readDir "${self}/Modules/Host/server/")
         )
       ));

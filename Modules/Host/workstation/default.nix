@@ -52,7 +52,6 @@ in
       # programs.firefox.enable = true;
       networking.networkmanager.enable = true;
       services.udisks2.enable = true;
-      services.printing.enable = true;
       programs.dconf.enable = true;
 
       ## audio
@@ -65,9 +64,8 @@ in
         pulse.enable = true;
       };
 
+      # misc
       programs.ssh.startAgent = true;
-
-
       programs.nix-index.enable = true;
       programs.nix-index.enableZshIntegration = true;
       programs.nix-index.enableFishIntegration = true;
@@ -78,6 +76,9 @@ in
       programs.direnv.nix-direnv.enable = true;
 
       
+      # Desactivate voice synthesis
+      services.orca.enable = false;
+      services.speechd.enable = false;
 
       ## package
       environment.systemPackages = with pkgs; [
