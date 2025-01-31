@@ -74,7 +74,9 @@ in
       programs.direnv.enable = true;
       programs.direnv.silent = true;
       programs.direnv.nix-direnv.enable = true;
+      services.gvfs.enable = true;
 
+      programs.adb.enable = true;
       
       # Desactivate voice synthesis
       services.orca.enable = false;
@@ -82,6 +84,10 @@ in
 
       ## package
       environment.systemPackages = with pkgs; [
+nix-du
+        graphviz
+        p7zip
+        zip
           busybox
         openssl
         openfortivpn # University VPN
@@ -95,6 +101,8 @@ in
         iperf # network benchmark
         onagre
         yazi
+mdcat
+        android-studio
         tldr
         file
         jetbrains.webstorm
