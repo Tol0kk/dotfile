@@ -23,7 +23,7 @@ in
         # vegur
         # noto-fonts
         # source-code-pro
-        # corefonts
+        # coresfonts
         font-awesome
         # font-awesome_5
         # line-awesome
@@ -32,20 +32,12 @@ in
         # twitter-color-emoji
         # emacs-all-the-icons-fonts
         # creep
-        (nerdfonts.override {
-          fonts = [
-            "Cousine"
-            "FiraCode"
-            "Hasklig"
-            "DroidSansMono"
-            "DejaVuSansMono"
-            "iA-Writer"
-            "JetBrainsMono"
-            "Meslo"
-            "SourceCodePro"
-            "Inconsolata"
-          ];
-        })
+        nerd-fonts.cousine
+        nerd-fonts.fira-code
+        nerd-fonts.droid-sans-mono
+        nerd-fonts.dejavu-sans-mono
+        nerd-fonts.jetbrains-mono
+        nerd-fonts.inconsolata
       ];
       fontconfig.defaultFonts = {
         monospace = [ "JetBrainsMono" "font-awesome" ];
