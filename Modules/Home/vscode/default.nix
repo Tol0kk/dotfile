@@ -60,7 +60,7 @@ in
         esbenp.prettier-vscode
         svelte.svelte-vscode
 
-golang.go
+        golang.go
 
         # soerenuhrbach.vscode-deepl # Not yet available on nixpkgs
       ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
@@ -86,16 +86,18 @@ golang.go
         "explorer.confirmDelete" = false;
         "redhat.telemetry.enabled" = false;
 
-
-        # Nix IDE
-        # "nix.formatterPath" = "nixfmt";
-        # "nix" = {
-        # "enableLanguageServer" = true;
-        # "serverPath" = "nil";
-        # "serverSettings.nil.formatting.command" = [ "nixpkgs-fmt" ];
-        # };
+        "nix" = {
+          "formatterPath" = "nixpkgs-fmt";
+          "enableLanguageServer" = true;
+          "serverSettings" = {
+            "nil" = {
+              "formatting" = {
+                "command" = [ "nixpkgs-fmt" ];
+              };
+            };
+          };
+        };
       };
-
 
       globalSnippets = (import ./Snippets/globalSnippets.nix);
       languageSnippets = (import ./Snippets/languageSnippets.nix);
