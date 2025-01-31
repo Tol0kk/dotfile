@@ -19,6 +19,8 @@
     MY_BROWSER = "${pkgs.firefox}/bin/firefox"; # TODO: move to browser config file later
   };
 
+  programs.nix-your-shell.enable = true;
+
   programs.zed-editor = {
     enable = true;
     extensions = [ "nix" "toml" "elixir" "make" ];
