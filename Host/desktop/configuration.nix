@@ -21,14 +21,10 @@
     tools.security.enable = true;
     gaming.enable = true;
     nvidia.enable = true;
-    nixvim.enable = false;
     boot.grub.enable = true;
     # virtualisation.docker.enable = true;
     virtualisation.kvm.enable = true;
-    # virtualisation.virtualbox.enable = false;
-    # virtualisation.waydroid.enable = false;
-    # samba.enable = false;
-    # udev.enableSExtraRules = true;
+    neovim.custom.minimal = false;
   };
 
   powerManagement.cpuFreqGovernor = "performance";

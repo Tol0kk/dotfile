@@ -6,6 +6,7 @@
 
 {
   modules = {
+    neovim.custom.minimal = false;
     bluetooth.enable = true;
     workstation = {
       enable = true;
@@ -25,7 +26,6 @@
       };
     };
     sops.enable = true;
-    nixvim.enable = true;
     boot.grub.enable = true;
     virtualisation.docker.enable = true;
     virtualisation.kvm.enable = true;
