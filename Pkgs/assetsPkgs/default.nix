@@ -1,5 +1,8 @@
-{ stdenv, pkgs, ... }:
-
+{
+  stdenv,
+  pkgs,
+  ...
+}:
 stdenv.mkDerivation rec {
   name = "assets-pkgs-tol0kk";
   src = ./assets;

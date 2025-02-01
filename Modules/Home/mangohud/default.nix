@@ -1,7 +1,11 @@
-{ pkgs, lib, config, ... }:
-with lib;
-let cfg = config.modules.mangohud;
-
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
+with lib; let
+  cfg = config.modules.mangohud;
 in {
   options.modules.mangohud = {
     enable = mkOption {

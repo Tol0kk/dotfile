@@ -1,14 +1,12 @@
-{ pkgs
-, lib
-, config
-, ...
-}:
-
-with lib;
-let
-  cfg = config.modules.vscode;
-in
 {
+  pkgs,
+  lib,
+  config,
+  ...
+}:
+with lib; let
+  cfg = config.modules.vscode;
+in {
   options.modules.vscode = {
     enable = mkOption {
       description = "Enable Visual Studio Code.";
@@ -26,7 +24,8 @@ in
       enableExtensionUpdateCheck = true;
       enableUpdateCheck = true;
       mutableExtensionsDir = true;
-      extensions = with pkgs.vscode-extensions; [
+      extensions = with pkgs.vscode-extensions;
+        [
         pkief.material-product-icons
         llvm-vs-code-extensions.vscode-clangd
         rust-lang.rust-analyzer
@@ -63,7 +62,8 @@ in
         golang.go
 
         # soerenuhrbach.vscode-deepl # Not yet available on nixpkgs
-      ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
+        ]
+        ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
         {
           name = "bruno";
           publisher = "bruno-api-client";
@@ -99,8 +99,8 @@ in
         };
       };
 
-      globalSnippets = (import ./Snippets/globalSnippets.nix);
-      languageSnippets = (import ./Snippets/languageSnippets.nix);
+      globalSnippets = import ./Snippets/globalSnippets.nix;
+      languageSnippets = import ./Snippets/languageSnippets.nix;
       keybindings = [
         # TODO place it into one file.
         {

@@ -1,13 +1,16 @@
-{ pkgs, lib, config, pkgs-unstable, ... }:
-
-with lib;
-let
+{
+  pkgs,
+  lib,
+  config,
+  pkgs-unstable,
+  ...
+}:
+with lib; let
   cfg = config.modules.server.vaultwarden;
   serverDomain = config.modules.server.cloudflared.domain;
   tunnelId = config.modules.server.cloudflared.tunnelId;
   domain = "vaultwarden.${serverDomain}";
-in
-{
+in {
   options.modules.server.vaultwarden = {
     enable = mkOption {
       description = "Enable Vaultwarden services";
@@ -17,7 +20,6 @@ in
   };
 
   config = mkIf cfg.enable {
-
     # Cloudflare Tunnel (Reverse Proxy)
     services.cloudflared = {
       tunnels."${tunnelId}".ingress."${domain}" = {
@@ -36,6 +38,5 @@ in
         WEB_VAULT_ENABLED = true;
       };
     };
-
   };
 }

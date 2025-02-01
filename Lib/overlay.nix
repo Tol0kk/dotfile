@@ -1,4 +1,8 @@
-{ inputs, self, ... }: [
+{
+  inputs,
+  self,
+  ...
+}: [
   (prev: super: {
     # gnome = super.gnome.overrideScope (selfg: superg: {
     #   gnome-shell = superg.gnome-shell.overrideAttrs (old: {
@@ -24,8 +28,8 @@
     #     ];
     #   });
     # });
-    assets = prev.callPackage "${self}/Pkgs/assetsPkgs" { };
-    color = import ./color.nix { lib = prev.lib; };
+    assets = prev.callPackage "${self}/Pkgs/assetsPkgs" {};
+    color = import ./color.nix {lib = prev.lib;};
   })
   inputs.blender-bin.overlays.default
 ]

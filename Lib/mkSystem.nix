@@ -1,17 +1,20 @@
-{ self, nixpkgs-stable, nixpkgs-unstable, ... }@inputs:
-{ hostname
-, main_username
-, nixpkgs
-, system
-, cudaSupport ? false
-,
+{
+  self,
+  nixpkgs-stable,
+  nixpkgs-unstable,
+  ...
+} @ inputs: {
+  hostname,
+  main_username,
+  nixpkgs,
+  system,
+  cudaSupport ? false,
 }:
-
 nixpkgs.lib.nixosSystem (
   let
     configuration = "${self}/Host/${hostname}/configuration.nix";
     hardware = "${self}/Host/${hostname}/hardware.nix";
-    overlays = (import ./overlay.nix { inherit inputs self; });
+    overlays = import ./overlay.nix {inherit inputs self;};
 
     pkgs = import nixpkgs {
       inherit system overlays;
@@ -65,23 +68,26 @@ nixpkgs.lib.nixosSystem (
         enable = true;
         generateCaches = true;
       };
-      nix.settings = {
-        experimental-features = [ "nix-command" "flakes" ];
-        builders-use-substitutes = true;
-      } // (import ./substituters.nix);
+      nix.settings =
+        {
+          experimental-features = ["nix-command" "flakes"];
+          builders-use-substitutes = true;
+        }
+        // (import ./substituters.nix);
     };
-  in
-  {
+  in {
     inherit system pkgs;
     specialArgs = {
       inherit inputs self pkgs-stable pkgs-unstable;
       mainUser = main_username;
     };
-    modules = [
-      globalConfig
-      configuration
-      hardware
-      inputs.nix-index-database.nixosModules.nix-index
-    ] ++ host_modules;
+    modules =
+      [
+        globalConfig
+        configuration
+        hardware
+        inputs.nix-index-database.nixosModules.nix-index
+      ]
+      ++ host_modules;
   }
 )

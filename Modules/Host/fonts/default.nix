@@ -1,11 +1,13 @@
-{ pkgs, lib, config, ... }:
-
-with lib;
-let
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
+with lib; let
   cfg = config.modules.fonts;
   # SF-Mono = pkgs.callPackage ../../pkgs/apple-fonts {};
-in
-{
+in {
   options.modules.fonts = {
     enable = mkOption {
       description = "Enable fonts";
@@ -13,7 +15,6 @@ in
       default = false;
     };
   };
-
 
   config = mkIf cfg.enable {
     fonts = {
@@ -40,9 +41,9 @@ in
         nerd-fonts.inconsolata
       ];
       fontconfig.defaultFonts = {
-        monospace = [ "JetBrainsMono" "font-awesome" ];
-        sansSerif = [ "JetBrainsMono" ];
-        serif = [ "JetBrainsMono" ];
+        monospace = ["JetBrainsMono" "font-awesome"];
+        sansSerif = ["JetBrainsMono"];
+        serif = ["JetBrainsMono"];
       };
     };
   };

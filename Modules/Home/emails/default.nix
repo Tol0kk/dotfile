@@ -1,9 +1,11 @@
-{ lib, config, ... }:
-with lib;
-let
-  cfg = config.modules.emails;
-in
 {
+  lib,
+  config,
+  ...
+}:
+with lib; let
+  cfg = config.modules.emails;
+in {
   options.modules.emails = {
     enable = mkOption {
       description = "Enable emails client thunderbird";

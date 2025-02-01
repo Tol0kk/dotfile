@@ -1,12 +1,15 @@
-{ pkgs, lib, config, ... }:
-with lib;
-let
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
+with lib; let
   cfg = config.modules.kitty;
   # themecfg = config.modules.theme;
   # colorScheme = config.modules.theme.colorScheme;
   inherit (lib.strings) floatToString;
-in
-{
+in {
   options.modules.kitty = {
     enable = mkOption {
       description = "Enable kitty";

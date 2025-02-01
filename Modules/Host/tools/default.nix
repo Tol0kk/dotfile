@@ -1,7 +1,11 @@
-{ pkgs, lib, config, ... }:
-with lib;
-let cfg = config.modules.tools;
-
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
+with lib; let
+  cfg = config.modules.tools;
 in {
   options.modules.tools = {
     security.enable = mkOption {
@@ -14,13 +18,12 @@ in {
   config = mkIf cfg.security.enable {
     environment.systemPackages = with pkgs; [
       # Web enumeration
-      # Domain Info 
+      # Domain Info
       inetutils # (telnet, whois, ping, traceroute)
       dig.dnsutils # (dig, nslookup, nsupdate, delv)
       amass # (amass)
       # Port Info/Enumeration
       nmap # (nmap)
-
 
       openvpn
       samba

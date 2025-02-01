@@ -1,9 +1,14 @@
-{ pkgs, lib, config, self, ... }:
-
-with lib;
-let
+{
+  pkgs,
+  lib,
+  config,
+  self,
+  ...
+}:
+with lib; let
   cfg = config.modules.udev;
-  extraRules = map
+  extraRules =
+    map
     (file: (pkgs.writeTextFile {
       name = file;
       destination = "/etc/udev/rules.d/${file}";
@@ -11,8 +16,7 @@ let
     }))
     (lib.attrNames
       (builtins.readDir "${self}/Modules/Host/udev/rules.d"));
-in
-{
+in {
   options.modules.udev.enableExtraRules = mkOption {
     description = "Enable extra rules";
     type = types.bool;

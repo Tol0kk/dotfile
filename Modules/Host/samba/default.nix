@@ -1,10 +1,12 @@
-{ pkgs, lib, config, ... }:
-
-with lib;
-let
-  cfg = config.modules.samba;
-in
 {
+  pkgs,
+  lib,
+  config,
+  ...
+}:
+with lib; let
+  cfg = config.modules.samba;
+in {
   options.modules.samba = {
     enable = mkOption {
       description = "Enable samba";
@@ -33,7 +35,7 @@ in
         workgroup = WORKGROUP
         server string = smbnix
         netbios name = smbnix
-        security = user 
+        security = user
         #use sendfile = yes
         #max protocol = smb2
         # note: localhost is the ipv6 localhost ::1

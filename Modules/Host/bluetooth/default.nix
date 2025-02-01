@@ -1,10 +1,12 @@
-{ pkgs, lib, config, ... }:
-
-with lib;
-let
-  cfg = config.modules.bluetooth;
-in
 {
+  pkgs,
+  lib,
+  config,
+  ...
+}:
+with lib; let
+  cfg = config.modules.bluetooth;
+in {
   options.modules.bluetooth = {
     enable = mkOption {
       description = "Enable bluetooth";

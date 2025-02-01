@@ -1,17 +1,17 @@
 {
   fixme = {
-    body = [ "$LINE_COMMENT FIXME: $0" ];
+    body = ["$LINE_COMMENT FIXME: $0"];
     description = "Insert a FIXME remark";
-    prefix = [ "fixme" ];
+    prefix = ["fixme"];
   };
   todo = {
-    body = [ "$LINE_COMMENT TODO: $0" ];
+    body = ["$LINE_COMMENT TODO: $0"];
     description = "Insert a TODO remark";
-    prefix = [ "todo" ];
+    prefix = ["todo"];
   };
   hold = {
-    body = [ "$LINE_COMMENT HOLD: $0" ];
+    body = ["$LINE_COMMENT HOLD: $0"];
     description = "Insert a HOLD remark";
-    prefix = [ "hold" ];
+    prefix = ["hold"];
   };
 }

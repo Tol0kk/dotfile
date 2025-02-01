@@ -1,7 +1,11 @@
-{ pkgs, lib, config, ... }:
-with lib;
-let cfg = config.modules.zoxide;
-
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
+with lib; let
+  cfg = config.modules.zoxide;
 in {
   options.modules.zoxide = {
     enable = mkOption {

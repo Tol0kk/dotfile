@@ -1,7 +1,11 @@
-{ pkgs, lib, config, ... }:
-with lib;
-let cfg = config.modules.yazi;
-
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
+with lib; let
+  cfg = config.modules.yazi;
 in {
   options.modules.yazi = {
     enable = mkOption {
@@ -19,13 +23,12 @@ in {
       enableFishIntegration = true;
       enableNushellIntegration = true;
       enableZshIntegration = true;
-      keymap = { };
+      keymap = {};
       settings = {
         log = {
           enabled = false;
         };
       };
     };
-
   };
 }

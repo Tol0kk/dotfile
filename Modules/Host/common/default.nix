@@ -1,6 +1,9 @@
-{ pkgs, mainUser, pkgs-unstable, ... }:
-
 {
+  pkgs,
+  mainUser,
+  pkgs-unstable,
+  ...
+}: {
   config = {
     # Set your time zone.
     time.timeZone = "Europe/Paris";
@@ -28,7 +31,7 @@
     };
 
     # nix.channel.enable = false;
-    nix.nixPath = [ "nixpkgs=flake:nixpkgs" ];
+    nix.nixPath = ["nixpkgs=flake:nixpkgs"];
 
     users.users.${mainUser} = {
       isNormalUser = true;
@@ -61,7 +64,6 @@
 
     environment.systemPackages = with pkgs; [
       wget
-      neovim
       git
       zoxide
       lsd
@@ -74,9 +76,9 @@
       bitwarden-cli
     ];
     environment.variables.EDITOR = "nvim";
-    boot.supportedFilesystems = [ "ntfs" ];
+    boot.supportedFilesystems = ["ntfs"];
 
-    # SSH 
+    # SSH
     programs.ssh = {
       extraConfig = ''
         Host servrock.tolok.org

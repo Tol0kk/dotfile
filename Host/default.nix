@@ -1,4 +1,9 @@
-{ self, nixpkgs-stable, nixpkgs-unstable, ... } @ inputs: {
+{
+  self,
+  nixpkgs-stable,
+  nixpkgs-unstable,
+  ...
+} @ inputs: {
   # <machine-name> = self.lib.mkSystem inputs "<machine-name> pkgs "<system-arch>";"
   laptop = self.lib.mkSystem inputs {
     nixpkgs = nixpkgs-unstable;

@@ -1,7 +1,11 @@
-{ pkgs, lib, config, ... }:
-with lib;
-let cfg = config.modules.mpv;
-
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
+with lib; let
+  cfg = config.modules.mpv;
 in {
   options.modules.mpv = {
     enable = mkOption {

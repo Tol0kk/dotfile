@@ -1,10 +1,13 @@
-{ pkgs, lib, config, pkgs-unstable, ... }:
-
-with lib;
-let
-  cfg = config.modules.syncthing;
-in
 {
+  pkgs,
+  lib,
+  config,
+  pkgs-unstable,
+  ...
+}:
+with lib; let
+  cfg = config.modules.syncthing;
+in {
   options.modules.syncthing = {
     enable = mkOption {
       description = "Enable Syncthing";

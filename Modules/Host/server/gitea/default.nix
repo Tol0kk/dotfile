@@ -1,13 +1,15 @@
-{ pkgs, lib, config, ... }:
-
-with lib;
-let
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
+with lib; let
   cfg = config.modules.server.gitea;
   serverDomain = config.modules.server.cloudflared.domain;
   tunnelId = config.modules.server.cloudflared.tunnelId;
   domain = "git.${serverDomain}";
-in
-{
+in {
   options.modules.server.gitea = {
     enable = mkOption {
       description = "Enable Gitea services";
@@ -17,7 +19,6 @@ in
   };
 
   config = mkIf cfg.enable {
-
     # Cloudflare Tunnel (Reverse Proxy)
     services.cloudflared = {
       tunnels."${tunnelId}".ingress."${domain}" = {
@@ -28,7 +29,7 @@ in
     # Postgress (Store Gitea data)
     services.postgresql = {
       enable = true; # Ensure postgresql is enabled
-      ensureDatabases = [ config.services.gitea.user ];
+      ensureDatabases = [config.services.gitea.user];
       ensureUsers = [
         {
           name = config.services.gitea.database.user;
@@ -56,6 +57,5 @@ in
       };
       useWizard = false;
     };
-
   };
 }

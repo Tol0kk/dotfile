@@ -1,16 +1,14 @@
-{ pkgs
-, lib
-, config
-, inputs
-, ...
-}:
-
-with lib;
-let
-  cfg = config.modules.theme;
-in
 {
-  imports = [ inputs.stylix.homeManagerModules.stylix ];
+  pkgs,
+  lib,
+  config,
+  inputs,
+  ...
+}:
+with lib; let
+  cfg = config.modules.theme;
+in {
+  imports = [inputs.stylix.homeManagerModules.stylix];
   options.modules.theme = {
     theme = mkOption {
       description = "Set theme. List inside {pkgs.base16-schemes}/share/themes";
@@ -40,12 +38,12 @@ in
     gtk.iconTheme.package = pkgs.colloid-icon-theme;
     gtk.iconTheme.name = "Colloid-dark";
 
-
     stylix.enable = true;
     stylix.image = "${pkgs.assets}/background.jpg";
     stylix.polarity = "dark";
 
-    stylix.base16Scheme = mkIf
+    stylix.base16Scheme =
+      mkIf
       (
         cfg.theme != ""
       ) "${pkgs.base16-schemes}/share/themes/${cfg.theme}.yaml";

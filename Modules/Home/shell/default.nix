@@ -1,9 +1,12 @@
-{ lib, config, pkgs, ... }:
-with lib;
-let
-  cfg = config.modules.shell;
-in
 {
+  lib,
+  config,
+  pkgs,
+  ...
+}:
+with lib; let
+  cfg = config.modules.shell;
+in {
   options.modules.shell = {
     enable = mkOption {
       description = "Enable shells";
@@ -27,13 +30,13 @@ in
 
     programs.fish = {
       enable = true;
-      shellAbbrs = (import ./aliases.nix);
+      shellAbbrs = import ./aliases.nix;
       functions = {
         fish_greeting = "fastfetch";
       };
       interactiveShellInit = ''
-      ${pkgs.nix-your-shell}/bin/nix-your-shell fish | source
-    '';
+        ${pkgs.nix-your-shell}/bin/nix-your-shell fish | source
+      '';
     };
 
     programs.fastfetch = {

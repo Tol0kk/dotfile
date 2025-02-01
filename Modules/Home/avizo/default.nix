@@ -1,7 +1,11 @@
-{ pkgs, lib, config, ... }:
-with lib;
-let cfg = config.modules.avizo;
-
+{
+  pkgs,
+  lib,
+  config,
+  ...
+}:
+with lib; let
+  cfg = config.modules.avizo;
 in {
   options.modules.avizo = {
     enable = mkOption {
@@ -12,7 +16,7 @@ in {
   };
 
   config = mkIf cfg.enable {
-    home.packages = [ pkgs.pamixer ];
+    home.packages = [pkgs.pamixer];
     services.avizo.enable = true;
     services.avizo.settings = {
       default = {

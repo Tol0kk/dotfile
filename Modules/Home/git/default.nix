@@ -1,12 +1,11 @@
-{ lib
-, config
-, ...
-}:
-with lib;
-let
-  cfg = config.modules.git;
-in
 {
+  lib,
+  config,
+  ...
+}:
+with lib; let
+  cfg = config.modules.git;
+in {
   options.modules.git = {
     enable = mkOption {
       description = "Enable Git";

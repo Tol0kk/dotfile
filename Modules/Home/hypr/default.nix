@@ -1,9 +1,14 @@
-{ pkgs, inputs, lib, config, pkgs-stable, ... }:
-with lib;
-let
-  cfg = config.modules.hypr;
-in
 {
+  pkgs,
+  inputs,
+  lib,
+  config,
+  pkgs-stable,
+  ...
+}:
+with lib; let
+  cfg = config.modules.hypr;
+in {
   options.modules.hypr = {
     enable = mkOption {
       description = "Enable hypr enviroment configuration";

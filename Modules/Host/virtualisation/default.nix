@@ -1,9 +1,12 @@
-{ pkgs, lib, config, ... }:
-with lib;
-let
-  cfg = config.modules.virtualisation;
-in
 {
+  pkgs,
+  lib,
+  config,
+  ...
+}:
+with lib; let
+  cfg = config.modules.virtualisation;
+in {
   options.modules.virtualisation = {
     docker.enable = mkOption {
       description = "Enable docker virtualisation";
@@ -31,7 +34,6 @@ in
         type = types.bool;
         default = false;
       };
-
     };
   };
 
@@ -53,7 +55,7 @@ in
       ];
     })
     (mkIf cfg.virtualbox.enable {
-      users.extraGroups.vboxusers.members = [ "user-with-access-to-virtualbox" ];
+      users.extraGroups.vboxusers.members = ["user-with-access-to-virtualbox"];
       virtualisation.virtualbox.host.enable = true;
       virtualisation.virtualbox.host.enableExtensionPack = true;
     })
@@ -61,7 +63,7 @@ in
       virtualisation.waydroid.enable = true;
       # TODO persit:
       # waydroid prop set persist.waydroid.width 2400
-      # waydroid prop set persist.waydroid.height 3840 
+      # waydroid prop set persist.waydroid.height 3840
     })
     (mkIf cfg.kvm.enable {
       virtualisation.libvirtd = {
@@ -85,6 +87,4 @@ in
       programs.virt-manager.enable = true;
     })
   ];
-
-
 }

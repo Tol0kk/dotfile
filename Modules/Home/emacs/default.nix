@@ -1,7 +1,12 @@
-{ pkgs, lib, config, pkgs-unstable, ... }:
-with lib;
-let cfg = config.modules.emacs;
-
+{
+  pkgs,
+  lib,
+  config,
+  pkgs-unstable,
+  ...
+}:
+with lib; let
+  cfg = config.modules.emacs;
 in {
   options.modules.emacs = {
     enable = mkOption {
@@ -18,13 +23,12 @@ in {
     ];
     home.file = {
       # tree-sitter subdirectory of the directory specified by user-emacs-directory
-      ".config/emacs/.local/cache/tree-sitter".source =
-        "${pkgs-unstable.emacsPackages.treesit-grammars.with-all-grammars}/lib";
+      ".config/emacs/.local/cache/tree-sitter".source = "${pkgs-unstable.emacsPackages.treesit-grammars.with-all-grammars}/lib";
     };
     programs.emacs = {
       enable = true;
       package = pkgs-unstable.emacs;
-      extraPackages = epkgs: [ epkgs.treesit-grammars.with-all-grammars ];
+      extraPackages = epkgs: [epkgs.treesit-grammars.with-all-grammars];
     };
   };
 }

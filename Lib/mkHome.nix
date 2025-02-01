@@ -1,8 +1,10 @@
-{ self, nixpkgs-stable, nixpkgs-unstable, ... }@inputs:
-username: nixpkgs: system:
-
-let
-  overlays = (import ./overlay.nix { inherit inputs self; });
+{
+  self,
+  nixpkgs-stable,
+  nixpkgs-unstable,
+  ...
+} @ inputs: username: nixpkgs: system: let
+  overlays = import ./overlay.nix {inherit inputs self;};
   pkgs = import nixpkgs {
     inherit system overlays;
     config.allowUnfree = true;
@@ -26,22 +28,24 @@ let
     home.homeDirectory = /home/${username};
     programs.home-manager.enable = true;
   };
-  color = import ./color.nix { lib = pkgs.lib; };
+  color = import ./color.nix {lib = pkgs.lib;};
 in
-inputs.home-manager-unstable.lib.homeManagerConfiguration {
-  inherit pkgs;
-  modules = [
-    "${self}/Home/${username}/home.nix"
-    globalConfig
-  ] ++ home_modules;
-  extraSpecialArgs = {
-    inherit
-      self
-      inputs
-      username
-      color
-      pkgs-stable
-      pkgs-unstable
-      ;
-  };
-}
+  inputs.home-manager-unstable.lib.homeManagerConfiguration {
+    inherit pkgs;
+    modules =
+      [
+        "${self}/Home/${username}/home.nix"
+        globalConfig
+      ]
+      ++ home_modules;
+    extraSpecialArgs = {
+      inherit
+        self
+        inputs
+        username
+        color
+        pkgs-stable
+        pkgs-unstable
+        ;
+    };
+  }

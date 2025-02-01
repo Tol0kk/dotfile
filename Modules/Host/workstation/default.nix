@@ -1,11 +1,15 @@
-{ pkgs, self, inputs, lib, config, pkgs-stable, pkgs-unstable, ... }:
-
-
-with lib;
-let
-  cfg = config.modules.workstation;
-in
 {
+  pkgs,
+  self,
+  inputs,
+  lib,
+  config,
+  pkgs-stable,
+  ...
+}:
+with lib; let
+  cfg = config.modules.workstation;
+in {
   options.modules.workstation = {
     enable = mkOption {
       description = "Enable workstation modules";
@@ -29,10 +33,10 @@ in
   #     # ./gnome/default.nix
   #     # ./hypr/default.nix
   #   ] else [ ];
-  imports = [ inputs.nix-flatpak.nixosModules.nix-flatpak ];
+  imports = [inputs.nix-flatpak.nixosModules.nix-flatpak];
   config = mkMerge [
-    (import ./gnome { inherit pkgs self inputs lib config pkgs-stable; })
-    (import ./hypr { inherit pkgs self inputs lib config pkgs-stable; })
+    (import ./gnome {inherit pkgs self inputs lib config pkgs-stable;})
+    (import ./hypr {inherit pkgs self inputs lib config pkgs-stable;})
     (mkIf cfg.enable {
       programs.wireshark.enable = true;
       # University VPN Config need openfortivpn package
@@ -44,13 +48,14 @@ in
       # Flatpack
       services.flatpak.enable = true;
       services.flatpak.packages = [
-        { appId = "io.github.zen_browser.zen"; origin = "flathub"; }
+        {
+          appId = "io.github.zen_browser.zen";
+          origin = "flathub";
+        }
       ];
-
 
       # desktop
       # programs.firefox.enable = true;
-      networking.networkmanager.enable = true;
       services.udisks2.enable = true;
       programs.dconf.enable = true;
 
@@ -77,18 +82,18 @@ in
       services.gvfs.enable = true;
 
       programs.adb.enable = true;
-      
+
       # Desactivate voice synthesis
       services.orca.enable = false;
       services.speechd.enable = false;
 
       ## package
       environment.systemPackages = with pkgs; [
-nix-du
+        nix-du
         graphviz
         p7zip
         zip
-          busybox
+        busybox
         openssl
         openfortivpn # University VPN
         ani-cli
@@ -101,7 +106,7 @@ nix-du
         iperf # network benchmark
         onagre
         yazi
-mdcat
+        mdcat
         android-studio
         tldr
         file
@@ -118,8 +123,8 @@ mdcat
         colmena # Nixos Deploy Framework
         pavucontrol # Audio Control Panel
         oculante # Image Viewer / editor
-   
-        # Typst 
+
+        # Typst
         typst-lsp
         typst
         tinymist

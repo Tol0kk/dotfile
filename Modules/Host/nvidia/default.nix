@@ -1,9 +1,11 @@
-{ lib, config, ... }:
-with lib;
-let
-  cfg = config.modules.nvidia;
-in
 {
+  lib,
+  config,
+  ...
+}:
+with lib; let
+  cfg = config.modules.nvidia;
+in {
   options.modules.nvidia = {
     enable = mkOption {
       description = "Enable nvidia";
@@ -40,7 +42,7 @@ in
       package = config.boot.kernelPackages.nvidiaPackages.beta;
       open = false;
     };
-    services.xserver.videoDrivers = [ "nvidia" ];
+    services.xserver.videoDrivers = ["nvidia"];
     hardware.nvidia.prime = mkIf cfg.offload.enable {
       offload.enable = true;
       offload.enableOffloadCmd = true;

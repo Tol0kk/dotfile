@@ -1,13 +1,16 @@
-{ pkgs, lib, config, pkgs-unstable, ... }:
-
-with lib;
-let
+{
+  pkgs,
+  lib,
+  config,
+  pkgs-unstable,
+  ...
+}:
+with lib; let
   cfg = config.modules.ttrss;
   serverDomain = config.modules.server.cloudflared.domain;
   tunnelId = config.modules.server.cloudflared.tunnelId;
   domain = "ttrss.${serverDomain}";
-in
-{
+in {
   options.modules.ttrss = {
     enable = mkOption {
       description = "Enable TT-RSS services";
@@ -17,7 +20,6 @@ in
   };
 
   config = mkIf cfg.enable {
-
     # # Cloudflare Tunnel (Reverse Proxy)
     # services.cloudflared = {
     #   tunnels."${tunnelId}".ingress."${domain}" = {

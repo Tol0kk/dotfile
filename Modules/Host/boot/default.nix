@@ -1,12 +1,13 @@
-{ pkgs, lib, config, ... }:
-
-with lib;
-let
-  cfg = config.modules.boot;
-in
 {
+  pkgs,
+  lib,
+  config,
+  ...
+}:
+with lib; let
+  cfg = config.modules.boot;
+in {
   options.modules.boot = {
-
     windowsUUID = mkOption {
       description = "Select the Disk where windows is installed by UUID. This Speed up the processed from Osprober. You can find the UUID with lsblk -fa";
       type = types.str;
@@ -33,7 +34,7 @@ in
 
   config = mkMerge [
     (mkIf cfg.grub.enable {
-      boot.kernelParams = [ "quiet" ];
+      boot.kernelParams = ["quiet"];
       # boot.plymouth.enable = true;
       # boot.plymouth.theme = "breeze";
       boot.loader = {
@@ -54,22 +55,22 @@ in
           # fontSize = 30;
           # font = "${pkgs.hack-font}/share/fonts/hack/Hack-Regular.ttf";
           extraEntries = mkMerge [
-            '' 
-          menuentry "Reboot" {
-           reboot
-          }
-          menuentry "Poweroff" {
-           halt
-          }
-          menuentry "UEFI Firmware Settings" {
-           fwsetup
-          }
-          ''
+            ''
+              menuentry "Reboot" {
+               reboot
+              }
+              menuentry "Poweroff" {
+               halt
+              }
+              menuentry "UEFI Firmware Settings" {
+               fwsetup
+              }
+            ''
             # (mkIf (cfg.windowsUUID != "") ''
             #   menuentry "Windows" {
             #    insmod part_gpt
             #    insmod fat
-            #    search --no-floppy --fs-uuid --set=root  ${cfg.windowsUUID}   
+            #    search --no-floppy --fs-uuid --set=root  ${cfg.windowsUUID}
             #    chainloader /efi/Microsoft/Boot/bootmgfw.efi
             #   }
             # '')
@@ -78,7 +79,7 @@ in
       };
     })
     (mkIf cfg.systemd.enable {
-      boot.kernelParams = [ "quiet" ];
+      boot.kernelParams = ["quiet"];
       boot.loader.systemd-boot.enable = true;
       boot.loader.efi.canTouchEfiVariables = true;
     })

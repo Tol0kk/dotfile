@@ -1,5 +1,4 @@
 {
-
   #lsd shortcut
   ls = "lsd";
   ll = "lsd -l";
@@ -30,5 +29,4 @@
   gch = "git checkout";
   gpus = "git push";
   gpul = "git pull";
-
 }

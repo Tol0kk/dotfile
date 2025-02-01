@@ -1,10 +1,12 @@
-{ pkgs, lib, config, ... }:
-
-with lib;
-let
-  cfg = config.modules.gaming;
-in
 {
+  pkgs,
+  lib,
+  config,
+  ...
+}:
+with lib; let
+  cfg = config.modules.gaming;
+in {
   options.modules.gaming = {
     enable = mkOption {
       description = "Enable Gaming";

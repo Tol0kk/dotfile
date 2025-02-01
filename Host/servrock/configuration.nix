@@ -1,6 +1,7 @@
-{ config, lib, pkgs, self, pkgs-unstable, ... }:
-
 {
+  config,
+  ...
+}: {
   modules = {
     sops.enable = true;
 
@@ -20,7 +21,7 @@
   nixpkgs.hostPlatform.system = "aarch64-linux";
   nixpkgs.buildPlatform.system = "x86_64-linux";
 
-  # Boot 
+  # Boot
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.efiSysMountPoint = "/boot";
   boot.loader.efi.canTouchEfiVariables = true;
@@ -33,7 +34,7 @@
   # Server Service #
 
   # CloudFlare Tunnels
-  sops.secrets."services/cloudflared_HOME_TOKEN" = { owner = config.services.cloudflared.user; };
+  sops.secrets."services/cloudflared_HOME_TOKEN" = {owner = config.services.cloudflared.user;};
   services.cloudflared = {
     tunnels = {
       "${config.modules.server.cloudflared.tunnelId}" = {
@@ -57,7 +58,4 @@
       };
     };
   };
-
-
 }
-

@@ -1,5 +1,8 @@
-{ self, lib, pkgs, config, ... }:
 {
+  lib,
+  pkgs,
+  ...
+}: {
   modules = {
     kitty.enable = true;
     vscode.enable = true;
@@ -23,7 +26,7 @@
 
   programs.zed-editor = {
     enable = true;
-    extensions = [ "nix" "toml" "elixir" "make" ];
+    extensions = ["nix" "toml" "elixir" "make"];
     userSettings = {
       hour_format = "hour24";
       auto_update = false;
@@ -67,8 +70,7 @@
     };
   };
 
-
-  home.packages = with pkgs;[
+  home.packages = with pkgs; [
     grim
     slurp
     swappy
