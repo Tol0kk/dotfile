@@ -45,7 +45,6 @@
       };
       lsp = {
         rust-analyzer = {
-
           binary = {
             path = "rust-analyzer";
           };
@@ -74,14 +73,12 @@
     slurp
     swappy
     wl-clipboard
-    nil
     swaynotificationcenter
     libnotify
     jq
     ags
     waybar
     gtksourceview
-    webkitgtk
     accountsservice
     libdbusmenu-gtk3
   ];
