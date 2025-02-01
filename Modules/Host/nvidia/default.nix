@@ -37,7 +37,7 @@ in
       modesetting.enable = true;
       nvidiaSettings = true;
       powerManagement.enable = cfg.PowerManagement.enable;
-      package = config.boot.kernelPackages.nvidiaPackages.stable;
+      package = config.boot.kernelPackages.nvidiaPackages.beta;
       open = false;
     };
     services.xserver.videoDrivers = [ "nvidia" ];
