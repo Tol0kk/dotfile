@@ -6,8 +6,8 @@
   #     prefix = [ "fixme" ];
   #   };
   # };
-  # c 
+  # c
   # - Define preprocessor for header file
-  # cpp 
+  # cpp
   # - Define preprocessor for header file
 }

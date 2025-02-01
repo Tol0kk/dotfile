@@ -26,51 +26,51 @@ in {
       mutableExtensionsDir = true;
       extensions = with pkgs.vscode-extensions;
         [
-        pkief.material-product-icons
-        llvm-vs-code-extensions.vscode-clangd
-        rust-lang.rust-analyzer
-        bungcip.better-toml
-        tamasfe.even-better-toml
-        serayuzgur.crates
-        ziglang.vscode-zig
-        # ms-python.python
-        ms-toolsai.jupyter
-        jnoortheen.nix-ide
-        eamodio.gitlens
-        pkief.material-icon-theme
-        davidlday.languagetool-linter
-        golang.go
-        aaron-bond.better-comments
+          pkief.material-product-icons
+          llvm-vs-code-extensions.vscode-clangd
+          rust-lang.rust-analyzer
+          bungcip.better-toml
+          tamasfe.even-better-toml
+          serayuzgur.crates
+          ziglang.vscode-zig
+          # ms-python.python
+          ms-toolsai.jupyter
+          jnoortheen.nix-ide
+          eamodio.gitlens
+          pkief.material-icon-theme
+          davidlday.languagetool-linter
+          golang.go
+          aaron-bond.better-comments
 
-        # Java 
-        vscjava.vscode-java-test
-        vscjava.vscode-maven
-        vscjava.vscode-java-dependency
-        vscjava.vscode-java-debug
-        vscjava.vscode-gradle
-        redhat.java
-        redhat.vscode-xml
-        redhat.vscode-yaml
-        redhat.ansible
+          # Java
+          vscjava.vscode-java-test
+          vscjava.vscode-maven
+          vscjava.vscode-java-dependency
+          vscjava.vscode-java-debug
+          vscjava.vscode-gradle
+          redhat.java
+          redhat.vscode-xml
+          redhat.vscode-yaml
+          redhat.ansible
 
-        # Web
-        angular.ng-template
-        ecmel.vscode-html-css
-        esbenp.prettier-vscode
-        svelte.svelte-vscode
+          # Web
+          angular.ng-template
+          ecmel.vscode-html-css
+          esbenp.prettier-vscode
+          svelte.svelte-vscode
 
-        golang.go
+          golang.go
 
-        # soerenuhrbach.vscode-deepl # Not yet available on nixpkgs
+          # soerenuhrbach.vscode-deepl # Not yet available on nixpkgs
         ]
         ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
-        {
-          name = "bruno";
-          publisher = "bruno-api-client";
-          version = "3.1.0";
-          sha256 = "sha256-jLQincxitnVCCeeaoX0SOuj5PJyR7CdOjK4Kl52ShlA=";
-        }
-      ];
+          {
+            name = "bruno";
+            publisher = "bruno-api-client";
+            version = "3.1.0";
+            sha256 = "sha256-jLQincxitnVCCeeaoX0SOuj5PJyR7CdOjK4Kl52ShlA=";
+          }
+        ];
       userSettings = {
         "files.autoSave" = "onFocusChange";
         "[nix]"."editor.tabSize" = 2;
