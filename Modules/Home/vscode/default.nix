@@ -16,7 +16,7 @@ in {
   };
 
   config = mkIf cfg.enable {
-    home.packages = [ pkgs.nixpkgs-fmt pkgs.bruno ];
+    home.packages = [pkgs.alejandra pkgs.bruno];
     stylix.targets.vscode.enable = false;
     programs.vscode = {
       enable = true;
@@ -87,12 +87,12 @@ in {
         "redhat.telemetry.enabled" = false;
 
         "nix" = {
-          "formatterPath" = "nixpkgs-fmt";
+          "formatterPath" = "alejandra";
           "enableLanguageServer" = true;
           "serverSettings" = {
             "nil" = {
               "formatting" = {
-                "command" = [ "nixpkgs-fmt" ];
+                "command" = ["alejandra"];
               };
             };
           };

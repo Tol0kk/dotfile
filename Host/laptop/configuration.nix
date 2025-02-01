@@ -1,10 +1,9 @@
-{ pkgs
-, config
-, lib
-, ...
-}:
-
 {
+  pkgs,
+  config,
+  lib,
+  ...
+}: {
   modules = {
     neovim.custom.minimal = false;
     bluetooth.enable = true;
@@ -29,10 +28,6 @@
     boot.grub.enable = true;
     virtualisation.docker.enable = true;
     virtualisation.kvm.enable = true;
-    # ttrss.enable = true;
-    # virtualisation.virtualbox.enable = false;
-    # virtualisation.waydroid.enable = false;
-    # samba.enable = false;
     udev.enableExtraRules = true;
   };
 
@@ -41,7 +36,7 @@
     enable32Bit = true;
   };
   # Prevent sshd to start automaticly on laptop. (make the system safer)
-  systemd.services.sshd.wantedBy = lib.mkForce [ ];
+  systemd.services.sshd.wantedBy = lib.mkForce [];
 
   # services.fprintd = {
   # enable = true;
