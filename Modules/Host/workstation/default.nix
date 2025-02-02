@@ -48,10 +48,6 @@ in {
       # Flatpack
       services.flatpak.enable = true;
       services.flatpak.packages = [
-        {
-          appId = "io.github.zen_browser.zen";
-          origin = "flathub";
-        }
       ];
 
       # desktop
@@ -89,6 +85,8 @@ in {
 
       ## package
       environment.systemPackages = with pkgs; [
+        inputs.zen-browser.packages."${system}".beta
+        lazygit
         nix-du
         graphviz
         p7zip
