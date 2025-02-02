@@ -57,6 +57,7 @@
       ];
     };
 
+    zramSwap.enable = true;
     users.defaultUserShell = pkgs.fish;
 
     # Configure console keymap
@@ -73,12 +74,14 @@
       colmena
       tmux
       jq
-      bitwarden-cli
     ];
     environment.variables.EDITOR = "nvim";
     boot.supportedFilesystems = ["ntfs"];
 
     # SSH
+
+    environment.shellAliases = import ./aliases.nix;
+
     programs.ssh = {
       extraConfig = ''
         Host servrock.tolok.org

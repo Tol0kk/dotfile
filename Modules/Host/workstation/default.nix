@@ -113,6 +113,7 @@ in {
         jq
         imv
         unzip
+        bitwarden-cli
         vlc
         discord
         qbittorrent

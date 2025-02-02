@@ -1,7 +1,4 @@
-{
-  config,
-  ...
-}: {
+{config, ...}: {
   modules = {
     sops.enable = true;
 
@@ -58,4 +55,10 @@
       };
     };
   };
+
+  # Fix shell
+
+  environment.shellInit = ''
+    export TERM=xterm
+  '';
 }
