@@ -30,7 +30,7 @@
       xkb.variant = "";
     };
 
-    # nix.channel.enable = false;
+    nix.channel.enable = false;
     nix.nixPath = ["nixpkgs=flake:nixpkgs"];
 
     users.users.${mainUser} = {

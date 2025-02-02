@@ -17,7 +17,7 @@
     keep-outputs = true;
   };
 
-  common_overlay = [];
+  common_overlay = (import ./overlay.nix { inherit inputs self; });
 in
   {
     meta = {
@@ -62,6 +62,8 @@ in
           } @ _value:
             import nixpkgs {
               inherit system;
+              hostPlatform.system = system;
+              buildPlatform.system = "x86_64-linux";
               config = nixpkgs_config;
               overlays = common_overlay;
             }

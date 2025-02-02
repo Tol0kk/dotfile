@@ -1,0 +1,2 @@
+# CP210X USB UART
+ATTRS{idVendor}=="4653", ATTRS{idProduct}=="0004hkhkkh", MODE:="0666"

@@ -15,8 +15,6 @@
 
   # Cross Compile
   nixpkgs.config.allowUnsupportedSystem = true;
-  nixpkgs.hostPlatform.system = "aarch64-linux";
-  nixpkgs.buildPlatform.system = "x86_64-linux";
 
   # Boot
   boot.loader.systemd-boot.enable = true;
@@ -56,7 +54,50 @@
     };
   };
 
-  # Fix shell
+  # Home Assistant
+  services.home-assistant = {
+    enable = true;
+    extraComponents = [
+      # Components required to complete the onboarding
+      "esphome" # Add ESPHome integration: https://www.home-assistant.io/integrations/esphome/
+      "met" #  Weather forecast: https://www.home-assistant.io/integrations/met/
+      "radio_browser" # Radio automation: https://www.home-assistant.io/integrations/radio_browser/
+      "tuya" # Add Tuya Powered Device Integration: https://www.home-assistant.io/integrations/tuya/
+      "zha" # Add Zigbee Home Automation: https://www.home-assistant.io/integrations/zha/
+      "thread" # Add Thread integration: https://www.home-assistant.io/integrations/thread/
+    ];
+    config = {
+      # Includes dependencies for a basic setup
+      # https://www.home-assistant.io/integrations/default_config/
+      default_config = { };
+    };
+  };
+  # TODO See https://search.nixos.org/options?channel=unstable&from=0&size=50&sort=relevance&type=packages&query=+ocis
+  services.ocis.enable = true;
+  # TODO see https://search.nixos.org/options?channel=unstable&from=0&size=50&sort=relevance&type=packages&query=esphome
+  services.esphome.enable = true;
+  # TODO see https://search.nixos.org/options?channel=unstable&from=0&size=50&sort=relevance&type=packages&query=immich
+  services.immich.enable = true;
+
+  services.radarr.enable = true;
+  # services.sonarr.enable = true;
+  services.lidarr.enable = true;
+  services.jellyfin.enable = true;
+
+  services.dbus.implementation = "broker";
+
+  environment.systemPackages = with pkgs; [
+    pkgs.assets
+    pkgs.htop
+    stress
+    qbittorrent
+  ];
+
+  networking.firewall.allowedTCPPorts = [
+    8123 # Home Assistant
+  ];
+
+  # Fix shell 
 
   environment.shellInit = ''
     export TERM=xterm

@@ -78,6 +78,14 @@ in {
       services.gvfs.enable = true;
 
       programs.adb.enable = true;
+      services.ollama = {
+        enable = true;
+        package = pkgs.ollama-cuda;
+      };
+
+      # keyboard
+      hardware.keyboard.qmk.enable = true;
+      services.udev.packages = [ pkgs.via ];
 
       # Desactivate voice synthesis
       services.orca.enable = false;
@@ -91,19 +99,18 @@ in {
         graphviz
         p7zip
         zip
-        busybox
-        openssl
-        openfortivpn # University VPN
-        ani-cli
-        pkgs.diffsitter.out
+        vial # QMK/Via for Keyboard
+        via # QMK/Via for Keyboard
+      	mdcat
         onlyoffice-bin
-        # blender_4_0
-        xarchiver
-        vulkan-tools
         obsidian
-        iperf # network benchmark
-        onagre
+        pavucontrol # Audio Control Panel
+        ani-cli
         yazi
+        onagre
+        pkgs.diffsitter.out
+        blender_4_0
+        iperf # network benchmark
         mdcat
         android-studio
         tldr
@@ -120,7 +127,11 @@ in {
         gnome-multi-writer
         vdhcoapp # for Video DownloadHelper Firefox extension
         colmena # Nixos Deploy Framework
-        pavucontrol # Audio Control Panel
+        vulkan-tools
+        busybox
+        openssl
+        openfortivpn # University VPN
+        xarchiver
         oculante # Image Viewer / editor
 
         # Typst
