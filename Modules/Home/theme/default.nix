@@ -53,8 +53,14 @@ in {
       popups = cfg.opacity;
     };
 
-    stylix.cursor = with pkgs; {
-      package = phinger-cursors;
+    home.pointerCursor.gtk.enable = true;
+    home.pointerCursor.hyprcursor.enable = true;
+    home.pointerCursor.hyprcursor.size = 24;
+    home.pointerCursor.x11.enable = true;
+    home.pointerCursor.x11.defaultCursor = "phinger-cursors-light";
+
+    stylix.cursor = {
+      package = pkgs.phinger-cursors;
       name = "phinger-cursors-light";
       size = 24;
     };
