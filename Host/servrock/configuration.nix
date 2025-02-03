@@ -72,6 +72,8 @@
       # Includes dependencies for a basic setup
       # https://www.home-assistant.io/integrations/default_config/
       default_config = {};
+      "scene ui" = "!include scenes.yaml";
+      "automation ui" = "!include automations.yaml";
     };
   };
   # TODO See https://search.nixos.org/options?channel=unstable&from=0&size=50&sort=relevance&type=packages&query=+ocis
