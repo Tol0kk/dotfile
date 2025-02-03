@@ -47,31 +47,30 @@
       isMinimal,
       ...
     } @ args:
-      inputs.nvf.lib.neovimConfiguration {
+      (inputs.nvf.lib.neovimConfiguration {
         inherit pkgs;
         modules = [(import ./neovim args)];
-      };
+      })
+      .neovim;
   in {
     lib = import ./Lib inputs;
     homeConfigurations = import ./Home inputs;
+
+    # Apps / Packages provided by this flake
     packages = forAllSystems (system: let
       pkgs = nixpkgsFor.${system};
     in {
-      tiny-neovim =
-        (customNeovim {
-          inherit pkgs;
-          isMinimal = true;
-        })
-        .neovim;
-      neovim =
-        (customNeovim {
-          inherit pkgs;
-          isMinimal = false;
-        })
-        .neovim;
+      tiny-neovim = customNeovim {
+        inherit pkgs;
+        isMinimal = true;
+      };
+      neovim = customNeovim {
+        inherit pkgs;
+        isMinimal = false;
+      };
     });
 
-    colmena = import ./Lib/mkColmena.nix (inputs // {inherit customNeovim;}) {
+    colmena = import ./Lib/mkColmena.nix inputs {
       laptop = {
         system = "x86_64-linux";
         mainUser = "titouan";

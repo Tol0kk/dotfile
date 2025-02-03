@@ -28,16 +28,14 @@ in {
 
   imports = [inputs.nvf.nixosModules.default];
   config = mkIf cfg.enable {
-    programs.nvf.enableManpages = cfg.custom.enable;
+    programs.nvf = {
+      enable = cfg.custom.enable;
+      enableManpages = cfg.custom.enable;
+      settings = (import ../../../neovim {isMinimal = cfg.custom.minimal;}).config;
+    };
+
     environment.systemPackages =
-      if cfg.custom.enable
-      then [
-        (inputs.customNeovim {
-          inherit pkgs;
-          isMinimal = cfg.custom.minimal;
-        })
-        .neovim
-      ]
-      else [pkgs.neovim];
+      mkIf (!cfg.custom.enable)
+      [pkgs.neovim];
   };
 }
