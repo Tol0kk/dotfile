@@ -26,7 +26,9 @@ in {
     };
   };
 
+  imports = [inputs.nvf.nixosModules.default];
   config = mkIf cfg.enable {
+    programs.nvf.enableManpages = cfg.custom.enable;
     environment.systemPackages =
       if cfg.custom.enable
       then [

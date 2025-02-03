@@ -56,7 +56,7 @@ in {
       programs.dconf.enable = true;
 
       ## audio
-      hardware.pulseaudio.enable = false;
+      services.pulseaudio.enable = false;
       security.rtkit.enable = true;
       services.pipewire = {
         enable = true;
@@ -85,7 +85,7 @@ in {
 
       # keyboard
       hardware.keyboard.qmk.enable = true;
-      services.udev.packages = [ pkgs.via ];
+      services.udev.packages = [pkgs.via];
 
       # Desactivate voice synthesis
       services.orca.enable = false;
@@ -101,7 +101,7 @@ in {
         zip
         vial # QMK/Via for Keyboard
         via # QMK/Via for Keyboard
-      	mdcat
+        mdcat
         onlyoffice-bin
         obsidian
         pavucontrol # Audio Control Panel
@@ -135,7 +135,6 @@ in {
         oculante # Image Viewer / editor
 
         # Typst
-        typst-lsp
         typst
         tinymist
       ];
