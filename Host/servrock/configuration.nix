@@ -21,6 +21,8 @@
 
   # Boot
   boot.loader.systemd-boot.enable = true;
+  # Limit the number of configuration, Useful to prevent boot partition running out of disk space.
+  boot.loader.systemd-boot.configurationLimit = 10;
   boot.loader.efi.efiSysMountPoint = "/boot";
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.grub.enable = false;
