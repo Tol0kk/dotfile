@@ -7,7 +7,7 @@ with lib; let
   cfg = config.modules.server.uptime-kuma;
   _serverDomain = config.modules.server.cloudflared.domain;
   _tunnelId = config.modules.server.cloudflared.tunnelId;
-  _domain = "sso.${serverDomain}";
+  _domain = "uptime.${serverDomain}";
 in {
   options.modules.server.uptime-kuma = {
     enable = mkOption {

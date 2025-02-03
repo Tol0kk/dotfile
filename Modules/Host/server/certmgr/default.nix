@@ -5,14 +5,11 @@
   ...
 }:
 with lib; let
-  cfg = config.modules.server.kanidm;
-  _serverDomain = config.modules.server.cloudflared.domain;
-  _tunnelId = config.modules.server.cloudflared.tunnelId;
-  _domain = "uptime.${serverDomain}";
+  cfg = config.modules.server.certmgr;
 in {
-  options.modules.server.uptime-kuma = {
+  options.modules.server.certmgr = {
     enable = mkOption {
-      description = "Enable Uptime Kuma service";
+      description = "Enable certmgr service";
       type = types.bool;
       default = false;
     };
@@ -21,11 +18,6 @@ in {
   config =
     mkIf cfg.enable
     {
-      services.uptime-kuma = {
-        enable = true;
-        settings = {
-          PORT = "4000";
-        };
-      };
+      services.certmgr.enable = true;
     };
 }
