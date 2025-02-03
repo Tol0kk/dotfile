@@ -1,7 +1,10 @@
-{config, ...}: {
+{
+  pkgs,
+  config,
+  ...
+}: {
   modules = {
     sops.enable = true;
-
     server = {
       cloudflared = {
         enable = true;
@@ -27,7 +30,6 @@
   system.stateVersion = "24.05"; # Did you read the comment?
 
   # Server Service #
-
   # CloudFlare Tunnels
   sops.secrets."services/cloudflared_HOME_TOKEN" = {owner = config.services.cloudflared.user;};
   services.cloudflared = {
@@ -69,7 +71,7 @@
     config = {
       # Includes dependencies for a basic setup
       # https://www.home-assistant.io/integrations/default_config/
-      default_config = { };
+      default_config = {};
     };
   };
   # TODO See https://search.nixos.org/options?channel=unstable&from=0&size=50&sort=relevance&type=packages&query=+ocis
@@ -97,7 +99,7 @@
     8123 # Home Assistant
   ];
 
-  # Fix shell 
+  # Fix shell
 
   environment.shellInit = ''
     export TERM=xterm

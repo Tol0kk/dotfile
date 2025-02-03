@@ -32,7 +32,7 @@ in {
       then [
         (inputs.customNeovim {
           inherit pkgs;
-          isMinimal = false;
+          isMinimal = cfg.custom.minimal;
         })
         .neovim
       ]

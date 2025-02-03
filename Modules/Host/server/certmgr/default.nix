@@ -2,6 +2,7 @@
   lib,
   pkgs,
   config,
+  ...
 }:
 with lib; let
   cfg = config.modules.server.kanidm;
