@@ -90,5 +90,6 @@
         allowLocalDeployment = false;
       };
     };
+    colmena = import ./Lib/mkColmena.nix inputs (import ./Host inputs);
   };
 }

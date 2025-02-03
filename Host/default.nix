@@ -1,26 +1,20 @@
-{
-  self,
-  nixpkgs-stable,
-  nixpkgs-unstable,
-  ...
-} @ inputs: {
-  # <machine-name> = self.lib.mkSystem inputs "<machine-name> pkgs "<system-arch>";"
-  laptop = self.lib.mkSystem inputs {
-    nixpkgs = nixpkgs-unstable;
-    hostname = "laptop";
+inputs: {
+  laptop = {
     system = "x86_64-linux";
-    main_username = "titouan";
+    mainUser = "titouan";
+    nixpkgs = inputs.nixpkgs-unstable;
+    allowLocalDeployment = true;
   };
-  desktop = self.lib.mkSystem inputs {
-    nixpkgs = nixpkgs-unstable;
+  desktop = {
     system = "x86_64-linux";
-    hostname = "desktop";
-    main_username = "titouan";
+    mainUser = "titouan";
+    nixpkgs = inputs.nixpkgs-unstable;
+    allowLocalDeployment = true;
   };
-  servrock = self.lib.mkSystem inputs {
-    nixpkgs = nixpkgs-stable;
-    system = "x86_64-linux";
-    hostname = "servrock";
-    main_username = "odin";
+  servrock = {
+    system = "aarch64-linux";
+    mainUser = "titouan";
+    nixpkgs = inputs.nixpkgs-stable;
+    allowLocalDeployment = false;
   };
 }
