@@ -31,6 +31,11 @@
     anyrun = {
       url = "github:Kirottu/anyrun";
     };
+    nixpkgs-ondroid.url = "github:nixos/nixpkgs/nixos-24.05";
+    nix-on-droid = {
+      url = "github:nix-community/nix-on-droid/release-24.05";
+      inputs.nixpkgs.follows = "nixpkgs-ondroid";
+    };
   };
 
   outputs = {
@@ -70,26 +75,21 @@
       };
     });
 
-    colmena = import ./Lib/mkColmena.nix inputs {
-      laptop = {
-        system = "x86_64-linux";
-        mainUser = "titouan";
-        nixpkgs = inputs.nixpkgs-unstable;
-        allowLocalDeployment = true;
-      };
-      desktop = {
-        system = "x86_64-linux";
-        mainUser = "titouan";
-        nixpkgs = inputs.nixpkgs-unstable;
-        allowLocalDeployment = true;
-      };
-      servrock = {
+    nixOnDroidConfigurations.default = inputs.nix-on-droid.lib.nixOnDroidConfiguration {
+      pkgs = import inputs.nixpkgs-ondroid {
         system = "aarch64-linux";
-        mainUser = "titouan";
-        nixpkgs = inputs.nixpkgs-stable;
-        allowLocalDeployment = false;
+        overlays = [inputs.nix-on-droid.overlays.default];
       };
+      modules = [
+        ./Host/pixel8a.nix
+        (builtins.map
+          (dir: "${self}/Modules/Host/" + dir)
+          (
+            builtins.attrNames (builtins.readDir "${self}/Modules/Host")
+          ))
+      ];
     };
+
     colmena = import ./Lib/mkColmena.nix inputs (import ./Host inputs);
   };
 }
