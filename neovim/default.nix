@@ -85,8 +85,10 @@ in {
     utility = {
       # ccc.enable = isNormal;
       diffview-nvim.enable = isNormal;
-      # images.image-nvim.enable = isNormal;
-
+      images.image-nvim = {
+        setupOpts.backend = "kitty";
+        enable = isNormal;
+      };
       # Create Tempalte file (https://github.com/otavioschwanck/new-file-template.nvim)
       new-file-template.enable = isNormal;
 
