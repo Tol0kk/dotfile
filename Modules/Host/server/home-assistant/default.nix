@@ -6,7 +6,6 @@
 with lib; let
   cfg = config.modules.server.home-assistant;
   serverDomain = config.modules.server.cloudflared.domain;
-  tunnelId = config.modules.server.cloudflared.tunnelId;
   domain = "ha.${serverDomain}";
 in {
   options.modules.server.home-assistant = {
@@ -20,6 +19,29 @@ in {
   config =
     mkIf cfg.enable
     {
+      # Make sure traefik module is options
+      modules.server.traefik.enable = true;
+
+      services.traefik = {
+        dynamicConfigOptions = {
+          http = {
+            services.home-assistant.loadBalancer.servers = [
+              {
+                url = "http://127.0.0.1:8123";
+              }
+            ];
+
+            routers.uptime-kuma = {
+              entryPoints = ["websecure"];
+              rule = "Host(`${domain}`)";
+              service = "home-assistant";
+              tls.certResolver = "letsencrypt";
+              # middlewares = ["oidc-auth"]; Home Assistant don't support auth middleware
+            };
+          };
+        };
+      };
+
       # Home Assistant
       services.home-assistant = {
         enable = true;

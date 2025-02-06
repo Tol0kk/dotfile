@@ -19,7 +19,7 @@
       prometheus-node-exporter.enable = false;
       own-cloud.enable = false;
       esp-home.enable = false;
-      uptime-kuma.enable = false;
+      uptime-kuma.enable = true;
       home-assistant.enable = true;
       vaultwarden.enable = true;
     };
@@ -74,10 +74,6 @@
     pkgs.htop
     stress
     qbittorrent
-  ];
-
-  networking.firewall.allowedTCPPorts = [
-    8123 # Home Assistant
   ];
 
   # Fix shell
