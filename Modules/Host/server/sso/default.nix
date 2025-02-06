@@ -48,7 +48,7 @@ in {
         };
       };
 
-      systemd.services.traefik = {
+      systemd.services.kanidm = {
         wants = ["network-online.target" "traefik-dumper.service"];
         after = ["network-online.target" "traefik-dumper.service"];
       };

@@ -10,8 +10,29 @@ with lib; let
 
   dump-cert = pkgs.writeShellScriptBin "dump-cert" ''
     ${pkgs.traefik-certs-dumper}/bin/traefik-certs-dumper file --domain-subdir --crt-name public --key-name private --source /var/lib/traefik/acme.json --dest /var/lib/certificates/ --version v2
-    ${pkgs.coreutils}/bin/chown traefik /var/lib/certificates/sso.tolok.org/private.key
+    ${pkgs.coreutils}/bin/chown kanidm /var/lib/certificates/sso.tolok.org/private.key
   '';
+
+  mytraefik = let
+    oidc-auth_author = "sevensolutions";
+    oidc-auth_name = "traefik-oidc-auth";
+    oidc-auth_version = "0.6.1";
+  in
+    pkgs.traefik.overrideAttrs (oldAttrs: {
+      postInstall =
+        oldAttrs.postInstall
+        or ''
+          mkdir -p $out/bin/plugins-local/src/github.com/${oidc-auth_author}/
+          cp -r ${
+            pkgs.fetchFromGitHub {
+              owner = oidc-auth_author;
+              repo = oidc-auth_name;
+              rev = "refs/tags/v${oidc-auth_version}";
+              sha256 = "sha256-PZbAlxtPXpihKt/Jo3OFVdn8LXslUNIicTNIzacpsBc=";
+            }
+          } $out/bin/plugins-local/src/github.com/${oidc-auth_author}/${oidc-auth_name}
+        '';
+    });
 in {
   options.modules.server.traefik = {
     enable = mkOption {
@@ -27,10 +48,11 @@ in {
       # Open Ports
       networking.firewall.allowedTCPPorts = [80 443];
 
-      # Set Cloudflare API environment variable (CF_API_KEY, CF_API_EMAIL)
+      # Set Cloudflare API environment variable (CF_API_KEY, CF_API_EMAIL, TRAEFIK_AUTH_CLIENT_SECRETS)
       systemd.services.traefik = {
         serviceConfig = {
           EnvironmentFile = config.sops.secrets.cloudflare_api_env.path;
+          WorkingDirectory = "${config.services.traefik.package}/bin";
         };
       };
       sops.secrets.cloudflare_api_env = {
@@ -39,10 +61,14 @@ in {
 
       # Traefik Service
       services.traefik = {
+        package = mytraefik;
         enable = true;
         staticConfigOptions = {
           serversTransport.insecureSkipVerify = true;
-          log.level = "INFO";
+          accessLog = {
+            addInternals = true;
+          };
+          log.level = "TRACE";
           certificatesResolvers = {
             # vpn.tailscale = {};
             letsencrypt = {
@@ -52,6 +78,15 @@ in {
                 dnsChallenge = {
                   provider = "cloudflare";
                 };
+              };
+            };
+          };
+          experimental = {
+            localPlugins = {
+              # Plugin to use OIDC as traefik auth system
+              traefik-oidc-auth = {
+                modulename = "github.com/sevensolutions/traefik-oidc-auth";
+                # local is without version
               };
             };
           };
@@ -74,6 +109,26 @@ in {
             http.tls.certResolver = "letsencrypt";
           };
         };
+
+        dynamicConfigOptions.http = {
+          middlewares = {
+            oidc-auth = {
+              plugin.traefik-oidc-auth = {
+                # SessionCookie = {
+                #   Domain = ".tolok.org";
+                # };
+                provider = {
+                  Url = "https://sso.tolok.org/oauth2/openid/traefik-auth";
+                  ClientId = "traefik-auth"; # System ID in Kanidm
+                  ClientSecretEnv = "TRAEFIK_AUTH_CLIENT_SECRETS"; # ClientSecret from Kanidm on the tarfik-auth service
+                  TokenValidation = "IdToken"; #
+                  UsePkce = true;
+                };
+                Scopes = ["openid" "profile"];
+              };
+            };
+          };
+        };
       };
 
       # Traefik certs dumper
@@ -84,6 +139,7 @@ in {
           ExecStart = "${dump-cert}/bin/dump-cert";
         };
         wantedBy = ["multi-user.target"];
+        partOf = ["traefik.service"];
         after = [
           "traefik.service"
         ];
