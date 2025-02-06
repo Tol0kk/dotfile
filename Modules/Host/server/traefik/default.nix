@@ -114,9 +114,6 @@ in {
           middlewares = {
             oidc-auth = {
               plugin.traefik-oidc-auth = {
-                # SessionCookie = {
-                #   Domain = ".tolok.org";
-                # };
                 provider = {
                   Url = "https://sso.tolok.org/oauth2/openid/traefik-auth";
                   ClientId = "traefik-auth"; # System ID in Kanidm

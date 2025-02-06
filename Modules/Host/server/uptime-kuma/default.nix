@@ -32,7 +32,6 @@ in {
       modules.server.traefik.enable = true;
 
       services.traefik = {
-        # Kanidm Configuration
         dynamicConfigOptions = {
           http = {
             services.uptime-kuma.loadBalancer.servers = [
