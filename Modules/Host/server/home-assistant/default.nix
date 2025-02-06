@@ -27,11 +27,11 @@ in {
           http = {
             services.home-assistant.loadBalancer.servers = [
               {
-                url = "http://127.0.0.1:8123";
+                url = "http://[::]:8123";
               }
             ];
 
-            routers.uptime-kuma = {
+            routers.home-assistant = {
               entryPoints = ["websecure"];
               rule = "Host(`${domain}`)";
               service = "home-assistant";
@@ -53,12 +53,19 @@ in {
           "tuya" # Add Tuya Powered Device Integration: https://www.home-assistant.io/integrations/tuya/
           "zha" # Add Zigbee Home Automation: https://www.home-assistant.io/integrations/zha/
           "thread" # Add Thread integration: https://www.home-assistant.io/integrations/thread/
+
+          "google_translate" #
         ];
         config = {
           # Includes dependencies for a basic setup
           # https://www.home-assistant.io/integrations/default_config/
           default_config = {};
           "scene ui" = "!include scenes.yaml";
+          http = {
+            server_host = "::1";
+            trusted_proxies = ["::1"];
+            use_x_forwarded_for = true;
+          };
         };
       };
     };
