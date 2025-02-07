@@ -56,19 +56,25 @@ Cloudflare-tunnel for reverse proxy of important channel.
 - forgejo:
 
   - Endpoint: git.tolok.org
-  - Port: 3000
+  - Port:
+    - HTTP: 12000 (Local)
+    - HTTPS: 12443
+    - SSH: 12222
   - Local: False
 
 - vaultwarden:
 
   - Endpoint: vaultwarden.tolok.org
   - Port:
+    - HTTP: 8222 (Local)
+    - HTTPS: Tunnled
   - Local: False
 
 - Prometheus Node Exporter:
 
   - Endpoint: None
-  - Port: 9000
+  - Port:
+    - HTTP: 9000
   - Local: True
 
 - Wireguard:
@@ -80,16 +86,97 @@ Cloudflare-tunnel for reverse proxy of important channel.
 - SSO (Kanidm):
 
   - Endpoint: sso.tolok.org
-  - Port: 8443
+  - Port:
+    - HTTPS: 10443
   - Local: False
 
 - Uptime Kuma:
 
   - Endpoint: None
-  - Port: 8000
+  - Port:
+    - HTTP: 8000 (Blocked)
+    - HTTPS: 8443
   - Local: True
 
 - Home Assitant:
+
   - Endpoint: None
-  - Port: 8123
+  - Port:
+    - HTTP: 8123 (Blocked: TODO)
+    - HTTPS: 7443
   - Local: True
+  - TODOs:
+    - Add Automation
+    - Setup SSL
+
+- ESP Home:
+
+  - Test: TODO
+  - Endpoint: None
+  - Port:
+    - HTTP: 11437 (Blocked)
+  - Local: True
+
+- Jellyfin:
+
+  - Endpoint: media.tolok.org
+  - Port:
+    - HTTP: 8096
+  - Local: False
+
+- Jellyseerr:
+
+  - Endpoint: jellyseerr.media.tolok.org
+  - Port:
+    - HTTP: 5055
+  - Local: False
+
+- Deluge:
+
+  - Endpoint: deluge.media.tolok.org
+  - Port:
+    - HTTP: 8112
+  - Local: False
+
+- Sonarr:
+
+  - Endpoint: sonarr.media.tolok.org
+  - Port:
+    - HTTP: 8989
+  - Local: False
+
+- Radarr:
+
+  - Endpoint: radarr.media.tolok.org
+  - Port:
+    - HTTP: 7878
+  - Local: False
+
+- Readarr:
+
+  - Endpoint: readarr.media.tolok.org
+  - Port:
+    - HTTP: 8787
+  - Local: False
+
+- Bazarr:
+
+  - Endpoint: bazarr.media.tolok.org
+  - Port:
+    - HTTP: 6767
+  - Local: False
+
+- Lidarr:
+
+  - Endpoint: lidarr.media.tolok.org
+  - Port:
+    - HTTP: 8686
+  - Local: False
+
+- Own Clound IS:
+
+  - Endpoint: cloud.tolok.org
+  - Port:
+    - HTTP: 15000 (Blocked)
+    - HTTPS: 15443
+  - Local: False

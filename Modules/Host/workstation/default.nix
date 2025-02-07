@@ -55,8 +55,16 @@ in {
       services.udisks2.enable = true;
       programs.dconf.enable = true;
 
+      # Kanidm Client
+      services.kanidm = {
+        enableClient = true;
+        package = pkgs.kanidm;
+        clientSettings = {
+          uri = "https://sso.tolok.org";
+        };
+      };
       ## audio
-      services.pulseaudio.enable = false;
+      hardware.pulseaudio.enable = false;
       security.rtkit.enable = true;
       services.pipewire = {
         enable = true;
@@ -129,6 +137,7 @@ in {
         colmena # Nixos Deploy Framework
         vulkan-tools
         busybox
+        nil
         openssl
         openfortivpn # University VPN
         xarchiver

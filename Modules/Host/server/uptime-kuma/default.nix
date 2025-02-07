@@ -5,9 +5,8 @@
 }:
 with lib; let
   cfg = config.modules.server.uptime-kuma;
-  _serverDomain = config.modules.server.cloudflared.domain;
-  _tunnelId = config.modules.server.cloudflared.tunnelId;
-  _domain = "uptime.${serverDomain}";
+  serverDomain = config.modules.server.cloudflared.domain;
+  domain = "uptime.${serverDomain}";
 in {
   options.modules.server.uptime-kuma = {
     enable = mkOption {
@@ -20,11 +19,35 @@ in {
   config =
     mkIf cfg.enable
     {
+      # Uptime Kuma Service
       services.uptime-kuma = {
         enable = true;
         # see https://github.com/louislam/uptime-kuma/wiki/Environment-Variables for supported values.
         settings = {
           PORT = "8000";
+        };
+      };
+
+      # Make sure traefik module is options
+      modules.server.traefik.enable = true;
+
+      services.traefik = {
+        dynamicConfigOptions = {
+          http = {
+            services.uptime-kuma.loadBalancer.servers = [
+              {
+                url = "http://127.0.0.1:8000";
+              }
+            ];
+
+            routers.uptime-kuma = {
+              entryPoints = ["websecure"];
+              rule = "Host(`${domain}`)";
+              service = "uptime-kuma";
+              tls.certResolver = "letsencrypt";
+              middlewares = ["oidc-auth"];
+            };
+          };
         };
       };
     };

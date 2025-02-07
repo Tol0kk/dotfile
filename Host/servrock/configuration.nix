@@ -11,7 +11,16 @@
         domain = "tolok.org";
         tunnelId = "ab1ecc34-4d1c-4356-88e7-ba7889c654ad";
       };
-      gitea.enable = true;
+      gitea.enable = false;
+      media-center.enable = false;
+      forgejo.enable = false;
+      kanidm.enable = true;
+      wireguard.enable = false;
+      prometheus-node-exporter.enable = false;
+      own-cloud.enable = false;
+      esp-home.enable = false;
+      uptime-kuma.enable = true;
+      home-assistant.enable = true;
       vaultwarden.enable = true;
     };
   };
@@ -21,6 +30,8 @@
 
   # Boot
   boot.loader.systemd-boot.enable = true;
+  # Limit the number of configuration, Useful to prevent boot partition running out of disk space.
+  boot.loader.systemd-boot.configurationLimit = 10;
   boot.loader.efi.efiSysMountPoint = "/boot";
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.grub.enable = false;
@@ -56,36 +67,6 @@
     };
   };
 
-  # Home Assistant
-  services.home-assistant = {
-    enable = true;
-    extraComponents = [
-      # Components required to complete the onboarding
-      "esphome" # Add ESPHome integration: https://www.home-assistant.io/integrations/esphome/
-      "met" #  Weather forecast: https://www.home-assistant.io/integrations/met/
-      "radio_browser" # Radio automation: https://www.home-assistant.io/integrations/radio_browser/
-      "tuya" # Add Tuya Powered Device Integration: https://www.home-assistant.io/integrations/tuya/
-      "zha" # Add Zigbee Home Automation: https://www.home-assistant.io/integrations/zha/
-      "thread" # Add Thread integration: https://www.home-assistant.io/integrations/thread/
-    ];
-    config = {
-      # Includes dependencies for a basic setup
-      # https://www.home-assistant.io/integrations/default_config/
-      default_config = {};
-    };
-  };
-  # TODO See https://search.nixos.org/options?channel=unstable&from=0&size=50&sort=relevance&type=packages&query=+ocis
-  services.ocis.enable = true;
-  # TODO see https://search.nixos.org/options?channel=unstable&from=0&size=50&sort=relevance&type=packages&query=esphome
-  services.esphome.enable = true;
-  # TODO see https://search.nixos.org/options?channel=unstable&from=0&size=50&sort=relevance&type=packages&query=immich
-  services.immich.enable = true;
-
-  services.radarr.enable = true;
-  # services.sonarr.enable = true;
-  services.lidarr.enable = true;
-  services.jellyfin.enable = true;
-
   services.dbus.implementation = "broker";
 
   environment.systemPackages = with pkgs; [
@@ -93,10 +74,6 @@
     pkgs.htop
     stress
     qbittorrent
-  ];
-
-  networking.firewall.allowedTCPPorts = [
-    8123 # Home Assistant
   ];
 
   # Fix shell
