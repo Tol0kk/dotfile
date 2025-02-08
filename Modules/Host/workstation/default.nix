@@ -147,6 +147,9 @@ in {
         openfortivpn # University VPN
         xarchiver
         oculante # Image Viewer / editor
+        wireguard-tools
+        networkmanagerapplet
+        qrencode
 
         # Typst
         typst
