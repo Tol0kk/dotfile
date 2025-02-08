@@ -33,6 +33,10 @@
     nix.channel.enable = false;
     nix.nixPath = ["nixpkgs=flake:nixpkgs"];
 
+    networking.firewall.enable = true;
+    networking.firewall.allowPing = false;
+    networking.firewall.logReversePathDrops = true;
+
     users.users.${mainUser} = {
       isNormalUser = true;
       extraGroups = [
@@ -64,7 +68,8 @@
     programs.fish.enable = true;
 
     networking.nameservers = [
-      "1.1.1.1" "0.0.0.0"
+      "1.1.1.1"
+      "0.0.0.0"
     ];
 
     environment.systemPackages = with pkgs; [

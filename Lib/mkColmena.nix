@@ -17,7 +17,7 @@
     keep-outputs = true;
   };
 
-  common_overlay = (import ./overlay.nix { inherit inputs self; });
+  common_overlay = import ./overlay.nix {inherit inputs self;};
 in
   {
     meta = {
@@ -94,6 +94,8 @@ in
               {
                 experimental-features = ["nix-command" "flakes"];
                 builders-use-substitutes = true;
+                warn-dirty = false;
+                auto-optimise-store = true;
               }
               // (import "${self}/Lib/substituters.nix");
           }
