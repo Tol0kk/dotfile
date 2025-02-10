@@ -3,7 +3,7 @@
   nixpkgs-stable,
   nixpkgs-unstable,
   ...
-} @ inputs: nodes: let
+} @ inputs: let
   host_modules = (
     builtins.map (dir: "${self}/Modules/Host/" + dir) (
       builtins.attrNames (builtins.readDir "${self}/Modules/Host")
@@ -16,6 +16,10 @@
     keep-derivations = true;
     keep-outputs = true;
   };
+
+  common_special_args = import ./. inputs;
+
+  nodes = import ../Host inputs;
 
   common_overlay = import ./overlay.nix {inherit inputs self;};
 in
@@ -46,9 +50,11 @@ in
               overlays = common_overlay;
               config = nixpkgs_config;
             };
-          in {
-            inherit inputs self pkgs-stable pkgs-unstable mainUser;
-          }
+          in
+            {
+              inherit inputs self pkgs-stable pkgs-unstable mainUser;
+            }
+            // common_special_args
         )
         nodes;
 

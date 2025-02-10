@@ -28,7 +28,7 @@
     home.homeDirectory = /home/${username};
     programs.home-manager.enable = true;
   };
-  color = import ./color.nix {lib = pkgs.lib;};
+  common_special_args = import ./. inputs;
 in
   inputs.home-manager-unstable.lib.homeManagerConfiguration {
     inherit pkgs;
@@ -38,14 +38,15 @@ in
         globalConfig
       ]
       ++ home_modules;
-    extraSpecialArgs = {
-      inherit
-        self
-        inputs
-        username
-        color
-        pkgs-stable
-        pkgs-unstable
-        ;
-    };
+    extraSpecialArgs =
+      {
+        inherit
+          self
+          inputs
+          username
+          pkgs-stable
+          pkgs-unstable
+          ;
+      }
+      // common_special_args;
   }

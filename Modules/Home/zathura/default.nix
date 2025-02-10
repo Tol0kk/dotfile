@@ -2,11 +2,12 @@
   pkgs,
   lib,
   config,
+  libColor,
   ...
 }:
 with lib; let
   cfg = config.modules.zathura;
-  color = pkgs.color;
+  inherit (libColor) toRGBA hexAndOpacityToRgba;
 in {
   options.modules.zathura = {
     enable = mkOption {
@@ -31,9 +32,9 @@ in {
         "<A-c>" = "recolor";
       };
       options = with config.lib.stylix.colors; let
-        base00_alpha = color.toRGBA (color.hexAndOpacityToRgba base00 config.stylix.opacity.terminal);
-        base00_00 = color.toRGBA (color.hexAndOpacityToRgba base00 0.00);
-        base02_30 = color.toRGBA (color.hexAndOpacityToRgba base02 0.30);
+        base00_alpha = toRGBA (hexAndOpacityToRgba base00 config.stylix.opacity.terminal);
+        base00_00 = toRGBA (hexAndOpacityToRgba base00 0.00);
+        base02_30 = toRGBA (hexAndOpacityToRgba base02 0.30);
       in {
         # Config
         recolor = "true";

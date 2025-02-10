@@ -3,11 +3,12 @@
   lib,
   config,
   inputs,
+  libColor,
   ...
 }:
 with lib; let
   cfg = config.modules.anyrun;
-  color = pkgs.color;
+  inherit (libColor) toRGBA hexToRgba;
 in {
   options.modules.anyrun = {
     enable = mkOption {
@@ -49,11 +50,7 @@ in {
         maxEntries = 5;
       };
       extraCss = with config.lib.stylix.colors; let
-        hexToRGBA = c: color.toRGBA (color.hexToRgba c);
-        base00_alpha = color.toRGBA (color.hexAndOpacityToRgba base00 config.stylix.opacity.terminal);
-        base00_00 = color.toRGBA (color.hexAndOpacityToRgba base00 0.00);
-        base02_30 = color.toRGBA (color.hexAndOpacityToRgba base02 0.30);
-
+        hexToRGBA = c: toRGBA (hexToRgba c);
         fontFamily = "Lexend";
         fontSize = "1.3rem";
         transparentColor = "transparent";

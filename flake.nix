@@ -46,7 +46,6 @@
     supportedSystems = ["x86_64-linux" "x86_64-darwin" "aarch64-linux" "aarch64-darwin"];
     forAllSystems = inputs.nixpkgs-stable.lib.genAttrs supportedSystems;
     nixpkgsFor = forAllSystems (system: import inputs.nixpkgs-unstable {inherit system;});
-
     customNeovim = {
       pkgs,
       isMinimal,
@@ -57,9 +56,11 @@
         modules = [(import ./neovim args)];
       })
       .neovim;
-  in {
     lib = import ./Lib inputs;
+  in {
+    lib = import ./Lib inputs; # TODO: Remove after mkHome rewrite
     homeConfigurations = import ./Home inputs;
+    colmena = lib.mkColmena inputs;
 
     # Apps / Packages provided by this flake
     packages = forAllSystems (system: let
@@ -75,21 +76,19 @@
       };
     });
 
-    nixOnDroidConfigurations.default = inputs.nix-on-droid.lib.nixOnDroidConfiguration {
-      pkgs = import inputs.nixpkgs-ondroid {
-        system = "aarch64-linux";
-        overlays = [inputs.nix-on-droid.overlays.default];
-      };
-      modules = [
-        ./Host/pixel8a.nix
-        (builtins.map
-          (dir: "${self}/Modules/Host/" + dir)
-          (
-            builtins.attrNames (builtins.readDir "${self}/Modules/Host")
-          ))
-      ];
-    };
-
-    colmena = import ./Lib/mkColmena.nix inputs (import ./Host inputs);
+    # nixOnDroidConfigurations.default = inputs.nix-on-droid.lib.nixOnDroidConfiguration {
+    #   pkgs = import inputs.nixpkgs-ondroid {
+    #     system = "aarch64-linux";
+    #     overlays = [inputs.nix-on-droid.overlays.default];
+    #   };
+    #   modules = [
+    #     ./Host/pixel8a.nix
+    #     (builtins.map
+    #       (dir: "${self}/Modules/Host/" + dir)
+    #       (
+    #         builtins.attrNames (builtins.readDir "${self}/Modules/Host")
+    #       ))
+    #   ];
+    # };
   };
 }

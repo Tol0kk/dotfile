@@ -28,11 +28,12 @@
     #     ];
     #   });
     # });
-    python312 = super.python312.override
+    python312 =
+      super.python312.override
       {
         packageOverrides = python-final: python-prev: {
-          webrtc-noise-gain = python-prev.webrtc-noise-gain.overrideDerivation (oldAttrs:
-            {
+          webrtc-noise-gain = python-prev.webrtc-noise-gain.overrideDerivation (
+            oldAttrs: {
               postPatch = with oldAttrs.stdenv.hostPlatform.uname; ''
                 # Configure the correct host platform for cross builds
                 substituteInPlace setup.py --replace-fail \
@@ -47,7 +48,6 @@
         };
       };
     assets = prev.callPackage "${self}/Pkgs/assetsPkgs" {};
-    color = import ./color.nix {lib = prev.lib;};
   })
   inputs.blender-bin.overlays.default
 ]
