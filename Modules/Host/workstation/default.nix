@@ -103,6 +103,7 @@ in {
         enable = true;
         packages = [pkgs.apparmor-profiles];
       };
+      services.fwupd.enable = true;
 
       ## package
       environment.systemPackages = with pkgs; [
@@ -148,8 +149,8 @@ in {
         xarchiver
         oculante # Image Viewer / editor
         wireguard-tools
-        networkmanagerapplet
         qrencode
+        networkmanagerapplet
 
         # Typst
         typst
