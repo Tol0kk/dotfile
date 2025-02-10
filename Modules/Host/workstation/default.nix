@@ -99,6 +99,11 @@ in {
       services.orca.enable = false;
       services.speechd.enable = false;
 
+      security.apparmor = {
+        enable = true;
+        packages = [pkgs.apparmor-profiles];
+      };
+
       ## package
       environment.systemPackages = with pkgs; [
         inputs.zen-browser.packages."${system}".beta
@@ -142,6 +147,9 @@ in {
         openfortivpn # University VPN
         xarchiver
         oculante # Image Viewer / editor
+        wireguard-tools
+        networkmanagerapplet
+        qrencode
 
         # Typst
         typst
