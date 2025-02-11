@@ -36,7 +36,8 @@ in
         exec-once = volumectl mute 	                      # Mute speaker
         exec-once = volumectl -m mute	                      # Mute microphone
         exec-once = $wallpaper_daemon 		              # Activate wpaperd
-        exec-once = $bar		                      # Activate wpaperd
+        # exec-once = $bar		                      # Activate wpaperd
+        exec-once = = ${inputs.hyprpanel.packages."${pkgs.system}".default}/bin/hyprpanel
 
         ############
         # General Inputs Settings

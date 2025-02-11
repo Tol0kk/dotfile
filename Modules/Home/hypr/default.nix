@@ -17,11 +17,10 @@ in {
     };
   };
 
+  imports = [./hyprpanel.nix];
+
   config = mkMerge [
     {
-      modules = {
-        avizo.enable = true;
-      };
       # programs.waybar = {
       #   enable = true;
       # };

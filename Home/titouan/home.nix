@@ -75,7 +75,6 @@
     slurp
     swappy
     wl-clipboard
-    swaynotificationcenter
     libnotify
     jq
     ags
