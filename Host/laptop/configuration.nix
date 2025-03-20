@@ -12,6 +12,7 @@
       hypr.enable = true;
       gnome.enable = true;
     };
+    network-profiles.enable = true;
     syncthing.enable = true;
     fonts.enable = true;
     tools.security.enable = true;
@@ -30,6 +31,29 @@
     virtualisation.kvm.enable = true;
     udev.enableExtraRules = true;
   };
+
+  programs.nix-ld.enable = true;
+  programs.nix-ld.libraries = with pkgs; [
+    stdenv.cc.cc
+    bash
+    zlib
+    fuse3
+    icu
+    zlib
+    nss
+    openssl
+    curl
+    expat
+    envfs
+  ];
+
+  environment.systemPackages = with pkgs; [
+    nix-ld
+    git
+    envfs
+  ];
+
+  boot.binfmt.emulatedSystems = ["aarch64-linux"];
 
   hardware.graphics = {
     enable = true;

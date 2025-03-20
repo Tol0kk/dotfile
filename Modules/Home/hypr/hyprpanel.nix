@@ -17,6 +17,8 @@ in {
       # Default: false
       enable = true;
       overlay.enable = true;
+      systemd.enable = true;
+      hyprland.enable = true;
       # Import a theme from './themes/*.json'.
       # Default: ""
       theme = "gruvbox_split";

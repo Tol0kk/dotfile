@@ -83,6 +83,7 @@
       colmena
       tmux
       jq
+      bedtools
     ];
     environment.variables.EDITOR = "nvim";
     boot.supportedFilesystems = ["ntfs"];

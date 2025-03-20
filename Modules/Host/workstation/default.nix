@@ -47,8 +47,6 @@ in {
 
       # Flatpack
       services.flatpak.enable = true;
-      services.flatpak.packages = [
-      ];
 
       # desktop
       # programs.firefox.enable = true;
@@ -134,7 +132,6 @@ in {
         jq
         imv
         unzip
-        bitwarden-cli
         vlc
         discord
         qbittorrent
