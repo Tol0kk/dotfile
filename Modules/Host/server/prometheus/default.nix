@@ -1,0 +1,37 @@
+{
+  lib,
+  config,
+  ...
+}:
+with lib; let
+  cfg = config.modules.server.prometheus;
+in {
+  options.modules.server.prometheus = {
+    enable = mkOption {
+      description = "Enable Prometheus services";
+      type = types.bool;
+      default = false;
+    };
+  };
+
+  config =
+    mkIf cfg.enable
+    {
+      # Prometheus Services
+      services.prometheus = {
+        enable = true;
+        port = 9001;
+        globalConfig.scrape_interval = "10s"; # "1m"
+        scrapeConfigs = [
+          (mkIf config.modules.server.prometheus-node-exporter.enable {
+            job_name = "node";
+            static_configs = [
+              {
+                targets = ["localhost:${toString config.services.prometheus.exporters.node.port}"];
+              }
+            ];
+          })
+        ];
+      };
+    };
+}

@@ -11,6 +11,7 @@ with lib; let
   dump-cert = pkgs.writeShellScriptBin "dump-cert" ''
     ${pkgs.traefik-certs-dumper}/bin/traefik-certs-dumper file --domain-subdir --crt-name public --key-name private --source /var/lib/traefik/acme.json --dest /var/lib/certificates/ --version v2
     ${pkgs.coreutils}/bin/chown kanidm /var/lib/certificates/sso.tolok.org/private.key
+    ${pkgs.coreutils}/bin/chown kanidm /var/lib/certificates/sso.tolok.org/public.crt
   '';
 
   mytraefik = let
@@ -73,7 +74,7 @@ in {
             # vpn.tailscale = {};
             letsencrypt = {
               acme = {
-                email = "titouanledilavrec@gmail.com";
+                email = "personal@tolok.org";
                 storage = "/var/lib/traefik/acme.json";
                 dnsChallenge = {
                   provider = "cloudflare";

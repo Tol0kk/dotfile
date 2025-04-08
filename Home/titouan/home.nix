@@ -8,7 +8,6 @@
     vscode.enable = true;
     git.enable = true;
     shell.enable = true;
-    emails.enable = true;
     emacs.enable = true;
     hypr.enable = true;
     anyrun.enable = true;
@@ -82,6 +81,7 @@
     gtksourceview
     accountsservice
     libdbusmenu-gtk3
+    cargo-generate
   ];
 
   services.amberol.enable = true;

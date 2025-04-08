@@ -16,6 +16,7 @@ in
       extraConfig = ''
         monitor=,preferred,auto,auto
         monitor=Unknown-1,disabled
+        monitor=DP-5,preferred,auto,auto
 
         ############
         # Variables

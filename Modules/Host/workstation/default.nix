@@ -103,6 +103,10 @@ in {
       };
       services.fwupd.enable = true;
 
+      fileSystems."/home".neededForBoot = true;
+      zramSwap.enable = true;
+
+
       ## package
       environment.systemPackages = with pkgs; [
         inputs.zen-browser.packages."${system}".beta
@@ -134,6 +138,7 @@ in {
         unzip
         vlc
         discord
+        ffmpeg.bin
         qbittorrent
         gnome-multi-writer
         vdhcoapp # for Video DownloadHelper Firefox extension

@@ -38,7 +38,7 @@ in
             system,
             mainUser,
             ...
-          } @ _value: let
+          }: let
             pkgs-unstable = import nixpkgs-unstable {
               inherit system;
               overlays = common_overlay;
@@ -65,7 +65,7 @@ in
             system,
             nixpkgs,
             ...
-          } @ _value:
+          }:
             import nixpkgs {
               inherit system;
               hostPlatform.system = system;
@@ -81,11 +81,14 @@ in
   (
     name: {
       allowLocalDeployment,
+      mainUser,
+      targetHost ? name,
       nixpkgs,
       ...
-    } @ _value: {
+    }: {
       deployment = {
-        inherit allowLocalDeployment;
+        inherit allowLocalDeployment targetHost;
+        targetUser = mainUser;
       };
 
       imports =

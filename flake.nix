@@ -38,6 +38,7 @@
     };
     hyprpanel.url = "github:jas-singhfsu/hyprpanel";
     hyprpanel.inputs.nixpkgs.follows = "nixpkgs-unstable";
+        nix-minecraft.url = "github:Infinidoge/nix-minecraft";
   };
 
   outputs = {

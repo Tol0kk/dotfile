@@ -6,7 +6,6 @@
 with lib; let
   cfg = config.modules.server.forgejo;
   serverDomain = config.modules.server.cloudflared.domain;
-  tunnelId = config.modules.server.cloudflared.tunnelId;
   domain = "git.${serverDomain}";
 in {
   options.modules.server.forgejo = {
@@ -20,16 +19,37 @@ in {
   config =
     mkIf cfg.enable
     {
-      # Cloudflare Tunnel (Reverse Proxy)
-      services.cloudflared = {
-        tunnels."${tunnelId}".ingress."${domain}" = {
-          service = "http://localhost:3000";
+      # Traefik
+      modules.server.traefik.enable = true;
+
+      services.traefik = {
+        # Forgejo Configuration
+        dynamicConfigOptions = {
+          http = {
+            services.forgejo.loadBalancer.servers = [
+              {
+                url = "http://localhost:12000";
+              }
+            ];
+
+            routers.forgejo = {
+              entryPoints = ["websecure"];
+              rule = "Host(`${domain}`)";
+              service = "forgejo";
+              tls.certResolver = "letsencrypt";
+            };
+          };
         };
       };
 
       # Secrets
-      sops.secrets."services/forgejo/mailer-password" = {
+      sops.secrets.forgejo-mailer-password = {
         owner = config.services.forgejo.user;
+        sopsFile = ./secrets.yaml;
+      };
+      sops.secrets.forgejo-admin-password = {
+        owner = config.services.forgejo.user;
+        sopsFile = ./secrets.yaml;
       };
 
       # Forgejo Service
@@ -41,15 +61,13 @@ in {
           server = {
             DOMAIN = "${domain}";
             ROOT_URL = "https://${domain}/";
-            HTTP_PORT = 3000;
+            HTTP_PORT = 12000;
           };
-          service.DISABLE_REGISTRATION = true;
-
-          # TODO Add support for actions, based on act: https://github.com/nektos/act
-          # actions = {
-          #   ENABLED = true;
-          #   DEFAULT_ACTIONS_URL = "github";
-          # };
+          service.DISABLE_REGISTRATION = false;
+          service.ALLOW_ONLY_EXTERNAL_REGISTRATION = true;
+          service.DEFAULT_KEEP_EMAIL_PRIVATE = true;
+          service.EMAIL_DOMAIN_BLOCK_DISPOSABLE = true;
+          service.DISABLE_USERS_PAGE = true;
 
           # TODO add Forgejo mailler
           # mailer = {
@@ -74,26 +92,5 @@ in {
         ## uncomment this line to change an admin user which was already created
         # ${adminCmd} change-password --username ${user} --password "$(tr -d '\n' < ${pwd.path})" || true
       '';
-
-      # TODO Add runner
-      # services.gitea-actions-runner = {
-      #   package = pkgs.forgejo-actions-runner;
-      #   instances.default = {
-      #     enable = true;
-      #     name = "monolith";
-      #     url = "https://git.example.com";
-      #     # Obtaining the path to the runner token file may differ
-      #     # tokenFile should be in format TOKEN=<secret>, since it's EnvironmentFile for systemd
-      #     tokenFile = config.age.secrets.forgejo-runner-token.path;
-      #     labels = [
-      #       "ubuntu-latest:docker://node:16-bullseye"
-      #       "ubuntu-22.04:docker://node:16-bullseye"
-      #       "ubuntu-20.04:docker://node:16-bullseye"
-      #       "ubuntu-18.04:docker://node:16-buster"
-      #       ## optionally provide native execution on the host:
-      #       # "native:host"
-      #     ];
-      #   };
-      # };
     };
 }

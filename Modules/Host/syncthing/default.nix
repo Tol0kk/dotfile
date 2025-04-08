@@ -1,8 +1,7 @@
 {
-  pkgs,
   lib,
   config,
-  pkgs-unstable,
+  mainUser,
   ...
 }:
 with lib; let
@@ -21,8 +20,8 @@ in {
       syncthing = {
         enable = true;
         user = "titouan";
-        dataDir = "/home/titouan/Documents/Sync"; # Default folder for new synced folders
-        configDir = "/home/titouan/.config/syncthing"; # Folder for Syncthing's settings and keys
+        dataDir = "${config.users.users.${mainUser}.home}/Documents/Sync"; # Default folder for new synced folders
+        configDir = "${config.users.users.${mainUser}.home}/.config/syncthing"; # Folder for Syncthing's settings and keys
       };
     };
   };

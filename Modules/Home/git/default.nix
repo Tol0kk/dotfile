@@ -18,7 +18,7 @@ in {
     programs.git = {
       enable = true;
       diff-so-fancy.enable = true;
-      userEmail = "titouan.le.dilavrec@gmail.com";
+      userEmail = "personal@tolok.org";
       userName = "Tol0kk";
       extraConfig = {
         commit.gpgsign = true;

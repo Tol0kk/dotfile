@@ -11,10 +11,11 @@ inputs: {
     nixpkgs = inputs.nixpkgs-unstable;
     allowLocalDeployment = true;
   };
-  servrock = {
+  olympus = {
     system = "aarch64-linux";
-    mainUser = "titouan";
+    mainUser = "odin";
     nixpkgs = inputs.nixpkgs-stable;
     allowLocalDeployment = false;
+    targetHost = "servrock";
   };
 }

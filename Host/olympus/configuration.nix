@@ -1,6 +1,8 @@
 {
   pkgs,
   config,
+  mainUser,
+  inputs,
   ...
 }: {
   modules = {
@@ -11,14 +13,15 @@
         domain = "tolok.org";
         tunnelId = "ab1ecc34-4d1c-4356-88e7-ba7889c654ad";
       };
-      gitea.enable = false;
-      media-center.enable = false;
-      forgejo.enable = false;
+      # media-center.enable = true;
+      forgejo.enable = true;
+      grafana.enable = true;
       kanidm.enable = true;
-      wireguard.enable = false;
-      prometheus-node-exporter.enable = false;
+      wireguard.enable = true;
+      prometheus.enable = true;
+      prometheus-node-exporter.enable = true;
       own-cloud.enable = false;
-      esp-home.enable = false;
+      # esp-home.enable = true;
       uptime-kuma.enable = true;
       home-assistant.enable = true;
       vaultwarden.enable = true;
@@ -69,16 +72,56 @@
 
   services.dbus.implementation = "broker";
 
-  environment.systemPackages = with pkgs; [
-    pkgs.assets
-    pkgs.htop
-    stress
-    qbittorrent
-  ];
-
   # Fix shell
-
   environment.shellInit = ''
     export TERM=xterm
   '';
+
+  users.users.${mainUser} = {
+    openssh.authorizedKeys.keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAID0FfndDkmaTNmM4XRWe5Qi1avRbhmNEGAjvJWr4GR9t titouan@laptop"
+    ];
+  };
+
+  # Important: for deploying without since we can't enter pasword with colmena
+  security.sudo.extraRules = [
+    {
+      users = [mainUser];
+      commands = [
+        {
+          command = "ALL";
+          options = ["NOPASSWD"];
+        }
+      ];
+    }
+  ];
+  nix.settings.trusted-users = [mainUser];
+
+  # ZFS
+
+  boot.supportedFilesystems = ["zfs"];
+  boot.zfs.forceImportRoot = false;
+  networking.hostId = "54c7f0c1";
+
+  # Minecraft
+  imports = [inputs.nix-minecraft.nixosModules.minecraft-servers];
+  nixpkgs.overlays = [inputs.nix-minecraft.overlay];
+
+  services.minecraft-servers = {
+    enable = true;
+    eula = true;
+    openFirewall = true;
+    servers.vanilla = {
+      enable = true;
+      jvmOpts = "-Xmx4G -Xms2G";
+      serverProperties = {
+        server-port = 25565;
+        difficulty = 3;
+        motd = "NixOS Minecraft server!";
+      };
+
+      # Specify the custom minecraft server package
+      package = pkgs.minecraftServers.vanilla-1_21_1;
+    };
+  };
 }

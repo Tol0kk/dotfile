@@ -1,0 +1,616 @@
+[INFO ] Using flake: git+file:///home/titouan/.config/nixos
+warning: not writing modified lock file of flake 'path:/tmp/colmena-assets-EhbbTX?lastModified=1744020764&narHash=sha256-Ef9qyfYyIk0BBIYV/1jhBZDnwn8h0EXyFK%2BZOJa0Rb0%3D':
+• Added input 'hive':
+    'git+file:///home/titouan/.config/nixos' (2025-03-20)
+• Added input 'hive/anyrun':
+    'github:Kirottu/anyrun/06017e753c8886d5296768dca80745ee09402a2d?narHash=sha256-jU88Q9tP4vuvWYGQcmOdFwI9e2uMPVYJHbXdiklIH9o%3D' (2024-12-27)
+• Added input 'hive/anyrun/flake-parts':
+    'github:hercules-ci/flake-parts/3d04084d54bedc3d6b8b736c70ef449225c361b1?narHash=sha256-K5ZLCyfO/Zj9mPFldf3iwS6oZStJcU4tSpiXTMYaaL0%3D' (2024-10-01)
+• Added input 'hive/anyrun/flake-parts/nixpkgs-lib':
+    follows 'hive/anyrun/nixpkgs'
+• Added input 'hive/anyrun/nixpkgs':
+    'github:NixOS/nixpkgs/807e9154dcb16384b1b765ebe9cd2bba2ac287fd?narHash=sha256-l253w0XMT8nWHGXuXqyiIC/bMvh1VRszGXgdpQlfhvU%3D' (2024-10-29)
+• Added input 'hive/anyrun/systems':
+    'github:nix-systems/default-linux/31732fcf5e8fea42e59c2488ad31a0e651500f68?narHash=sha256-12tWmuL2zgBgZkdoB6qXZsgJEH9LR3oUgpaQq2RbI80%3D' (2023-07-14)
+• Added input 'hive/blender-bin':
+    'github:edolstra/nix-warez/91297beb20864e611af6017c5eeef1b4564d7157?dir=blender&narHash=sha256-FTbHXdo1O5avRbOkSzGWI52V0sRX%2BB9Ka2trEiuaewk%3D' (2024-12-23)
+• Added input 'hive/blender-bin/nixpkgs':
+    'github:NixOS/nixpkgs/a0f3e10d94359665dba45b71b4227b0aeb851f8e?narHash=sha256-KWwINTQelKOoQgrXftxoqxmKFZb9pLVfnRvK270nkVk%3D' (2024-12-10)
+• Added input 'hive/home-manager-stable':
+    'github:nix-community/home-manager/d61711497be9ad6a6633aaf203b038b5a970621f?narHash=sha256-yjBjRn294NpPagPAQCio20X5BzBXiOoz2%2BxF3/YmEkU%3D' (2025-03-21)
+• Added input 'hive/home-manager-stable/nixpkgs':
+    follows 'hive/nixpkgs-stable'
+• Added input 'hive/home-manager-unstable':
+    'github:nix-community/home-manager/d61711497be9ad6a6633aaf203b038b5a970621f?narHash=sha256-yjBjRn294NpPagPAQCio20X5BzBXiOoz2%2BxF3/YmEkU%3D' (2025-03-21)
+• Added input 'hive/home-manager-unstable/nixpkgs':
+    follows 'hive/nixpkgs-unstable'
+• Added input 'hive/hyprpanel':
+    'github:jas-singhfsu/hyprpanel/3a5ad2a1db420f0238895f2cb1ff64acd0d2cc54?narHash=sha256-aaBdTUJIAo9LBPpjNX96AoAi0H%2BO/oW8o%2B7SCVBAzXI%3D' (2025-03-19)
+• Added input 'hive/hyprpanel/ags':
+    'github:aylur/ags/5527c3c07d92c11e04e7fd99d58429493dba7e3c?narHash=sha256-B5CJuHqfJrzPa7tObK0H9669/EClSHpa/P7B9EuvElU%3D' (2025-01-05)
+• Added input 'hive/hyprpanel/ags/astal':
+    'github:aylur/astal/6c84b64efc736e039a8a10774a4a1bf772c37aa2?narHash=sha256-rtEAwGsHSppnkR3Qg3eRJ6Xh/F84IY9CrBBLzYabalY%3D' (2024-12-26)
+• Added input 'hive/hyprpanel/ags/astal/nixpkgs':
+    follows 'hive/hyprpanel/ags/nixpkgs'
+• Added input 'hive/hyprpanel/ags/nixpkgs':
+    follows 'hive/hyprpanel/nixpkgs'
+• Added input 'hive/hyprpanel/nixpkgs':
+    follows 'hive/nixpkgs-unstable'
+• Added input 'hive/mesa-demo':
+    'github:Tol0kk/Mesa-demos-8.4.0/54424c504dbbb1bdcaf341de79a272f497c34f27?narHash=sha256-8ahfIuSFN9vZe4mHPE7YYKaHLkmm7ZyWmp/u5afkF6Y%3D' (2024-01-04)
+• Added input 'hive/mesa-demo/nixpkgs':
+    follows 'hive/nixpkgs-stable'
+• Added input 'hive/nix-flatpak':
+    'github:gmodena/nix-flatpak/b76fa31346db7fc958a9898f3c594696ca71c4fd?narHash=sha256-J71xzQlVYsjagA4AsVwRazhBh2rZrPpKvxTgs6UzL7c%3D' (2024-04-01)
+• Added input 'hive/nix-index-database':
+    'github:nix-community/nix-index-database/2cfb4e1ca32f59dd2811d7a6dd5d4d1225f0955c?narHash=sha256-pDNzMoR6m1ZSJToZQ6XDTLVSdzIzmFl1b8Pc3f7iV6Y%3D' (2025-03-17)
+• Added input 'hive/nix-index-database/nixpkgs':
+    follows 'hive/nixpkgs-stable'
+• Added input 'hive/nix-minecraft':
+    'github:Infinidoge/nix-minecraft/021d01fa37cdc9dc936c3a1f7ca6dc9354b21589?narHash=sha256-gZK%2Bvyw5BeQ8cmdigRN0uInhyfrXWJXFsZEP/Wh%2Bay8%3D' (2025-04-07)
+• Added input 'hive/nix-minecraft/flake-compat':
+    'github:edolstra/flake-compat/ff81ac966bb2cae68946d5ed5fc4994f96d0ffec?narHash=sha256-NeCCThCEP3eCl2l/%2B27kNNK7QrwZB1IJCrXfrbv5oqU%3D' (2024-12-04)
+• Added input 'hive/nix-minecraft/flake-utils':
+    'github:numtide/flake-utils/11707dc2f618dd54ca8739b309ec4fc024de578b?narHash=sha256-l0KFg5HjrsfsO/JpG%2Br7fRrqm12kzFHyUHqHCVpMMbI%3D' (2024-11-13)
+• Added input 'hive/nix-minecraft/flake-utils/systems':
+    'github:nix-systems/default/da67096a3b9bf56a91d16901293e51ba5b49a27e?narHash=sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768%3D' (2023-04-09)
+• Added input 'hive/nix-minecraft/nixpkgs':
+    'github:nixos/nixpkgs/698214a32beb4f4c8e3942372c694f40848b360d?narHash=sha256-hw63HnwnqU3ZQfsMclLhMvOezpM7RSB0dMAtD5/sOiw%3D' (2025-03-25)
+• Added input 'hive/nix-on-droid':
+    'github:nix-community/nix-on-droid/f3d3b8294039f2f9a8fb7ea82c320f29c6b0fe25?narHash=sha256-UFzk/hZWO1VkciIO5UPaSpJN8s765wsngUSvtJM6d5Q%3D' (2024-07-07)
+• Added input 'hive/nix-on-droid/home-manager':
+    'github:nix-community/home-manager/4de84265d7ec7634a69ba75028696d74de9a44a7?narHash=sha256-DVv6nd9FQBbMWbOmhq0KVqmlc3y3FMSYl49UXmMcO%2B0%3D' (2024-03-03)
+• Added input 'hive/nix-on-droid/home-manager/nixpkgs':
+    follows 'hive/nix-on-droid/nixpkgs'
+• Added input 'hive/nix-on-droid/nix-formatter-pack':
+    'github:Gerschtli/nix-formatter-pack/2de39dedd79aab14c01b9e2934842051a160ffa5?narHash=sha256-HgSTREh7VoXjGgNDwKQUYcYo13rPkltW7IitHrTPA5c%3D' (2024-01-14)
+• Added input 'hive/nix-on-droid/nix-formatter-pack/nixpkgs':
+    follows 'hive/nix-on-droid/nixpkgs'
+• Added input 'hive/nix-on-droid/nix-formatter-pack/nmd':
+    'gitlab:rycee/nmd/b75d312b4f33bd3294cd8ae5c2ca8c6da2afc169?narHash=sha256-Z1hc7M9X6L%2BH83o9vOprijpzhTfOBjd0KmUTnpHAVjA%3D' (2022-10-19)
+• Added input 'hive/nix-on-droid/nix-formatter-pack/nmt':
+    'gitlab:rycee/nmt/d83601002c99b78c89ea80e5e6ba21addcfe12ae?narHash=sha256-u36WgzoA84dMVsGXzml4wZ5ckGgfnvS0ryzo/3zn/Pc%3D' (2022-03-23)
+• Added input 'hive/nix-on-droid/nixpkgs':
+    follows 'hive/nixpkgs-ondroid'
+• Added input 'hive/nix-on-droid/nixpkgs-docs':
+    'github:NixOS/nixpkgs/9a333eaa80901efe01df07eade2c16d183761fa3?narHash=sha256-Q8LJaVZGJ9wo33wBafvZSzapYsjOaNjP/pOnSiKVGHY%3D' (2024-01-22)
+• Added input 'hive/nix-on-droid/nixpkgs-for-bootstrap':
+    'github:NixOS/nixpkgs/49ee0e94463abada1de470c9c07bfc12b36dcf40?narHash=sha256-WrDV0FPMVd2Sq9hkR5LNHudS3OSMmUrs90JUTN%2BMXpA%3D' (2024-07-06)
+• Added input 'hive/nix-on-droid/nmd':
+    'sourcehut:~rycee/nmd/66d9334933119c36f91a78d565c152a4fdc8d3d3?narHash=sha256-x3zzcdvhJpodsmdjqB4t5mkVW22V3wqHLOun0KRBzUI%3D' (2024-01-12)
+• Added input 'hive/nix-on-droid/nmd/nixpkgs':
+    follows 'hive/nix-on-droid/nixpkgs-docs'
+• Added input 'hive/nix-on-droid/nmd/scss-reset':
+    'github:andreymatin/scss-reset/0cf50e27a4e95e9bb5b1715eedf9c54dee1a5a91?narHash=sha256-muDlZJPtXDIGevSEWkicPP0HQ6VtucbkMNygpGlBEUM%3D' (2021-09-12)
+• Added input 'hive/nixpkgs-ondroid':
+    'github:nixos/nixpkgs/b134951a4c9f3c995fd7be05f3243f8ecd65d798?narHash=sha256-OnSAY7XDSx7CtDoqNh8jwVwh4xNL/2HaJxGjryLWzX8%3D' (2024-12-30)
+• Added input 'hive/nixpkgs-stable':
+    'github:nixos/nixpkgs/b75693fb46bfaf09e662d09ec076c5a162efa9f6?narHash=sha256-GheQGRNYAhHsvPxWVOhAmg9lZKkis22UPbEHlmZMthg%3D' (2025-03-19)
+• Added input 'hive/nixpkgs-unstable':
+    'github:nixos/nixpkgs/a84ebe20c6bc2ecbcfb000a50776219f48d134cc?narHash=sha256-mNqIplmEohk5jRkqYqG19GA8MbQ/D4gQSK0Mu4LvfRQ%3D' (2025-03-19)
+• Added input 'hive/nvf':
+    'github:notashelf/nvf/3a28d05684f7f4e314eb4e56a5af624b648ab278?narHash=sha256-wiGkhJcDdg2/wy4QxaudNsU98y7CzzZpB6pnjUrNNDQ%3D' (2025-03-20)
+• Added input 'hive/nvf/flake-parts':
+    'github:hercules-ci/flake-parts/f4330d22f1c5d2ba72d3d22df5597d123fdb60a9?narHash=sha256-%2Bu2UunDA4Cl5Fci3m7S643HzKmIDAe%2BfiXrLqYsR2fs%3D' (2025-03-07)
+• Added input 'hive/nvf/flake-parts/nixpkgs-lib':
+    'github:nix-community/nixpkgs.lib/147dee35aab2193b174e4c0868bd80ead5ce755c?narHash=sha256-oiwv/ZK/2FhGxrCkQkB83i7GnWXPPLzoqFHpDD3uYpk%3D' (2025-03-02)
+• Added input 'hive/nvf/flake-utils':
+    'github:numtide/flake-utils/11707dc2f618dd54ca8739b309ec4fc024de578b?narHash=sha256-l0KFg5HjrsfsO/JpG%2Br7fRrqm12kzFHyUHqHCVpMMbI%3D' (2024-11-13)
+• Added input 'hive/nvf/flake-utils/systems':
+    'github:nix-systems/default/da67096a3b9bf56a91d16901293e51ba5b49a27e?narHash=sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768%3D' (2023-04-09)
+• Added input 'hive/nvf/mnw':
+    'github:Gerg-L/mnw/b982dbd5e6d55d4438832b3567c09bc2a129649d?narHash=sha256-XfEGVKatTgEMMOVb4SNp1LYLQOSzzrFTDMVDTZFyMVE%3D' (2025-03-17)
+• Added input 'hive/nvf/nil':
+    'github:oxalica/nil/577d160da311cc7f5042038456a0713e9863d09e?narHash=sha256-ggXU3RHv6NgWw%2Bvc%2BHO4/9n0GPufhTIUjVuLci8Za8c%3D' (2025-03-04)
+• Added input 'hive/nvf/nil/flake-utils':
+    follows 'hive/nvf/flake-utils'
+• Added input 'hive/nvf/nil/nixpkgs':
+    follows 'hive/nvf/nixpkgs'
+• Added input 'hive/nvf/nil/rust-overlay':
+    'github:oxalica/rust-overlay/aefb7017d710f150970299685e8d8b549d653649?narHash=sha256-52vwEV0oS2lCnx3c/alOFGglujZTLmObit7K8VblnS8%3D' (2025-03-04)
+• Added input 'hive/nvf/nil/rust-overlay/nixpkgs':
+    follows 'hive/nvf/nil/nixpkgs'
+• Added input 'hive/nvf/nixpkgs':
+    'github:nixos/nixpkgs/573c650e8a14b2faa0041645ab18aed7e60f0c9a?narHash=sha256-4thdbnP6dlbdq%2BqZWTsm4ffAwoS8Tiq1YResB%2BRP6WE%3D' (2025-03-13)
+• Added input 'hive/nvf/nmd':
+    'sourcehut:~rycee/nmd/66d9334933119c36f91a78d565c152a4fdc8d3d3?narHash=sha256-x3zzcdvhJpodsmdjqB4t5mkVW22V3wqHLOun0KRBzUI%3D' (2024-01-12)
+• Added input 'hive/nvf/systems':
+    'github:nix-systems/default/da67096a3b9bf56a91d16901293e51ba5b49a27e?narHash=sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768%3D' (2023-04-09)
+• Added input 'hive/sops-nix':
+    'github:Mic92/sops-nix/1770be8ad89e41f1ed5a60ce628dd10877cb3609?narHash=sha256-r0aq70/3bmfjTP%2BJZs4%2BXV5SgmCtk1BLU4CQPWGtA7o%3D' (2025-03-19)
+• Added input 'hive/sops-nix/nixpkgs':
+    follows 'hive/nixpkgs-stable'
+• Added input 'hive/stylix':
+    'github:danth/stylix/7e9906679d384472849272e5a5eef7adbdb1d87f?narHash=sha256-UpJrU0DEhNLVZwL/RPVOEUHCG6iDOVDoYelkmgS4V38%3D' (2025-03-20)
+• Added input 'hive/stylix/base16':
+    'github:SenchoPens/base16.nix/153d52373b0fb2d343592871009a286ec8837aec?narHash=sha256-%2BR1BH5wHhfnycySb7Sy5KbYEaTJZWm1h%2BLW1OtyhiTs%3D' (2024-11-21)
+• Added input 'hive/stylix/base16/fromYaml':
+    'github:SenchoPens/fromYaml/106af9e2f715e2d828df706c386a685698f3223b?narHash=sha256-lq95WydhbUTWig/JpqiB7oViTcHFP8Lv41IGtayokA8%3D' (2024-11-18)
+• Added input 'hive/stylix/base16-fish':
+    'github:tomyun/base16-fish/2f6dd973a9075dabccd26f1cded09508180bf5fe?narHash=sha256-PebymhVYbL8trDVVXxCvZgc0S5VxI7I1Hv4RMSquTpA%3D' (2021-06-01)
+• Added input 'hive/stylix/base16-helix':
+    'github:tinted-theming/base16-helix/03860521c40b0b9c04818f2218d9cc9efc21e7a5?narHash=sha256-esD42YdgLlEh7koBrSqcT7p2fsMctPAcGl/%2B2sYJa2o%3D' (2025-01-14)
+• Added input 'hive/stylix/base16-vim':
+    'github:tinted-theming/base16-vim/577fe8125d74ff456cf942c733a85d769afe58b7?narHash=sha256-e0bpPySdJf0F68Ndanwm%2BKWHgQiZ0s7liLhvJSWDNsA%3D' (2024-11-28)
+• Added input 'hive/stylix/firefox-gnome-theme':
+    'github:rafaelmardojai/firefox-gnome-theme/5a81d390bb64afd4e81221749ec4bffcbeb5fa80?narHash=sha256-RsvHGNTmO2e/eVfgYK7g%2BeYEdwwh7SbZa%2BgZkT24MEA%3D' (2025-03-10)
+• Added input 'hive/stylix/flake-compat':
+    'github:edolstra/flake-compat/ff81ac966bb2cae68946d5ed5fc4994f96d0ffec?narHash=sha256-NeCCThCEP3eCl2l/%2B27kNNK7QrwZB1IJCrXfrbv5oqU%3D' (2024-12-04)
+• Added input 'hive/stylix/flake-utils':
+    'github:numtide/flake-utils/11707dc2f618dd54ca8739b309ec4fc024de578b?narHash=sha256-l0KFg5HjrsfsO/JpG%2Br7fRrqm12kzFHyUHqHCVpMMbI%3D' (2024-11-13)
+• Added input 'hive/stylix/flake-utils/systems':
+    follows 'hive/stylix/systems'
+• Added input 'hive/stylix/git-hooks':
+    'github:cachix/git-hooks.nix/b5a62751225b2f62ff3147d0a334055ebadcd5cc?narHash=sha256-srpAbmJapkaqGRE3ytf3bj4XshspVR5964OX5LfjDWc%3D' (2025-03-07)
+• Added input 'hive/stylix/git-hooks/flake-compat':
+    follows 'hive/stylix/flake-compat'
+• Added input 'hive/stylix/git-hooks/gitignore':
+    'github:hercules-ci/gitignore.nix/637db329424fd7e46cf4185293b9cc8c88c95394?narHash=sha256-HG2cCnktfHsKV0s4XW83gU3F57gaTljL9KNSuG6bnQs%3D' (2024-02-28)
+• Added input 'hive/stylix/git-hooks/gitignore/nixpkgs':
+    follows 'hive/stylix/git-hooks/nixpkgs'
+• Added input 'hive/stylix/git-hooks/nixpkgs':
+    follows 'hive/stylix/nixpkgs'
+• Added input 'hive/stylix/gnome-shell':
+    'github:GNOME/gnome-shell/dadd58f630eeea41d645ee225a63f719390829dc?narHash=sha256-JhUWbcYPjHO3Xs3x9/Z9RuqXbcp5yhPluGjwsdE2GMg%3D' (2024-11-23)
+• Added input 'hive/stylix/home-manager':
+    'github:nix-community/home-manager/7fb8678716c158642ac42f9ff7a18c0800fea551?narHash=sha256-2aYfV44h18alHXopyfL4D9GsnpE5XlSVkp4MGe586VU%3D' (2025-03-10)
+• Added input 'hive/stylix/home-manager/nixpkgs':
+    follows 'hive/stylix/nixpkgs'
+• Added input 'hive/stylix/nixpkgs':
+    follows 'hive/nixpkgs-stable'
+• Added input 'hive/stylix/nur':
+    'github:nix-community/NUR/5479646b2574837f1899da78bdf9a48b75a9fb27?narHash=sha256-emkxnsZstiJWmGACimyAYqIKz2Qz5We5h1oBVDyQjLw%3D' (2025-03-11)
+• Added input 'hive/stylix/nur/flake-parts':
+    'github:hercules-ci/flake-parts/205b12d8b7cd4802fbcb8e8ef6a0f1408781a4f9?narHash=sha256-4pDvzqnegAfRkPwO3wmwBhVi/Sye1mzps0zHWYnP88c%3D' (2024-12-04)
+• Added input 'hive/stylix/nur/flake-parts/nixpkgs-lib':
+    follows 'hive/stylix/nur/nixpkgs'
+• Added input 'hive/stylix/nur/nixpkgs':
+    follows 'hive/stylix/nixpkgs'
+• Added input 'hive/stylix/nur/treefmt-nix':
+    'github:numtide/treefmt-nix/49717b5af6f80172275d47a418c9719a31a78b53?narHash=sha256-JIPcz1PrpXUCbaccEnrcUS8jjEb/1vJbZz5KkobyFdM%3D' (2024-12-03)
+• Added input 'hive/stylix/nur/treefmt-nix/nixpkgs':
+    follows 'hive/stylix/nur/nixpkgs'
+• Added input 'hive/stylix/systems':
+    'github:nix-systems/default/da67096a3b9bf56a91d16901293e51ba5b49a27e?narHash=sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768%3D' (2023-04-09)
+• Added input 'hive/stylix/tinted-foot':
+    'github:tinted-theming/tinted-foot/fd1b924b6c45c3e4465e8a849e67ea82933fcbe4?narHash=sha256-%2BeDZPkw7efMNUf3/Pv0EmsidqdwNJ1TaOum6k7lngDQ%3D' (2024-09-21)
+• Added input 'hive/stylix/tinted-kitty':
+    'github:tinted-theming/tinted-kitty/eb39e141db14baef052893285df9f266df041ff8?narHash=sha256-2xF3sH7UIwegn%2B2gKzMpFi3pk5DlIlM18%2Bvj17Uf82U%3D' (2024-05-23)
+• Added input 'hive/stylix/tinted-schemes':
+    'github:tinted-theming/schemes/47c8c7726e98069cade5827e5fb2bfee02ce6991?narHash=sha256-YKM1RJbL68Yp2vESBqeZQBjTETXo8mCTTzLZyckCfZk%3D' (2025-03-08)
+• Added input 'hive/stylix/tinted-tmux':
+    'github:tinted-theming/tinted-tmux/d48ee86394cbe45b112ba23ab63e33656090edb4?narHash=sha256-zWcCXgdC4/owfH/eEXx26y5BLzTrefjtSLFHWVD5KxU%3D' (2025-03-02)
+• Added input 'hive/stylix/tinted-zed':
+    'github:tinted-theming/base16-zed/122c9e5c0e6f27211361a04fae92df97940eccf9?narHash=sha256-8P1b6mJWyYcu36WRlSVbuj575QWIFZALZMTg5ID/sM4%3D' (2024-09-08)
+• Added input 'hive/zen-browser':
+    'github:0xc000022070/zen-browser-flake/0f396890cefee28c1e204f891a287bf33fba3fce?narHash=sha256-t1i%2B0/dM4jkMUWMTcl7hlmCHFtwdGJdIIqKh0cLHlHU%3D' (2025-03-21)
+• Added input 'hive/zen-browser/nixpkgs':
+    'github:nixos/nixpkgs/b6eaf97c6960d97350c584de1b6dcff03c9daf42?narHash=sha256-Txwa5uO%2BqpQXrNG4eumPSD%2BhHzzYi/CdaM80M9XRLCo%3D' (2025-03-18)
+warning: not writing modified lock file of flake 'path:/tmp/colmena-assets-EhbbTX?lastModified=1744020764&narHash=sha256-Ef9qyfYyIk0BBIYV/1jhBZDnwn8h0EXyFK%2BZOJa0Rb0%3D':
+• Added input 'hive':
+    'git+file:///home/titouan/.config/nixos' (2025-03-20)
+• Added input 'hive/anyrun':
+    'github:Kirottu/anyrun/06017e753c8886d5296768dca80745ee09402a2d?narHash=sha256-jU88Q9tP4vuvWYGQcmOdFwI9e2uMPVYJHbXdiklIH9o%3D' (2024-12-27)
+• Added input 'hive/anyrun/flake-parts':
+    'github:hercules-ci/flake-parts/3d04084d54bedc3d6b8b736c70ef449225c361b1?narHash=sha256-K5ZLCyfO/Zj9mPFldf3iwS6oZStJcU4tSpiXTMYaaL0%3D' (2024-10-01)
+• Added input 'hive/anyrun/flake-parts/nixpkgs-lib':
+    follows 'hive/anyrun/nixpkgs'
+• Added input 'hive/anyrun/nixpkgs':
+    'github:NixOS/nixpkgs/807e9154dcb16384b1b765ebe9cd2bba2ac287fd?narHash=sha256-l253w0XMT8nWHGXuXqyiIC/bMvh1VRszGXgdpQlfhvU%3D' (2024-10-29)
+• Added input 'hive/anyrun/systems':
+    'github:nix-systems/default-linux/31732fcf5e8fea42e59c2488ad31a0e651500f68?narHash=sha256-12tWmuL2zgBgZkdoB6qXZsgJEH9LR3oUgpaQq2RbI80%3D' (2023-07-14)
+• Added input 'hive/blender-bin':
+    'github:edolstra/nix-warez/91297beb20864e611af6017c5eeef1b4564d7157?dir=blender&narHash=sha256-FTbHXdo1O5avRbOkSzGWI52V0sRX%2BB9Ka2trEiuaewk%3D' (2024-12-23)
+• Added input 'hive/blender-bin/nixpkgs':
+    'github:NixOS/nixpkgs/a0f3e10d94359665dba45b71b4227b0aeb851f8e?narHash=sha256-KWwINTQelKOoQgrXftxoqxmKFZb9pLVfnRvK270nkVk%3D' (2024-12-10)
+• Added input 'hive/home-manager-stable':
+    'github:nix-community/home-manager/d61711497be9ad6a6633aaf203b038b5a970621f?narHash=sha256-yjBjRn294NpPagPAQCio20X5BzBXiOoz2%2BxF3/YmEkU%3D' (2025-03-21)
+• Added input 'hive/home-manager-stable/nixpkgs':
+    follows 'hive/nixpkgs-stable'
+• Added input 'hive/home-manager-unstable':
+    'github:nix-community/home-manager/d61711497be9ad6a6633aaf203b038b5a970621f?narHash=sha256-yjBjRn294NpPagPAQCio20X5BzBXiOoz2%2BxF3/YmEkU%3D' (2025-03-21)
+• Added input 'hive/home-manager-unstable/nixpkgs':
+    follows 'hive/nixpkgs-unstable'
+• Added input 'hive/hyprpanel':
+    'github:jas-singhfsu/hyprpanel/3a5ad2a1db420f0238895f2cb1ff64acd0d2cc54?narHash=sha256-aaBdTUJIAo9LBPpjNX96AoAi0H%2BO/oW8o%2B7SCVBAzXI%3D' (2025-03-19)
+• Added input 'hive/hyprpanel/ags':
+    'github:aylur/ags/5527c3c07d92c11e04e7fd99d58429493dba7e3c?narHash=sha256-B5CJuHqfJrzPa7tObK0H9669/EClSHpa/P7B9EuvElU%3D' (2025-01-05)
+• Added input 'hive/hyprpanel/ags/astal':
+    'github:aylur/astal/6c84b64efc736e039a8a10774a4a1bf772c37aa2?narHash=sha256-rtEAwGsHSppnkR3Qg3eRJ6Xh/F84IY9CrBBLzYabalY%3D' (2024-12-26)
+• Added input 'hive/hyprpanel/ags/astal/nixpkgs':
+    follows 'hive/hyprpanel/ags/nixpkgs'
+• Added input 'hive/hyprpanel/ags/nixpkgs':
+    follows 'hive/hyprpanel/nixpkgs'
+• Added input 'hive/hyprpanel/nixpkgs':
+    follows 'hive/nixpkgs-unstable'
+• Added input 'hive/mesa-demo':
+    'github:Tol0kk/Mesa-demos-8.4.0/54424c504dbbb1bdcaf341de79a272f497c34f27?narHash=sha256-8ahfIuSFN9vZe4mHPE7YYKaHLkmm7ZyWmp/u5afkF6Y%3D' (2024-01-04)
+• Added input 'hive/mesa-demo/nixpkgs':
+    follows 'hive/nixpkgs-stable'
+• Added input 'hive/nix-flatpak':
+    'github:gmodena/nix-flatpak/b76fa31346db7fc958a9898f3c594696ca71c4fd?narHash=sha256-J71xzQlVYsjagA4AsVwRazhBh2rZrPpKvxTgs6UzL7c%3D' (2024-04-01)
+• Added input 'hive/nix-index-database':
+    'github:nix-community/nix-index-database/2cfb4e1ca32f59dd2811d7a6dd5d4d1225f0955c?narHash=sha256-pDNzMoR6m1ZSJToZQ6XDTLVSdzIzmFl1b8Pc3f7iV6Y%3D' (2025-03-17)
+• Added input 'hive/nix-index-database/nixpkgs':
+    follows 'hive/nixpkgs-stable'
+• Added input 'hive/nix-minecraft':
+    'github:Infinidoge/nix-minecraft/021d01fa37cdc9dc936c3a1f7ca6dc9354b21589?narHash=sha256-gZK%2Bvyw5BeQ8cmdigRN0uInhyfrXWJXFsZEP/Wh%2Bay8%3D' (2025-04-07)
+• Added input 'hive/nix-minecraft/flake-compat':
+    'github:edolstra/flake-compat/ff81ac966bb2cae68946d5ed5fc4994f96d0ffec?narHash=sha256-NeCCThCEP3eCl2l/%2B27kNNK7QrwZB1IJCrXfrbv5oqU%3D' (2024-12-04)
+• Added input 'hive/nix-minecraft/flake-utils':
+    'github:numtide/flake-utils/11707dc2f618dd54ca8739b309ec4fc024de578b?narHash=sha256-l0KFg5HjrsfsO/JpG%2Br7fRrqm12kzFHyUHqHCVpMMbI%3D' (2024-11-13)
+• Added input 'hive/nix-minecraft/flake-utils/systems':
+    'github:nix-systems/default/da67096a3b9bf56a91d16901293e51ba5b49a27e?narHash=sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768%3D' (2023-04-09)
+• Added input 'hive/nix-minecraft/nixpkgs':
+    'github:nixos/nixpkgs/698214a32beb4f4c8e3942372c694f40848b360d?narHash=sha256-hw63HnwnqU3ZQfsMclLhMvOezpM7RSB0dMAtD5/sOiw%3D' (2025-03-25)
+• Added input 'hive/nix-on-droid':
+    'github:nix-community/nix-on-droid/f3d3b8294039f2f9a8fb7ea82c320f29c6b0fe25?narHash=sha256-UFzk/hZWO1VkciIO5UPaSpJN8s765wsngUSvtJM6d5Q%3D' (2024-07-07)
+• Added input 'hive/nix-on-droid/home-manager':
+    'github:nix-community/home-manager/4de84265d7ec7634a69ba75028696d74de9a44a7?narHash=sha256-DVv6nd9FQBbMWbOmhq0KVqmlc3y3FMSYl49UXmMcO%2B0%3D' (2024-03-03)
+• Added input 'hive/nix-on-droid/home-manager/nixpkgs':
+    follows 'hive/nix-on-droid/nixpkgs'
+• Added input 'hive/nix-on-droid/nix-formatter-pack':
+    'github:Gerschtli/nix-formatter-pack/2de39dedd79aab14c01b9e2934842051a160ffa5?narHash=sha256-HgSTREh7VoXjGgNDwKQUYcYo13rPkltW7IitHrTPA5c%3D' (2024-01-14)
+• Added input 'hive/nix-on-droid/nix-formatter-pack/nixpkgs':
+    follows 'hive/nix-on-droid/nixpkgs'
+• Added input 'hive/nix-on-droid/nix-formatter-pack/nmd':
+    'gitlab:rycee/nmd/b75d312b4f33bd3294cd8ae5c2ca8c6da2afc169?narHash=sha256-Z1hc7M9X6L%2BH83o9vOprijpzhTfOBjd0KmUTnpHAVjA%3D' (2022-10-19)
+• Added input 'hive/nix-on-droid/nix-formatter-pack/nmt':
+    'gitlab:rycee/nmt/d83601002c99b78c89ea80e5e6ba21addcfe12ae?narHash=sha256-u36WgzoA84dMVsGXzml4wZ5ckGgfnvS0ryzo/3zn/Pc%3D' (2022-03-23)
+• Added input 'hive/nix-on-droid/nixpkgs':
+    follows 'hive/nixpkgs-ondroid'
+• Added input 'hive/nix-on-droid/nixpkgs-docs':
+    'github:NixOS/nixpkgs/9a333eaa80901efe01df07eade2c16d183761fa3?narHash=sha256-Q8LJaVZGJ9wo33wBafvZSzapYsjOaNjP/pOnSiKVGHY%3D' (2024-01-22)
+• Added input 'hive/nix-on-droid/nixpkgs-for-bootstrap':
+    'github:NixOS/nixpkgs/49ee0e94463abada1de470c9c07bfc12b36dcf40?narHash=sha256-WrDV0FPMVd2Sq9hkR5LNHudS3OSMmUrs90JUTN%2BMXpA%3D' (2024-07-06)
+• Added input 'hive/nix-on-droid/nmd':
+    'sourcehut:~rycee/nmd/66d9334933119c36f91a78d565c152a4fdc8d3d3?narHash=sha256-x3zzcdvhJpodsmdjqB4t5mkVW22V3wqHLOun0KRBzUI%3D' (2024-01-12)
+• Added input 'hive/nix-on-droid/nmd/nixpkgs':
+    follows 'hive/nix-on-droid/nixpkgs-docs'
+• Added input 'hive/nix-on-droid/nmd/scss-reset':
+    'github:andreymatin/scss-reset/0cf50e27a4e95e9bb5b1715eedf9c54dee1a5a91?narHash=sha256-muDlZJPtXDIGevSEWkicPP0HQ6VtucbkMNygpGlBEUM%3D' (2021-09-12)
+• Added input 'hive/nixpkgs-ondroid':
+    'github:nixos/nixpkgs/b134951a4c9f3c995fd7be05f3243f8ecd65d798?narHash=sha256-OnSAY7XDSx7CtDoqNh8jwVwh4xNL/2HaJxGjryLWzX8%3D' (2024-12-30)
+• Added input 'hive/nixpkgs-stable':
+    'github:nixos/nixpkgs/b75693fb46bfaf09e662d09ec076c5a162efa9f6?narHash=sha256-GheQGRNYAhHsvPxWVOhAmg9lZKkis22UPbEHlmZMthg%3D' (2025-03-19)
+• Added input 'hive/nixpkgs-unstable':
+    'github:nixos/nixpkgs/a84ebe20c6bc2ecbcfb000a50776219f48d134cc?narHash=sha256-mNqIplmEohk5jRkqYqG19GA8MbQ/D4gQSK0Mu4LvfRQ%3D' (2025-03-19)
+• Added input 'hive/nvf':
+    'github:notashelf/nvf/3a28d05684f7f4e314eb4e56a5af624b648ab278?narHash=sha256-wiGkhJcDdg2/wy4QxaudNsU98y7CzzZpB6pnjUrNNDQ%3D' (2025-03-20)
+• Added input 'hive/nvf/flake-parts':
+    'github:hercules-ci/flake-parts/f4330d22f1c5d2ba72d3d22df5597d123fdb60a9?narHash=sha256-%2Bu2UunDA4Cl5Fci3m7S643HzKmIDAe%2BfiXrLqYsR2fs%3D' (2025-03-07)
+• Added input 'hive/nvf/flake-parts/nixpkgs-lib':
+    'github:nix-community/nixpkgs.lib/147dee35aab2193b174e4c0868bd80ead5ce755c?narHash=sha256-oiwv/ZK/2FhGxrCkQkB83i7GnWXPPLzoqFHpDD3uYpk%3D' (2025-03-02)
+• Added input 'hive/nvf/flake-utils':
+    'github:numtide/flake-utils/11707dc2f618dd54ca8739b309ec4fc024de578b?narHash=sha256-l0KFg5HjrsfsO/JpG%2Br7fRrqm12kzFHyUHqHCVpMMbI%3D' (2024-11-13)
+• Added input 'hive/nvf/flake-utils/systems':
+    'github:nix-systems/default/da67096a3b9bf56a91d16901293e51ba5b49a27e?narHash=sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768%3D' (2023-04-09)
+• Added input 'hive/nvf/mnw':
+    'github:Gerg-L/mnw/b982dbd5e6d55d4438832b3567c09bc2a129649d?narHash=sha256-XfEGVKatTgEMMOVb4SNp1LYLQOSzzrFTDMVDTZFyMVE%3D' (2025-03-17)
+• Added input 'hive/nvf/nil':
+    'github:oxalica/nil/577d160da311cc7f5042038456a0713e9863d09e?narHash=sha256-ggXU3RHv6NgWw%2Bvc%2BHO4/9n0GPufhTIUjVuLci8Za8c%3D' (2025-03-04)
+• Added input 'hive/nvf/nil/flake-utils':
+    follows 'hive/nvf/flake-utils'
+• Added input 'hive/nvf/nil/nixpkgs':
+    follows 'hive/nvf/nixpkgs'
+• Added input 'hive/nvf/nil/rust-overlay':
+    'github:oxalica/rust-overlay/aefb7017d710f150970299685e8d8b549d653649?narHash=sha256-52vwEV0oS2lCnx3c/alOFGglujZTLmObit7K8VblnS8%3D' (2025-03-04)
+• Added input 'hive/nvf/nil/rust-overlay/nixpkgs':
+    follows 'hive/nvf/nil/nixpkgs'
+• Added input 'hive/nvf/nixpkgs':
+    'github:nixos/nixpkgs/573c650e8a14b2faa0041645ab18aed7e60f0c9a?narHash=sha256-4thdbnP6dlbdq%2BqZWTsm4ffAwoS8Tiq1YResB%2BRP6WE%3D' (2025-03-13)
+• Added input 'hive/nvf/nmd':
+    'sourcehut:~rycee/nmd/66d9334933119c36f91a78d565c152a4fdc8d3d3?narHash=sha256-x3zzcdvhJpodsmdjqB4t5mkVW22V3wqHLOun0KRBzUI%3D' (2024-01-12)
+• Added input 'hive/nvf/systems':
+    'github:nix-systems/default/da67096a3b9bf56a91d16901293e51ba5b49a27e?narHash=sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768%3D' (2023-04-09)
+• Added input 'hive/sops-nix':
+    'github:Mic92/sops-nix/1770be8ad89e41f1ed5a60ce628dd10877cb3609?narHash=sha256-r0aq70/3bmfjTP%2BJZs4%2BXV5SgmCtk1BLU4CQPWGtA7o%3D' (2025-03-19)
+• Added input 'hive/sops-nix/nixpkgs':
+    follows 'hive/nixpkgs-stable'
+• Added input 'hive/stylix':
+    'github:danth/stylix/7e9906679d384472849272e5a5eef7adbdb1d87f?narHash=sha256-UpJrU0DEhNLVZwL/RPVOEUHCG6iDOVDoYelkmgS4V38%3D' (2025-03-20)
+• Added input 'hive/stylix/base16':
+    'github:SenchoPens/base16.nix/153d52373b0fb2d343592871009a286ec8837aec?narHash=sha256-%2BR1BH5wHhfnycySb7Sy5KbYEaTJZWm1h%2BLW1OtyhiTs%3D' (2024-11-21)
+• Added input 'hive/stylix/base16/fromYaml':
+    'github:SenchoPens/fromYaml/106af9e2f715e2d828df706c386a685698f3223b?narHash=sha256-lq95WydhbUTWig/JpqiB7oViTcHFP8Lv41IGtayokA8%3D' (2024-11-18)
+• Added input 'hive/stylix/base16-fish':
+    'github:tomyun/base16-fish/2f6dd973a9075dabccd26f1cded09508180bf5fe?narHash=sha256-PebymhVYbL8trDVVXxCvZgc0S5VxI7I1Hv4RMSquTpA%3D' (2021-06-01)
+• Added input 'hive/stylix/base16-helix':
+    'github:tinted-theming/base16-helix/03860521c40b0b9c04818f2218d9cc9efc21e7a5?narHash=sha256-esD42YdgLlEh7koBrSqcT7p2fsMctPAcGl/%2B2sYJa2o%3D' (2025-01-14)
+• Added input 'hive/stylix/base16-vim':
+    'github:tinted-theming/base16-vim/577fe8125d74ff456cf942c733a85d769afe58b7?narHash=sha256-e0bpPySdJf0F68Ndanwm%2BKWHgQiZ0s7liLhvJSWDNsA%3D' (2024-11-28)
+• Added input 'hive/stylix/firefox-gnome-theme':
+    'github:rafaelmardojai/firefox-gnome-theme/5a81d390bb64afd4e81221749ec4bffcbeb5fa80?narHash=sha256-RsvHGNTmO2e/eVfgYK7g%2BeYEdwwh7SbZa%2BgZkT24MEA%3D' (2025-03-10)
+• Added input 'hive/stylix/flake-compat':
+    'github:edolstra/flake-compat/ff81ac966bb2cae68946d5ed5fc4994f96d0ffec?narHash=sha256-NeCCThCEP3eCl2l/%2B27kNNK7QrwZB1IJCrXfrbv5oqU%3D' (2024-12-04)
+• Added input 'hive/stylix/flake-utils':
+    'github:numtide/flake-utils/11707dc2f618dd54ca8739b309ec4fc024de578b?narHash=sha256-l0KFg5HjrsfsO/JpG%2Br7fRrqm12kzFHyUHqHCVpMMbI%3D' (2024-11-13)
+• Added input 'hive/stylix/flake-utils/systems':
+    follows 'hive/stylix/systems'
+• Added input 'hive/stylix/git-hooks':
+    'github:cachix/git-hooks.nix/b5a62751225b2f62ff3147d0a334055ebadcd5cc?narHash=sha256-srpAbmJapkaqGRE3ytf3bj4XshspVR5964OX5LfjDWc%3D' (2025-03-07)
+• Added input 'hive/stylix/git-hooks/flake-compat':
+    follows 'hive/stylix/flake-compat'
+• Added input 'hive/stylix/git-hooks/gitignore':
+    'github:hercules-ci/gitignore.nix/637db329424fd7e46cf4185293b9cc8c88c95394?narHash=sha256-HG2cCnktfHsKV0s4XW83gU3F57gaTljL9KNSuG6bnQs%3D' (2024-02-28)
+• Added input 'hive/stylix/git-hooks/gitignore/nixpkgs':
+    follows 'hive/stylix/git-hooks/nixpkgs'
+• Added input 'hive/stylix/git-hooks/nixpkgs':
+    follows 'hive/stylix/nixpkgs'
+• Added input 'hive/stylix/gnome-shell':
+    'github:GNOME/gnome-shell/dadd58f630eeea41d645ee225a63f719390829dc?narHash=sha256-JhUWbcYPjHO3Xs3x9/Z9RuqXbcp5yhPluGjwsdE2GMg%3D' (2024-11-23)
+• Added input 'hive/stylix/home-manager':
+    'github:nix-community/home-manager/7fb8678716c158642ac42f9ff7a18c0800fea551?narHash=sha256-2aYfV44h18alHXopyfL4D9GsnpE5XlSVkp4MGe586VU%3D' (2025-03-10)
+• Added input 'hive/stylix/home-manager/nixpkgs':
+    follows 'hive/stylix/nixpkgs'
+• Added input 'hive/stylix/nixpkgs':
+    follows 'hive/nixpkgs-stable'
+• Added input 'hive/stylix/nur':
+    'github:nix-community/NUR/5479646b2574837f1899da78bdf9a48b75a9fb27?narHash=sha256-emkxnsZstiJWmGACimyAYqIKz2Qz5We5h1oBVDyQjLw%3D' (2025-03-11)
+• Added input 'hive/stylix/nur/flake-parts':
+    'github:hercules-ci/flake-parts/205b12d8b7cd4802fbcb8e8ef6a0f1408781a4f9?narHash=sha256-4pDvzqnegAfRkPwO3wmwBhVi/Sye1mzps0zHWYnP88c%3D' (2024-12-04)
+• Added input 'hive/stylix/nur/flake-parts/nixpkgs-lib':
+    follows 'hive/stylix/nur/nixpkgs'
+• Added input 'hive/stylix/nur/nixpkgs':
+    follows 'hive/stylix/nixpkgs'
+• Added input 'hive/stylix/nur/treefmt-nix':
+    'github:numtide/treefmt-nix/49717b5af6f80172275d47a418c9719a31a78b53?narHash=sha256-JIPcz1PrpXUCbaccEnrcUS8jjEb/1vJbZz5KkobyFdM%3D' (2024-12-03)
+• Added input 'hive/stylix/nur/treefmt-nix/nixpkgs':
+    follows 'hive/stylix/nur/nixpkgs'
+• Added input 'hive/stylix/systems':
+    'github:nix-systems/default/da67096a3b9bf56a91d16901293e51ba5b49a27e?narHash=sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768%3D' (2023-04-09)
+• Added input 'hive/stylix/tinted-foot':
+    'github:tinted-theming/tinted-foot/fd1b924b6c45c3e4465e8a849e67ea82933fcbe4?narHash=sha256-%2BeDZPkw7efMNUf3/Pv0EmsidqdwNJ1TaOum6k7lngDQ%3D' (2024-09-21)
+• Added input 'hive/stylix/tinted-kitty':
+    'github:tinted-theming/tinted-kitty/eb39e141db14baef052893285df9f266df041ff8?narHash=sha256-2xF3sH7UIwegn%2B2gKzMpFi3pk5DlIlM18%2Bvj17Uf82U%3D' (2024-05-23)
+• Added input 'hive/stylix/tinted-schemes':
+    'github:tinted-theming/schemes/47c8c7726e98069cade5827e5fb2bfee02ce6991?narHash=sha256-YKM1RJbL68Yp2vESBqeZQBjTETXo8mCTTzLZyckCfZk%3D' (2025-03-08)
+• Added input 'hive/stylix/tinted-tmux':
+    'github:tinted-theming/tinted-tmux/d48ee86394cbe45b112ba23ab63e33656090edb4?narHash=sha256-zWcCXgdC4/owfH/eEXx26y5BLzTrefjtSLFHWVD5KxU%3D' (2025-03-02)
+• Added input 'hive/stylix/tinted-zed':
+    'github:tinted-theming/base16-zed/122c9e5c0e6f27211361a04fae92df97940eccf9?narHash=sha256-8P1b6mJWyYcu36WRlSVbuj575QWIFZALZMTg5ID/sM4%3D' (2024-09-08)
+• Added input 'hive/zen-browser':
+    'github:0xc000022070/zen-browser-flake/0f396890cefee28c1e204f891a287bf33fba3fce?narHash=sha256-t1i%2B0/dM4jkMUWMTcl7hlmCHFtwdGJdIIqKh0cLHlHU%3D' (2025-03-21)
+• Added input 'hive/zen-browser/nixpkgs':
+    'github:nixos/nixpkgs/b6eaf97c6960d97350c584de1b6dcff03c9daf42?narHash=sha256-Txwa5uO%2BqpQXrNG4eumPSD%2BhHzzYi/CdaM80M9XRLCo%3D' (2025-03-18)
+laptop | Evaluating laptop
+laptop | warning: not writing modified lock file of flake 'path:/tmp/colmena-assets-EhbbTX?lastModified=1744020764&narHash=sha256-Ef9qyfYyIk0BBIYV/1jhBZDnwn8h0EXyFK%2BZOJa0Rb0%3D':
+laptop | • Added input 'hive':
+laptop |     'git+file:///home/titouan/.config/nixos' (2025-03-20)
+laptop | • Added input 'hive/anyrun':
+laptop |     'github:Kirottu/anyrun/06017e753c8886d5296768dca80745ee09402a2d?narHash=sha256-jU88Q9tP4vuvWYGQcmOdFwI9e2uMPVYJHbXdiklIH9o%3D' (2024-12-27)
+laptop | • Added input 'hive/anyrun/flake-parts':
+laptop |     'github:hercules-ci/flake-parts/3d04084d54bedc3d6b8b736c70ef449225c361b1?narHash=sha256-K5ZLCyfO/Zj9mPFldf3iwS6oZStJcU4tSpiXTMYaaL0%3D' (2024-10-01)
+laptop | • Added input 'hive/anyrun/flake-parts/nixpkgs-lib':
+laptop |     follows 'hive/anyrun/nixpkgs'
+laptop | • Added input 'hive/anyrun/nixpkgs':
+laptop |     'github:NixOS/nixpkgs/807e9154dcb16384b1b765ebe9cd2bba2ac287fd?narHash=sha256-l253w0XMT8nWHGXuXqyiIC/bMvh1VRszGXgdpQlfhvU%3D' (2024-10-29)
+laptop | • Added input 'hive/anyrun/systems':
+laptop |     'github:nix-systems/default-linux/31732fcf5e8fea42e59c2488ad31a0e651500f68?narHash=sha256-12tWmuL2zgBgZkdoB6qXZsgJEH9LR3oUgpaQq2RbI80%3D' (2023-07-14)
+laptop | • Added input 'hive/blender-bin':
+laptop |     'github:edolstra/nix-warez/91297beb20864e611af6017c5eeef1b4564d7157?dir=blender&narHash=sha256-FTbHXdo1O5avRbOkSzGWI52V0sRX%2BB9Ka2trEiuaewk%3D' (2024-12-23)
+laptop | • Added input 'hive/blender-bin/nixpkgs':
+laptop |     'github:NixOS/nixpkgs/a0f3e10d94359665dba45b71b4227b0aeb851f8e?narHash=sha256-KWwINTQelKOoQgrXftxoqxmKFZb9pLVfnRvK270nkVk%3D' (2024-12-10)
+laptop | • Added input 'hive/home-manager-stable':
+laptop |     'github:nix-community/home-manager/d61711497be9ad6a6633aaf203b038b5a970621f?narHash=sha256-yjBjRn294NpPagPAQCio20X5BzBXiOoz2%2BxF3/YmEkU%3D' (2025-03-21)
+laptop | • Added input 'hive/home-manager-stable/nixpkgs':
+laptop |     follows 'hive/nixpkgs-stable'
+laptop | • Added input 'hive/home-manager-unstable':
+laptop |     'github:nix-community/home-manager/d61711497be9ad6a6633aaf203b038b5a970621f?narHash=sha256-yjBjRn294NpPagPAQCio20X5BzBXiOoz2%2BxF3/YmEkU%3D' (2025-03-21)
+laptop | • Added input 'hive/home-manager-unstable/nixpkgs':
+laptop |     follows 'hive/nixpkgs-unstable'
+laptop | • Added input 'hive/hyprpanel':
+laptop |     'github:jas-singhfsu/hyprpanel/3a5ad2a1db420f0238895f2cb1ff64acd0d2cc54?narHash=sha256-aaBdTUJIAo9LBPpjNX96AoAi0H%2BO/oW8o%2B7SCVBAzXI%3D' (2025-03-19)
+laptop | • Added input 'hive/hyprpanel/ags':
+laptop |     'github:aylur/ags/5527c3c07d92c11e04e7fd99d58429493dba7e3c?narHash=sha256-B5CJuHqfJrzPa7tObK0H9669/EClSHpa/P7B9EuvElU%3D' (2025-01-05)
+laptop | • Added input 'hive/hyprpanel/ags/astal':
+laptop |     'github:aylur/astal/6c84b64efc736e039a8a10774a4a1bf772c37aa2?narHash=sha256-rtEAwGsHSppnkR3Qg3eRJ6Xh/F84IY9CrBBLzYabalY%3D' (2024-12-26)
+laptop | • Added input 'hive/hyprpanel/ags/astal/nixpkgs':
+laptop |     follows 'hive/hyprpanel/ags/nixpkgs'
+laptop | • Added input 'hive/hyprpanel/ags/nixpkgs':
+laptop |     follows 'hive/hyprpanel/nixpkgs'
+laptop | • Added input 'hive/hyprpanel/nixpkgs':
+laptop |     follows 'hive/nixpkgs-unstable'
+laptop | • Added input 'hive/mesa-demo':
+laptop |     'github:Tol0kk/Mesa-demos-8.4.0/54424c504dbbb1bdcaf341de79a272f497c34f27?narHash=sha256-8ahfIuSFN9vZe4mHPE7YYKaHLkmm7ZyWmp/u5afkF6Y%3D' (2024-01-04)
+laptop | • Added input 'hive/mesa-demo/nixpkgs':
+laptop |     follows 'hive/nixpkgs-stable'
+laptop | • Added input 'hive/nix-flatpak':
+laptop |     'github:gmodena/nix-flatpak/b76fa31346db7fc958a9898f3c594696ca71c4fd?narHash=sha256-J71xzQlVYsjagA4AsVwRazhBh2rZrPpKvxTgs6UzL7c%3D' (2024-04-01)
+laptop | • Added input 'hive/nix-index-database':
+laptop |     'github:nix-community/nix-index-database/2cfb4e1ca32f59dd2811d7a6dd5d4d1225f0955c?narHash=sha256-pDNzMoR6m1ZSJToZQ6XDTLVSdzIzmFl1b8Pc3f7iV6Y%3D' (2025-03-17)
+laptop | • Added input 'hive/nix-index-database/nixpkgs':
+laptop |     follows 'hive/nixpkgs-stable'
+laptop | • Added input 'hive/nix-minecraft':
+laptop |     'github:Infinidoge/nix-minecraft/021d01fa37cdc9dc936c3a1f7ca6dc9354b21589?narHash=sha256-gZK%2Bvyw5BeQ8cmdigRN0uInhyfrXWJXFsZEP/Wh%2Bay8%3D' (2025-04-07)
+laptop | • Added input 'hive/nix-minecraft/flake-compat':
+laptop |     'github:edolstra/flake-compat/ff81ac966bb2cae68946d5ed5fc4994f96d0ffec?narHash=sha256-NeCCThCEP3eCl2l/%2B27kNNK7QrwZB1IJCrXfrbv5oqU%3D' (2024-12-04)
+laptop | • Added input 'hive/nix-minecraft/flake-utils':
+laptop |     'github:numtide/flake-utils/11707dc2f618dd54ca8739b309ec4fc024de578b?narHash=sha256-l0KFg5HjrsfsO/JpG%2Br7fRrqm12kzFHyUHqHCVpMMbI%3D' (2024-11-13)
+laptop | • Added input 'hive/nix-minecraft/flake-utils/systems':
+laptop |     'github:nix-systems/default/da67096a3b9bf56a91d16901293e51ba5b49a27e?narHash=sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768%3D' (2023-04-09)
+laptop | • Added input 'hive/nix-minecraft/nixpkgs':
+laptop |     'github:nixos/nixpkgs/698214a32beb4f4c8e3942372c694f40848b360d?narHash=sha256-hw63HnwnqU3ZQfsMclLhMvOezpM7RSB0dMAtD5/sOiw%3D' (2025-03-25)
+laptop | • Added input 'hive/nix-on-droid':
+laptop |     'github:nix-community/nix-on-droid/f3d3b8294039f2f9a8fb7ea82c320f29c6b0fe25?narHash=sha256-UFzk/hZWO1VkciIO5UPaSpJN8s765wsngUSvtJM6d5Q%3D' (2024-07-07)
+laptop | • Added input 'hive/nix-on-droid/home-manager':
+laptop |     'github:nix-community/home-manager/4de84265d7ec7634a69ba75028696d74de9a44a7?narHash=sha256-DVv6nd9FQBbMWbOmhq0KVqmlc3y3FMSYl49UXmMcO%2B0%3D' (2024-03-03)
+laptop | • Added input 'hive/nix-on-droid/home-manager/nixpkgs':
+laptop |     follows 'hive/nix-on-droid/nixpkgs'
+laptop | • Added input 'hive/nix-on-droid/nix-formatter-pack':
+laptop |     'github:Gerschtli/nix-formatter-pack/2de39dedd79aab14c01b9e2934842051a160ffa5?narHash=sha256-HgSTREh7VoXjGgNDwKQUYcYo13rPkltW7IitHrTPA5c%3D' (2024-01-14)
+laptop | • Added input 'hive/nix-on-droid/nix-formatter-pack/nixpkgs':
+laptop |     follows 'hive/nix-on-droid/nixpkgs'
+laptop | • Added input 'hive/nix-on-droid/nix-formatter-pack/nmd':
+laptop |     'gitlab:rycee/nmd/b75d312b4f33bd3294cd8ae5c2ca8c6da2afc169?narHash=sha256-Z1hc7M9X6L%2BH83o9vOprijpzhTfOBjd0KmUTnpHAVjA%3D' (2022-10-19)
+laptop | • Added input 'hive/nix-on-droid/nix-formatter-pack/nmt':
+laptop |     'gitlab:rycee/nmt/d83601002c99b78c89ea80e5e6ba21addcfe12ae?narHash=sha256-u36WgzoA84dMVsGXzml4wZ5ckGgfnvS0ryzo/3zn/Pc%3D' (2022-03-23)
+laptop | • Added input 'hive/nix-on-droid/nixpkgs':
+laptop |     follows 'hive/nixpkgs-ondroid'
+laptop | • Added input 'hive/nix-on-droid/nixpkgs-docs':
+laptop |     'github:NixOS/nixpkgs/9a333eaa80901efe01df07eade2c16d183761fa3?narHash=sha256-Q8LJaVZGJ9wo33wBafvZSzapYsjOaNjP/pOnSiKVGHY%3D' (2024-01-22)
+laptop | • Added input 'hive/nix-on-droid/nixpkgs-for-bootstrap':
+laptop |     'github:NixOS/nixpkgs/49ee0e94463abada1de470c9c07bfc12b36dcf40?narHash=sha256-WrDV0FPMVd2Sq9hkR5LNHudS3OSMmUrs90JUTN%2BMXpA%3D' (2024-07-06)
+laptop | • Added input 'hive/nix-on-droid/nmd':
+laptop |     'sourcehut:~rycee/nmd/66d9334933119c36f91a78d565c152a4fdc8d3d3?narHash=sha256-x3zzcdvhJpodsmdjqB4t5mkVW22V3wqHLOun0KRBzUI%3D' (2024-01-12)
+laptop | • Added input 'hive/nix-on-droid/nmd/nixpkgs':
+laptop |     follows 'hive/nix-on-droid/nixpkgs-docs'
+laptop | • Added input 'hive/nix-on-droid/nmd/scss-reset':
+laptop |     'github:andreymatin/scss-reset/0cf50e27a4e95e9bb5b1715eedf9c54dee1a5a91?narHash=sha256-muDlZJPtXDIGevSEWkicPP0HQ6VtucbkMNygpGlBEUM%3D' (2021-09-12)
+laptop | • Added input 'hive/nixpkgs-ondroid':
+laptop |     'github:nixos/nixpkgs/b134951a4c9f3c995fd7be05f3243f8ecd65d798?narHash=sha256-OnSAY7XDSx7CtDoqNh8jwVwh4xNL/2HaJxGjryLWzX8%3D' (2024-12-30)
+laptop | • Added input 'hive/nixpkgs-stable':
+laptop |     'github:nixos/nixpkgs/b75693fb46bfaf09e662d09ec076c5a162efa9f6?narHash=sha256-GheQGRNYAhHsvPxWVOhAmg9lZKkis22UPbEHlmZMthg%3D' (2025-03-19)
+laptop | • Added input 'hive/nixpkgs-unstable':
+laptop |     'github:nixos/nixpkgs/a84ebe20c6bc2ecbcfb000a50776219f48d134cc?narHash=sha256-mNqIplmEohk5jRkqYqG19GA8MbQ/D4gQSK0Mu4LvfRQ%3D' (2025-03-19)
+laptop | • Added input 'hive/nvf':
+laptop |     'github:notashelf/nvf/3a28d05684f7f4e314eb4e56a5af624b648ab278?narHash=sha256-wiGkhJcDdg2/wy4QxaudNsU98y7CzzZpB6pnjUrNNDQ%3D' (2025-03-20)
+laptop | • Added input 'hive/nvf/flake-parts':
+laptop |     'github:hercules-ci/flake-parts/f4330d22f1c5d2ba72d3d22df5597d123fdb60a9?narHash=sha256-%2Bu2UunDA4Cl5Fci3m7S643HzKmIDAe%2BfiXrLqYsR2fs%3D' (2025-03-07)
+laptop | • Added input 'hive/nvf/flake-parts/nixpkgs-lib':
+laptop |     'github:nix-community/nixpkgs.lib/147dee35aab2193b174e4c0868bd80ead5ce755c?narHash=sha256-oiwv/ZK/2FhGxrCkQkB83i7GnWXPPLzoqFHpDD3uYpk%3D' (2025-03-02)
+laptop | • Added input 'hive/nvf/flake-utils':
+laptop |     'github:numtide/flake-utils/11707dc2f618dd54ca8739b309ec4fc024de578b?narHash=sha256-l0KFg5HjrsfsO/JpG%2Br7fRrqm12kzFHyUHqHCVpMMbI%3D' (2024-11-13)
+laptop | • Added input 'hive/nvf/flake-utils/systems':
+laptop |     'github:nix-systems/default/da67096a3b9bf56a91d16901293e51ba5b49a27e?narHash=sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768%3D' (2023-04-09)
+laptop | • Added input 'hive/nvf/mnw':
+laptop |     'github:Gerg-L/mnw/b982dbd5e6d55d4438832b3567c09bc2a129649d?narHash=sha256-XfEGVKatTgEMMOVb4SNp1LYLQOSzzrFTDMVDTZFyMVE%3D' (2025-03-17)
+laptop | • Added input 'hive/nvf/nil':
+laptop |     'github:oxalica/nil/577d160da311cc7f5042038456a0713e9863d09e?narHash=sha256-ggXU3RHv6NgWw%2Bvc%2BHO4/9n0GPufhTIUjVuLci8Za8c%3D' (2025-03-04)
+laptop | • Added input 'hive/nvf/nil/flake-utils':
+laptop |     follows 'hive/nvf/flake-utils'
+laptop | • Added input 'hive/nvf/nil/nixpkgs':
+laptop |     follows 'hive/nvf/nixpkgs'
+laptop | • Added input 'hive/nvf/nil/rust-overlay':
+laptop |     'github:oxalica/rust-overlay/aefb7017d710f150970299685e8d8b549d653649?narHash=sha256-52vwEV0oS2lCnx3c/alOFGglujZTLmObit7K8VblnS8%3D' (2025-03-04)
+laptop | • Added input 'hive/nvf/nil/rust-overlay/nixpkgs':
+laptop |     follows 'hive/nvf/nil/nixpkgs'
+laptop | • Added input 'hive/nvf/nixpkgs':
+laptop |     'github:nixos/nixpkgs/573c650e8a14b2faa0041645ab18aed7e60f0c9a?narHash=sha256-4thdbnP6dlbdq%2BqZWTsm4ffAwoS8Tiq1YResB%2BRP6WE%3D' (2025-03-13)
+laptop | • Added input 'hive/nvf/nmd':
+laptop |     'sourcehut:~rycee/nmd/66d9334933119c36f91a78d565c152a4fdc8d3d3?narHash=sha256-x3zzcdvhJpodsmdjqB4t5mkVW22V3wqHLOun0KRBzUI%3D' (2024-01-12)
+laptop | • Added input 'hive/nvf/systems':
+laptop |     'github:nix-systems/default/da67096a3b9bf56a91d16901293e51ba5b49a27e?narHash=sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768%3D' (2023-04-09)
+laptop | • Added input 'hive/sops-nix':
+laptop |     'github:Mic92/sops-nix/1770be8ad89e41f1ed5a60ce628dd10877cb3609?narHash=sha256-r0aq70/3bmfjTP%2BJZs4%2BXV5SgmCtk1BLU4CQPWGtA7o%3D' (2025-03-19)
+laptop | • Added input 'hive/sops-nix/nixpkgs':
+laptop |     follows 'hive/nixpkgs-stable'
+laptop | • Added input 'hive/stylix':
+laptop |     'github:danth/stylix/7e9906679d384472849272e5a5eef7adbdb1d87f?narHash=sha256-UpJrU0DEhNLVZwL/RPVOEUHCG6iDOVDoYelkmgS4V38%3D' (2025-03-20)
+laptop | • Added input 'hive/stylix/base16':
+laptop |     'github:SenchoPens/base16.nix/153d52373b0fb2d343592871009a286ec8837aec?narHash=sha256-%2BR1BH5wHhfnycySb7Sy5KbYEaTJZWm1h%2BLW1OtyhiTs%3D' (2024-11-21)
+laptop | • Added input 'hive/stylix/base16/fromYaml':
+laptop |     'github:SenchoPens/fromYaml/106af9e2f715e2d828df706c386a685698f3223b?narHash=sha256-lq95WydhbUTWig/JpqiB7oViTcHFP8Lv41IGtayokA8%3D' (2024-11-18)
+laptop | • Added input 'hive/stylix/base16-fish':
+laptop |     'github:tomyun/base16-fish/2f6dd973a9075dabccd26f1cded09508180bf5fe?narHash=sha256-PebymhVYbL8trDVVXxCvZgc0S5VxI7I1Hv4RMSquTpA%3D' (2021-06-01)
+laptop | • Added input 'hive/stylix/base16-helix':
+laptop |     'github:tinted-theming/base16-helix/03860521c40b0b9c04818f2218d9cc9efc21e7a5?narHash=sha256-esD42YdgLlEh7koBrSqcT7p2fsMctPAcGl/%2B2sYJa2o%3D' (2025-01-14)
+laptop | • Added input 'hive/stylix/base16-vim':
+laptop |     'github:tinted-theming/base16-vim/577fe8125d74ff456cf942c733a85d769afe58b7?narHash=sha256-e0bpPySdJf0F68Ndanwm%2BKWHgQiZ0s7liLhvJSWDNsA%3D' (2024-11-28)
+laptop | • Added input 'hive/stylix/firefox-gnome-theme':
+laptop |     'github:rafaelmardojai/firefox-gnome-theme/5a81d390bb64afd4e81221749ec4bffcbeb5fa80?narHash=sha256-RsvHGNTmO2e/eVfgYK7g%2BeYEdwwh7SbZa%2BgZkT24MEA%3D' (2025-03-10)
+laptop | • Added input 'hive/stylix/flake-compat':
+laptop |     'github:edolstra/flake-compat/ff81ac966bb2cae68946d5ed5fc4994f96d0ffec?narHash=sha256-NeCCThCEP3eCl2l/%2B27kNNK7QrwZB1IJCrXfrbv5oqU%3D' (2024-12-04)
+laptop | • Added input 'hive/stylix/flake-utils':
+laptop |     'github:numtide/flake-utils/11707dc2f618dd54ca8739b309ec4fc024de578b?narHash=sha256-l0KFg5HjrsfsO/JpG%2Br7fRrqm12kzFHyUHqHCVpMMbI%3D' (2024-11-13)
+laptop | • Added input 'hive/stylix/flake-utils/systems':
+laptop |     follows 'hive/stylix/systems'
+laptop | • Added input 'hive/stylix/git-hooks':
+laptop |     'github:cachix/git-hooks.nix/b5a62751225b2f62ff3147d0a334055ebadcd5cc?narHash=sha256-srpAbmJapkaqGRE3ytf3bj4XshspVR5964OX5LfjDWc%3D' (2025-03-07)
+laptop | • Added input 'hive/stylix/git-hooks/flake-compat':
+laptop |     follows 'hive/stylix/flake-compat'
+laptop | • Added input 'hive/stylix/git-hooks/gitignore':
+laptop |     'github:hercules-ci/gitignore.nix/637db329424fd7e46cf4185293b9cc8c88c95394?narHash=sha256-HG2cCnktfHsKV0s4XW83gU3F57gaTljL9KNSuG6bnQs%3D' (2024-02-28)
+laptop | • Added input 'hive/stylix/git-hooks/gitignore/nixpkgs':
+laptop |     follows 'hive/stylix/git-hooks/nixpkgs'
+laptop | • Added input 'hive/stylix/git-hooks/nixpkgs':
+laptop |     follows 'hive/stylix/nixpkgs'
+laptop | • Added input 'hive/stylix/gnome-shell':
+laptop |     'github:GNOME/gnome-shell/dadd58f630eeea41d645ee225a63f719390829dc?narHash=sha256-JhUWbcYPjHO3Xs3x9/Z9RuqXbcp5yhPluGjwsdE2GMg%3D' (2024-11-23)
+laptop | • Added input 'hive/stylix/home-manager':
+laptop |     'github:nix-community/home-manager/7fb8678716c158642ac42f9ff7a18c0800fea551?narHash=sha256-2aYfV44h18alHXopyfL4D9GsnpE5XlSVkp4MGe586VU%3D' (2025-03-10)
+laptop | • Added input 'hive/stylix/home-manager/nixpkgs':
+laptop |     follows 'hive/stylix/nixpkgs'
+laptop | • Added input 'hive/stylix/nixpkgs':
+laptop |     follows 'hive/nixpkgs-stable'
+laptop | • Added input 'hive/stylix/nur':
+laptop |     'github:nix-community/NUR/5479646b2574837f1899da78bdf9a48b75a9fb27?narHash=sha256-emkxnsZstiJWmGACimyAYqIKz2Qz5We5h1oBVDyQjLw%3D' (2025-03-11)
+laptop | • Added input 'hive/stylix/nur/flake-parts':
+laptop |     'github:hercules-ci/flake-parts/205b12d8b7cd4802fbcb8e8ef6a0f1408781a4f9?narHash=sha256-4pDvzqnegAfRkPwO3wmwBhVi/Sye1mzps0zHWYnP88c%3D' (2024-12-04)
+laptop | • Added input 'hive/stylix/nur/flake-parts/nixpkgs-lib':
+laptop |     follows 'hive/stylix/nur/nixpkgs'
+laptop | • Added input 'hive/stylix/nur/nixpkgs':
+laptop |     follows 'hive/stylix/nixpkgs'
+laptop | • Added input 'hive/stylix/nur/treefmt-nix':
+laptop |     'github:numtide/treefmt-nix/49717b5af6f80172275d47a418c9719a31a78b53?narHash=sha256-JIPcz1PrpXUCbaccEnrcUS8jjEb/1vJbZz5KkobyFdM%3D' (2024-12-03)
+laptop | • Added input 'hive/stylix/nur/treefmt-nix/nixpkgs':
+laptop |     follows 'hive/stylix/nur/nixpkgs'
+laptop | • Added input 'hive/stylix/systems':
+laptop |     'github:nix-systems/default/da67096a3b9bf56a91d16901293e51ba5b49a27e?narHash=sha256-Vy1rq5AaRuLzOxct8nz4T6wlgyUR7zLU309k9mBC768%3D' (2023-04-09)
+laptop | • Added input 'hive/stylix/tinted-foot':
+laptop |     'github:tinted-theming/tinted-foot/fd1b924b6c45c3e4465e8a849e67ea82933fcbe4?narHash=sha256-%2BeDZPkw7efMNUf3/Pv0EmsidqdwNJ1TaOum6k7lngDQ%3D' (2024-09-21)
+laptop | • Added input 'hive/stylix/tinted-kitty':
+laptop |     'github:tinted-theming/tinted-kitty/eb39e141db14baef052893285df9f266df041ff8?narHash=sha256-2xF3sH7UIwegn%2B2gKzMpFi3pk5DlIlM18%2Bvj17Uf82U%3D' (2024-05-23)
+laptop | • Added input 'hive/stylix/tinted-schemes':
+laptop |     'github:tinted-theming/schemes/47c8c7726e98069cade5827e5fb2bfee02ce6991?narHash=sha256-YKM1RJbL68Yp2vESBqeZQBjTETXo8mCTTzLZyckCfZk%3D' (2025-03-08)
+laptop | • Added input 'hive/stylix/tinted-tmux':
+laptop |     'github:tinted-theming/tinted-tmux/d48ee86394cbe45b112ba23ab63e33656090edb4?narHash=sha256-zWcCXgdC4/owfH/eEXx26y5BLzTrefjtSLFHWVD5KxU%3D' (2025-03-02)
+laptop | • Added input 'hive/stylix/tinted-zed':
+laptop |     'github:tinted-theming/base16-zed/122c9e5c0e6f27211361a04fae92df97940eccf9?narHash=sha256-8P1b6mJWyYcu36WRlSVbuj575QWIFZALZMTg5ID/sM4%3D' (2024-09-08)
+laptop | • Added input 'hive/zen-browser':
+laptop |     'github:0xc000022070/zen-browser-flake/0f396890cefee28c1e204f891a287bf33fba3fce?narHash=sha256-t1i%2B0/dM4jkMUWMTcl7hlmCHFtwdGJdIIqKh0cLHlHU%3D' (2025-03-21)
+laptop | • Added input 'hive/zen-browser/nixpkgs':
+laptop |     'github:nixos/nixpkgs/b6eaf97c6960d97350c584de1b6dcff03c9daf42?narHash=sha256-Txwa5uO%2BqpQXrNG4eumPSD%2BhHzzYi/CdaM80M9XRLCo%3D' (2025-03-18)
+laptop | evaluation warning: The option `hardware.pulseaudio' defined in `/nix/store/9qriscsmr8k771sqw2cnj2i3qx1y72q4-source/Modules/Host/workstation' has been renamed to `services.pulseaudio'.
+laptop | Evaluated laptop
+laptop | Building laptop
+laptop | these 7 derivations will be built:
+laptop |   /nix/store/n9k8v783993zh9jkd2nq63fs4g2g75k9-minecraft-server-1.21.1.drv
+laptop |   /nix/store/fvs7qjh7pdbavjr018i3hns0jhvld63y-minecraft-server-vanilla-start.drv
+laptop |   /nix/store/rwgv7lbxr5w4wcjh9skn1mvk652g038j-unit-minecraft-server-vanilla.service.drv
+laptop |   /nix/store/dlc7nckgyap1pap9lhb9m5f4dvxm7ka0-system-units.drv
+laptop |   /nix/store/8781m3zgnjvcwaxmk9b1xqhf9xw2wn35-etc.drv
+laptop |   /nix/store/fbvqcqvgx269vsmpw55cafycdj4g98nx-manifest.json.drv
+laptop |   /nix/store/6gsfw2vq600p3whcjlggzxnck57k9qi5-nixos-system-laptop-25.05pre-git.drv
+laptop | this path will be fetched (49.21 MiB download, 49.24 MiB unpacked):
+laptop |   /nix/store/wpq8kdmy7qrslj6ibk7dsx56pjmhh98s-server.jar
+laptop | building '/nix/store/fbvqcqvgx269vsmpw55cafycdj4g98nx-manifest.json.drv'...
+laptop | copying path '/nix/store/wpq8kdmy7qrslj6ibk7dsx56pjmhh98s-server.jar' from 'https://cache.nixos.org'...
+laptop | building '/nix/store/n9k8v783993zh9jkd2nq63fs4g2g75k9-minecraft-server-1.21.1.drv'...
+laptop | Running phase: patchPhase
+laptop | Running phase: updateAutotoolsGnuConfigScriptsPhase
+laptop | Running phase: configurePhase
+laptop | no configure script, doing nothing
+laptop | Running phase: buildPhase
+laptop | no Makefile or custom buildPhase, doing nothing
+laptop | Running phase: installPhase
+laptop | '/nix/store/wpq8kdmy7qrslj6ibk7dsx56pjmhh98s-server.jar' -> '/nix/store/fv9s0ln5xnmhj8269za7pfwxrllcd2l4-minecraft-server-1.21.1/lib/minecraft/server.jar'
+laptop | Running phase: fixupPhase
+laptop | shrinking RPATHs of ELF executables and libraries in /nix/store/fv9s0ln5xnmhj8269za7pfwxrllcd2l4-minecraft-server-1.21.1
+laptop | checking for references to /build/ in /nix/store/fv9s0ln5xnmhj8269za7pfwxrllcd2l4-minecraft-server-1.21.1...
+laptop | patching script interpreter paths in /nix/store/fv9s0ln5xnmhj8269za7pfwxrllcd2l4-minecraft-server-1.21.1
+laptop | /nix/store/fv9s0ln5xnmhj8269za7pfwxrllcd2l4-minecraft-server-1.21.1/bin/minecraft-server: interpreter directive changed from "#!/bin/sh" to "/nix/store/ki4if6b0w5bqv8dc5lrjp8xm7wjy9dlf-bash-5.2p37/bin/sh"
+laptop | building '/nix/store/fvs7qjh7pdbavjr018i3hns0jhvld63y-minecraft-server-vanilla-start.drv'...
+laptop | building '/nix/store/rwgv7lbxr5w4wcjh9skn1mvk652g038j-unit-minecraft-server-vanilla.service.drv'...
+laptop | building '/nix/store/dlc7nckgyap1pap9lhb9m5f4dvxm7ka0-system-units.drv'...
+laptop | building '/nix/store/8781m3zgnjvcwaxmk9b1xqhf9xw2wn35-etc.drv'...
+laptop | building '/nix/store/6gsfw2vq600p3whcjlggzxnck57k9qi5-nixos-system-laptop-25.05pre-git.drv'...
+laptop | /nix/store/xza3mvkrpd1zri36zvdcj2ylw4qng1gh-nixos-system-laptop-25.05pre-git
+laptop | Built "/nix/store/xza3mvkrpd1zri36zvdcj2ylw4qng1gh-nixos-system-laptop-25.05pre-git"
+laptop | Pushing system closure
+laptop | Pushed system closure
+laptop | No pre-activation keys to upload
+laptop | Activating system profile
+laptop | updating GRUB 2 menu...
+laptop | stopping the following units: minecraft-server-vanilla.service
+laptop | activating the configuration...
+laptop | setting up /etc...
+laptop | sops-install-secrets: Imported /etc/ssh/ssh_host_rsa_key as GPG key with fingerprint f20183d23cc646cb5941ab8707ddbabfe4b92bab
+laptop | sops-install-secrets: Imported /etc/ssh/ssh_host_ed25519_key as age key with fingerprint age12at80gdzrw9j0sznq0d9lvxk32clpgps0ka6cz4lj7glklaf7dtsecvx2m
+laptop | reloading user units for titouan...
+laptop | restarting sysinit-reactivation.target
+laptop | starting the following units: minecraft-server-vanilla.service
+laptop | the following new units were started: NetworkManager-dispatcher.service, ollama.service
+laptop | Activation successful
+laptop | No post-activation keys to upload
+       | All done!

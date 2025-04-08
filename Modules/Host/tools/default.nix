@@ -33,6 +33,8 @@ in {
       whatweb
       exploitdb
       metasploit
+      binwalk
+      wireshark
     ];
     programs.wireshark.enable = true;
   };

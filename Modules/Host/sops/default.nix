@@ -20,7 +20,6 @@ in {
 
   imports = [inputs.sops-nix.nixosModules.sops];
   config = mkIf cfg.enable {
-    fileSystems."/home".neededForBoot = true;
     environment.systemPackages = with pkgs; [
       age
       sops

@@ -180,3 +180,10 @@ Cloudflare-tunnel for reverse proxy of important channel.
     - HTTP: 15000 (Blocked)
     - HTTPS: 15443
   - Local: False
+
+- Grafana:
+  - Endpoint: grafana.tolok.org
+  - Port:
+    - HTTP: 47726 (Blocked)
+  - Local: False  # TODO make True
+  

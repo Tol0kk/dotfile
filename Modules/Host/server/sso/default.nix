@@ -2,17 +2,13 @@
   lib,
   config,
   pkgs,
+  pkgs-unstable,
   ...
 }:
 with lib; let
   cfg = config.modules.server.kanidm;
   serverDomain = config.modules.server.cloudflared.domain;
   domain = "sso.${serverDomain}";
-
-  dump-cert = pkgs.writeShellScriptBin "dump-cert" ''
-    ${pkgs.traefik-certs-dumper}/bin/traefik-certs-dumper file --domain-subdir --crt-name public --key-name private --source /var/lib/traefik/acme.json --dest /var/lib/certificates/ --version v2
-    ${pkgs.coreutils}/bin/chown kanidm /var/lib/certificates/sso.tolok.org/private.key
-  '';
 in {
   options.modules.server.kanidm = {
     enable = mkOption {
@@ -54,6 +50,7 @@ in {
       };
 
       services.kanidm = {
+        package = pkgs-unstable.kanidm;
         enableServer = true;
         serverSettings = {
           origin = "https://${domain}";
