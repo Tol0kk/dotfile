@@ -1,4 +1,4 @@
-{mainUser, ...}: {
+{mainUser, pkgs, ...}: {
   modules = {
     bluetooth.enable = true;
     workstation = {
@@ -23,10 +23,46 @@
     ];
   };
 
+  # boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
+
+  boot.initrd.luks.devices."luks-c19801cf-8ba0-488b-97d1-959651c21ab9".device = "/dev/disk/by-uuid/c19801cf-8ba0-488b-97d1-959651c21ab9";
+
+  boot.initrd.systemd.enable = true;
+
+  boot = {
+    plymouth = {
+      enable = true;
+      theme = "cubes";
+      themePackages = with pkgs; [
+        # By default we would install all themes
+        (adi1090x-plymouth-themes.override {
+          selected_themes = ["cubes"];
+        })
+      ];
+    };
+
+    # Enable "Silent Boot"
+    consoleLogLevel = 0;
+    initrd.verbose = false;
+    kernelParams = [
+      "quiet"
+      "splash"
+      "boot.shell_on_fail"
+      "loglevel=3"
+      "rd.systemd.show_status=false"
+      "rd.udev.log_level=3"
+      "udev.log_priority=3"
+    ];
+  };
+
+  services.xserver.displayManager.autoLogin.enable = true;
+  services.xserver.displayManager.autoLogin.user = "titouan";
+
   powerManagement.cpuFreqGovernor = "performance";
   powerManagement.enable = true;
 
-  boot.binfmt.emulatedSystems = ["i686-linux" "aarch64-linux"];
+  boot.binfmt.emulatedSystems = ["aarch64-linux"];
 
-  system.stateVersion = "24.05"; # Did you read the comment?
+  system.stateVersion = "24.11"; # Did you read the comment?
 }

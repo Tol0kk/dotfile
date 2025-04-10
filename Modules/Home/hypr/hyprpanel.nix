@@ -3,7 +3,6 @@
   inputs,
   lib,
   config,
-  pkgs-stable,
   ...
 }:
 with lib; let
@@ -12,34 +11,27 @@ in {
   imports = [inputs.hyprpanel.homeManagerModules.hyprpanel];
 
   config = mkIf cfg.enable {
+    sops.secrets."titouan/weather_api_key" = {};
     programs.hyprpanel = {
-      # Enable the module.
-      # Default: false
       enable = true;
       overlay.enable = true;
-      systemd.enable = true;
       hyprland.enable = true;
-      # Import a theme from './themes/*.json'.
-      # Default: ""
-      theme = "gruvbox_split";
-      # Configure bar layouts for monitors.
-      # See 'https://hyprpanel.com/configuration/panel.html'.
-      # Default: null
-      layout = {
-        bar.layouts = {
-          "0" = {
-            left = ["dashboard" "workspaces" "windowtitle"];
-            middle = ["media"];
-            right = ["volume" "network" "bluetooth" "systray" "clock" "battery" "notifications"];
-          };
-          "1" = {
-            left = ["dashboard" "workspaces" "windowtitle"];
-            middle = ["media"];
-            right = ["volume" "clock" "notifications"];
+      settings = {
+        theme.name = "gruvbox_split";
+        layout = {
+          bar.layouts = {
+            "0" = {
+              left = ["dashboard" "workspaces" "windowtitle"];
+              middle = ["media"];
+              right = ["volume" "network" "bluetooth" "systray" "clock" "battery" "notifications"];
+            };
+            "1" = {
+              left = ["dashboard" "workspaces" "windowtitle"];
+              middle = ["media"];
+              right = ["volume" "clock" "notifications"];
+            };
           };
         };
-      };
-      settings = {
         bar.battery.hideLabelWhenFull = true;
         bar.bluetooth.label = false;
         bar.bluetooth.middleClick = "blueman-manager";
@@ -47,7 +39,7 @@ in {
         bar.launcher.autoDetectIcon = true;
         bar.launcher.icon = "❄️";
         bar.media.show_active_only = true;
-        bar.network.middleClick = "${pkgs.kitty}/bin/kitty ${pkgs.networkmanager}/bin/nmtui"; # TODO:
+        bar.network.middleClick = "${pkgs.kitty}/bin/kitty ${pkgs.networkmanager}/bin/nmtui";
         bar.network.showWifiInfo = true;
         bar.network.truncation_size = 9;
         bar.notifications.show_total = true;
@@ -59,7 +51,7 @@ in {
         bar.workspaces.showWsIcons = true;
         bar.workspaces.spacing = 0.5;
         menus.clock.time.military = true;
-        menus.clock.weather.key = "f26639b088424d659d0195203251102"; #TODO: expose inside a json with sops secrets
+        menus.clock.weather.key = config.sops.secrets."${config.home.username}/weather_api_key".path; #TODO: expose inside a json with sops secrets
         menus.clock.weather.location = "Rennes";
         menus.clock.weather.unit = "metric";
         menus.dashboard.stats.enable_gpu = true;

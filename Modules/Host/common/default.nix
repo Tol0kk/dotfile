@@ -62,6 +62,11 @@
     programs.fish.enable = true;
 
     networking.nameservers = [
+      # "1.1.1.1"
+      # "0.0.0.0"
+    ];
+
+    services.resolved.fallbackDns = [
       "1.1.1.1"
       "0.0.0.0"
     ];

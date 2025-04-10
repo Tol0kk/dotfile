@@ -38,8 +38,11 @@
   boot.loader.efi.efiSysMountPoint = "/boot";
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.grub.enable = false;
+  # networking.networkmanager.enable = true;
 
   programs.command-not-found.enable = false;
+  services.resolved.enable = false;
+  
 
   system.stateVersion = "24.05"; # Did you read the comment?
 

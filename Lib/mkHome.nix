@@ -27,6 +27,7 @@
     home.username = username;
     home.homeDirectory = /home/${username};
     programs.home-manager.enable = true;
+
   };
   common_special_args = import ./. inputs;
 in
@@ -35,6 +36,7 @@ in
     modules =
       [
         "${self}/Home/${username}/home.nix"
+        inputs.sops-nix.homeManagerModules.sops
         globalConfig
       ]
       ++ home_modules;

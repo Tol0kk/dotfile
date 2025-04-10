@@ -1,6 +1,8 @@
 {
   lib,
   pkgs,
+  self,
+  config,
   ...
 }: {
   modules = {
@@ -20,6 +22,10 @@
   home.sessionVariables = {
     MY_BROWSER = "${pkgs.firefox}/bin/firefox"; # TODO: move to browser config file later
   };
+
+    sops.defaultSopsFile = "${self}/secrets/secrets.yaml";
+    sops.age.keyFile = "${config.home.homeDirectory}/.config/sops/age/keys.txt";
+    sops.defaultSopsFormat = "yaml";
 
   programs.nix-your-shell.enable = true;
 

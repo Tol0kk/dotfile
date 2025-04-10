@@ -209,13 +209,13 @@ in
         bindm = $mainMod, mouse:273, resizewindow
 
         # MEDIA keys
-        bindl=,XF86AudioPlay,exec,playerctl play-pause
-        bind=,XF86AudioNext,exec,playerctl next
-        bind=,XF86AudioPrev,exec,playerctl previous
+        bindl=,XF86AudioPlay,exec,${pkgs.playerctl}/bin/playerctl play-pause
+        bind=,XF86AudioNext,exec,${pkgs.playerctl}/bin/playerctl next
+        bind=,XF86AudioPrev,exec,${pkgs.playerctl}/bin/playerctl previous
 
-        binde=,XF86AudioRaiseVolume,exec,volumectl -u +
-        binde=,XF86AudioLowerVolume,exec,volumectl -u -
-        binde=,XF86AudioMute,exec,volumectl %
+        binde=,XF86AudioRaiseVolume,exec,${pkgs.wireplumber}/bin/wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+
+        binde=,XF86AudioLowerVolume,exec,${pkgs.wireplumber}/bin/wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%-
+        binde=,XF86AudioMute,exec,${pkgs.wireplumber}/bin/wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle
 
         binde=SHIFT,XF86AudioRaiseVolume,exec,volumectl -mu +
         binde=SHIFT,XF86AudioLowerVolume,exec,volumectl -mu -

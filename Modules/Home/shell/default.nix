@@ -35,6 +35,14 @@ in {
         fish_greeting = "fastfetch";
       };
       interactiveShellInit = ''
+        function notify_long_tasks --on-event fish_postexec
+            if [ "$CMD_DURATION" -gt 20000 ] # 5 seconds
+              set duration (echo "$CMD_DURATION 1000" | ${pkgs.busybox}/bin/awk '{printf "%.3fs", $1 / $2}')
+              ${pkgs.libnotify}/bin/notify-send (echo (history | head -1) returned $status after $duration)
+              ${pkgs.pulseaudio}/bin/paplay ${pkgs.sound-theme-freedesktop.out}/share/sounds/freedesktop/stereo/bell.oga
+            end
+        end
+
         ${pkgs.nix-your-shell}/bin/nix-your-shell fish | source
       '';
     };
