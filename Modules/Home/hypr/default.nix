@@ -15,6 +15,11 @@ in {
       type = types.bool;
       default = false;
     };
+    minimal = mkOption {
+      description = "Enable hypr with minimal effects";
+      type = types.bool;
+      default = false;
+    };
   };
 
   imports = [./hyprpanel.nix];
@@ -28,5 +33,14 @@ in {
     (import ./hyprland.nix {
       inherit inputs pkgs lib config pkgs-stable;
     })
+    {
+      specialisation.hyrp-minimal.configuration = {
+        config.modules= {
+          hypr.minimal = true;
+         theme.background-image = "${pkgs.assets}/background-2.png";
+         theme.opacity = 1.0;
+        };
+      };
+    }
   ];
 }

@@ -10,10 +10,10 @@ with lib; let
 in {
   imports = [inputs.hyprpanel.homeManagerModules.hyprpanel];
 
-  config = mkIf cfg.enable {
+  config = mkIf (!cfg.minimal && cfg.enable) {
     sops.secrets."titouan/weather_api_key" = {};
     programs.hyprpanel = {
-      enable = true;
+      enable = false;
       overlay.enable = true;
       hyprland.enable = true;
       settings = {

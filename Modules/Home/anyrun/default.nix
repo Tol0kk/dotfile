@@ -14,11 +14,11 @@ in {
     enable = mkOption {
       description = "Enable Anyrun";
       type = types.bool;
-      default = true;
+      default = false;
     };
   };
 
-  imports = [inputs.anyrun.homeManagerModules.default];
+  # imports = [inputs.anyrun.homeManagerModules.default];
   config = mkIf cfg.enable {
     home.packages = with pkgs; [
       xdg-utils

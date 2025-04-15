@@ -69,8 +69,8 @@ in
         ############
         general {
             # See https://wiki.hyprland.org/Configuring/Variables/ for more
-             gaps_in = 5
-            gaps_out = 10
+            gaps_in = 5
+            gaps_out = 5
             border_size = 2
             col.active_border = rgba(33ccffee) rgba(00ff99ee) 45deg
             col.inactive_border = rgba(595959aa)
@@ -81,23 +81,23 @@ in
         decoration {
             # See https://wiki.hyprland.org/Configuring/Variables/ for more
 
-            rounding = 10
+            rounding =  ${if (cfg.minimal) then "0" else "10"}
 
             blur {
-                enabled = true
+                enabled = ${if (cfg.minimal) then "false" else "true"}
                 size = 10
                 passes = 2
             }
 
             shadow {
-                enabled = true
+                enabled =  ${if (cfg.minimal) then "false" else "true"}
                 range = 4
                 render_power = 3
                 color = rgba(33ccffee)
             }
         }
         animations {
-            enabled = yes
+            enabled = ${if (cfg.minimal) then "no" else "yes"}
             # Some default animations, see https://wiki.hyprland.org/Configuring/Animations/ for more
             bezier = myBezier, 0.05, 0.9, 0.1, 1.05
             animation = windows, 1, 7, myBezier
@@ -115,8 +115,10 @@ in
         misc {
             # See https://wiki.hyprland.org/Confimkguring/Variables/ for more
             force_default_wallpaper = 0 # Set to 0 to disable the anime mascot wallpapers
+            enable_anr_dialog=false
+            disable_hyprland_logo=true
+            disable_splash_rendering=true
         }
-
 
         ############
         # Window Rules

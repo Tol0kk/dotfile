@@ -39,6 +39,7 @@ in {
           "git.confirmSync" = false;
           "explorer.confirmDelete" = false;
           "redhat.telemetry.enabled" = false;
+          "jupyter.askForKernelRestart" = false;
 
           "nix" = {
             "formatterPath" = "alejandra";

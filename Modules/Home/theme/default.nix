@@ -24,13 +24,19 @@ in {
       description = "Set theme font_size";
       default = 11;
     };
+    background-image = mkOption {
+      description = "Set background. given a path.";
+      type = types.str;
+      # default = "onedark";
+      default = "${pkgs.assets}/background-1.jpg";
+    };
   };
   config = {
     services.wpaperd = {
       enable = true;
       settings = {
         default = {
-          path = "${pkgs.assets}/background.jpg";
+          path = cfg.background-image;
         };
       };
     };
@@ -39,7 +45,7 @@ in {
     gtk.iconTheme.name = "Colloid-dark";
 
     stylix.enable = true;
-    stylix.image = "${pkgs.assets}/background.jpg";
+    stylix.image = cfg.background-image;
     stylix.polarity = "dark";
 
     stylix.base16Scheme =
