@@ -43,6 +43,7 @@ in {
       sops.secrets.delugeAuthFile = {
         owner = config.services.deluge.user;
         group = config.services.deluge.group;
+        mode = "0600";
         sopsFile = ./secrets.yaml;
       };
 
