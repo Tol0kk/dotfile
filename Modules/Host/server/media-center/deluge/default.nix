@@ -39,12 +39,17 @@ in {
         };
       };
 
+      sops.secrets.delugeAuthFile = {
+        owner = config.services.deluge.user;
+        sopsFile = ./secrets.yaml;
+      };
+
       # Deluge
       services.deluge = {
         enable = true;
         web.enable = true;
         declarative = true;
-        authFile = "";
+        authFile = config.sops.secrets.delugeAuthFile.path;
         config = {
           download_location = "/data/torrents/";
           # max_upload_speed = "1000.0";
