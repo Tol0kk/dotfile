@@ -1,6 +1,7 @@
 {
   lib,
   config,
+  pkgs,
   ...
 }:
 with lib; let
@@ -23,7 +24,6 @@ in {
       # services.radarr.enable = true;
       # services.sonarr.enable = true;
       # services.lidarr.enable = true;
-
 
       modules.server.traefik.enable = true;
       services.traefik = {
