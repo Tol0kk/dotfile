@@ -50,7 +50,7 @@ in {
       services.deluge = {
         enable = true;
         web.enable = true;
-        declarative = true;
+        declarative = false;
         # authFile = config.sops.secrets.delugeAuthFile.path;
         config = {
           download_location = "/data/torrents/";
