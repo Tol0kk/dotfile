@@ -20,9 +20,40 @@ in {
   config =
     mkIf cfg.enable
     {
-      services.radarr.enable = true;
+      # services.radarr.enable = true;
       # services.sonarr.enable = true;
-      services.lidarr.enable = true;
-      services.jellyfin.enable = true;
+      # services.lidarr.enable = true;
+
+
+      modules.server.traefik.enable = true;
+      services.traefik = {
+        # OwnCloud Infinite Scale Configuration
+        dynamicConfigOptions = {
+          http = {
+            services.jellyfin.loadBalancer.servers = [
+              {
+                url = "http://localhost:8096";
+              }
+            ];
+
+            routers.jellyfin = {
+              entryPoints = ["websecure"];
+              rule = "Host(`media.${domain}`)";
+              service = "jellyfin";
+              tls.certResolver = "letsencrypt";
+            };
+          };
+        };
+      };
+
+      services.jellyfin = {
+        enable = true;
+        # openFirewall = true;
+      };
+      environment.systemPackages = [
+        pkgs.jellyfin
+        pkgs.jellyfin-web
+        pkgs.jellyfin-ffmpeg
+      ];
     };
 }

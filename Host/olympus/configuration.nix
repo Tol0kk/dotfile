@@ -13,7 +13,7 @@
         domain = "tolok.org";
         tunnelId = "ab1ecc34-4d1c-4356-88e7-ba7889c654ad";
       };
-      # media-center.enable = true;
+      media-center.enable = true;
       forgejo.enable = true;
       grafana.enable = true;
       kanidm.enable = true;
