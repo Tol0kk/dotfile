@@ -51,7 +51,7 @@ in {
         enable = true;
         web.enable = true;
         declarative = true;
-        authFile = config.sops.secrets.delugeAuthFile.path;
+        # authFile = config.sops.secrets.delugeAuthFile.path;
         config = {
           download_location = "/data/torrents/";
           # max_upload_speed = "1000.0";
