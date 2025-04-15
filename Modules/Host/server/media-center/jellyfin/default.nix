@@ -6,6 +6,7 @@
 }:
 with lib; let
   cfg = config.modules.server.media-center.jellyfin;
+  serverDomain = config.modules.server.cloudflared.domain;
   domain = "media.cloud.${serverDomain}";
 in {
   options.modules.server.media-center.jellyfin = {

@@ -6,6 +6,7 @@
 }:
 with lib; let
   cfg = config.modules.server.media-center.deluge;
+  serverDomain = config.modules.server.cloudflared.domain;
   domain = "deluge.cloud.${serverDomain}";
 in {
   options.modules.server.media-center.deluge = {
