@@ -71,11 +71,18 @@ in {
         provision = {
           enable = true;
           datasources.settings.datasources = [
-            {
+            (mkIf config.modules.server.prometheus.enable {
               name = "Prometheus";
               type = "prometheus";
+              access = "proxy";
               url = "http://${config.services.prometheus.listenAddress}:${toString config.services.prometheus.port}";
-            }
+            })
+            ( mkIf config.modules.server.loki.enable {
+              name = "Loki";
+              type = "loki";
+              access = "proxy";
+              url = "http://127.0.0.1:${toString config.services.loki.configuration.server.http_listen_port}";
+            })
           ];
         };
       };
