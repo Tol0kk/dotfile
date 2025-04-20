@@ -5,6 +5,7 @@
   inputs,
   ...
 }: {
+  boot.kernelParams = [ "console=ttyS2,1500000n8" ];
   modules = {
     sops.enable = true;
     server = {
@@ -22,6 +23,8 @@
       kanidm.enable = true;
       wireguard.enable = true;
       prometheus.enable = true;
+      loki.enable = true;
+      promtail.enable = true;
       prometheus-node-exporter.enable = true;
       own-cloud.enable = false;
       # esp-home.enable = true;
@@ -105,7 +108,6 @@
   nix.settings.trusted-users = [mainUser];
 
   # ZFS
-
   boot.supportedFilesystems = ["zfs"];
   boot.zfs.forceImportRoot = false;
   networking.hostId = "54c7f0c1";
