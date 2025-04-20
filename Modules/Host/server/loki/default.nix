@@ -55,7 +55,11 @@ in {
           };
 
           storage_config = {
-            tsdb.dir= "/tmp/loki/tsdb-data";
+            tsdb_shipper = {
+              active_index_directory = "/var/lib/loki/index";
+              cache_location = "/var/lib/loki/index_cache";
+              cache_ttl = "168h"; # Can be increased for faster performance over longer query periods, uses more disk space
+            };
 
             filesystem = {
               directory = "/var/lib/loki/chunks";
