@@ -43,7 +43,7 @@ in {
             configs = [
               {
                 from = "2025-04-06";
-                store = "boltdb-shipper";
+                store = "tsdb";
                 object_store = "filesystem";
                 schema = "v13";
                 index = {
@@ -55,11 +55,7 @@ in {
           };
 
           storage_config = {
-            boltdb_shipper = {
-              active_index_directory = "/var/lib/loki/boltdb-shipper-active";
-              cache_location = "/var/lib/loki/boltdb-shipper-cache";
-              cache_ttl = "24h";
-            };
+            tsdb.dir= "/tmp/loki/tsdb-data";
 
             filesystem = {
               directory = "/var/lib/loki/chunks";
