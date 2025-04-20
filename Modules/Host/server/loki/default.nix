@@ -36,7 +36,7 @@ in {
             chunk_idle_period = "1h"; # Flush chunk if no new logs in 30 min
             chunk_target_size = 999999;
             chunk_retain_period = "30s"; # Keep chunk in memory briefly after flush
-            max_transfer_retries = 0; # No retrying needed for transfers in single-node
+            # max_transfer_retries = 0; # No retrying needed for transfers in single-node
           };
 
           schema_config = {
@@ -59,7 +59,6 @@ in {
               active_index_directory = "/var/lib/loki/boltdb-shipper-active";
               cache_location = "/var/lib/loki/boltdb-shipper-cache";
               cache_ttl = "24h";
-              shared_store = "filesystem";
             };
 
             filesystem = {
@@ -73,10 +72,6 @@ in {
             reject_old_samples_max_age = "168h"; # 7 days max age for ingested logs
           };
 
-          chunk_store_config = {
-            max_look_back_period = "0s"; # Limits how far back you can query (for performance reasons).
-          };
-
           table_manager = {
             # Handles retention & deletion of old index/chunk data
             retention_deletes_enabled = true; # Enable deletion of old logs
@@ -85,8 +80,6 @@ in {
 
           compactor = {
             working_directory = "/var/lib/loki";
-            shared_store = "filesystem";
-            compaction_interval = true;
             compactor_ring = {
               kvstore = {
                 store = "inmemory";
