@@ -5,7 +5,6 @@
   inputs,
   ...
 }: {
-  boot.kernelParams = [ "console=ttyS2,1500000n8" ];
   modules = {
     sops.enable = true;
     server = {
@@ -23,10 +22,10 @@
       kanidm.enable = true;
       wireguard.enable = true;
       prometheus.enable = true;
-      loki.enable = false;
+      loki.enable = true;
       promtail.enable = true;
       prometheus-node-exporter.enable = true;
-      own-cloud.enable = false;
+      own-cloud.enable = true;
       # esp-home.enable = true;
       uptime-kuma.enable = true;
       home-assistant.enable = true;
@@ -44,13 +43,31 @@
   boot.loader.efi.efiSysMountPoint = "/boot";
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.grub.enable = false;
-  # networking.networkmanager.enable = true;
+  networking.networkmanager.enable = true;
 
   programs.command-not-found.enable = false;
   services.resolved.enable = false;
-  
+  # networking.dhcpcd.persistent = true;
 
-  system.stateVersion = "24.05"; # Did you read the comment?
+  # networking.enableIPv6 = true;
+  # networking.useDHCP = true;
+
+  # system.stateVersion = "24.05"; # Did you read the comment?
+
+  # networking.defaultGateway = {
+  #   address = "192.168.1.1";
+  #   interface = "ens3";
+  # };
+  # networking.defaultGateway6 = {
+  #   address = "2a02:842a:3ba7:a201::1";
+  #   interface = "ens3";
+  # };
+  networking.interfaces.enP4p1s0.ipv6.addresses = [
+    {
+      address = "2a02:842a:3ba7:a201:b188:2909:4e2a:7f50";
+      prefixLength = 64;
+    }
+  ];
 
   # Server Service #
   # CloudFlare Tunnels
@@ -107,8 +124,8 @@
   ];
   nix.settings.trusted-users = [mainUser];
 
-   environment.systemPackages = with pkgs; [
-    ani-cliz 
+  environment.systemPackages = with pkgs; [
+    ani-cli
   ];
 
   # ZFS
