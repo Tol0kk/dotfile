@@ -23,7 +23,7 @@
       kanidm.enable = true;
       wireguard.enable = true;
       prometheus.enable = true;
-      loki.enable = true;
+      loki.enable = false;
       promtail.enable = true;
       prometheus-node-exporter.enable = true;
       own-cloud.enable = false;
@@ -106,6 +106,10 @@
     }
   ];
   nix.settings.trusted-users = [mainUser];
+
+   environment.systemPackages = with pkgs; [
+    ani-cliz 
+  ];
 
   # ZFS
   boot.supportedFilesystems = ["zfs"];
