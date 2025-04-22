@@ -62,11 +62,6 @@
     programs.fish.enable = true;
 
     networking.nameservers = [
-      # "1.1.1.1"
-      # "0.0.0.0"
-    ];
-
-    services.resolved.fallbackDns = [
       "1.1.1.1"
       "0.0.0.0"
     ];
@@ -83,6 +78,8 @@
       tmux
       jq
       bedtools
+      tree
+      u-root-cmds
     ];
     environment.variables.EDITOR = "nvim";
     boot.supportedFilesystems = ["ntfs"];
