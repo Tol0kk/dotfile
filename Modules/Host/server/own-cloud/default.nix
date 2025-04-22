@@ -53,7 +53,7 @@ in {
       # OwnCloud Infinite Scale
       services.ocis = {
         enable = true;
-        package = pkgs-unstable.ocis-bin;
+        package = pkgs-unstable.ocis_5-bin;
         url = "https://${domain}";
         environment = {
           LOG_LEVEL = "error";
