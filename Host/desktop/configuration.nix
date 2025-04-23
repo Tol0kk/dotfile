@@ -79,7 +79,7 @@
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIX59IeMArYX5K3SQDzWQj6qqy2D2IGyanwQAjDrbJzz builder@desktop"
     ];
     useDefaultShell = false;
-    shell = pkgs.bashsInteractive;
+    shell = pkgs.bashInteractive;
     group = "builders";
   };
   nix.settings.trusted-users = ["builder"];

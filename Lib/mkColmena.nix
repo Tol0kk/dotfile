@@ -31,6 +31,8 @@ in
         overlays = common_overlay;
       };
 
+      machinesFile = ./machines;
+
       nodeSpecialArgs =
         builtins.mapAttrs
         (

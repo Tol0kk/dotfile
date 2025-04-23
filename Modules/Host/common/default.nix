@@ -132,8 +132,8 @@
         systems = ["x86_64-linux" "aarch64-linux"];
         protocol = "ssh-ng";
         sshUser = "builder";
-        maxJobs = 1;
-        speedFactor = 2;
+        maxJobs = 16;
+        speedFactor = 30;
         supportedFeatures = ["nixos-test" "benchmark" "big-parallel" "kvm"];
         mandatoryFeatures = [];
       }
