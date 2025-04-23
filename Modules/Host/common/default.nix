@@ -109,12 +109,13 @@
           ProxyCommand ${pkgs-unstable.cloudflared}/bin/cloudflared access ssh --hostname %h
         Host laptop.tolok.org
           ProxyCommand ${pkgs-unstable.cloudflared}/bin/cloudflared access ssh --hostname %h
-        Host dekstop # Replace by IP address, or add a ProxyCommand, see man ssh_config for full docs.
+        Host builder # Replace by IP address, or add a ProxyCommand, see man ssh_config for full docs.
           # Prevent using ssh-agent or another keyfile, useful for testing
           IdentitiesOnly yes
-          IdentityFile /root/.ssh/nixremote
+          IdentityFile /root/.ssh/builder@desktop
           # The weakly privileged user on the remote builder – if not set, 'root' is used – which will hopefully fail
           User builder
+          HostName desktop
       '';
     };
     services.openssh = {
@@ -127,9 +128,9 @@
 
     nix.buildMachines = [
       {
-        hostName = "desktop";
+        hostName = "builder";
         systems = ["x86_64-linux" "aarch64-linux"];
-        protocol = "ssh";
+        protocol = "ssh-ng";
         sshUser = "builder";
         maxJobs = 1;
         speedFactor = 2;
