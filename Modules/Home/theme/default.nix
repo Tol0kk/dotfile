@@ -42,7 +42,7 @@ in {
     };
     gtk.enable = true;
     gtk.iconTheme.package = pkgs.colloid-icon-theme;
-    gtk.iconTheme.name = "Colloid-dark";
+    gtk.iconTheme.name = "Colloid-Dark";
 
     stylix.enable = true;
     stylix.image = cfg.background-image;

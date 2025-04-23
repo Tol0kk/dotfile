@@ -65,4 +65,16 @@
   boot.binfmt.emulatedSystems = ["aarch64-linux"];
 
   system.stateVersion = "24.11"; # Did you read the comment?
+
+
+  # Builder User
+  users.users.builder = {
+    createHome = false;
+    isSystemUser = false;
+    homeMode = "500";
+    openssh.authorizedKeys.keys = [
+
+    ];
+  };
+  nix.settings.trusted-users = ["builder"];
 }

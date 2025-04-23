@@ -51,6 +51,7 @@
         "libvirtd"
         "input"
         "adbusers"
+        "sniffnet"
       ];
       useDefaultShell = true;
       createHome = true;
@@ -79,14 +80,26 @@
       jq
       bedtools
       tree
-      u-root-cmds
+      rename
     ];
+
+    users.groups.sniffnet = {};
+
+    security.wrappers.sniffnet = {
+      source = "${pkgs.sniffnet}/bin/sniffnet";
+      capabilities = "cap_net_raw,cap_net_admin+eip";
+      owner = "root";
+      group = "sniffnet";
+      permissions = "u+rx,g+x";
+    };
+
     environment.variables.EDITOR = "nvim";
     boot.supportedFilesystems = ["ntfs"];
 
     # SSH
 
     environment.shellAliases = import ./aliases.nix;
+
 
     programs.ssh = {
       extraConfig = ''
@@ -96,6 +109,12 @@
           ProxyCommand ${pkgs-unstable.cloudflared}/bin/cloudflared access ssh --hostname %h
         Host laptop.tolok.org
           ProxyCommand ${pkgs-unstable.cloudflared}/bin/cloudflared access ssh --hostname %h
+        Host dekstop # Replace by IP address, or add a ProxyCommand, see man ssh_config for full docs.
+          # Prevent using ssh-agent or another keyfile, useful for testing
+          IdentitiesOnly yes
+          IdentityFile /root/.ssh/nixremote
+          # The weakly privileged user on the remote builder – if not set, 'root' is used – which will hopefully fail
+          User builder
       '';
     };
     services.openssh = {
@@ -105,5 +124,22 @@
         KbdInteractiveAuthentication = false;
       };
     };
+
+    nix.buildMachines = [
+      {
+        hostName = "desktop";
+        systems = ["x86_64-linux" "aarch64-linux"];
+        protocol = "ssh";
+        sshUser = "builder";
+        maxJobs = 1;
+        speedFactor = 2;
+        supportedFeatures = ["nixos-test" "benchmark" "big-parallel" "kvm"];
+        mandatoryFeatures = [];
+      }
+    ];
+    nix.distributedBuilds = true;
+    nix.extraOptions = ''
+      builders-use-substitutes = true
+    '';
   };
 }

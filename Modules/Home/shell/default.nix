@@ -2,6 +2,7 @@
   lib,
   config,
   pkgs,
+  pkgs-unstable,
   ...
 }:
 with lib; let
@@ -18,6 +19,7 @@ in {
   config = mkIf cfg.enable {
     programs.starship = {
       enable = true;
+      package = pkgs.starship;
       enableBashIntegration = true;
       enableFishIntegration = true;
       enableNushellIntegration = true;
@@ -38,8 +40,7 @@ in {
         function notify_long_tasks --on-event fish_postexec
             if [ "$CMD_DURATION" -gt 20000 ] # 5 seconds
               set duration (echo "$CMD_DURATION 1000" | ${pkgs.busybox}/bin/awk '{printf "%.3fs", $1 / $2}')
-              ${pkgs.libnotify}/bin/notify-send (echo (history | head -1) returned $status after $duration)
-              ${pkgs.pulseaudio}/bin/paplay ${pkgs.sound-theme-freedesktop.out}/share/sounds/freedesktop/stereo/bell.oga
+              ${pkgs.libnotify}/bin/notify-send (echo (history | head -n 1) returned $status after $duration) &> /dev/null
             end
         end
 

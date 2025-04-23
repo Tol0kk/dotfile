@@ -38,7 +38,6 @@ in {
               rule = "Host(`${domain}`)";
               service = "ocis";
               tls.certResolver = "letsencrypt";
-
             };
           };
         };

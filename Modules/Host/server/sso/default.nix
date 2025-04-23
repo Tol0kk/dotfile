@@ -60,6 +60,10 @@ in {
           # Certs files created by traefik-dumper service
           tls_chain = "/var/lib/certificates/${domain}/public.crt";
           tls_key = "/var/lib/certificates/${domain}/private.key";
+
+          online_backup = {
+            versions = 3; # Number of backups to keep.
+          };
         };
       };
     };

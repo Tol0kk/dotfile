@@ -88,6 +88,10 @@
     accountsservice
     libdbusmenu-gtk3
     cargo-generate
+    brave
+    satty
+    hyprshot
+    ironbar
   ];
 
   services.amberol.enable = true;

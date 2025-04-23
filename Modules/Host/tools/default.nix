@@ -35,6 +35,11 @@ in {
       metasploit
       binwalk
       wireshark
+      burpsuite
+      binwalk
+      volatility3
+      radare2
+      sniffnet
     ];
     programs.wireshark.enable = true;
   };

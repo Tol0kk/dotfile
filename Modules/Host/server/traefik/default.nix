@@ -69,7 +69,7 @@ in {
           accessLog = {
             addInternals = true;
           };
-          log.level = "TRACE";
+          # log.level = "TRACE";
           certificatesResolvers = {
             # vpn.tailscale = {};
             letsencrypt = {

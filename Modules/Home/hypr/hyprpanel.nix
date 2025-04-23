@@ -13,7 +13,7 @@ in {
   config = mkIf (!cfg.minimal && cfg.enable) {
     sops.secrets."titouan/weather_api_key" = {};
     programs.hyprpanel = {
-      enable = false;
+      enable = true;
       overlay.enable = true;
       hyprland.enable = true;
       settings = {

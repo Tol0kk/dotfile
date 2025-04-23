@@ -24,7 +24,7 @@ in
 
         $mainMod = SUPER
         $term = ${pkgs.kitty}/bin/kitty
-        $browser = ${inputs.zen-browser.packages."${pkgs.system}".beta}/bin/zen
+        $browser = ${inputs.zen-browser.packages."${pkgs.system}".beta}/bin/zen-beta
         $wallpaper_daemon = ${pkgs.wpaperd}/bin/wpaperd
         $locker = ${pkgs.hyprlock}/bin/hyprlock
         $file_manager = ${pkgs.nautilus}/bin/nautilus
@@ -227,7 +227,16 @@ in
         binde=,XF86MonBrightnessDown,exec,lightctl down
         binde=,XF86MonBrightnessUp,exec,lightctl up
 
-        bind=,Print, exec, grim - | satty --filename -
+       
+        ### Screen Shot ###
+
+        # Screenshot a window
+        bind = $mainMod, PRINT, exec, ${pkgs.hyprshot}/bin/hyprshot -m window --raw | ${pkgs.satty}/bin/satty -f - --action-on-enter save-to-clipboard --early-exit --copy-command wl-copy
+        # Screenshot a monitor
+        bind = , PRINT, exec, ${pkgs.hyprshot}/bin/hyprshot -m output --raw | ${pkgs.satty}/bin/satty -f - --action-on-enter save-to-clipboard --early-exit --copy-command wl-copy
+        # Screenshot a region
+        bind = $mainMod SHIFT, PRINT, exec, ${pkgs.hyprshot}/bin/hyprshot -m region --raw | ${pkgs.satty}/bin/satty -f - --action-on-enter save-to-clipboard --early-exit --copy-command wl-copy
+
       '';
     };
   }

@@ -1,6 +1,4 @@
 {
-  self,
-  lib,
   libDirs,
   ...
 }: let
