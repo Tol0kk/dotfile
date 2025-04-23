@@ -75,6 +75,9 @@
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIX59IeMArYX5K3SQDzWQj6qqy2D2IGyanwQAjDrbJzz builder@desktop"
     ];
+    useDefaultShell = false;
+    shell = pkgs.bashsInteractive;
+    group = "builders";
   };
   nix.settings.trusted-users = ["builder"];
 }
