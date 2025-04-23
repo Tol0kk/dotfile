@@ -73,7 +73,7 @@
     isSystemUser = false;
     homeMode = "500";
     openssh.authorizedKeys.keys = [
-
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIX59IeMArYX5K3SQDzWQj6qqy2D2IGyanwQAjDrbJzz builder@desktop"
     ];
   };
   nix.settings.trusted-users = ["builder"];
