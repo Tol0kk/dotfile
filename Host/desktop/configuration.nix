@@ -1,4 +1,8 @@
-{mainUser, pkgs, ...}: {
+{
+  mainUser,
+  pkgs,
+  ...
+}: {
   modules = {
     bluetooth.enable = true;
     workstation = {
@@ -16,7 +20,7 @@
     neovim.custom.minimal = false;
   };
 
-    users.users.${mainUser} = {
+  users.users.${mainUser} = {
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAID0FfndDkmaTNmM4XRWe5Qi1avRbhmNEGAjvJWr4GR9t titouan@laptop"
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK7QCPO6Pc8Ir/lNbKK5YS0OwyLKtGFweL9K+Gd7MvFv personal@tolok.org"
@@ -66,11 +70,10 @@
 
   system.stateVersion = "24.11"; # Did you read the comment?
 
-
   # Builder User
   users.users.builder = {
     createHome = false;
-    isSystemUser = false;
+    isNormalUser = true;
     homeMode = "500";
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIIX59IeMArYX5K3SQDzWQj6qqy2D2IGyanwQAjDrbJzz builder@desktop"
