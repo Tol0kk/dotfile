@@ -49,6 +49,10 @@ sudo rkdeveloptool rd
 Reset Device OK.
 ```
 
+# Rock 5B Documentation
+
+https://docs.radxa.com/en/rock5/rock5b/hardware-design/hardware-interface?versions=ROCK+5B
+
 # Architecure
 
 Cloudflare-tunnel for reverse proxy of important channel.
