@@ -80,6 +80,9 @@ in {
             golang.go
             aaron-bond.better-comments
 
+            # DSL Tools
+            hashicorp.terraform
+
             # Java
             vscjava.vscode-java-test
             vscjava.vscode-maven
