@@ -9,7 +9,19 @@
   ".." = "cd ..";
   "..." = "cd ../..";
 
+  # Git
   g = "git";
+  gd = "git diff";
+  ga = "git add";
+  gc = "git commit";
+  gp = "git push";
+  gu = "git pull";
+  gl = "git log";
+  gb = "git branch";
+  gi = "git init";
+  gcl = "git clone";
+  gs = "git status";
+
   #nix update shortcut
   switchsys = "sudo nixos-rebuild switch --flake ~/.config/nixos";
   switchhome = "sudo nixos-rebuild switch --flake ~/.config/nixos";
@@ -24,9 +36,4 @@
   cr = "cargo run";
 
   c = "codium";
-  # Git
-  gs = "git status";
-  gch = "git checkout";
-  gpus = "git push";
-  gpul = "git pull";
 }
