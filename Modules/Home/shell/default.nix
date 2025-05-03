@@ -48,6 +48,17 @@ in {
       '';
     };
 
+
+    programs.bash = {
+      enable = true;
+      enableCompletion = true;
+      shellAliases = import ./aliases.nix;
+      initExtra = ''
+        ${pkgs.nix-your-shell}/bin/nix-your-shell fish | source
+        fastfetch
+      '';
+    };
+
     programs.fastfetch = {
       enable = true;
       settings = {
