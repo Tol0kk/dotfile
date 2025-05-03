@@ -39,7 +39,11 @@
     };
     hyprpanel.url = "github:jas-singhfsu/hyprpanel";
     hyprpanel.inputs.nixpkgs.follows = "nixpkgs-unstable";
-        nix-minecraft.url = "github:Infinidoge/nix-minecraft";
+    nix-minecraft.url = "github:Infinidoge/nix-minecraft";
+    kernel-src = {
+      url = "github:radxa/kernel/linux-6.1-stan-rkr4.1";
+      flake = false;
+    };
   };
 
   outputs = {
