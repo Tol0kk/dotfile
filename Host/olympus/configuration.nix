@@ -17,6 +17,7 @@
         deluge.enable = true;
         jellyfin.enable = true;
       };
+      matrix-conduit.enable = true;
       forgejo.enable = true;
       grafana.enable = true;
       kanidm.enable = true;
@@ -127,6 +128,8 @@
   environment.systemPackages = with pkgs; [
     ani-cli
   ];
+
+  system.stateVersion = "24.11";
 
   # ZFS
   boot.supportedFilesystems = ["zfs"];
