@@ -20,6 +20,14 @@ in {
   config =
     mkIf cfg.enable
     {
+      topology.self.services = {
+        jellyfin = {
+          name = "Jellyfin";
+          info = lib.mkForce "Media Server";
+          details.listen.text = lib.mkForce domain;
+        };
+      };
+
       modules.server.traefik.enable = true;
 
       services.traefik = {

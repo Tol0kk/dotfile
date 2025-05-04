@@ -19,6 +19,14 @@ in {
   };
 
   config = mkIf cfg.enable {
+    topology.self.services = {
+      vaultwarden = {
+        name = "Vaultwarden";
+        info = lib.mkForce "Password Manager";
+        details.listen.text = lib.mkForce domain;
+      };
+    };
+
     # Cloudflare Tunnel (Reverse Proxy)
     services.cloudflared = {
       tunnels."${tunnelId}".ingress."${domain}" = {

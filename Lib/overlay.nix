@@ -50,4 +50,5 @@
     assets = prev.callPackage "${self}/Pkgs/assetsPkgs" {};
   })
   inputs.blender-bin.overlays.default
+  inputs.nix-topology.overlays.default
 ]

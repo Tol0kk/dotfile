@@ -19,6 +19,14 @@ in {
   config =
     mkIf cfg.enable
     {
+      topology.self.services = {
+        promtail = {
+          name = "Promtail";
+          icon = "services.adguardhome"; # TODO create service extractor
+          info = lib.mkForce "Log Collector";
+        };
+      };
+
       services.promtail = {
         enable = true;
         configuration = {

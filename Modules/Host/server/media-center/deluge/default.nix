@@ -20,6 +20,15 @@ in {
   config =
     mkIf cfg.enable
     {
+      topology.self.services = {
+        deluge = {
+          name = "Deluge";
+          icon = "services.adguardhome"; # TODO create service extractor
+          info = lib.mkForce "Torrent Server";
+          details.listen.text = lib.mkForce domain;
+        };
+      };
+
       modules.server.traefik.enable = true;
 
       services.traefik = {

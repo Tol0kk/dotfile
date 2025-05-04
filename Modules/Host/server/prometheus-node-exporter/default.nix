@@ -17,6 +17,14 @@ in {
   config =
     mkIf cfg.enable
     {
+      topology.self.services = {
+        prometheus-node-exporter = {
+          name = "Node Exporter";
+          icon = "services.adguardhome"; # TODO create service extractor
+          info = lib.mkForce "Prometeus Exporter";
+        };
+      };
+
       services.prometheus.exporters.node = {
         enable = true;
         port = 9000;

@@ -3,6 +3,7 @@
   config,
   mainUser,
   inputs,
+  lib,
   ...
 }: {
   modules = {
@@ -22,7 +23,7 @@
       grafana.enable = true;
       kanidm.enable = true;
       wireguard.enable = true;
-glance.enable = true;
+      glance.enable = true;
       prometheus.enable = true;
       loki.enable = true;
       promtail.enable = true;
@@ -33,6 +34,18 @@ glance.enable = true;
       home-assistant.enable = true;
       vaultwarden.enable = true;
     };
+  };
+
+  # Optional: Information Given for generating systems topology
+  topology.self = {
+    name = "Olympus";
+    hardware.info = "Radxa 5B | 16GB";
+  };
+
+  systemd.network.enable = true;
+  systemd.network.networks.enP4p1s0 = {
+    matchConfig.Name = "enP4p1s0";
+    address = ["192.168.1.48/24"];
   };
 
   # Cross Compile
@@ -138,6 +151,16 @@ glance.enable = true;
   networking.hostId = "54c7f0c1";
 
   # Minecraft
+
+  topology.self.services = {
+    nix-minecraft = {
+      name = "Minecraft";
+      icon = "services.minecraft"; # TODO create service extractor
+      info = "Minecraft Server 1.21.1";
+      details.listen.text = "mc.tolok.org";
+    };
+  };
+
   imports = [inputs.nix-minecraft.nixosModules.minecraft-servers];
   nixpkgs.overlays = [inputs.nix-minecraft.overlay];
 

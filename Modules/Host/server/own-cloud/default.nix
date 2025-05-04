@@ -20,6 +20,15 @@ in {
   config =
     mkIf cfg.enable
     {
+      topology.self.services = {
+        ocis = {
+          name = "Own Cloud Infinit Scale";
+          icon = "services.adguardhome"; # TODO create service extractor
+          info = lib.mkForce "Cloud Storage";
+          details.listen.text = lib.mkForce domain;
+        };
+      };
+
       # Traefik
       modules.server.traefik.enable = true;
 
@@ -56,11 +65,11 @@ in {
         url = "https://${domain}";
         environment = {
           LOG_LEVEL = "error";
-            PROXY_TLS = "false";
-            OCIS_INSECURE = "true";
-            PROXY_OIDC_INSECURE = "true";
-            IDM_CREATE_DEMO_USERS="true";
-            PROXY_ENABLE_BASIC_AUTH = "true";
+          PROXY_TLS = "false";
+          OCIS_INSECURE = "true";
+          PROXY_OIDC_INSECURE = "true";
+          IDM_CREATE_DEMO_USERS = "true";
+          PROXY_ENABLE_BASIC_AUTH = "true";
         };
         environmentFile = config.sops.secrets.secrets_env_file.path;
       };

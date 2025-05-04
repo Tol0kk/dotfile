@@ -46,6 +46,14 @@ in {
   config =
     mkIf cfg.enable
     {
+      topology.self.services = {
+        traefik = {
+          name = "Traefik";
+          info = lib.mkForce "Reverse Proxy / MiddleWare";
+          details = lib.mkForce {};
+        };
+      };
+
       # Open Ports
       networking.firewall.allowedTCPPorts = [80 443];
 
@@ -70,8 +78,16 @@ in {
             addInternals = true;
           };
           # log.level = "TRACE";
+          # Add Prometheus support
+          entryPoints."metrics".address = ":8082";
+          metrics.prometheus = {
+            entryPoint = "metrics";
+            addEntryPointsLabels = true;
+            addRoutersLabels = true;
+          };
           certificatesResolvers = {
             # vpn.tailscale = {};
+
             letsencrypt = {
               acme = {
                 email = "personal@tolok.org";

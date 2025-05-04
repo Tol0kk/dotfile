@@ -20,6 +20,15 @@ in {
   config =
     mkIf cfg.enable
     {
+      topology.self.services = {
+        conduit = {
+          name = "Conduit";
+          icon = "services.adguardhome"; # TODO create service extractor
+          info = lib.mkForce "Matric Server";
+          details.listen.text = lib.mkForce domainConduit;
+        };
+      };
+
       # Traefik
       modules.server.traefik.enable = true;
 

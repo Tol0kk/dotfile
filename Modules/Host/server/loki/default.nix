@@ -17,6 +17,13 @@ in {
   config =
     mkIf cfg.enable
     {
+      topology.self.services = {
+        loki = {
+          name = "Loki";
+          info = lib.mkForce "Logs Collector";
+        };
+      };
+
       services.loki = {
         enable = true;
         configuration = {

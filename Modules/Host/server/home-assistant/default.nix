@@ -19,7 +19,15 @@ in {
   config =
     mkIf cfg.enable
     {
-      networking.firewall.allowedTCPPorts = [ 8123 ];
+      topology.self.services = {
+        home-assistant = {
+          name = "Home Assistant";
+          info = lib.mkForce "Home Automation";
+          details.listen.text = lib.mkForce domain;
+        };
+      };
+
+      networking.firewall.allowedTCPPorts = [8123];
       # Make sure traefik module is options
       modules.server.traefik.enable = true;
 

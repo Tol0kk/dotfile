@@ -33,6 +33,24 @@
     udev.enableExtraRules = true;
   };
 
+  # Optional: Information Given for generating systems topology
+  topology.self = {
+    name = "💻  Laptop";
+    hardware.info = "i7 10750H | 32GB | GTX 1650Ti";
+    interfaces.wg0 = {
+      addresses = ["10.100.0.2"];
+      network = "wg0"; # Use the network we define below
+      type = "wireguard"; # changes the icon
+      physicalConnections = [
+        (config.lib.topology.mkConnection "olympus" "wg0")
+      ];
+    };
+    interfaces.wlp30s0 = {
+      addresses = ["192.168.1.78/24"];
+      network = "home"; # Use the network we define below
+    };
+  };
+
   programs.nix-ld.enable = true;
   programs.nix-ld.libraries = with pkgs; [
     stdenv.cc.cc

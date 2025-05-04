@@ -19,6 +19,14 @@ in {
   config =
     mkIf cfg.enable
     {
+      topology.self.services = {
+        grafana = {
+          name = "Grafana";
+          info = lib.mkForce "Metrics & Logs Dashboard";
+          details.listen.text = lib.mkForce domain;
+        };
+      };
+
       # Traefik
       modules.server.traefik.enable = true;
 
@@ -38,6 +46,12 @@ in {
               service = "grafana";
               tls.certResolver = "letsencrypt";
               middlewares = ["oidc-auth"];
+            };
+            routers.grafanaHealth = {
+              entryPoints = ["websecure"];
+              rule = "Host(`${domain}`) && Path(`/api/health`)";
+              service = "grafana";
+              tls.certResolver = "letsencrypt";
             };
           };
         };
@@ -77,7 +91,7 @@ in {
               access = "proxy";
               url = "http://${config.services.prometheus.listenAddress}:${toString config.services.prometheus.port}";
             })
-            ( mkIf config.modules.server.loki.enable {
+            (mkIf config.modules.server.loki.enable {
               name = "Loki";
               type = "loki";
               access = "proxy";

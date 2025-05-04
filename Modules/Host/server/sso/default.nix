@@ -21,6 +21,14 @@ in {
   config =
     mkIf cfg.enable
     {
+      topology.self.services = {
+        kanidm = {
+          name = "Kanidm";
+          info = lib.mkForce "Single Sign-On Provider";
+          details.listen.text = lib.mkForce domain;
+        };
+      };
+
       # Make sure traefik module is options
       modules.server.traefik.enable = true;
 

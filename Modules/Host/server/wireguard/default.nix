@@ -8,7 +8,6 @@ with lib; let
   cfg = config.modules.server.wireguard;
   _serverDomain = config.modules.server.cloudflared.domain;
   _tunnelId = config.modules.server.cloudflared.tunnelId;
-  _domain = "uptime.${serverDomain}";
 in {
   options.modules.server.wireguard = {
     enable = mkOption {
@@ -21,6 +20,14 @@ in {
   config =
     mkIf cfg.enable
     {
+      topology.self.services = {
+        wireguard = {
+          name = "WireGuard";
+          icon = "services.adguardhome"; # TODO create service extractor
+          info = lib.mkForce "Wireguard Server";
+        };
+      };
+
       sops.secrets.wg_server_private_key = {
         # From systemd.netdev(5) [WIREGUARD]
         owner = "systemd-network";
@@ -78,6 +85,13 @@ in {
             IPv4Forwarding = true;
             IPv6Forwarding = true;
           };
+        };
+      };
+      # Optional: Topology
+      topology = {
+        networks.wg0 = {
+          name = "Wireguard network wg0";
+          cidrv4 = "10.100.0.0/24";
         };
       };
     };

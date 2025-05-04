@@ -1,7 +1,7 @@
 {
   lib,
   config,
-pkgs-unstable,
+  pkgs-unstable,
   ...
 }:
 with lib; let
@@ -317,7 +317,7 @@ in {
               rule = "Host(`${domain}`)";
               service = "glance";
               tls.certResolver = "letsencrypt";
-};
+            };
 
             routers.glanceServerPage = {
               entryPoints = ["websecure"];
@@ -330,17 +330,25 @@ in {
         };
       };
 
+      topology.self.services = {
+        glance = {
+          name = "Glance";
+          info = "Dashboard";
+          details.listen.text = domain;
+        };
+      };
+
       # glance Services
       services.glance = {
         enable = true;
-package = pkgs-unstable.glance;
+        package = pkgs-unstable.glance;
         settings = {
           server.port = 8080;
-branding.custom-footer = ''
+          branding.custom-footer = ''
             <p>Powered by <a href="https://github.com/glanceapp/glance">Glance</a></p>
           '';
           pages = [
-# Startpage
+            # Startpage
             {
               name = "Startpage";
               width = "slim";
@@ -455,11 +463,11 @@ branding.custom-footer = ''
             }
 
             # Home Page
-# > Calendar, Weather, Small Video, Small RSS, ...
+            # > Calendar, Weather, Small Video, Small RSS, ...
             {
-name = "Home";
+              name = "Home";
               columns = [
-{
+                {
                   size = "small";
                   widgets = [
                     {
@@ -504,7 +512,7 @@ name = "Home";
                 {
                   size = "full";
                   widgets = [
-# Search Bang
+                    # Search Bang
                     {
                       type = "search";
                       search-engine = "duckduckgo";
@@ -541,16 +549,16 @@ name = "Home";
                     }
                     {
                       type = "calendar";
-first-day-of-week = "monday";
+                      first-day-of-week = "monday";
                     }
                     {
-type = "group";
+                      type = "group";
                       widgets =
                         builtins.map (
-                      location: {
+                          location: {
                             inherit location;
-                      type = "weather";
-units = "metric";
+                            type = "weather";
+                            units = "metric";
                             hour-format = "24h";
                           }
                         )
@@ -656,7 +664,7 @@ units = "metric";
                   ];
                 }
               ];
-                          }
+            }
           ];
         };
       };

@@ -1,6 +1,7 @@
 {
   mainUser,
   pkgs,
+  config,
   ...
 }: {
   modules = {
@@ -18,6 +19,31 @@
     boot.grub.enable = true;
     virtualisation.kvm.enable = true;
     neovim.custom.minimal = false;
+  };
+
+  # Optional: Information Given for generating systems topology
+  topology.self = {
+    name = "🖥️ Desktop";
+    hardware.info = "R5 1600 | 16GB | GTX 1070";
+    interfaces.wg0 = {
+      addresses = ["10.100.0.3"];
+      network = "wg0"; # Use the network we define below
+      type = "wireguard"; # changes the icon
+      physicalConnections = [
+        (config.lib.topology.mkConnection "olympus" "wg0")
+      ];
+    };
+  };
+
+  systemd.network.enable = true;
+  systemd.network.networks.enp25s0 = {
+    matchConfig.Name = "enp25s0";
+    address = ["192.168.1.60/24"];
+  };
+
+  systemd.network.networks.wlp30s0 = {
+    matchConfig.Name = "wlp30s0";
+    address = ["192.168.1.64/24"];
   };
 
   users.users.${mainUser} = {

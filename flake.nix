@@ -40,10 +40,7 @@
     hyprpanel.url = "github:jas-singhfsu/hyprpanel";
     hyprpanel.inputs.nixpkgs.follows = "nixpkgs-unstable";
     nix-minecraft.url = "github:Infinidoge/nix-minecraft";
-    kernel-src = {
-      url = "github:radxa/kernel/linux-6.1-stan-rkr4.1";
-      flake = false;
-    };
+    nix-topology.url = "github:oddlama/nix-topology";
   };
 
   outputs = {
@@ -69,7 +66,7 @@
     lib = import ./Lib inputs; # TODO: Remove after mkHome rewrite
     homeConfigurations = import ./Home inputs;
     colmena = lib.mkColmena inputs;
-nixosConfigurations = lib.mkNixos inputs;
+    nixosConfigurations = lib.mkNixos inputs;
 
     # Apps / Packages provided by this flake
     packages = forAllSystems (system: let
@@ -85,19 +82,17 @@ nixosConfigurations = lib.mkNixos inputs;
       };
     });
 
-    # nixOnDroidConfigurations.default = inputs.nix-on-droid.lib.nixOnDroidConfiguration {
-    #   pkgs = import inputs.nixpkgs-ondroid {
-    #     system = "aarch64-linux";
-    #     overlays = [inputs.nix-on-droid.overlays.default];
-    #   };
-    #   modules = [
-    #     ./Host/pixel8a.nix
-    #     (builtins.map
-    #       (dir: "${self}/Modules/Host/" + dir)
-    #       (
-    #         builtins.attrNames (builtins.readDir "${self}/Modules/Host")
-    #       ))
-    #   ];
-    # };
+    topology.x86_64-linux = import inputs.nix-topology {
+      pkgs = import inputs.nixpkgs-unstable {
+        system = "x86_64-linux";
+        overlays = import ./Lib/overlay.nix {inherit inputs self;};
+      };
+      modules = [
+        # Your own file to define global topology. Works in principle like a nixos module but uses different options.
+        ./Host/topology.nix
+        # Inline module to inform topology of your existing NixOS hosts.
+        {nixosConfigurations = self.nixosConfigurations;}
+      ];
+    };
   };
 }

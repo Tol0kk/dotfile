@@ -17,6 +17,14 @@ in {
   config =
     mkIf cfg.enable
     {
+      topology.self.services = {
+        prometheus = {
+          name = "Prometheus";
+          info = lib.mkForce "Metrics Database";
+          details = lib.mkForce {};
+        };
+      };
+
       # Prometheus Services
       services.prometheus = {
         enable = true;

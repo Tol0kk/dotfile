@@ -19,6 +19,15 @@ in {
   config =
     mkIf cfg.enable
     {
+      topology.self.services = {
+        uptime-kuma = {
+          name = "Uptime Kuma";
+          icon = "services.adguardhome"; # TODO create service extractor
+          info = lib.mkForce "Uptime Monitor";
+          details.listen.text = lib.mkForce domain;
+        };
+      };
+
       # Uptime Kuma Service
       services.uptime-kuma = {
         enable = true;

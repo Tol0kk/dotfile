@@ -1,5 +1,5 @@
 {
-libDirs,
+  libDirs,
   lib,
   ...
 }: {
@@ -8,7 +8,7 @@ libDirs,
   nixpkgs-unstable,
   ...
 } @ inputs: let
-inherit (libDirs) get-directories;
+  inherit (libDirs) get-directories;
 
   # Modules for the host
   host_modules = get-directories "${self}/Modules/Host";
@@ -134,6 +134,7 @@ in
           "${self}/Host/${name}/hardware.nix"
           (common_config {inherit name nixpkgs;})
           inputs.nix-index-database.nixosModules.nix-index
+          inputs.nix-topology.nixosModules.default
         ]
         ++ host_modules;
     }

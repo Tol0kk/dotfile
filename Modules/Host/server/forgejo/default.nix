@@ -19,6 +19,14 @@ in {
   config =
     mkIf cfg.enable
     {
+      topology.self.services = {
+        forgejo = {
+          name = "Forgejo";
+          info = lib.mkForce "Git Repository";
+          details.listen.text = lib.mkForce domain;
+        };
+      };
+
       # Traefik
       modules.server.traefik.enable = true;
 
