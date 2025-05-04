@@ -106,7 +106,6 @@ in {
       fileSystems."/home".neededForBoot = true;
       zramSwap.enable = true;
 
-
       ## package
       environment.systemPackages = with pkgs; [
         inputs.zen-browser.packages."${system}".beta

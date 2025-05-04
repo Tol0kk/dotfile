@@ -1,7 +1,4 @@
-{
-  libDirs,
-  ...
-}: let
+{libDirs, ...}: let
   inherit (libDirs) get-directories;
   modules = get-directories ./.;
 in {

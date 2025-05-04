@@ -81,23 +81,39 @@ in
         decoration {
             # See https://wiki.hyprland.org/Configuring/Variables/ for more
 
-            rounding =  ${if (cfg.minimal) then "0" else "10"}
+            rounding =  ${
+          if (cfg.minimal)
+          then "0"
+          else "10"
+        }
 
             blur {
-                enabled = ${if (cfg.minimal) then "false" else "true"}
+                enabled = ${
+          if (cfg.minimal)
+          then "false"
+          else "true"
+        }
                 size = 10
                 passes = 2
             }
 
             shadow {
-                enabled =  ${if (cfg.minimal) then "false" else "true"}
+                enabled =  ${
+          if (cfg.minimal)
+          then "false"
+          else "true"
+        }
                 range = 4
                 render_power = 3
                 color = rgba(33ccffee)
             }
         }
         animations {
-            enabled = ${if (cfg.minimal) then "no" else "yes"}
+            enabled = ${
+          if (cfg.minimal)
+          then "no"
+          else "yes"
+        }
             # Some default animations, see https://wiki.hyprland.org/Configuring/Animations/ for more
             bezier = myBezier, 0.05, 0.9, 0.1, 1.05
             animation = windows, 1, 7, myBezier
@@ -227,7 +243,7 @@ in
         binde=,XF86MonBrightnessDown,exec,lightctl down
         binde=,XF86MonBrightnessUp,exec,lightctl up
 
-       
+
         ### Screen Shot ###
 
         # Screenshot a window
