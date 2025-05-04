@@ -33,6 +33,7 @@
       uptime-kuma.enable = true;
       home-assistant.enable = true;
       vaultwarden.enable = true;
+      fail2ban.enable = true;
     };
   };
 
