@@ -22,6 +22,7 @@
       grafana.enable = true;
       kanidm.enable = true;
       wireguard.enable = true;
+glance.enable = true;
       prometheus.enable = true;
       loki.enable = true;
       promtail.enable = true;
