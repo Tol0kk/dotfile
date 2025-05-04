@@ -1,5 +1,5 @@
 {
-libDirs,
+  libDirs,
   lib,
   ...
 }: {
@@ -8,7 +8,7 @@ libDirs,
   nixpkgs-unstable,
   ...
 } @ inputs: let
-inherit (libDirs) get-directories;
+  inherit (libDirs) get-directories;
 
   # Modules for the host
   host_modules = get-directories "${self}/Modules/Host";
@@ -70,72 +70,35 @@ inherit (libDirs) get-directories;
       // (import "${self}/Lib/substituters.nix");
   };
 in
-  {
-    meta = {
-      # Never used by any nodes. nodes overides this nixpkgs in nodeNixpkgs.
-      nixpkgs = import nixpkgs-unstable {
-        system = "x86_64-linux";
-        overlays = common_overlay;
-      };
-
-      machinesFile = ./machines;
-
-      nodeSpecialArgs =
-        builtins.mapAttrs
-        (
-          _name: {
-            system,
-            mainUser,
-            ...
-          }:
-            {
-              inherit inputs self mainUser;
-            }
-            // libs // extraPkgs system
-        )
-        hostsConfig;
-
-      nodeNixpkgs =
-        builtins.mapAttrs
-        (
-          _name: {
-            system,
-            nixpkgs,
-            ...
-          }:
-            import nixpkgs {
-              inherit system;
-              hostPlatform.system = system;
-              buildPlatform.system = "x86_64-linux";
-              config = nixpkgs_config;
-              overlays = common_overlay;
-            }
-        )
-        hostsConfig;
-    };
-  }
-  // builtins.mapAttrs
+  builtins.mapAttrs
   (
     name: {
-      allowLocalDeployment,
       mainUser,
-      targetHost ? name,
+      system,
       nixpkgs,
       ...
-    }: {
-      deployment = {
-        inherit allowLocalDeployment targetHost;
-        targetUser = mainUser;
-      };
-
-      imports =
-        [
-          "${self}/Host/${name}/configuration.nix"
-          "${self}/Host/${name}/hardware.nix"
-          (common_config {inherit name nixpkgs;})
-          inputs.nix-index-database.nixosModules.nix-index
-        ]
-        ++ host_modules;
-    }
+    }:
+      nixpkgs.lib.nixosSystem {
+        inherit system;
+        pkgs = import nixpkgs {
+          inherit system;
+          hostPlatform.system = system;
+          config = nixpkgs_config;
+          overlays = common_overlay;
+        };
+        specialArgs =
+          {
+            inherit inputs self mainUser;
+          }
+          // libs // extraPkgs system;
+        modules =
+          [
+            "${self}/Host/${name}/configuration.nix"
+            "${self}/Host/${name}/hardware.nix"
+            (common_config {inherit name nixpkgs;})
+            inputs.nix-index-database.nixosModules.nix-index
+          ]
+          ++ host_modules;
+      }
   )
   hostsConfig

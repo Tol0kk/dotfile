@@ -35,10 +35,10 @@ in {
     })
     {
       specialisation.hyrp-minimal.configuration = {
-        config.modules= {
+        config.modules = {
           hypr.minimal = true;
-         theme.background-image = "${pkgs.assets}/background-2.png";
-         theme.opacity = 1.0;
+          theme.background-image = "${pkgs.assets}/background-2.png";
+          theme.opacity = 1.0;
         };
       };
     }

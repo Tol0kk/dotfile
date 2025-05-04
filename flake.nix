@@ -69,6 +69,7 @@
     lib = import ./Lib inputs; # TODO: Remove after mkHome rewrite
     homeConfigurations = import ./Home inputs;
     colmena = lib.mkColmena inputs;
+nixosConfigurations = lib.mkNixos inputs;
 
     # Apps / Packages provided by this flake
     packages = forAllSystems (system: let
