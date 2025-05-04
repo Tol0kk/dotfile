@@ -16,6 +16,7 @@
     tools.security.enable = true;
     gaming.enable = true;
     nvidia.enable = true;
+    backup.enable = true;
     boot.grub.enable = true;
     virtualisation.kvm.enable = true;
     neovim.custom.minimal = false;
@@ -109,4 +110,5 @@
     group = "builders";
   };
   nix.settings.trusted-users = ["builder"];
+  users.groups.builders = {};
 }

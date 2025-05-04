@@ -81,6 +81,7 @@
       bedtools
       tree
       rename
+      restic # Backup client
     ];
 
     users.groups.sniffnet = {};
@@ -99,7 +100,6 @@
     # SSH
 
     environment.shellAliases = import ./aliases.nix;
-
 
     programs.ssh = {
       extraConfig = ''
