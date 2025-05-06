@@ -1,4 +1,4 @@
-{
+{lib,...}: {
   self,
   nixpkgs-stable,
   nixpkgs-unstable,

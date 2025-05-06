@@ -7,7 +7,7 @@
 with lib; let
   cfg = config.modules.server.own-cloud;
   serverDomain = config.modules.server.cloudflared.domain;
-  domain = "ocis.${serverDomain}";
+  domain = "cloud.${serverDomain}";
 in {
   options.modules.server.own-cloud = {
     enable = mkOption {

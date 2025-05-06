@@ -8,7 +8,6 @@ with lib; let
   cfg = config.modules.server.glance;
   serverDomain = config.modules.server.cloudflared.domain;
   domain = "${serverDomain}";
-
   news = {
     tech = {
       feeds = [
@@ -25,6 +24,13 @@ with lib; let
         "UCdBK94H6oZT2Q7l0-b0xmMg" # ShortCircuit
         "UC2ksme4hP4Nx97ilFTQ0K0Q" # Threat Interactive
         "UC0vBXGSyV14uvJ4hECDOl0Q" # Techquickie
+      ];
+    };
+    vulgarization = {
+      feeds = [];
+      subreddit = [];
+      youtbe = [
+        "UCHnyfMqiRRG1u-2MsSQLbXA" # Veritasium
       ];
     };
     gamming = {
@@ -302,6 +308,12 @@ in {
       # Traefik
       modules.server.traefik.enable = true;
 
+      services.cloudflared = {
+        tunnels."${tunnelId}".ingress."${domain}" = {
+          service = "https://home.${domain}";
+        };
+      };
+
       services.traefik = {
         # glance Configuration
         dynamicConfigOptions = {
@@ -314,14 +326,14 @@ in {
 
             routers.glance = {
               entryPoints = ["websecure"];
-              rule = "Host(`${domain}`)";
+              rule = "Host(`home.${domain}`)";
               service = "glance";
               tls.certResolver = "letsencrypt";
             };
 
             routers.glanceServerPage = {
               entryPoints = ["websecure"];
-              rule = "Host(`${domain}`) && (Path(`/server`) || Path(`/oidc/callback`))";
+              rule = "Host(`home.${domain}`) && (Path(`/server`) || Path(`/oidc/callback`))";
               service = "glance";
               tls.certResolver = "letsencrypt";
               middlewares = ["oidc-auth"];
