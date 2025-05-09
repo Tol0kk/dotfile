@@ -221,11 +221,17 @@ with lib; let
       shortcut = "!g";
       url = "https://www.google.com/search?q={QUERY}";
     }
-    # WIkipedia Bang
+    # Wikipedia Bang
     {
       title = "Wikipedia";
       shortcut = "!w";
       url = "https://wikipedia.org/w/index.php?search={QUERY}";
+    }
+    # Nix Wikipedia Bang
+    {
+      title = "Nix Wiki";
+      shortcut = "!nw";
+      url = "https://nixos.wiki/index.php?search={QUERY}";
     }
   ];
 
@@ -445,6 +451,19 @@ in {
                             {
                               title = "JellyFin";
                               url = "https://media.cAliexpressloud.tolok.org";
+                            }
+                          ];
+                        }
+                        {
+                          title = "Developement";
+                          links = [
+                            {
+                              title = "Home Manager Options";
+                              url = "https://nix-community.github.io/home-manager/options.xhtml";
+                            }
+                             {
+                              title = "Nixos Search";
+                              url = "https://search.nixos.org/packages";
                             }
                           ];
                         }
