@@ -6,6 +6,7 @@
 }:
 with lib; let
   cfg = config.modules.server.glance;
+  tunnelId = config.modules.server.cloudflared.tunnelId;
   serverDomain = config.modules.server.cloudflared.domain;
   domain = "${serverDomain}";
   news = {
@@ -315,8 +316,8 @@ in {
       modules.server.traefik.enable = true;
 
       services.cloudflared = {
-        tunnels."${tunnelId}".ingress."${domain}" = {
-          service = "https://home.${domain}";
+        tunnels."${tunnelId}".ingress."home.${domain}" = {
+          service = "https://tolok.org";
         };
       };
 
@@ -332,14 +333,14 @@ in {
 
             routers.glance = {
               entryPoints = ["websecure"];
-              rule = "Host(`home.${domain}`)";
+              rule = "Host(`${domain}`)";
               service = "glance";
               tls.certResolver = "letsencrypt";
             };
 
             routers.glanceServerPage = {
               entryPoints = ["websecure"];
-              rule = "Host(`home.${domain}`) && (Path(`/server`) || Path(`/oidc/callback`))";
+              rule = "Host(`${domain}`) && (Path(`/server`) || Path(`/oidc/callback`))";
               service = "glance";
               tls.certResolver = "letsencrypt";
               middlewares = ["oidc-auth"];
@@ -450,7 +451,7 @@ in {
                             }
                             {
                               title = "JellyFin";
-                              url = "https://media.cAliexpressloud.tolok.org";
+                              url = "https://media.cloud.tolok.org";
                             }
                           ];
                         }

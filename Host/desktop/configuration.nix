@@ -36,16 +36,38 @@
     };
   };
 
-  systemd.network.enable = true;
-  systemd.network.networks.enp25s0 = {
-    matchConfig.Name = "enp25s0";
-    address = ["192.168.1.60/24"];
-  };
+  # systemd.network.enable = true;
+  # networking.networkmanager.dns = "systemd-resolved";
+  # services.resolved.fallbackDns = [
+  #   "192.168.1.1"
+  # ];
+  # services.resolved.dnsovertls = "true";
+  # services.resolved.dnssec = "true";
+  # systemd.network.networks.enp25s0 = {
+  #   networkConfig.MulticastDNS = true;
+  #   dns = [
+  #     "192.168.1.1"
+  #     "1.1.1.1"
+  #   ];
+  #   matchConfig.Name = "enp25s0";
+  #   address = ["192.168.1.60/24"];
+  # };
 
-  systemd.network.networks.wlp30s0 = {
-    matchConfig.Name = "wlp30s0";
-    address = ["192.168.1.64/24"];
-  };
+  #   services.resolved = {
+  #   domains = [
+  #     "local"
+  #   ];
+  # };
+
+  # systemd.network.networks.wlp30s0 = {
+  #   networkConfig.MulticastDNS = true;
+  #   dns = [
+  #     "192.168.1.1"
+  #     "1.1.1.1"
+  #   ];
+  #   matchConfig.Name = "wlp30s0";
+  #   address = ["192.168.1.64/24"];
+  # };
 
   users.users.${mainUser} = {
     openssh.authorizedKeys.keys = [
