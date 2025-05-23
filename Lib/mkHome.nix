@@ -18,7 +18,7 @@
     config.allowUnfree = true;
   };
   home_modules = (
-    builtins.map (dir: "${self}/Modules/Home/" + dir) (
+      builtins.map (dir: "${self}/Modules/Home/" + dir) (
       builtins.attrNames (builtins.readDir "${self}/Modules/Home")
     )
   );

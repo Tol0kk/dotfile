@@ -214,6 +214,9 @@ in
         bind = $mainMod SHIFT, ccdella, movetoworkspace, 9
         bind = $mainMod SHIFT, agrave, movetoworkspace, 10
 
+        bind = $mainMod CTRL, left, movecurrentworkspacetomonitor, l
+        bind = $mainMod CTRL, right, movecurrentworkspacetomonitor, r
+
         # Example special workspace (scratchpad)
         bind = $mainMod, S, togglespecialworkspace, magic
         bind = $mainMod SHIFT, S, movetoworkspace, special:magic
