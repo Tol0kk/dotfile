@@ -315,11 +315,11 @@ in {
       # Traefik
       modules.server.traefik.enable = true;
 
-      services.cloudflared = {
-        tunnels."${tunnelId}".ingress."home.${domain}" = {
-          service = "https://tolok.org";
-        };
-      };
+      # services.cloudflared = {
+      #   tunnels."${tunnelId}".ingress."${domain}" = {
+      #     service = "https://home.${domain}";
+      #   };
+      # };
 
       services.traefik = {
         # glance Configuration
@@ -327,7 +327,7 @@ in {
           http = {
             services.glance.loadBalancer.servers = [
               {
-                url = "http://localhost:8080";
+                url = "http://127.0.0.1:8080";
               }
             ];
 
@@ -462,7 +462,7 @@ in {
                               title = "Home Manager Options";
                               url = "https://nix-community.github.io/home-manager/options.xhtml";
                             }
-                             {
+                            {
                               title = "Nixos Search";
                               url = "https://search.nixos.org/packages";
                             }
