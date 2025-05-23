@@ -6,6 +6,8 @@
   lib,
   ...
 }: {
+boot.kernelPackages = pkgs.linuxPackages_6_12;
+
   modules = {
     sops.enable = true;
     server = {

@@ -80,6 +80,7 @@
         inherit pkgs;
         isMinimal = false;
       };
+      rkffmpeg = pkgs.callPackage ./Pkgs/rkffmpeg {};
     });
 
     topology.x86_64-linux = import inputs.nix-topology {
