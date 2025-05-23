@@ -6,7 +6,8 @@
   lib,
   ...
 }: {
-boot.kernelPackages = pkgs.linuxPackages_6_12;
+  # boot.kernelPackages = pkgs.linuxPackages_6_12;
+  # boot.kernelPackages = pkgs.linuxPackages_5_15;
 
   modules = {
     sops.enable = true;
@@ -144,6 +145,33 @@ boot.kernelPackages = pkgs.linuxPackages_6_12;
 
   environment.systemPackages = with pkgs; [
     ani-cli
+    (pkgs.writeShellScriptBin "mount_zfs_pool" ''
+      # Ask for the passphrase to unlock the LUKS-encrypted device
+      echo -n "Enter the passphrase for /dev/sdb1: "
+      read -s PASS
+
+      # Open the LUKS volume
+      echo "$PASS" | sudo ${pkgs.cryptsetup}/bin/cryptsetup open /dev/sdb1 zfs_crypt
+
+      # Check if cryptsetup was successful
+      if [ $? -ne 0 ]; then
+      	echo "Failed to open LUKS device"
+      	exit 1
+      fi
+
+      # Import the ZFS pool
+      echo "Importing the ZFS pool 'datapool'..."
+      sudo ${pkgs.zfs}/bin/zpool import datapool
+
+      # Check if zpool import was successful
+      if [ $? -ne 0 ]; then
+      	echo "Failed to import ZFS pool"
+      	exit 1
+      fi
+
+      echo "LUKS device unlocked and ZFS pool imported successfully."
+
+    '')
   ];
 
   system.stateVersion = "24.11";

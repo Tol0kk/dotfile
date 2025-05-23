@@ -63,18 +63,19 @@ in {
           "zha" # Add Zigbee Home Automation: https://www.home-assistant.io/integrations/zha/
           "thread" # Add Thread integration: https://www.home-assistant.io/integrations/thread/
 
-          "google_translate" #
+          "google_translate" # Investigate why
+          "isal" # For fast zlib compression
         ];
         config = {
           # Includes dependencies for a basic setup
           # https://www.home-assistant.io/integrations/default_config/
           default_config = {};
           # "scene ui" = "!include scenes.yaml";
-          # http = {
-          #   server_host = "::1";
-          #   trusted_proxies = ["::1"];
-          #   use_x_forwarded_for = true;
-          # };
+          http = {
+            server_host = "::1";
+            trusted_proxies = ["::1"];
+            use_x_forwarded_for = true;
+          };
         };
       };
     };
