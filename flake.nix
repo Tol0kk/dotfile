@@ -71,7 +71,7 @@
     # Apps / Packages provided by this flake
     packages = forAllSystems (system: let
       pkgs = nixpkgsFor.${system};
-    in {
+    in rec {
       tiny-neovim = customNeovim {
         inherit pkgs;
         isMinimal = true;
@@ -81,6 +81,12 @@
         isMinimal = false;
       };
       rkffmpeg = pkgs.callPackage ./Pkgs/rkffmpeg {};
+      test = pkgs.jellyfin-ffmpeg.override {
+          # Exact version of ffmpeg_* depends on what jellyfin-ffmpeg package is using.
+          # In 24.11 it's ffmpeg_7-full.
+          # See jellyfin-ffmpeg package source for details
+          ffmpeg_7-full = rkffmpeg;
+        };
     });
 
     topology.x86_64-linux = import inputs.nix-topology {

@@ -2,9 +2,13 @@
   pkgs,
   mainUser,
   pkgs-unstable,
+  config,
+  self,
   ...
 }: {
   config = {
+    system.nixos.label = (builtins.concatStringsSep "-" (builtins.sort (x: y: x < y) config.system.nixos.tags)) + config.system.nixos.version + (if (self ? rev) then "-SHA:${self.rev}" else (builtins.toString builtins.currentTime));
+
     # Set your time zone.
     time.timeZone = "Europe/Paris";
 

@@ -239,7 +239,7 @@ with lib; let
   tolokServices = [
     {
       title = "Own Cloud";
-      url = "https://ocis.tolok.org";
+      url = "https://cloud.tolok.org";
       icon = "si:owncloud";
     }
     {
@@ -266,7 +266,7 @@ with lib; let
     }
     {
       title = "Deluge";
-      url = "https://git.tolok.org/";
+      url = "https://deluge.media.tolok.org/";
       check-url = "http://localhost:8112";
       icon = "si:deluge";
     }
