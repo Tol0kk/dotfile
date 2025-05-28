@@ -19,6 +19,8 @@
     zoxide.enable = true;
   };
 
+  # Look for matugen
+
   home.sessionVariables = {
     MY_BROWSER = "${pkgs.firefox}/bin/firefox"; # TODO: move to browser config file later
   };

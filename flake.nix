@@ -51,16 +51,6 @@
     supportedSystems = ["x86_64-linux" "x86_64-darwin" "aarch64-linux" "aarch64-darwin"];
     forAllSystems = inputs.nixpkgs-stable.lib.genAttrs supportedSystems;
     nixpkgsFor = forAllSystems (system: import inputs.nixpkgs-unstable {inherit system;});
-    customNeovim = {
-      pkgs,
-      isMinimal,
-      ...
-    } @ args:
-      (inputs.nvf.lib.neovimConfiguration {
-        inherit pkgs;
-        modules = [(import ./neovim args)];
-      })
-      .neovim;
     lib = import ./lib inputs;
   in {
     homeConfigurations = lib.mkHome inputs;
@@ -71,14 +61,7 @@
     packages = forAllSystems (system: let
       pkgs = nixpkgsFor.${system};
     in {
-      tiny-neovim = customNeovim {
-        inherit pkgs;
-        isMinimal = true;
-      };
-      neovim = customNeovim {
-        inherit pkgs;
-        isMinimal = false;
-      };
+      inherit (pkgs.callPackage ./packages/neovim {inherit (inputs) nvf;}) tiny-neovim neovim;
       rkffmpeg = pkgs.callPackage ./packages/rkffmpeg {};
     });
 

@@ -1,16 +1,27 @@
 {
   pkgs,
   config,
-  mainUser,
   inputs,
-  lib,
+  libCustom,
   ...
-}: {
+}:
+with libCustom; {
   # boot.kernelPackages = pkgs.linuxPackages_6_12;
   # boot.kernelPackages = pkgs.linuxPackages_5_15;
 
   modules = {
-    sops.enable = true;
+    users = {
+      odin = enabled;
+    };
+    system = {
+      boot.systemd = enabled;
+      ssh = enabled;
+      sops.enable = true;
+      sops.keyFile = "${config.users.users.odin.home}/.config/sops/age/keys.txt";
+    };
+    archetype.server = enabled;
+
+    # TODO
     server = {
       cloudflared = {
         enable = true;
@@ -122,7 +133,7 @@
     export TERM=xterm
   '';
 
-  users.users.${mainUser} = {
+  users.users.odin = {
     openssh.authorizedKeys.keys = [
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAID0FfndDkmaTNmM4XRWe5Qi1avRbhmNEGAjvJWr4GR9t titouan@laptop"
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK7QCPO6Pc8Ir/lNbKK5YS0OwyLKtGFweL9K+Gd7MvFv personal@tolok.org"
@@ -132,7 +143,7 @@
   # Important: for deploying without since we can't enter pasword with colmena
   security.sudo.extraRules = [
     {
-      users = [mainUser];
+      users = ["odin"];
       commands = [
         {
           command = "ALL";
@@ -141,7 +152,7 @@
       ];
     }
   ];
-  nix.settings.trusted-users = [mainUser];
+  nix.settings.trusted-users = ["odin"];
 
   environment.systemPackages = with pkgs; [
     ani-cli

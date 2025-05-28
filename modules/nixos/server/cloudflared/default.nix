@@ -26,7 +26,7 @@ in {
 
   config = mkIf cfg.enable {
     # Need sops for secrets
-    modules.sops.enable = true;
+    modules.system.sops.enable = true;
 
     services.cloudflared = {
       package = pkgs-unstable.cloudflared;

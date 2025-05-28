@@ -79,13 +79,9 @@ in
       nodeSpecialArgs =
         builtins.mapAttrs
         (
-          _name: {
-            system,
-            mainUser,
-            ...
-          }:
+          _name: {system, ...}:
             {
-              inherit inputs self mainUser;
+              inherit inputs self;
             }
             // libs // extraPkgs system
         )
@@ -114,14 +110,13 @@ in
   (
     name: {
       allowLocalDeployment,
-      mainUser,
+      targetUser, # TODO create a standalone user for deployment
       targetHost ? name,
       nixpkgs,
       ...
     }: {
       deployment = {
-        inherit allowLocalDeployment targetHost;
-        targetUser = mainUser;
+        inherit allowLocalDeployment targetHost targetUser;
       };
 
       imports = [

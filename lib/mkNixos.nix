@@ -37,7 +37,7 @@
   };
 
   # Import system folder
-  systems = get-directories "${self}/system";
+  systems = get-directories "${self}/systems";
   systemsConfig =
     builtins.listToAttrs
     (builtins.map
@@ -54,7 +54,6 @@
     name,
     nixpkgs,
   }: {
-    networking.systemName = name;
     nix.registry.nixpkgs.flake = nixpkgs;
 
     nix.settings =
@@ -70,7 +69,6 @@ in
   builtins.mapAttrs
   (
     name: {
-      mainUser,
       system,
       nixpkgs,
       ...
@@ -85,7 +83,7 @@ in
         };
         specialArgs =
           {
-            inherit inputs self mainUser;
+            inherit inputs self;
           }
           // libs // extraPkgs system;
         modules = [

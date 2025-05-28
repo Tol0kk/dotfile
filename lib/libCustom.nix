@@ -3,6 +3,11 @@
   inherit (lib) filterAttrs mapAttrsToList;
 
   enabled = {enable = true;};
+  disabled = {enable = false;};
+  mkOpt = type: default: description:
+    lib.mkOption {inherit type default description;};
+  mkBoolOpt = mkOpt lib.types.bool;
+  mkEnableOpt = description: mkBoolOpt false description // {example = true;};
 
   get-directories = path: let
     is-directory-kind = kind: kind == "directory";
@@ -40,5 +45,5 @@
   in
     result;
 in {
-  inherit enabled get-directories import-tree;
+  inherit enabled get-directories import-tree disabled mkOpt mkBoolOpt mkEnableOpt;
 }

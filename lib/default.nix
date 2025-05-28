@@ -7,6 +7,7 @@
   mkColmena = import ./mkColmena.nix {inherit lib libCustom;};
   libCustom = import ./libCustom.nix {inherit lib;};
   libColor = import ./libColor.nix {inherit lib;};
+  assets = import ../assets {inherit lib;};
 in {
-  inherit mkHome mkColmena libColor mkNixos libCustom mkTopology;
+  inherit mkHome mkColmena libColor mkNixos libCustom mkTopology assets;
 }
