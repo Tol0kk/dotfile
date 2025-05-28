@@ -61,7 +61,7 @@
         modules = [(import ./neovim args)];
       })
       .neovim;
-    lib = import ./Lib inputs;
+    lib = import ./lib inputs;
   in {
     homeConfigurations = lib.mkHome inputs;
     colmena = lib.mkColmena inputs;
@@ -79,7 +79,7 @@
         inherit pkgs;
         isMinimal = false;
       };
-      rkffmpeg = pkgs.callPackage ./Pkgs/rkffmpeg {};
+      rkffmpeg = pkgs.callPackage ./packages/rkffmpeg {};
     });
 
     # Topology using https://github.com/oddlama/nix-topology

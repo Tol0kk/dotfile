@@ -35,7 +35,7 @@
       config = nixpkgs_config;
     };
   };
-  homes = get-directories "${self}/Home";
+  homes = get-directories "${self}/home";
   homeConfigs =
     builtins.listToAttrs
     (builtins.map
@@ -66,14 +66,14 @@ in
           }
           // libs // extraPkgs system;
         modules = [
-          "${self}/Home/${username}/home.nix"
+          "${self}/home/${username}/home.nix"
           inputs.sops-nix.homeManagerModules.sops
           {
             home.stateVersion = "24.05";
             home.username = username;
             home.homeDirectory = /home/${username};
             programs.home-manager.enable = true;
-            imports = [(import-tree "${self}/Modules/Home")];
+            imports = [(import-tree "${self}/modules/home")];
           }
         ];
       }

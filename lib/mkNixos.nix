@@ -36,16 +36,16 @@
     };
   };
 
-  # Import Host folder
-  hosts = get-directories "${self}/Host";
-  hostsConfig =
+  # Import system folder
+  systems = get-directories "${self}/system";
+  systemsConfig =
     builtins.listToAttrs
     (builtins.map
-      (host: {
-        name = lib.strings.removeSuffix ".nix" (builtins.unsafeDiscardStringContext (builtins.baseNameOf host));
-        value = import host inputs;
+      (system: {
+        name = lib.strings.removeSuffix ".nix" (builtins.unsafeDiscardStringContext (builtins.baseNameOf system));
+        value = import system inputs;
       })
-      hosts);
+      systems);
 
   # Import Common Overlay
   common_overlay = import ./overlay.nix {inherit inputs self;};
@@ -54,7 +54,7 @@
     name,
     nixpkgs,
   }: {
-    networking.hostName = name;
+    networking.systemName = name;
     nix.registry.nixpkgs.flake = nixpkgs;
 
     nix.settings =
@@ -64,7 +64,7 @@
         warn-dirty = false;
         auto-optimise-store = true;
       }
-      // (import "${self}/Lib/substituters.nix");
+      // (import "${self}/lib/substituters.nix");
   };
 in
   builtins.mapAttrs
@@ -79,7 +79,7 @@ in
         inherit system;
         pkgs = import nixpkgs {
           inherit system;
-          hostPlatform.system = system;
+          systemPlatform.system = system;
           config = nixpkgs_config;
           overlays = common_overlay;
         };
@@ -89,13 +89,13 @@ in
           }
           // libs // extraPkgs system;
         modules = [
-          "${self}/Host/${name}/configuration.nix"
-          "${self}/Host/${name}/hardware.nix"
+          "${self}/systems/${name}/configuration.nix"
+          "${self}/systems/${name}/hardware.nix"
           (common_config {inherit name nixpkgs;})
           inputs.nix-index-database.nixosModules.nix-index
           inputs.nix-topology.nixosModules.default
-          {imports = [(import-tree "${self}/Modules/Host")];}
+          {imports = [(import-tree "${self}/modules/nixos")];}
         ];
       }
   )
-  hostsConfig
+  systemsConfig

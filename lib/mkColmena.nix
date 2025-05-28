@@ -35,16 +35,16 @@
     };
   };
 
-  # Import Host folder
-  hosts = get-directories "${self}/Host";
-  hostsConfig =
+  # Import systems folder
+  systems = get-directories "${self}/systems";
+  systemsConfig =
     builtins.listToAttrs
     (builtins.map
-      (host: {
-        name = lib.strings.removeSuffix ".nix" (builtins.unsafeDiscardStringContext (builtins.baseNameOf host));
-        value = import host inputs;
+      (system: {
+        name = lib.strings.removeSuffix ".nix" (builtins.unsafeDiscardStringContext (builtins.baseNameOf system));
+        value = import system inputs;
       })
-      hosts);
+      systems);
 
   # Import Common Overlay
   common_overlay = import ./overlay.nix {inherit inputs self;};
@@ -63,7 +63,7 @@
         warn-dirty = false;
         auto-optimise-store = true;
       }
-      // (import "${self}/Lib/substituters.nix");
+      // (import "${self}/lib/substituters.nix");
   };
 in
   {
@@ -89,7 +89,7 @@ in
             }
             // libs // extraPkgs system
         )
-        hostsConfig;
+        systemsConfig;
 
       nodeNixpkgs =
         builtins.mapAttrs
@@ -107,7 +107,7 @@ in
               overlays = common_overlay;
             }
         )
-        hostsConfig;
+        systemsConfig;
     };
   }
   // builtins.mapAttrs
@@ -125,13 +125,13 @@ in
       };
 
       imports = [
-        "${self}/Host/${name}/configuration.nix"
-        "${self}/Host/${name}/hardware.nix"
+        "${self}/systems/${name}/configuration.nix"
+        "${self}/systems/${name}/hardware.nix"
         (common_config {inherit name nixpkgs;})
         inputs.nix-index-database.nixosModules.nix-index
         inputs.nix-topology.nixosModules.default
-        {imports = [(import-tree "${self}/Modules/Host")];}
+        {imports = [(import-tree "${self}/modules/nixos")];}
       ];
     }
   )
-  hostsConfig
+  systemsConfig

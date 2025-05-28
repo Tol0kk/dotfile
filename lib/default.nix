@@ -6,7 +6,7 @@
   mkHome = import ./mkHome.nix {inherit lib libCustom;};
   mkColmena = import ./mkColmena.nix {inherit lib libCustom;};
   libCustom = import ./libCustom.nix {inherit lib;};
-  libColor = import ./libColor.nix {inherit lib;}; # TODO: rename color.nix to libColors
+  libColor = import ./libColor.nix {inherit lib;};
 in {
   inherit mkHome mkColmena libColor mkNixos libCustom mkTopology;
 }

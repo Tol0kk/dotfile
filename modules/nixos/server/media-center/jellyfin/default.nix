@@ -9,8 +9,7 @@ with lib; let
   cfg = config.modules.server.media-center.jellyfin;
   serverDomain = config.modules.server.cloudflared.domain;
   domain = "media.cloud.${serverDomain}";
-  rkffmpeg = pkgs.callPackage "${self}/Pkgs/rkffmpeg" {};
-  rockchip_mpp = pkgs.callPackage "${self}/Pkgs/rkffmpeg/rkmpp.nix" {};
+
 in {
   options.modules.server.media-center.jellyfin = {
     enable = mkOption {
@@ -64,7 +63,7 @@ in {
           # See jellyfin-ffmpeg package source for details
           ffmpeg_7-full = rkffmpeg;
         })
-        rockchip_mpp
+        rkmpp
       ];
     };
 }
