@@ -2,7 +2,6 @@
   lib,
   config,
   pkgs,
-  self,
   ...
 }:
 with lib; let
@@ -61,9 +60,9 @@ in {
           # Exact version of ffmpeg_* depends on what jellyfin-ffmpeg package is using.
           # In 24.11 it's ffmpeg_7-full.
           # See jellyfin-ffmpeg package source for details
-          ffmpeg_7-full = rkffmpeg;
+          ffmpeg_7-full = pkgs.rkffmpeg;
         })
-        rkmpp
+        pkgs.rkmpp
       ];
     };
 }

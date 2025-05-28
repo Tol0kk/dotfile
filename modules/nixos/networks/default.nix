@@ -1,12 +1,10 @@
 {
-  pkgs,
   lib,
   config,
   libCustom,
   ...
 }:
 with lib; let
-  cfg = config.modules.gaming;
   inherit (libCustom) get-directories;
 
   # Helper Function

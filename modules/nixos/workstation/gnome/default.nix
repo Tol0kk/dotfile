@@ -1,10 +1,7 @@
 {
   pkgs,
-  self,
-  inputs,
   lib,
   config,
-  pkgs-stable,
   ...
 }:
 with lib; let

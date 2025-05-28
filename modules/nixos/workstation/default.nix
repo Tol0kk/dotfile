@@ -1,10 +1,8 @@
 {
   pkgs,
-  self,
   inputs,
   lib,
   config,
-  pkgs-stable,
   ...
 }:
 with lib; let
@@ -27,16 +25,8 @@ in {
       default = false;
     };
   };
-
-  # imports =
-  #   if cfg.enable then [
-  #     # ./gnome/default.nix
-  #     # ./hypr/default.nix
-  #   ] else [ ];
   imports = [inputs.nix-flatpak.nixosModules.nix-flatpak];
   config = mkMerge [
-    # (import ./gnome {inherit pkgs self inputs lib config pkgs-stable;})
-    # (import ./hypr {inherit pkgs self inputs lib config pkgs-stable;})
     (mkIf cfg.enable {
       programs.wireshark.enable = true;
       # University VPN Config need openfortivpn package
