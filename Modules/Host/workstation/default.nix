@@ -35,8 +35,8 @@ in {
   #   ] else [ ];
   imports = [inputs.nix-flatpak.nixosModules.nix-flatpak];
   config = mkMerge [
-    (import ./gnome {inherit pkgs self inputs lib config pkgs-stable;})
-    (import ./hypr {inherit pkgs self inputs lib config pkgs-stable;})
+    # (import ./gnome {inherit pkgs self inputs lib config pkgs-stable;})
+    # (import ./hypr {inherit pkgs self inputs lib config pkgs-stable;})
     (mkIf cfg.enable {
       programs.wireshark.enable = true;
       # University VPN Config need openfortivpn package

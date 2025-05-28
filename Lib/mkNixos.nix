@@ -1,5 +1,5 @@
 {
-  libDirs,
+  libCustom,
   lib,
   ...
 }: {
@@ -8,10 +8,7 @@
   nixpkgs-unstable,
   ...
 } @ inputs: let
-  inherit (libDirs) get-directories;
-
-  # Modules for the host
-  host_modules = get-directories "${self}/Modules/Host";
+  inherit (libCustom) get-directories import-tree;
 
   # Global Config
   nixpkgs_config = {
@@ -91,15 +88,14 @@ in
             inherit inputs self mainUser;
           }
           // libs // extraPkgs system;
-        modules =
-          [
-            "${self}/Host/${name}/configuration.nix"
-            "${self}/Host/${name}/hardware.nix"
-            (common_config {inherit name nixpkgs;})
-            inputs.nix-index-database.nixosModules.nix-index
-            inputs.nix-topology.nixosModules.default
-          ]
-          ++ host_modules;
+        modules = [
+          "${self}/Host/${name}/configuration.nix"
+          "${self}/Host/${name}/hardware.nix"
+          (common_config {inherit name nixpkgs;})
+          inputs.nix-index-database.nixosModules.nix-index
+          inputs.nix-topology.nixosModules.default
+          {imports = [(import-tree "${self}/Modules/Host")];}
+        ];
       }
   )
   hostsConfig

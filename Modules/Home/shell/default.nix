@@ -2,7 +2,6 @@
   lib,
   config,
   pkgs,
-  pkgs-unstable,
   ...
 }:
 with lib; let
@@ -32,7 +31,7 @@ in {
 
     programs.fish = {
       enable = true;
-      shellAbbrs = import ./aliases.nix;
+      shellAbbrs = import ./_aliases.nix;
       functions = {
         fish_greeting = "fastfetch";
       };
@@ -51,7 +50,7 @@ in {
     programs.bash = {
       enable = true;
       enableCompletion = true;
-      shellAliases = import ./aliases.nix;
+      shellAliases = import ./_aliases.nix;
       initExtra = ''
         ${pkgs.nix-your-shell}/bin/nix-your-shell fish | source
         fastfetch

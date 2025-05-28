@@ -29,6 +29,5 @@
 
     outputs = ["lib" "dev" "out"];
   };
-in 
-rockchip_mpp
-
+in
+  rockchip_mpp

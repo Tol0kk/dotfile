@@ -53,8 +53,8 @@ in {
             };
           };
         };
-        globalSnippets = import ./Snippets/globalSnippets.nix;
-        languageSnippets = import ./Snippets/languageSnippets.nix;
+        globalSnippets = import ./_snippets/globalSnippets.nix;
+        languageSnippets = import ./_snippets/languageSnippets.nix;
         keybindings = [
           {
             key = "ctrl+°";

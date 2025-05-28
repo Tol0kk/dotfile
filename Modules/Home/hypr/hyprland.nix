@@ -7,8 +7,8 @@
 }:
 with lib; let
   cfg = config.modules.hypr;
-in
-  mkIf cfg.enable {
+in {
+  config = mkIf cfg.enable {
     services.hyprpaper.enable = false;
     stylix.targets.hyprland.enable = false;
     wayland.windowManager.hyprland = {
@@ -258,4 +258,5 @@ in
 
       '';
     };
-  }
+  };
+}

@@ -5,6 +5,7 @@
   lib,
   config,
   pkgs-stable,
+  ...
 }:
 with lib; let
   cfg = config.modules.workstation.gnome;

@@ -63,15 +63,14 @@
       .neovim;
     lib = import ./Lib inputs;
   in {
-    lib = import ./Lib inputs; # TODO: Remove after mkHome rewrite
-    homeConfigurations = import ./Home inputs;
+    homeConfigurations = lib.mkHome inputs;
     colmena = lib.mkColmena inputs;
     nixosConfigurations = lib.mkNixos inputs;
 
     # Apps / Packages provided by this flake
     packages = forAllSystems (system: let
       pkgs = nixpkgsFor.${system};
-    in rec {
+    in {
       tiny-neovim = customNeovim {
         inherit pkgs;
         isMinimal = true;
@@ -81,25 +80,9 @@
         isMinimal = false;
       };
       rkffmpeg = pkgs.callPackage ./Pkgs/rkffmpeg {};
-      test = pkgs.jellyfin-ffmpeg.override {
-          # Exact version of ffmpeg_* depends on what jellyfin-ffmpeg package is using.
-          # In 24.11 it's ffmpeg_7-full.
-          # See jellyfin-ffmpeg package source for details
-          ffmpeg_7-full = rkffmpeg;
-        };
     });
 
-    topology.x86_64-linux = import inputs.nix-topology {
-      pkgs = import inputs.nixpkgs-unstable {
-        system = "x86_64-linux";
-        overlays = import ./Lib/overlay.nix {inherit inputs self;};
-      };
-      modules = [
-        # Your own file to define global topology. Works in principle like a nixos module but uses different options.
-        ./Host/topology.nix
-        # Inline module to inform topology of your existing NixOS hosts.
-        {nixosConfigurations = self.nixosConfigurations;}
-      ];
-    };
+    # Topology using https://github.com/oddlama/nix-topology
+    topology = forAllSystems (system: lib.mkTopology system inputs self);
   };
 }

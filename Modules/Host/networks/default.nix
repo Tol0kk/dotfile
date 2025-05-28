@@ -2,12 +2,12 @@
   pkgs,
   lib,
   config,
-  libDirs,
+  libCustom,
   ...
 }:
 with lib; let
   cfg = config.modules.gaming;
-  inherit (libDirs) get-directories;
+  inherit (libCustom) get-directories;
 
   # Helper Function
   get-fileNameNoCtx = path:
@@ -15,7 +15,7 @@ with lib; let
   get-networkFileName = path: "network-${get-fileNameNoCtx path}-file";
 
   # Get path of all the profiles
-  profiles_dirs = get-directories ./profiles;
+  profiles_dirs = get-directories ./_profiles;
 
   # Transform to sops secret to fetch secrets form directories
   # Secrets get map to network-<name>-file

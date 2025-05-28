@@ -1,9 +1,7 @@
 {
   pkgs,
-  inputs,
   lib,
   config,
-  pkgs-stable,
   ...
 }:
 with lib; let
@@ -22,18 +20,8 @@ in {
     };
   };
 
-  imports = [./hyprpanel.nix];
-
   config = mkMerge [
-    {
-      # programs.waybar = {
-      #   enable = true;
-      # };
-    }
-    (import ./hyprland.nix {
-      inherit inputs pkgs lib config pkgs-stable;
-    })
-    {
+    (mkIf cfg.enable {
       specialisation.hyrp-minimal.configuration = {
         config.modules = {
           hypr.minimal = true;
@@ -41,6 +29,6 @@ in {
           theme.opacity = 1.0;
         };
       };
-    }
+    })
   ];
 }

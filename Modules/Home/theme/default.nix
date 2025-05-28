@@ -8,7 +8,7 @@
 with lib; let
   cfg = config.modules.theme;
 in {
-  imports = [inputs.stylix.homeManagerModules.stylix];
+  imports = [inputs.stylix.homeModules.stylix];
   options.modules.theme = {
     theme = mkOption {
       description = "Set theme. List inside {pkgs.base16-schemes}/share/themes";

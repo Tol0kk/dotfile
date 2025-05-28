@@ -7,7 +7,14 @@
   ...
 }: {
   config = {
-    system.nixos.label = (builtins.concatStringsSep "-" (builtins.sort (x: y: x < y) config.system.nixos.tags)) + config.system.nixos.version + (if (self ? rev) then "-SHA:${self.rev}" else (builtins.toString builtins.currentTime));
+    system.nixos.label =
+      (builtins.concatStringsSep "-" (builtins.sort (x: y: x < y) config.system.nixos.tags))
+      + config.system.nixos.version
+      + (
+        if (self ? rev)
+        then "-SHA:${self.rev}"
+        else "impure"
+      );
 
     # Set your time zone.
     time.timeZone = "Europe/Paris";
@@ -103,7 +110,7 @@
 
     # SSH
 
-    environment.shellAliases = import ./aliases.nix;
+    environment.shellAliases = import ./_aliases.nix;
 
     programs.ssh = {
       extraConfig = ''
