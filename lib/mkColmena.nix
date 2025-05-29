@@ -110,7 +110,7 @@ in
   (
     name: {
       allowLocalDeployment,
-      targetUser, # TODO create a standalone user for deployment
+      targetUser ? null, # TODO create a standalone user for deployment
       targetHost ? name,
       nixpkgs,
       ...

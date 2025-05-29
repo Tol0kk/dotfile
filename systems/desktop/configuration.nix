@@ -1,6 +1,7 @@
 {
   config,
   libCustom,
+  pkgs,
   ...
 }:
 with libCustom; {
@@ -22,6 +23,7 @@ with libCustom; {
     };
     services = {
       # restic = enabled; # Backup
+      ollama = disabled;
     };
     archetype.workstation = enabled;
     archetype.gamingstation = enabled;
@@ -42,6 +44,21 @@ with libCustom; {
       ];
     };
   };
+
+  programs.nix-ld.enable = true;
+
+  # Sets up all the libraries to load
+  programs.nix-ld.libraries = with pkgs; [
+    stdenv.cc.cc
+    zlib
+    fuse3
+    icu
+    nss
+    openssl
+    curl
+    expat
+    # ...
+  ];
 
   # Public ssh keu authorized to connect to desktop
   users.users.titouan = {

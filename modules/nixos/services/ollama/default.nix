@@ -1,4 +1,5 @@
 {
+  pkgs-stable,
   lib,
   config,
   libCustom,
@@ -13,9 +14,11 @@ in {
   };
 
   config = mkIf cfg.enable {
+    services.open-webui.enable = true;
+    services.open-webui.package = pkgs-stable.open-webui;
     services.ollama = {
       enable = true;
-      package = pkgs.ollama-cuda;
+      acceleration = mkIf config.hardware.nvidia.enabled "cuda";
     };
   };
 }
