@@ -32,8 +32,9 @@ with libCustom; let
     })
     profiles_dirs);
 in {
-  options.modules.hardware.network.wifi-profiles = {
-    enable = mkEnableOpt "Enable Wifi Profiles";
+  options.modules.hardware.network = {
+    wifi-profiles.enable = mkEnableOpt "Enable Wifi Profiles";
+    avahi.enable = mkEnableOpt "Enable Dns";
   };
 
   config = mkMerge [
@@ -54,6 +55,22 @@ in {
       networking.networkmanager.ensureProfiles = {
         environmentFiles = envFiles_list;
         profiles = profiles;
+      };
+    })
+    (mkIf cfg.avahi.enable {
+      # TODO check this
+      # Network discovery, mDNS
+      # With this enabled, you can access your machine at <hostname>.local
+      # it's more convenient than using the IP address.
+      # https://avahi.org/
+      services.avahi = {
+        enable = true;
+        nssmdns4 = true;
+        publish = {
+          enable = true;
+          domain = true;
+          userServices = true;
+        };
       };
     })
   ];

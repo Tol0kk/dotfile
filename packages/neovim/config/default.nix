@@ -1,4 +1,4 @@
-{isMinimal, ...}: let
+{isMinimal, lib, ...}: let
   isNormal = !isMinimal;
 in {
   # Add any custom options (and do feel free to upstream them!)
@@ -7,8 +7,8 @@ in {
   config.vim = {
     theme = {
       enable = true;
-      name = "gruvbox";
-      style = "dark";
+      name = lib.mkDefault "gruvbox";
+      style = lib.mkDefault "dark";
       transparent = true;
     };
 

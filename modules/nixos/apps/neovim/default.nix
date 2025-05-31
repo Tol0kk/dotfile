@@ -22,7 +22,7 @@ in {
     programs.nvf = {
       enable = cfg.custom.enable;
       enableManpages = cfg.custom.enable;
-      settings = (import "${self}/packages/neovim/config" {isMinimal = cfg.custom.minimal;}).config;
+      settings = (import "${self}/packages/neovim/config" {inherit lib;isMinimal = cfg.custom.minimal;}).config;
     };
 
     environment.systemPackages =

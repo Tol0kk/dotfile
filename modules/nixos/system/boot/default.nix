@@ -52,9 +52,9 @@ in {
         timeout = 1;
         efi.canTouchEfiVariables = true;
         grub = {
-          theme = pkgs.sleek-grub-theme.override {
+          theme = lib.mkDefault  (pkgs.sleek-grub-theme.override {
             withStyle = "dark";
-          };
+          });
           # theme = pkgs.sleek-grub-theme;
           # useOSProber = cfg.useOSProber;
           enable = true;
@@ -62,7 +62,7 @@ in {
           efiSupport = true;
           # gfxmodeEfi = "1920x1080";
           gfxmodeEfi = "3840x2400";
-          splashImage = null;
+          splashImage = lib.mkDefault null;
           # fontSize = 30;
           # font = "${pkgs.hack-font}/share/fonts/hack/Hack-Regular.ttf";
           extraEntries = mkMerge [
@@ -99,7 +99,7 @@ in {
         initrd.systemd.enable = true; # Needed for plymouth
         plymouth = {
           enable = true;
-          theme = "cubes";
+          # theme = "cubes";
           themePackages = with pkgs; [
             # By default we would install all themes
             (adi1090x-plymouth-themes.override {

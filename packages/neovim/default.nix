@@ -9,7 +9,7 @@
   } @ args:
     (nvf.lib.neovimConfiguration {
       inherit pkgs;
-      modules = [(import ./config args)];
+      modules = [(import ./config (args//{lib = pkgs.lib;}))];
     })
       .neovim;
 

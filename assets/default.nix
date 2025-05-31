@@ -10,20 +10,23 @@
       then readDir path
       else {};
     is-regular-kind = kind: kind == "regular";
-    is-png = name: kind: (is-regular-kind kind) && (hasSuffix ".png" name);
+    is-image = name: (hasSuffix ".png" name) || (hasSuffix ".jpg" name);
+    is-png = name: kind: (is-regular-kind kind) && is-image name;
     entries = safe-read-directory backgroundsPath;
-    filtered-entries = filterAttrs is-png entries;
+    filtered-entries = builtins.attrNames (filterAttrs is-png entries);
     pngs =
       listToAttrs
       (map
-        (file: {
-          name = removeSuffix ".png" (unsafeDiscardStringContext (baseNameOf file));
-          value = file;
+        (file: let
+          name = removeSuffix ".jpg" (removeSuffix ".png" (unsafeDiscardStringContext (baseNameOf file)));
+        in {
+          name = name;
+          value = ./backgrounds/${file};
         })
         filtered-entries);
   in
     pngs;
 in {
-  inherit backgrounds;
+  backgrounds = backgrounds;
   shellAliases = import ./shellAliases.nix;
 }

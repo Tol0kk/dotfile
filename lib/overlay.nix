@@ -23,7 +23,6 @@
           );
         };
       };
-    assets = prev.callPackage "${self}/packages/assetsPkgs" {};
     rkffmpeg = prev.callPackage "${self}/packages/rkffmpeg" {};
     rkmpp = prev.callPackage "${self}/packages/rkffmpeg/rkmpp.nix" {};
   })
