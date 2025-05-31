@@ -79,9 +79,13 @@ in
       nodeSpecialArgs =
         builtins.mapAttrs
         (
-          _name: {system, ...}:
+          _name: {
+            system,
+            withHomeManager ? false,
+            ...
+          }:
             {
-              inherit inputs self;
+              inherit inputs self withHomeManager;
             }
             // libs // extraPkgs system
         )
@@ -109,9 +113,11 @@ in
   // builtins.mapAttrs
   (
     name: {
+      system,
       allowLocalDeployment,
       targetUser ? null, # TODO create a standalone user for deployment
       targetHost ? name,
+      withHomeManager ? false,
       nixpkgs,
       ...
     }: {
@@ -119,14 +125,36 @@ in
         inherit allowLocalDeployment targetHost targetUser;
       };
 
-      imports = [
-        "${self}/systems/${name}/configuration.nix"
-        "${self}/systems/${name}/hardware.nix"
-        (common_config {inherit name nixpkgs;})
-        inputs.nix-index-database.nixosModules.nix-index
-        inputs.nix-topology.nixosModules.default
-        {imports = [(import-tree "${self}/modules/nixos")];}
-      ];
+      imports =
+        [
+          "${self}/systems/${name}/configuration.nix"
+          "${self}/systems/${name}/hardware.nix"
+          (common_config {inherit name nixpkgs;})
+          inputs.nix-index-database.nixosModules.nix-index
+          inputs.nix-topology.nixosModules.default
+          {imports = [(import-tree "${self}/modules/nixos")];}
+          inputs.home-manager-unstable.nixosModules.home-manager
+        ]
+        ++ lib.optionals withHomeManager [
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.backupFileExtension = "homeManagerBackup";
+            home-manager.sharedModules = [
+              {
+                home.stateVersion = "24.05";
+                programs.home-manager.enable = true;
+              }
+              (import-tree "${self}/modules/home")
+              inputs.sops-nix.homeManagerModules.sops
+            ];
+            home-manager.extraSpecialArgs =
+              {
+                inherit inputs self;
+              }
+              // libs // extraPkgs system;
+          }
+        ];
     }
   )
   systemsConfig

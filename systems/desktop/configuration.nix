@@ -19,6 +19,7 @@ with libCustom; {
       boot.grub = enabled;
       boot.plymouth = enabled;
       ssh.enable = true;
+      stylix.enable = true;
       ssh.auto-start-sshd = true;
     };
     services = {

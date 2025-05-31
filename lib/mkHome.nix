@@ -68,6 +68,7 @@ in
         modules = [
           "${self}/home/${username}/home.nix"
           inputs.sops-nix.homeManagerModules.sops
+          inputs.stylix.homeModules.stylix
           {
             home.stateVersion = "24.05";
             home.username = username;
