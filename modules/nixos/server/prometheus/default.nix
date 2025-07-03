@@ -31,7 +31,7 @@ in {
         port = 9001;
         globalConfig.scrape_interval = "10s"; # "1m"
         scrapeConfigs = [
-          (mkIf config.modules.server.prometheus-node-exporter.enable {
+          (mkIf config.services.prometheus.exporters.node.enable {
             job_name = "node";
             static_configs = [
               {

@@ -170,6 +170,22 @@
         "type": "github"
       }
     },
+    "espflash": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1748617969,
+        "narHash": "sha256-Eit4fbZ/hggOqaScvuvv+UR5isdmFxVnJvpoBqU43tg=",
+        "owner": "esp-rs",
+        "repo": "espflash",
+        "rev": "b8eb162539cd95ed399243d30e9869eb407f265e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "esp-rs",
+        "repo": "espflash",
+        "type": "github"
+      }
+    },
     "firefox-gnome-theme": {
       "flake": false,
       "locked": {
@@ -858,16 +874,16 @@
     },
     "nixpkgs-stable": {
       "locked": {
-        "lastModified": 1748037224,
-        "narHash": "sha256-92vihpZr6dwEMV6g98M5kHZIttrWahb9iRPBm1atcPk=",
+        "lastModified": 1748437600,
+        "narHash": "sha256-hYKMs3ilp09anGO7xzfGs3JqEgUqFMnZ8GMAqI6/k04=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "f09dede81861f3a83f7f06641ead34f02f37597f",
+        "rev": "7282cb574e0607e65224d33be8241eae7cfe0979",
         "type": "github"
       },
       "original": {
         "owner": "nixos",
-        "ref": "nixos-24.11",
+        "ref": "nixos-25.05",
         "repo": "nixpkgs",
         "type": "github"
       }
@@ -1101,6 +1117,7 @@
       "inputs": {
         "anyrun": "anyrun",
         "blender-bin": "blender-bin",
+        "espflash": "espflash",
         "home-manager-stable": "home-manager-stable",
         "home-manager-unstable": "home-manager-unstable",
         "hyprpanel": "hyprpanel",

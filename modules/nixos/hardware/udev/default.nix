@@ -13,10 +13,10 @@ with libCustom; let
     (file: (pkgs.writeTextFile {
       name = file;
       destination = "/etc/udev/rules.d/${file}";
-      text = builtins.readFile "./rules.d/${file}";
+      text = builtins.readFile (./. + "/rules.d/${file}");
     }))
     (lib.attrNames
-      (builtins.readDir "./rules.d"));
+      (builtins.readDir ./rules.d));
 in {
   options.modules.hardware.udev.enableExtraRules = mkEnableOpt "Enable extra rules";
 

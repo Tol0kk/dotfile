@@ -1,7 +1,7 @@
 {
   description = "My Nixos flake Configuration";
   inputs = {
-    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.11";
+    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.05";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     home-manager-unstable = {
@@ -41,6 +41,8 @@
     hyprpanel.inputs.nixpkgs.follows = "nixpkgs-unstable";
     nix-minecraft.url = "github:Infinidoge/nix-minecraft";
     nix-topology.url = "github:oddlama/nix-topology";
+    espflash.url = "github:esp-rs/espflash";
+    espflash.flake = false;
   };
 
   outputs = {

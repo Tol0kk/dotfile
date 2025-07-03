@@ -13,7 +13,8 @@ in {
   };
 
   config = mkIf cfg.enable {
-    services.pulseaudio.enable = false;
+    # TODO rename hardware to services when updating server to 25.05
+    hardware.pulseaudio.enable = false;
     security.rtkit.enable = true;
     services.pipewire = {
       enable = true;

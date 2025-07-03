@@ -6,7 +6,7 @@
 }:
 with lib;
 with libCustom; let
-  cfg = config.modules.hardware.network.wifi-profiles;
+  cfg = config.modules.hardware.network;
 
   # Helper Function
   get-fileNameNoCtx = path:
@@ -38,7 +38,7 @@ in {
   };
 
   config = mkMerge [
-    (mkIf cfg.enable {
+    (mkIf cfg.wifi-profiles.enable {
       assertions = [
         {
           assertion = config.sops.age.keyFile != null;
@@ -47,8 +47,7 @@ in {
           '';
         }
       ];
-    })
-    (mkIf cfg.enable {
+
       # Add all the secrets from profiles
       sops.secrets = secrets_attrs;
 

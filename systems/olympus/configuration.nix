@@ -15,13 +15,17 @@ with libCustom; {
     };
     system = {
       boot.systemd = enabled;
-      ssh = enabled;
       sops.enable = true;
       sops.keyFile = "${config.users.users.odin.home}/.config/sops/age/keys.txt";
+      ssh.enable = true;
+      ssh.auto-start-sshd = true;
     };
     archetype.server = enabled;
 
-    # TODO
+    services = {
+      prometheus-node-exporter = enabled;
+    };
+
     server = {
       cloudflared = {
         enable = true;
@@ -41,7 +45,7 @@ with libCustom; {
       prometheus.enable = true;
       loki.enable = true;
       promtail.enable = true;
-      prometheus-node-exporter.enable = true;
+      # prometheus-node-exporter.enable = true;
       own-cloud.enable = true;
       # esp-home.enable = true;
       uptime-kuma.enable = true;
@@ -101,7 +105,7 @@ with libCustom; {
 
   # Server Service #
   # CloudFlare Tunnels
-  sops.secrets."services/cloudflared_HOME_TOKEN" = {owner = config.services.cloudflared.user;};
+  sops.secrets."services/cloudflared_HOME_TOKEN" = {};
   services.cloudflared = {
     tunnels = {
       "${config.modules.server.cloudflared.tunnelId}" = {
@@ -160,6 +164,8 @@ with libCustom; {
       # Ask for the passphrase to unlock the LUKS-encrypted device
       echo -n "Enter the passphrase for /dev/sdb1: "
       read -s PASS
+
+      echo "Decrypting..."
 
       # Open the LUKS volume
       echo "$PASS" | sudo ${pkgs.cryptsetup}/bin/cryptsetup open /dev/sdb1 zfs_crypt

@@ -1,7 +1,9 @@
 {
   config,
+  inputs,
   libCustom,
   pkgs,
+  lib,
   ...
 }:
 with libCustom; {
@@ -9,7 +11,8 @@ with libCustom; {
     hardware = {
       bluetooth = enabled;
       nvidia = enabled;
-      # network.wifi-profiles = enabled;
+      udev.enableExtraRules = true;
+      network.wifi-profiles = enabled;
     };
     users = {
       titouan = enabled;
@@ -21,6 +24,8 @@ with libCustom; {
       ssh.enable = true;
       stylix.enable = true;
       ssh.auto-start-sshd = true;
+      sops.enable = true;
+      sops.keyFile = "${config.users.users.titouan.home}/.config/sops/age/keys.txt";
     };
     services = {
       # restic = enabled; # Backup
@@ -29,7 +34,6 @@ with libCustom; {
     archetype.workstation = enabled;
     archetype.gamingstation = enabled;
     apps.tools.security.enable = true;
-    # sops.enable = true;
   };
 
   # Optional: Information Given for generating systems topology
@@ -46,14 +50,43 @@ with libCustom; {
     };
   };
 
+  # Need for sops
+  # fileSystems."/home".neededForBoot = lib.strings.hasPrefix "/home" config.modules.system.sops.keyFile; # Make sure that /home is mounted for sops runtime a boot
+
+  environment.systemPackages = with pkgs; [
+    python312Full
+    cmake
+    gnumake
+    espup
+    cargo
+    rustup
+    gcc
+    arduino-ide
+    #(espflash.overrideAttrs (oldAttrs: rec {
+    #  name = "espflash-git";
+    #  version = "git";
+    #  src = inputs.espflash;
+    #  cargoDeps = oldAttrs.cargoDeps.overrideAttrs (lib.const {
+    #    name = "${name}-vendor";
+    #    inherit src;
+    #    outputHash = "sha256-QCEyl5FZqECYYb5eRm8mn+R6owt+CLQwCq/AMMPygE0=";
+    #  });
+    #}))
+    probe-rs-tools
+    openssl.dev
+  ];
+
   programs.nix-ld.enable = true;
 
   # Sets up all the libraries to load
   programs.nix-ld.libraries = with pkgs; [
     stdenv.cc.cc
+    libusb1
     zlib
     fuse3
     icu
+    openssl.dev
+    openssl
     nss
     openssl
     curl
@@ -78,6 +111,11 @@ with libCustom; {
 
   # TODO Move to system/virtualisation maybe
   boot.binfmt.emulatedSystems = ["aarch64-linux"];
+
+  boot.extraModulePackages = [config.boot.kernelPackages.ddcci-driver];
+  boot.kernelModules = ["ddcci_backlight"];
+
+  hardware.i2c.enable = true;
 
   system.stateVersion = "24.11"; # Did you read the comment?
 }

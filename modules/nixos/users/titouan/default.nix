@@ -32,6 +32,7 @@ in {
             "libvirtd"
             "input"
             "adbusers"
+            "dialout" # Acess to /dev/ttyUSBX
           ]
           ++ optionals cfg.isWheel ["wheel"];
         useDefaultShell = true;

@@ -4,6 +4,7 @@
   config,
   inputs,
   libCustom,
+  self,
   ...
 }:
 with lib;
@@ -24,7 +25,7 @@ in {
 
     sops.age.keyFile = cfg.keyFile;
     sops.defaultSopsFormat = "yaml";
-    fileSystems."/home".neededForBoot = strings.hasPrefix "/home" cfg.keyFile; # Make sure that /home is mounted for sops runtime a boot
+    sops.defaultSopsFile = "${self}/secrets/secrets.yaml";
 
     assertions = [
       {

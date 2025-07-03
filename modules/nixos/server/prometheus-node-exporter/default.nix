@@ -18,7 +18,7 @@ in {
     mkIf cfg.enable
     {
       topology.self.services = {
-        prometheus-node-exporter = {
+        prometheus-node-exporter-old = {
           name = "Node Exporter";
           icon = "services.adguardhome"; # TODO create service extractor
           info = lib.mkForce "Prometeus Exporter";
