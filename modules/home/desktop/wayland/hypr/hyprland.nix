@@ -14,6 +14,9 @@ in {
     enable = mkEnableOpt "Enable Hyprland";
     withEffects = mkEnableOpt "Enable Effects like blur, animation shadow";
     rounding = mkOpt types.int 10 "size fo the rounding";
+    apps = {
+      terminal = mkOpt types.str null "Terminal application used used";
+    };
   };
 
   config = mkIf cfg.enable {
@@ -25,13 +28,20 @@ in {
         monitor=,preferred,auto,auto
         monitor=Unknown-1,disabled
         monitor=DP-5,preferred,auto,auto
+        monitorv2 {
+                output = HDMI-A-1
+                mode = preferred
+                position = auto-center-left
+                scale = 2
+                transform = 2
+        }
 
         ############
         # Variables
         ############
 
         $mainMod = SUPER
-        $term = ${pkgs.kitty}/bin/kitty
+        $term = ${cfg.apps.terminal}
         $browser = ${inputs.zen-browser.packages."${pkgs.system}".beta}/bin/zen-beta
         $wallpaper_daemon = ${pkgs.wpaperd}/bin/wpaperd
         $locker = ${pkgs.hyprlock}/bin/hyprlock
@@ -44,7 +54,7 @@ in {
         ############
         exec-once = volumectl mute 	                      # Mute speaker
         exec-once = volumectl -m mute	                      # Mute microphone
-        exec-once = $wallpaper_daemon 		              # Activate wpaperd
+        # exec-once = $wallpaper_daemon 		              # Activate wpaperd
         # exec-once = $bar		                      # Activate wpaperd
         exec-once = = ${inputs.hyprpanel.packages."${pkgs.system}".default}/bin/hyprpanel
 

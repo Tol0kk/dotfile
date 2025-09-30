@@ -109,6 +109,7 @@ with lib; let
       subreddit = ["rust" "linuxmasterrace" "NixOS" "cpp" "selfhosted" "rust_gamedev"];
       youtube = [
         # Top
+        "UCYI-TL0LoFRl1gFnnUFwdow" # Better Software Conference
         "UC_zBdZ0_H_jn41FDRG7q4Tw" # VimJoyer
         "UCiDpRjyRpsgRSEM2pIrkCiA" # BitLemon
         "UCGKEMK3s-ZPbjVOIuAV8clQ" # Core Dump

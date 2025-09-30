@@ -10,8 +10,6 @@ with lib;
 with libCustom; let
   cfg = config.modules.desktop.wayland.hypr.hyprpanel;
 in {
-  imports = [inputs.hyprpanel.homeManagerModules.hyprpanel];
-
   options.modules.desktop.wayland.hypr.hyprpanel = {
     enable = mkEnableOpt "Enable Hyprland";
   };
@@ -20,10 +18,8 @@ in {
     sops.secrets."titouan/weather_api_key" = {};
     programs.hyprpanel = {
       enable = true;
-      overlay.enable = true;
-      hyprland.enable = true;
       settings = {
-        theme.name = "gruvbox_split";
+        # theme.name = "gruvbox_split";
         layout = {
           bar.layouts = {
             "0" = {

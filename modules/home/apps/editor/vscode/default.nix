@@ -38,6 +38,11 @@ in {
           "explorer.confirmDelete" = false;
           "redhat.telemetry.enabled" = false;
           "jupyter.askForKernelRestart" = false;
+          "editor.inlineSuggest.suppressSuggestions" = true;
+          "qt-qml.qmlls.useQmlImportPathEnvVar" = true;
+          "qmlFormat.extraArguments" = [
+            "-w 2"
+          ];
 
           "nix" = {
             "formatterPath" = "alejandra";
@@ -63,20 +68,21 @@ in {
         extensions = with pkgs.vscode-extensions;
           [
             pkief.material-product-icons
-            llvm-vs-code-extensions.vscode-clangd
-            rust-lang.rust-analyzer
-            bungcip.better-toml
-            tamasfe.even-better-toml
-            serayuzgur.crates
+            llvm-vs-code-extensions.vscode-clangd # Clangd
+            twxs.cmake # Cmake
+            rust-lang.rust-analyzer # Rust analyzer
+            vadimcn.vscode-lldb # CodeLLDB
+            tamasfe.even-better-toml # Even better TOML
+            fill-labs.dependi # Dependi (Crates Dependency management)
             ziglang.vscode-zig
+            mhutchie.git-graph # Git graph
             # ms-python.python
             ms-toolsai.jupyter
             jnoortheen.nix-ide
-            eamodio.gitlens
             pkief.material-icon-theme
             davidlday.languagetool-linter
             golang.go
-            aaron-bond.better-comments
+            aaron-bond.better-comments # Better Comments
 
             # DSL Tools
             hashicorp.terraform

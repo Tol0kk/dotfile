@@ -46,13 +46,11 @@ in {
     }
     (mkIf cfg.grub.enable {
       boot.kernelParams = ["quiet"];
-      # boot.plymouth.enable = true;
-      # boot.plymouth.theme = "breeze";
       boot.loader = {
         timeout = 1;
         efi.canTouchEfiVariables = true;
         grub = {
-          theme = lib.mkDefault  (pkgs.sleek-grub-theme.override {
+          theme = lib.mkDefault (pkgs.sleek-grub-theme.override {
             withStyle = "dark";
           });
           # theme = pkgs.sleek-grub-theme;
@@ -62,7 +60,6 @@ in {
           efiSupport = true;
           # gfxmodeEfi = "1920x1080";
           gfxmodeEfi = "3840x2400";
-          splashImage = lib.mkDefault null;
           # fontSize = 30;
           # font = "${pkgs.hack-font}/share/fonts/hack/Hack-Regular.ttf";
           extraEntries = mkMerge [
@@ -94,12 +91,12 @@ in {
       boot.loader.systemd-boot.enable = true;
       boot.loader.efi.canTouchEfiVariables = true;
     })
-    (mkIf cfg.plymouth.enable {
+    (mkIf (cfg.grub.enable && cfg.plymouth.enable) {
       boot = {
         initrd.systemd.enable = true; # Needed for plymouth
         plymouth = {
           enable = true;
-          # theme = "cubes";
+          theme = "cubes";
           themePackages = with pkgs; [
             # By default we would install all themes
             (adi1090x-plymouth-themes.override {

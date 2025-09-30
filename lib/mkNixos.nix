@@ -71,6 +71,7 @@ in
     name: {
       system,
       nixpkgs,
+      withHomeManager ? false,
       ...
     }:
       nixpkgs.lib.nixosSystem {
@@ -83,7 +84,7 @@ in
         };
         specialArgs =
           {
-            inherit inputs self;
+            inherit inputs self withHomeManager;
           }
           // libs // extraPkgs system;
         modules = [
@@ -93,6 +94,26 @@ in
           inputs.nix-index-database.nixosModules.nix-index
           inputs.nix-topology.nixosModules.default
           {imports = [(import-tree "${self}/modules/nixos")];}
+          inputs.home-manager-unstable.nixosModules.home-manager
+        ] ++ lib.optionals withHomeManager [
+          {
+            home-manager.useGlobalPkgs = true;
+            home-manager.useUserPackages = true;
+            home-manager.backupFileExtension = "homeManagerBackup";
+            home-manager.sharedModules = [
+              {
+                home.stateVersion = "24.05";
+                programs.home-manager.enable = true;
+              }
+              (import-tree "${self}/modules/home")
+              inputs.sops-nix.homeManagerModules.sops
+            ];
+            home-manager.extraSpecialArgs =
+              {
+                inherit inputs self;
+              }
+              // libs // extraPkgs system;
+          }
         ];
       }
   )

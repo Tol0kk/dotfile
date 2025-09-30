@@ -9,7 +9,10 @@ with libCustom; {
   modules = {
     apps = {
       editor.vscode = enabled;
+      editor.zed = enabled;
       term.kitty = enabled;
+      # term.alacritty = enabled;
+      # term.wezterm = enabled;
       misc = {
         git = enabled;
         glxgears = enabled;
@@ -30,7 +33,7 @@ with libCustom; {
       bash = enabled;
       fish = enabled;
       starship = enabled;
-      zellij = enabled;
+      zellij = disabled;
       zoxide = enabled;
     };
 
@@ -62,7 +65,7 @@ with libCustom; {
     hyprshot
     ironbar
 
-     # personal
+    # personal
     accountsservice
     cargo-generate
     brave

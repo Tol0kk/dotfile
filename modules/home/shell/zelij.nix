@@ -15,9 +15,9 @@ in {
   config = mkIf cfg.enable {
     programs.zellij = {
       enable = true;
-      enableFishIntegration = true;
-      enableBashIntegration = true;
-      enableZshIntegration = true;
+      enableFishIntegration = false;
+      enableBashIntegration = false;
+      enableZshIntegration = false;
       settings = {
         # TODO: see more https://zellij.dev/documentation
         # Settings like yaml

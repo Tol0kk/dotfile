@@ -23,7 +23,9 @@ in {
       stylix.enable = true;
       stylix.polarity = "dark";
       stylix.image = assets.backgrounds.background-1;
-      # stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-hard.yaml";
+      stylix.base16Scheme = "${pkgs.base16-schemes}/share/themes/gruvbox-dark-hard.yaml";
+
+      stylix.targets.plymouth.enable = false;
 
       stylix.cursor = {
         package = pkgs.phinger-cursors;

@@ -26,7 +26,6 @@ in {
         system = {
           fonts = enabled;
           desktopEnvironment.hypr = enabled;
-          desktopEnvironment.gnome = enabled;
           virtualisation.docker = enabled;
           virtualisation.qemu = enabled;
         };
@@ -57,6 +56,9 @@ in {
           '';
         }
       ];
+
+      services.displayManager.cosmic-greeter.enable = true;
+      networking.networkmanager.enable = true;
 
       programs.wireshark.enable = true;
 
@@ -97,6 +99,8 @@ in {
         algorithm = "zstd";
         memoryPercent = 30;
       };
+
+      qt.enable = true; # Used for quickshell developement
 
       ## package
       environment.systemPackages = with pkgs; [
@@ -144,10 +148,18 @@ in {
         wireguard-tools
         qrencode
         networkmanagerapplet
+        imagemagick
 
         # Typst
         typst
         tinymist
+
+        # QML developments (QT/quickshell)
+        kdePackages.full
+
+        sphinx # Python documentation generator (used for linux kernel documentation generation)
+       
+        flex
       ];
     })
   ];

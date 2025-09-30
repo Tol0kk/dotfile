@@ -1,9 +1,7 @@
 {
   config,
-  inputs,
   libCustom,
   pkgs,
-  lib,
   ...
 }:
 with libCustom; {
@@ -25,7 +23,7 @@ with libCustom; {
       stylix.enable = true;
       ssh.auto-start-sshd = true;
       sops.enable = true;
-      sops.keyFile = "${config.users.users.titouan.home}/.config/sops/age/keys.txt";
+      sops.keyFile = builtins.trace "${config.users.users.titouan.home}/.config/sops/age/keys.txt" "${config.users.users.titouan.home}/.config/sops/age/keys.txt";
     };
     services = {
       # restic = enabled; # Backup
@@ -54,7 +52,12 @@ with libCustom; {
   # fileSystems."/home".neededForBoot = lib.strings.hasPrefix "/home" config.modules.system.sops.keyFile; # Make sure that /home is mounted for sops runtime a boot
 
   environment.systemPackages = with pkgs; [
-    python312Full
+    
+     (python312Full.withPackages (python-pkgs: with python-pkgs; [
+      # select Python packages here
+      pyyaml
+      requests
+    ]))
     cmake
     gnumake
     espup
@@ -62,6 +65,7 @@ with libCustom; {
     rustup
     gcc
     arduino-ide
+        pkg-config
     #(espflash.overrideAttrs (oldAttrs: rec {
     #  name = "espflash-git";
     #  version = "git";
@@ -74,6 +78,7 @@ with libCustom; {
     #}))
     probe-rs-tools
     openssl.dev
+    ncurses flex bison # linux kernel
   ];
 
   programs.nix-ld.enable = true;
@@ -85,6 +90,7 @@ with libCustom; {
     zlib
     fuse3
     icu
+    ncurses
     openssl.dev
     openssl
     nss
@@ -101,6 +107,9 @@ with libCustom; {
       "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK7QCPO6Pc8Ir/lNbKK5YS0OwyLKtGFweL9K+Gd7MvFv personal@tolok.org"
     ];
   };
+
+  fileSystems."/home".neededForBoot = true;
+  boot.initrd.systemd.enable = true;
 
   # LUCKS: Activate encription
   boot.initrd.luks.devices."luks-c19801cf-8ba0-488b-97d1-959651c21ab9".device = "/dev/disk/by-uuid/c19801cf-8ba0-488b-97d1-959651c21ab9";

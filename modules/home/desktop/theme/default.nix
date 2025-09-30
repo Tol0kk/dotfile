@@ -41,6 +41,7 @@ in {
   };
   config = {
     programs.home-manager.enable = true;
+    stylix.targets.wpaperd.enable = false;
     services.wpaperd = {
       enable = true;
       settings = {

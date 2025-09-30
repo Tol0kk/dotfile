@@ -43,6 +43,10 @@
     nix-topology.url = "github:oddlama/nix-topology";
     espflash.url = "github:esp-rs/espflash";
     espflash.flake = false;
+    quickshell = {
+      url = "git+https://git.outfoxxed.me/outfoxxed/quickshell";
+      inputs.nixpkgs.follows = "nixpkgs-unstable";
+    };
   };
 
   outputs = {
@@ -65,6 +69,7 @@
     in {
       inherit (pkgs.callPackage ./packages/neovim {inherit (inputs) nvf;}) tiny-neovim neovim;
       rkffmpeg = pkgs.callPackage ./packages/rkffmpeg {};
+      linux-1_12-rockchip = pkgs.callPackage ./packages/linux-6.12-rockchip {};
     });
 
     # Topology using https://github.com/oddlama/nix-topology
