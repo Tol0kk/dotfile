@@ -8,14 +8,27 @@
 with lib;
 with libCustom; let
   cfg = config.modules.apps.editor.zed;
+
+  zed-wrap = pkgs.symlinkJoin {
+    name = "zeditor-x11";
+    paths = [pkgs.zed-editor];
+
+    buildInputs = [pkgs.makeWrapper];
+
+    postBuild = ''
+      wrapProgram $out/bin/zeditor \
+        --unset WAYLAND_DISPLAY
+    '';
+  };
 in {
   options.modules.apps.editor.zed = {
     enable = mkEnableOpt "Enable Zed";
   };
 
   config = mkIf cfg.enable {
-    nixGL.vulkan.enable = true;
+    # nixGL.vulkan.enable = true;
     programs.zed-editor = {
+      package = zed-wrap;
       enable = true;
       # extensions = ["nix" "toml" "elixir" "make"];
       # userSettings = {

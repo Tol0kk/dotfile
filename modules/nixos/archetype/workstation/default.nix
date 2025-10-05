@@ -7,14 +7,16 @@
   ...
 }:
 with lib;
-with libCustom; let
+with libCustom;
+let
   cfg = config.modules.archetype.workstation;
-in {
+in
+{
   options.modules.archetype.workstation = {
     enable = mkEnableOpt "Enable workstation archetype";
   };
 
-  imports = [inputs.nix-flatpak.nixosModules.nix-flatpak];
+  imports = [ inputs.nix-flatpak.nixosModules.nix-flatpak ];
 
   config = mkMerge [
     (mkIf cfg.enable {
@@ -50,7 +52,9 @@ in {
 
       assertions = [
         {
-          assertion = config.modules.system.desktopEnvironment.gnome.enable || config.modules.system.desktopEnvironment.hypr.enable;
+          assertion =
+            config.modules.system.desktopEnvironment.gnome.enable
+            || config.modules.system.desktopEnvironment.hypr.enable;
           message = ''
             You have to enable at leat one desktop environment.
           '';
@@ -84,11 +88,11 @@ in {
 
       # Add support for QMK keyboard
       hardware.keyboard.qmk.enable = true;
-      services.udev.packages = [pkgs.via];
+      services.udev.packages = [ pkgs.via ];
 
       security.apparmor = {
         enable = true;
-        packages = [pkgs.apparmor-profiles];
+        packages = [ pkgs.apparmor-profiles ];
       };
 
       services.fwupd.enable = true;
@@ -96,8 +100,8 @@ in {
       # Activate Zram (Memory compression)
       zramSwap = {
         enable = true;
-        algorithm = "zstd";
-        memoryPercent = 30;
+        algorithm = lib.mkDefault "zstd";
+        memoryPercent = 80;
       };
 
       qt.enable = true; # Used for quickshell developement
@@ -141,6 +145,7 @@ in {
         vulkan-tools
         busybox
         nil
+        nixd
         openssl
         openfortivpn # University VPN
         xarchiver
@@ -158,7 +163,7 @@ in {
         kdePackages.full
 
         sphinx # Python documentation generator (used for linux kernel documentation generation)
-       
+
         flex
       ];
     })

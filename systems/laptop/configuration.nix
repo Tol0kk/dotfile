@@ -3,7 +3,8 @@
   libCustom,
   ...
 }:
-with libCustom; {
+with libCustom;
+{
   modules = {
     hardware = {
       bluetooth = enabled;
@@ -29,12 +30,16 @@ with libCustom; {
     apps.tools.security.enable = true;
   };
 
+  zramSwap = {
+    algorithm = "lzo-rle";
+  };
+
   # Optional: Information Given for generating systems topology
   topology.self = {
     name = "💻  Laptop";
     hardware.info = "i7 10750H | 32GB | GTX 1650Ti";
     interfaces.wg0 = {
-      addresses = ["10.100.0.2"];
+      addresses = [ "10.100.0.2" ];
       network = "wg0"; # Use the network we define below
       type = "wireguard"; # changes the icon
       physicalConnections = [
@@ -42,12 +47,12 @@ with libCustom; {
       ];
     };
     interfaces.wlp30s0 = {
-      addresses = ["192.168.1.78/24"];
+      addresses = [ "192.168.1.78/24" ];
       network = "home"; # Use the network we define below
     };
   };
 
-  boot.binfmt.emulatedSystems = ["aarch64-linux"];
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
   system.stateVersion = "24.05"; # Did you read the comment?
 }

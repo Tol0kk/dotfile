@@ -100,6 +100,10 @@ with libCustom; {
     # ...
   ];
 
+  zramSwap = {
+    algorithm = "zstd";
+  };
+
   # Public ssh keu authorized to connect to desktop
   users.users.titouan = {
     openssh.authorizedKeys.keys = [

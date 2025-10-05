@@ -2,15 +2,16 @@
   pkgs,
   lib,
   config,
-  inputs,
   assets,
   libCustom,
   ...
 }:
 with lib;
-with libCustom; let
+with libCustom;
+let
   cfg = config.modules.desktop.theme;
-in {
+in
+{
   # imports = [inputs.stylix.homeModules.stylix];
   options.modules.desktop.theme = {
     enable = mkEnableOpt "Enable Stylix";
@@ -29,7 +30,12 @@ in {
     };
     polarity = mkOption {
       description = "Theme polarity";
-      type = with types; (enum ["dark" "light"]);
+      type =
+        with types;
+        (enum [
+          "dark"
+          "light"
+        ]);
       default = "light";
     };
     background-image = mkOption {
@@ -58,11 +64,9 @@ in {
     stylix.image = cfg.background-image;
     stylix.polarity = "dark";
 
-    stylix.base16Scheme =
-      mkIf
-      (
-        cfg.theme != ""
-      ) "${pkgs.base16-schemes}/share/themes/${cfg.theme}.yaml";
+    stylix.base16Scheme = mkIf (
+      cfg.theme != ""
+    ) "${pkgs.base16-schemes}/share/themes/${cfg.theme}.yaml";
 
     stylix.opacity = {
       terminal = cfg.opacity;
