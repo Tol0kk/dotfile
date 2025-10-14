@@ -70,7 +70,7 @@ in
       programs.wireshark.enable = true;
 
       # Flatpack
-      services.flatpak.enable = true;
+      # services.flatpak.enable = true;
 
       services.udisks2.enable = true;
       programs.dconf.enable = true;
@@ -157,6 +157,9 @@ in
         qrencode
         networkmanagerapplet
         imagemagick
+
+        # LSP
+        nil
 
         # Typst
         typst

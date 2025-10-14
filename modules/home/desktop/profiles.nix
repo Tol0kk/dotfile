@@ -59,7 +59,6 @@ in {
             background-image = mkDefault assets.backgrounds.background-2;
           };
 
-
           wayland.quickshell = enabled;
         };
       };

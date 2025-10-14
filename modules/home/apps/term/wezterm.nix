@@ -16,7 +16,7 @@ in {
   config = mkIf cfg.enable {
     programs.wezterm = {
       enable = true;
-      extraConfig =''
+      extraConfig = ''
         return {
           font = wezterm.font("Maple Mono"),
           font_size = 11.0,
@@ -25,9 +25,9 @@ in {
           window_close_confirmation = 'NeverPrompt',
           default_prog = { "fish" },
         }
-      ''; 
+      '';
     };
   };
 }
-
 #          default_prog = { "fish", "-c", "zellij" },
+

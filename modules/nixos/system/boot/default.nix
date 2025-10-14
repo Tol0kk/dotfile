@@ -2,13 +2,16 @@
   pkgs,
   lib,
   config,
+  assets,
   libCustom,
   ...
 }:
 with lib;
-with libCustom; let
+with libCustom;
+let
   cfg = config.modules.system.boot;
-in {
+in
+{
   options.modules.system.boot = {
     windowsUUID = mkOption {
       description = "Select the Disk where windows is installed by UUID. This Speed up the processed from Osprober. You can find the UUID with lsblk -fa";
@@ -16,6 +19,7 @@ in {
       default = "";
     };
     systemd.enable = mkEnableOpt "Enable SystemD bootloader";
+    limine.enable = mkEnableOpt "Enable Limine bootloader";
     grub = {
       enable = mkEnableOpt "Enable Grub bootloader";
       useOSProber = mkEnableOpt "Enable OSProber, append entries for other OSs detected by os-prober. This will scan entries every rebuild";
@@ -27,7 +31,7 @@ in {
     {
       assertions = [
         {
-          assertion = cfg.systemd.enable || cfg.grub.enable;
+          assertion = cfg.systemd.enable || cfg.grub.enable || cfg.limine.enable;
           message = ''
             You have to enable systemd or grub bootloader with one of the following:
               - modules.system.boot.systemd.enable
@@ -35,7 +39,7 @@ in {
           '';
         }
         {
-          assertion = cfg.systemd.enable || cfg.grub.enable;
+          assertion = cfg.systemd.enable || cfg.grub.enable || cfg.limine.enable;
           message = ''
             You have enable systemd and grub bootloader. You can only choose ONE of the following:
               - modules.system.boot.systemd.enable
@@ -45,14 +49,16 @@ in {
       ];
     }
     (mkIf cfg.grub.enable {
-      boot.kernelParams = ["quiet"];
+      boot.kernelParams = [ "quiet" ];
       boot.loader = {
         timeout = 1;
         efi.canTouchEfiVariables = true;
         grub = {
-          theme = lib.mkDefault (pkgs.sleek-grub-theme.override {
-            withStyle = "dark";
-          });
+          theme = lib.mkDefault (
+            pkgs.sleek-grub-theme.override {
+              withStyle = "dark";
+            }
+          );
           # theme = pkgs.sleek-grub-theme;
           # useOSProber = cfg.useOSProber;
           enable = true;
@@ -87,21 +93,30 @@ in {
       };
     })
     (mkIf cfg.systemd.enable {
-      boot.kernelParams = ["quiet"];
+      boot.kernelParams = [ "quiet" ];
       boot.loader.systemd-boot.enable = true;
       boot.loader.efi.canTouchEfiVariables = true;
     })
-    (mkIf (cfg.grub.enable && cfg.plymouth.enable) {
+    (mkIf cfg.limine.enable {
+      boot.loader.limine.enable = true;
+      boot.loader.limine.secureBoot.enable = true;
+      boot.loader.limine.style.wallpapers = [
+        assets.backgrounds.background-1
+      ];
+    })
+    (mkIf ((cfg.grub.enable || cfg.limine.enable) && cfg.plymouth.enable) {
       boot = {
         initrd.systemd.enable = true; # Needed for plymouth
         plymouth = {
           enable = true;
-          theme = "cubes";
+          theme = "nixos-plymouth-custom";
+          # theme = "cubes";
           themePackages = with pkgs; [
             # By default we would install all themes
             (adi1090x-plymouth-themes.override {
-              selected_themes = ["cubes"];
+              selected_themes = [ "cubes" ];
             })
+            pkgs.nixos-plymouth-custom
           ];
         };
 

@@ -29,11 +29,11 @@ in {
 
     assertions = [
       {
-          assertion = cfg.keyFile != null;
-          message = ''
-            You have to setup a keyFile to use Sops.
-          '';
-        }
+        assertion = cfg.keyFile != null;
+        message = ''
+          You have to setup a keyFile to use Sops.
+        '';
+      }
     ];
   };
 }

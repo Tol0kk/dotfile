@@ -52,12 +52,12 @@ with libCustom; {
   # fileSystems."/home".neededForBoot = lib.strings.hasPrefix "/home" config.modules.system.sops.keyFile; # Make sure that /home is mounted for sops runtime a boot
 
   environment.systemPackages = with pkgs; [
-    
-     (python312Full.withPackages (python-pkgs: with python-pkgs; [
-      # select Python packages here
-      pyyaml
-      requests
-    ]))
+    (python312Full.withPackages (python-pkgs:
+      with python-pkgs; [
+        # select Python packages here
+        pyyaml
+        requests
+      ]))
     cmake
     gnumake
     espup
@@ -65,7 +65,7 @@ with libCustom; {
     rustup
     gcc
     arduino-ide
-        pkg-config
+    pkg-config
     #(espflash.overrideAttrs (oldAttrs: rec {
     #  name = "espflash-git";
     #  version = "git";
@@ -78,7 +78,9 @@ with libCustom; {
     #}))
     probe-rs-tools
     openssl.dev
-    ncurses flex bison # linux kernel
+    ncurses
+    flex
+    bison # linux kernel
   ];
 
   programs.nix-ld.enable = true;

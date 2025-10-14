@@ -16,7 +16,7 @@ with libCustom;
       titouan = enabled;
     };
     system = {
-      boot.grub = enabled;
+      boot.limine = enabled;
       boot.plymouth = enabled;
       ssh = enabled;
       sops.enable = true;
@@ -51,6 +51,8 @@ with libCustom;
       network = "home"; # Use the network we define below
     };
   };
+
+  fileSystems."/home".neededForBoot = true;
 
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
