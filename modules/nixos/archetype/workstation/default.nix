@@ -20,6 +20,11 @@ in
 
   config = mkMerge [
     (mkIf cfg.enable {
+      nix.registry.nixpkgs.flake = inputs.nixpkgs;
+
+      # Also set the NIX_PATH for legacy commands
+      nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
+
       modules = {
         hardware = {
           audio = enabled;
@@ -61,9 +66,7 @@ in
         }
       ];
 
-      services.displayManager.cosmic-greeter.enable = true;
-      networking.networkmanager.enable = true;
-
+      services.displayManager.ly.enable = true;
       programs.wireshark.enable = true;
 
       # Flatpack

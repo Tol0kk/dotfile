@@ -5,7 +5,7 @@ keys:
 creation_rules:
   - path_regrex: secrets/secrets.yaml
     key_groups:
-    - age: 
-      - *titouan
-      - *laptop
-      - *olympus
+      - age:
+          - *titouan
+          - *laptop
+          - *olympus

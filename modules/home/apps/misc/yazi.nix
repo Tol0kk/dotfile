@@ -5,9 +5,11 @@
   ...
 }:
 with lib;
-with libCustom; let
+with libCustom;
+let
   cfg = config.modules.apps.misc.yazi;
-in {
+in
+{
   options.modules.apps.misc.yazi = {
     enable = mkEnableOpt "Enable Yazi";
   };
@@ -20,11 +22,18 @@ in {
       enableFishIntegration = true;
       enableNushellIntegration = true;
       enableZshIntegration = true;
-      keymap = {};
+      keymap = { };
       settings = {
         log = {
           enabled = false;
         };
+      };
+    };
+
+    xdg.mimeApps = {
+      enable = true;
+      defaultApplications = {
+        "inode/directory" = "yazi.desktop";
       };
     };
   };

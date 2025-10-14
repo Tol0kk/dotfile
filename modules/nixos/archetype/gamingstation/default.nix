@@ -6,9 +6,11 @@
   ...
 }:
 with lib;
-with libCustom; let
+with libCustom;
+let
   cfg = config.modules.archetype.gamingstation;
-in {
+in
+{
   options.modules.archetype.gamingstation = {
     enable = mkEnableOpt "Enable Gaming";
   };
