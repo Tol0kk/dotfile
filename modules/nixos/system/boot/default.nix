@@ -116,7 +116,7 @@ in
             (adi1090x-plymouth-themes.override {
               selected_themes = [ "cubes" ];
             })
-            pkgs.nixos-plymouth-custom
+            nixos-plymouth-custom
           ];
         };
 

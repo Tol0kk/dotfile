@@ -20,10 +20,10 @@ in
 
   config = mkMerge [
     (mkIf cfg.enable {
-      nix.registry.nixpkgs.flake = inputs.nixpkgs;
+      nix.registry.nixpkgs.flake = inputs.nixpkgs-unstable;
 
       # Also set the NIX_PATH for legacy commands
-      nix.nixPath = [ "nixpkgs=${inputs.nixpkgs}" ];
+      nix.nixPath = [ "nixpkgs=${inputs.nixpkgs-unstable}" ];
 
       modules = {
         hardware = {
