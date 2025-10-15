@@ -30,6 +30,21 @@ in
   config = mkIf cfg.enable {
     # nixGL.vulkan.enable = true;
     stylix.targets.zed.enable = false;
+    # home.file = {
+    # zed-keymap = {
+    # source = ./keymap.json;
+    # target = ".config/zed/keymap.json";
+    # };
+    # zed-settings = {
+    # source = ./settings.json;
+    # target = ".config/zed/settings.json";
+    # };
+    # };
+    #
+    home.file.".config/zed/settings.json".source =
+      config.lib.file.mkOutOfStoreSymlink "${config.dotfiles}/modules/home/apps/editor/zed/settings.json";
+    home.file.".config/zed/keymap.json".source =
+      config.lib.file.mkOutOfStoreSymlink "${config.dotfiles}/modules/home/apps/editor/zed/keymap.json";
     programs.zed-editor = {
       package = zed-wrap;
       enable = true;
