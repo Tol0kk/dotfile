@@ -4,6 +4,9 @@
 #  imports = [ ./disko-config.nix ];
 #  disko.devices.disk.main.device = "/dev/sda";
 # }
+let
+  root_pool = "rpool";
+in
 {
   disko.devices = {
     disk = {
@@ -27,7 +30,7 @@
               size = "100%";
               content = {
                 type = "zfs";
-                pool = "zroot";
+                pool = "${root_pool}";
               };
             };
           };
@@ -35,7 +38,7 @@
       };
     };
     zpool = {
-      zroot = {
+      "${root_pool}" = {
         type = "zpool";
         rootFsOptions = {
           acltype = "posixacl";
@@ -52,27 +55,52 @@
           ashift = "13";
         };
         datasets = {
-          "root" = {
+          "nixos" = {
             type = "zfs_fs";
-            options."com.sun:auto-snapshot" = "false"; # Don't need snapshot on root since it is handle by nix
             mountpoint = "/";
-            postCreateHook = "zfs list -t snapshot -H -o name | grep -E '^zroot/root@blank$' || zfs snapshot zroot/root@blank";
+            options.mountpoint = "legacy";
           };
-          "root/nix" = {
+          "nixos/empty" = {
+            type = "zfs_fs";
+            options.mountpoint = "legacy";
+            mountpoint = "/";
+            options."com.sun:auto-snapshot" = "false"; # Don't need snapshot on root since it is handle by nix
+            postCreateHook = "zfs list -t snapshot -H -o name | grep -E '^${root_pool}/root@blank$' || zfs snapshot ${root_pool}/root@blank";
+          };
+          "nixos/nix" = {
             type = "zfs_fs";
             mountpoint = "/nix";
+            options.mountpoint = "legacy";
             # Don't need snapshot on /nix since it is read-only and fully reproducible from other files.
             options."com.sun:auto-snapshot" = "false";
           };
-          "root/home" = {
+          "nixos/home" = {
             type = "zfs_fs";
             mountpoint = "/home";
+            options.mountpoint = "legacy";
             options."com.sun:auto-snapshot" = "true"; # We want snapshot for a safer storage of home files
           };
-          "root/persist" = {
+          "nixos/persist" = {
             type = "zfs_fs";
             mountpoint = "/persist";
+            options.mountpoint = "legacy";
             options."com.sun:auto-snapshot" = "true"; # Same as home files since it is important files
+          };
+          "nixos/var" = {
+            type = "zfs_fs";
+            options.mountpoint = "none";
+          };
+          "nixos/var/log" = {
+            type = "zfs_fs";
+            options.mountpoint = "legacy";
+            mountpoint = "/var/log";
+            options."com.sun:auto-snapshot" = "true";
+          };
+          "nixos/var/lib" = {
+            type = "zfs_fs";
+            options.mountpoint = "legacy";
+            mountpoint = "/var/lib";
+            options."com.sun:auto-snapshot" = "true";
           };
         };
       };

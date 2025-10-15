@@ -48,7 +48,7 @@ in
     programs.zed-editor = {
       package = zed-wrap;
       enable = true;
-      # extensions = ["nix" "toml" "elixir" "make"];
+      extensions = ["nix" "toml" "make"];
       # userSettings = {
       #   hour_format = "hour24";
       #   auto_update = false;

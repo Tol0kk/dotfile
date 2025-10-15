@@ -19,7 +19,7 @@ in
     };
   };
 
-  option.dotfiles = lib.mkOption {
+  options.dotfiles = lib.mkOption {
     type = lib.types.path;
     apply = toString;
     default = "${config.home.homeDirectory}/.config/nixos";

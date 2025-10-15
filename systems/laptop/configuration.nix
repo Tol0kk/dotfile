@@ -52,7 +52,59 @@ with libCustom;
     };
   };
 
-  fileSystems."/home".neededForBoot = true;
+  boot.initrd.systemd = {
+    enable = true;
+    services.initrd-rollback-root = {
+      after = [ "zfs-import-rpool.service" ];
+      wantedBy = [ "initrd.target" ];
+      before = [
+        "sysroot.mount"
+      ];
+      path = [ pkgs.zfs ];
+      description = "Rollback root fs";
+      unitConfig.DefaultDependencies = "no";
+      serviceConfig.Type = "oneshot";
+      script = "zfs rollback -r nixos/empty@start";
+    };
+  };
+
+  networking.hostId = "0be1cd29";
+  boot.supportedFilesystems = [ "zfs" ];
+  boot.initrd.kernelModules = [ "zfs" ];
+
+  fileSystems."/" = lib.mkForce {
+    device = "nixos/empty";
+    fsType = "zfs";
+    neededForBoot = true;
+  };
+
+  fileSystems."/home" = {
+    device = "nixos/home";
+    fsType = "zfs";
+    neededForBoot = true;
+  };
+
+  fileSystems."/nix" = {
+    device = "nixos/nix";
+    fsType = "zfs";
+    neededForBoot = true;
+  };
+
+  fileSystems."/var/log" = {
+    device = "nixos/var/log";
+    fsType = "zfs";
+  };
+
+  fileSystems."/var/lib" = {
+    device = "nixos/var/lib";
+    fsType = "zfs";
+  };
+
+  fileSystems."/persist" = {
+    device = "nixos/persist";
+    fsType = "zfs";
+    neededForBoot = true;
+  };
 
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
