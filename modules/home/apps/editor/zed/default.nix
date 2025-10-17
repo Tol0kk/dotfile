@@ -9,18 +9,6 @@ with lib;
 with libCustom;
 let
   cfg = config.modules.apps.editor.zed;
-
-  zed-wrap = pkgs.symlinkJoin {
-    name = "zeditor-x11";
-    paths = [ pkgs.zed-editor ];
-
-    buildInputs = [ pkgs.makeWrapper ];
-
-    postBuild = ''
-      wrapProgram $out/bin/zeditor \
-        --unset WAYLAND_DISPLAY
-    '';
-  };
 in
 {
   options.modules.apps.editor.zed = {
@@ -30,67 +18,15 @@ in
   config = mkIf cfg.enable {
     # nixGL.vulkan.enable = true;
     stylix.targets.zed.enable = false;
-    # home.file = {
-    # zed-keymap = {
-    # source = ./keymap.json;
-    # target = ".config/zed/keymap.json";
-    # };
-    # zed-settings = {
-    # source = ./settings.json;
-    # target = ".config/zed/settings.json";
-    # };
-    # };
-    #
     home.file.".config/zed/settings.json".source =
       config.lib.file.mkOutOfStoreSymlink "${config.dotfiles}/modules/home/apps/editor/zed/settings.json";
     home.file.".config/zed/keymap.json".source =
       config.lib.file.mkOutOfStoreSymlink "${config.dotfiles}/modules/home/apps/editor/zed/keymap.json";
     programs.zed-editor = {
-      package = zed-wrap;
+      # package = zed-wrap;
       enable = true;
-      extensions = ["nix" "toml" "make"];
-      # userSettings = {
-      #   hour_format = "hour24";
-      #   auto_update = false;
-      #   load_direnv = "shell_hook";
-      #   base_keymap = "VSCode";
-      #   show_whitespaces = "all";
-      #   assistant = {
-      #     enabled = true;
-      #     version = "2";
-      #     default_open_ai_model = null;
-      #     default_model = {
-      #       provider = "zed.dev";
-      #       model = "claude-3-5-sonnet-latest";
-      #     };
-      #   };
-      #   node = {
-      #     path = lib.getExe pkgs.nodejs;
-      #     npm_path = lib.getExe' pkgs.nodejs "npm";
-      #   };
-      #   lsp = {
-      #     rust-analyzer = {
-      #       binary = {
-      #         path = "rust-analyzer";
-      #       };
-      #     };
-      #     nix = {
-      #       binary = {
-      #         path_lookup = true;
-      #       };
-      #     };
-
-      #     elixir-ls = {
-      #       binary = {
-      #         path_lookup = true;
-      #       };
-      #       settings = {
-      #         dialyzerEnabled = true;
-      #       };
-      #     };
-      #   };
-      # };
     };
+    modules.defaults.editor = "${config.programs.zed-editor.package}/bin/zeditor";
     xdg.mimeApps = {
       enable = true;
       defaultApplications = {

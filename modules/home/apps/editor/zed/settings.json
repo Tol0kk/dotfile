@@ -78,14 +78,14 @@
   },
   "line_indicator_format": "short",
   "middle_click_paste": false,
-  "multi_cursor_modifier": "cmd_or_ctrl",
+  "multi_cursor_modifier": "alt",
   "redact_private_values": true,
   "relative_line_numbers": true,
   "when_closing_with_no_tabs": "close_window",
   "title_bar": {
-    "show_branch_icon": false,
-    "show_branch_name": false,
-    "show_project_items": false,
+    "show_branch_icon": true,
+    "show_branch_name": true,
+    "show_project_items": true,
     "show_onboarding_banner": false,
     "show_user_picture": false,
     "show_sign_in": false,
@@ -180,6 +180,26 @@
   "auto_install_extensions": {
     "make": true,
     "nix": true,
-    "toml": true
+    "toml": true,
+    "colored-zed-icons-theme": true
+  },
+  "languages": {
+    "Nix": {
+      "language_servers": ["!nixd", "nil"]
+    }
+  },
+  "lsp": {
+    "nil": {
+      "settings": {
+        "diagnostics": {
+          "excludedFiles": ["Cargo.nix"]
+        },
+        "nix": {
+          "flake": {
+            "autoArchive": true
+          }
+        }
+      }
+    }
   }
 }

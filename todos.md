@@ -2,6 +2,14 @@
 
 ---
 
+Add Declarative syncronisation with media server
+Check declarative Network
+Add hypridle
+Check impermnance & zfs on a new install
+Check that everythings work
+
+---
+
 ## General
 
 - [-] mangohud overlay for system stats
