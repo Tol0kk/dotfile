@@ -5,7 +5,8 @@
   libCustom,
   ...
 }:
-with libCustom; {
+with libCustom;
+{
   modules = {
     apps = {
       editor.vscode = enabled;

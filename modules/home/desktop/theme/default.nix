@@ -47,18 +47,18 @@ in
   };
   config = {
     programs.home-manager.enable = true;
-    stylix.targets.wpaperd.enable = false;
-    services.wpaperd = {
-      enable = true;
-      settings = {
-        default = {
-          path = cfg.background-image;
-        };
-      };
-    };
+    # stylix.targets.wpaperd.enable = false;
+    # services.wpaperd = {
+    #   enable = true;
+    #   settings = {
+    #     default = {
+    #       path = cfg.background-image;
+    #     };
+    #   };
+    # };
     gtk.enable = true;
-    gtk.iconTheme.package = pkgs.colloid-icon-theme;
-    gtk.iconTheme.name = "Colloid-Dark";
+    gtk.iconTheme.package = pkgs.tela-icon-theme;
+    gtk.iconTheme.name = "Tela-blue-dark";
 
     stylix.enable = true;
     stylix.image = cfg.background-image;

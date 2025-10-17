@@ -6,13 +6,22 @@
   ...
 }:
 with lib;
-with libCustom; let
+with libCustom;
+let
   cfg = config.modules.desktop.profiles;
-in {
+in
+{
   options.modules.desktop = {
     profiles = mkOption {
       description = "Profile to select";
-      type = with types; (enum ["aestetic" "minimal" "work" "quickshell"]);
+      type =
+        with types;
+        (enum [
+          "aestetic"
+          "minimal"
+          "work"
+          "quickshell"
+        ]);
       default = "aestetic";
     };
   };
@@ -28,9 +37,6 @@ in {
             hyprland.withEffects = mkDefault true;
             hyprland.rounding = mkDefault 10;
             hyprpanel = mkDefault enabled;
-            hyprland.apps = {
-              terminal = mkDefault (lib.getExe config.programs.alacritty.package);
-            };
           };
           wayland.anyrun = mkDefault enabled;
           theme = {
@@ -87,6 +93,6 @@ in {
     })
     # TODO
     (mkIf (cfg == "work") {
-      })
+    })
   ];
 }

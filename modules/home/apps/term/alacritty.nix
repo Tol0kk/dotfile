@@ -6,9 +6,11 @@
   ...
 }:
 with lib;
-with libCustom; let
+with libCustom;
+let
   cfg = config.modules.apps.term.alacritty;
-in {
+in
+{
   options.modules.apps.term.alacritty = {
     enable = mkEnableOpt "Enable Anyrun";
   };
@@ -18,5 +20,6 @@ in {
       enable = true;
       theme = "gruvbox_dark";
     };
+    modules.defaults.terminal = lib.getExe config.programs.alacritty.package;
   };
 }

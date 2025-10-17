@@ -1,6 +1,8 @@
 {
   config,
   libCustom,
+  pkgs,
+  username,
   ...
 }:
 with libCustom;
@@ -52,59 +54,31 @@ with libCustom;
     };
   };
 
-  boot.initrd.systemd = {
-    enable = true;
-    services.initrd-rollback-root = {
-      after = [ "zfs-import-rpool.service" ];
-      wantedBy = [ "initrd.target" ];
-      before = [
-        "sysroot.mount"
-      ];
-      path = [ pkgs.zfs ];
-      description = "Rollback root fs";
-      unitConfig.DefaultDependencies = "no";
-      serviceConfig.Type = "oneshot";
-      script = "zfs rollback -r nixos/empty@start";
-    };
-  };
+  networking.networkmanager.enable = true;
 
-  networking.hostId = "0be1cd29";
-  boot.supportedFilesystems = [ "zfs" ];
-  boot.initrd.kernelModules = [ "zfs" ];
+  services.greetd.enable = true;
+  services.greetd.settings.default_session.command =
+    "${pkgs.greetd}/bin/agreety --cmd ${pkgs.bashInteractive}/bin/bash";
+  services.greetd.settings.initial_session.user = "titouan";
+  services.greetd.settings.initial_session.command = "Hyprland";
 
-  fileSystems."/" = lib.mkForce {
-    device = "nixos/empty";
-    fsType = "zfs";
-    neededForBoot = true;
-  };
+  # boot.initrd.systemd = {
+  #   enable = true;
+  #   services.initrd-rollback-root = {
+  #     after = [ "zfs-import-rpool.service" ];
+  #     wantedBy = [ "initrd.target" ];
+  #     before = [
+  #       "sysroot.mount"
+  #     ];
+  #     path = [ pkgs.zfs ];
+  #     description = "Rollback root fs";
+  #     unitConfig.DefaultDependencies = "no";
+  #     serviceConfig.Type = "oneshot";
+  #     script = "zfs rollback -r nixos/empty@start";
+  #   };
+  # };
 
-  fileSystems."/home" = {
-    device = "nixos/home";
-    fsType = "zfs";
-    neededForBoot = true;
-  };
-
-  fileSystems."/nix" = {
-    device = "nixos/nix";
-    fsType = "zfs";
-    neededForBoot = true;
-  };
-
-  fileSystems."/var/log" = {
-    device = "nixos/var/log";
-    fsType = "zfs";
-  };
-
-  fileSystems."/var/lib" = {
-    device = "nixos/var/lib";
-    fsType = "zfs";
-  };
-
-  fileSystems."/persist" = {
-    device = "nixos/persist";
-    fsType = "zfs";
-    neededForBoot = true;
-  };
+  # networking.hostId = "0be1cd29";
 
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 

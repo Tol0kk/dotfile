@@ -67,7 +67,7 @@ in
         }
       ];
 
-      services.displayManager.ly.enable = true;
+      # services.displayManager.ly.enable = true;
       programs.wireshark.enable = true;
 
       # Flatpack
