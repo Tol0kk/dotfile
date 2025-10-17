@@ -15,6 +15,7 @@ with libCustom; {
       # term.wezterm = enabled;
       misc = {
         git = enabled;
+        thunar = enabled;
         glxgears = enabled;
         mangohud = enabled;
         yazi = enabled;

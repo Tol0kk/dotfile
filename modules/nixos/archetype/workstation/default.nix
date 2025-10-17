@@ -39,6 +39,7 @@ in
         apps.neovim.enable = true;
         apps.neovim.custom.enable = true;
         apps.neovim.custom.minimal = false;
+        apps.thunar.enable = true;
       };
 
       hardware.graphics = {
