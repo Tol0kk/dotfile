@@ -9,3 +9,8 @@ creation_rules:
           - *titouan
           - *laptop
           - *olympus
+  - path_regrex: home/titouan@laptop/secrets.yaml
+    key_groups:
+      - age:
+          - *titouan
+          - *laptop

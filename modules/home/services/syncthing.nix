@@ -6,12 +6,18 @@
   ...
 }:
 with lib;
-with libCustom; let
+with libCustom;
+let
   cfg = config.modules.services.syncthing;
-in {
+in
+{
   options.modules.services.syncthing = {
     enable = mkEnableOpt "Enable Syncthing";
+    key = mkOpt types.path null "path to a key.pem";
+    cert = mkOpt types.path null "path to a cert.pem";
   };
+
+  # Key and Cert can be created using: nix-shell -p syncthing --run "syncthing generate --config myconfig/"
 
   config = mkIf cfg.enable {
     # services = {
@@ -30,6 +36,9 @@ in {
         package = pkgs.syncthingtray;
         command = "syncthingtray --wait";
       };
+      key = cfg.key;
+      cert = cfg.cert;
+      extraOptions = [ ];
     };
 
     # Workaround for Failed to restart syncthingtray.service: Unit tray.target not found.
@@ -37,7 +46,7 @@ in {
     systemd.user.targets.tray = {
       Unit = {
         Description = "Home Manager System Tray";
-        Requires = ["graphical-session-pre.target"];
+        Requires = [ "graphical-session-pre.target" ];
       };
     };
   };

@@ -46,13 +46,34 @@ let
       value = import host inputs;
     }) homes
   );
+
+  getUsername =
+    configName:
+    let
+      splitArray = lib.strings.splitString "@" configName;
+      arrayLen = builtins.length splitArray;
+      _ = lib.asserts.assertMsg (arrayLen > 2) "home config name ( ${configName} ) has a wrong format";
+      username = builtins.elemAt splitArray 0;
+    in
+    username;
+  getHostName =
+    configName:
+    let
+      splitArray = lib.string.splitString configName;
+      arrayLen = builtins.length splitArray;
+      _ = lib.asserts.assertMsg (arrayLen > 2) "home config name ( ${configName} ) has a wrong format";
+      hostname = if (arrayLen == 1) then null else builtins.elemAt 1;
+    in
+    hostname;
+
 in
 builtins.mapAttrs (
-  name:
+  configName:
   {
     system,
     nixpkgs,
-    username ? name,
+    username ? getUsername configName,
+    hostname ? getHostName configName,
     ...
   }:
   home-manager-unstable.lib.homeManagerConfiguration {
@@ -63,12 +84,17 @@ builtins.mapAttrs (
       overlays = common_overlay;
     };
     extraSpecialArgs = {
-      inherit inputs self username;
+      inherit
+        inputs
+        self
+        username
+        hostname
+        ;
     }
     // libs
     // extraPkgs system;
     modules = [
-      "${self}/home/${username}/home.nix"
+      "${self}/home/${configName}/home.nix"
       inputs.sops-nix.homeManagerModules.sops
       inputs.stylix.homeModules.stylix
       {
@@ -81,6 +107,7 @@ builtins.mapAttrs (
           (
             { config, ... }:
             {
+              # Options used inside home configration
               options.dotfiles = lib.mkOption {
                 type = lib.types.path;
                 apply = toString;
@@ -88,7 +115,6 @@ builtins.mapAttrs (
                 example = "${config.home.homeDirectory}/.config/nixos";
                 description = "Location of the dotfiles working copy";
               };
-
             }
           )
         ];
