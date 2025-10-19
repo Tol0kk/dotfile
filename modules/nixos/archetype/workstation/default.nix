@@ -70,6 +70,8 @@ in
       # services.displayManager.ly.enable = true;
       programs.wireshark.enable = true;
 
+      networking.networkmanager.enable = true;
+
       # Flatpack
       # services.flatpak.enable = true;
 
@@ -152,7 +154,6 @@ in
         nixd
         openssl
         openfortivpn # University VPN
-        xarchiver
         oculante # Image Viewer / editor
         wireguard-tools
         qrencode

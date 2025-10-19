@@ -64,9 +64,9 @@ in
       $bar = ${inputs.hyprpanel.packages."${pkgs.system}".default}/bin/hyprpanel
       $network_applet = nm-applet
 
-      $screenshot_region = ${pkgs.hyprshot}/bin/hyprshot -m region --raw | ${pkgs.satty}/bin/satty -f - --action-on-enter save-to-clipboard --early-exit --copy-command wl-copy
-      $screenshot_screen = ${pkgs.hyprshot}/bin/hyprshot -m output --raw | ${pkgs.satty}/bin/satty -f - --action-on-enter save-to-clipboard --early-exit --copy-command wl-copy
-      $screenshot_window = ${pkgs.hyprshot}/bin/hyprshot -m window --raw | ${pkgs.satty}/bin/satty -f - --action-on-enter save-to-clipboard --early-exit --copy-command wl-copy
+      $screenshot_region = ${pkgs.hyprshot}/bin/hyprshot -m region --raw | ${pkgs.satty}/bin/satty -f - -o ~/Pictures/Screenshots/satty-$(date '+%Y%m%d-%H:%M:%S').png --action-on-enter save-to-clipboard --early-exit --copy-command wl-copy
+      $screenshot_screen = ${pkgs.hyprshot}/bin/hyprshot -m output --raw | ${pkgs.satty}/bin/satty -f - -o ~/Pictures/Screenshots/satty-$(date '+%Y%m%d-%H:%M:%S').png --action-on-enter save-to-clipboard --early-exit --copy-command wl-copy
+      $screenshot_window = ${pkgs.hyprshot}/bin/hyprshot -m window --raw | ${pkgs.satty}/bin/satty -f - -o ~/Pictures/Screenshots/satty-$(date '+%Y%m%d-%H:%M:%S').png --action-on-enter save-to-clipboard --early-exit --copy-command wl-copy
 
       $sink_up = ${pkgs.wireplumber}/bin/wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+
       $sink_down = ${pkgs.wireplumber}/bin/wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%-

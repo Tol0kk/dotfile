@@ -18,5 +18,13 @@ in
     home.file.".config/Thunar/uca.xml".source =
       config.lib.file.mkOutOfStoreSymlink "${config.dotfiles}/modules/home/apps/misc/thunar/actions.xml";
     modules.defaults.file_manager = "thunar";
+
+    xdg.mimeApps = {
+      enable = true;
+      defaultApplications = {
+        "inode/directory" = "thunar.desktop";
+        "application/x-tar" = "xarchiver.desktop";
+      };
+    };
   };
 }

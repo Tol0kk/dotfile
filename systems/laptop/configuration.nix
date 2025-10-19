@@ -54,8 +54,6 @@ with libCustom;
     };
   };
 
-  networking.networkmanager.enable = true;
-
   services.greetd.enable = true;
   services.greetd.settings.default_session.command =
     "${pkgs.greetd}/bin/agreety --cmd ${pkgs.bashInteractive}/bin/bash";

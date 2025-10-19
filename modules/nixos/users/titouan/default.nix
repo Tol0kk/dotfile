@@ -45,7 +45,7 @@ in
       };
     })
     (mkIf (cfg.enable && cfg.withHomeManager) {
-      home-manager.users.titouan = import "${self}/home/titouan/home.nix";
+      home-manager.users.titouan = import "${self}/home/titouan@${config.networking.hostName}/home.nix";
     })
   ];
 }

@@ -30,6 +30,7 @@ in
             glxgears = enabled;
             mangohud = enabled;
             yazi = enabled;
+            mpv = enabled;
             zathura = enabled;
             thunderbird = enabled;
           };
