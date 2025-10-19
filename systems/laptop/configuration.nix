@@ -72,11 +72,11 @@ with libCustom;
   #     description = "Rollback root fs";
   #     unitConfig.DefaultDependencies = "no";
   #     serviceConfig.Type = "oneshot";
-  #     script = "zfs rollback -r nixos/empty@start";
+  #     script = "zfs rollback -r rpool/nixos/root@start";
   #   };
   # };
 
-  # networking.hostId = "0be1cd29";
+  networking.hostId = "0be1cd29";
 
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 

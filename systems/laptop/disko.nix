@@ -57,15 +57,14 @@ in
         datasets = {
           "nixos" = {
             type = "zfs_fs";
-            mountpoint = "/";
-            options.mountpoint = "legacy";
+            options.mountpoint = "none";
           };
-          "nixos/empty" = {
+          "nixos/root" = {
             type = "zfs_fs";
             options.mountpoint = "legacy";
             mountpoint = "/";
             options."com.sun:auto-snapshot" = "false"; # Don't need snapshot on root since it is handle by nix
-            postCreateHook = "zfs list -t snapshot -H -o name | grep -E '^${root_pool}/root@blank$' || zfs snapshot ${root_pool}/root@blank";
+            postCreateHook = "zfs list -t snapshot -H -o name | grep -E '^${root_pool}/nixos/root@blank$' || zfs snapshot ${root_pool}/nixos/root@blank";
           };
           "nixos/nix" = {
             type = "zfs_fs";

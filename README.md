@@ -18,3 +18,10 @@ This configuration cover an ARM Server, a X86-64 Desktop, a X86-64 laptop and an
 - Separated Home-Manager
 - Centralized Theming with [Stylix](https://github.com/danth/stylix)
 - Modularized Configuration
+
+
+# Install
+
+Disable secureboot
+```sh
+```
