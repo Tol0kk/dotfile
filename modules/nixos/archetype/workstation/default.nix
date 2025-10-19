@@ -123,8 +123,8 @@ in
         vial # QMK/Via for Keyboard
         via # QMK/Via for Keyboard
         mdcat
-        onlyoffice-bin
-        obsidian
+        # onlyoffice-bin
+        # obsidian
         pavucontrol # Audio Control Panel
         ani-cli
         yazi
@@ -133,19 +133,19 @@ in
         blender_4_0
         iperf # network benchmark
         mdcat
-        android-studio
+        # android-studio
         tldr
         file
-        jetbrains.webstorm
+        # jetbrains.webstorm
         btop
         jq
         imv
         unzip
-        vlc
-        discord
+        # vlc
+        # discord
         ffmpeg.bin
-        qbittorrent
-        gnome-multi-writer
+        # qbittorrent
+        # gnome-multi-writer
         vdhcoapp # for Video DownloadHelper Firefox extension
         colmena # Nixos Deploy Framework
         vulkan-tools
@@ -153,7 +153,7 @@ in
         nil
         nixd
         openssl
-        openfortivpn # University VPN
+        # openfortivpn # University VPN
         oculante # Image Viewer / editor
         wireguard-tools
         qrencode
@@ -173,6 +173,9 @@ in
         sphinx # Python documentation generator (used for linux kernel documentation generation)
 
         flex
+        imagemagick
+        feh
+
       ];
     })
   ];
