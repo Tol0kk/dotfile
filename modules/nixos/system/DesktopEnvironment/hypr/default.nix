@@ -1,13 +1,16 @@
 {
   lib,
   config,
+  pkgs,
   libCustom,
   ...
 }:
 with lib;
-with libCustom; let
+with libCustom;
+let
   cfg = config.modules.system.desktopEnvironment.hypr;
-in {
+in
+{
   options.modules.system.desktopEnvironment.hypr = {
     enable = mkEnableOpt "Enable Hyprland Desktop Environment";
   };
@@ -18,5 +21,11 @@ in {
 
     # This set other option for hyprland, like polkit, portal, dconf, ect...
     programs.hyprland.enable = true;
+
+    environment.systemPackages = with pkgs; [
+      hyprpolkitagent
+    ];
+
+    security.polkit.enable = true;
   };
 }

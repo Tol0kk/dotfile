@@ -18,6 +18,8 @@ with libCustom;
       titouan = enabled;
     };
     system = {
+      zfs.enable = true;
+      impermanance.enable = true;
       boot.limine = enabled;
       boot.plymouth = enabled;
       ssh = enabled;

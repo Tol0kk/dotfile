@@ -13,6 +13,7 @@ let
     unique
     optionals
     hasPrefix
+    mkIf
     mkMerge
     mkEnableOption
     ;
@@ -21,6 +22,7 @@ let
 in
 {
   options.modules.system.zfs = {
+    enable = mkEnableOption "Enable if the system is using zfs";
     encryption = mkEnableOption "zfs encryption" // {
       default = true;
     };
@@ -28,7 +30,7 @@ in
   };
 
   config = mkMerge [
-    {
+    (mkIf cfg.enable {
       boot.zfs.requestEncryptionCredentials = cfg.encryption;
       boot.supportedFilesystems = [ "zfs" ];
       boot.initrd.kernelModules = [ "zfs" ];
@@ -73,6 +75,6 @@ in
         #   neededForBoot = true;
         # };
       };
-    }
+    })
   ];
 }

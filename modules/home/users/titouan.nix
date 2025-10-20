@@ -37,15 +37,15 @@ in
         };
 
         services = {
-          element = enabled;
-          signal = enabled;
+          element.enable = lib.mkDefault true;
+          signal.enable = lib.mkDefault true;
         };
 
         shell = {
           bash = enabled;
           fish = enabled;
           starship = enabled;
-          zellij = disabled;
+          zellij.enable = lib.mkDefault false;
           zoxide = enabled;
         };
 

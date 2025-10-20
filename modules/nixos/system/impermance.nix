@@ -12,6 +12,8 @@ let
     any
     unique
     optionals
+    mkIf
+    mkEnableOption
     hasPrefix
     ;
   inherit (lib.types) listOf str;
@@ -24,6 +26,7 @@ in
 {
   options.modules.system = {
     persist = {
+      enable = mkEnableOption "zfs event daemon";
       root = {
         directories = mkOption {
           type = listOf str;
@@ -80,7 +83,7 @@ in
   };
 
   imports = [ inputs.impermanence.nixosModules.impermanence ];
-  config = {
+  config = mkIf cfg.enable {
     # Clear /tmp
     boot.tmp.cleanOnBoot = true;
 
@@ -89,8 +92,8 @@ in
         hideMounts = true;
         files = unique cfg.root.files;
         directories = unique (
-        # optionals config.custom.hardware.wifi.enable [ "/etc/NetworkManager" ]
-        [] ++ cfg.root.directories
+          # optionals config.custom.hardware.wifi.enable [ "/etc/NetworkManager" ]
+          [ ] ++ cfg.root.directories
         );
       };
     };

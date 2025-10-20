@@ -6,9 +6,11 @@
   ...
 }:
 with lib;
-with libCustom; let
+with libCustom;
+let
   cfg = config.modules.system.fonts;
-in {
+in
+{
   options.modules.system.fonts = {
     enable = mkEnableOpt "Enable fonts";
   };
@@ -28,9 +30,18 @@ in {
         noto-fonts-cjk-sans
       ];
       fontconfig.defaultFonts = {
-        monospace = ["JetBrainsMono" "font-awesome"];
-        sansSerif = ["JetBrainsMono"];
-        serif = ["JetBrainsMono"];
+        monospace = [
+          "Maple Mono"
+          "font-awesome"
+        ];
+        sansSerif = [
+          "Noto Sans CJK JP"
+          "JetBrainsMono"
+        ];
+        serif = [
+          "Noto Sans CJK JP"
+          "JetBrainsMono"
+        ];
       };
     };
   };

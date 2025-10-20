@@ -42,6 +42,7 @@ in
         ++ optionals cfg.isWheel [ "wheel" ];
         useDefaultShell = true;
         createHome = true;
+        initialPassword = "nixos";
       };
     })
     (mkIf (cfg.enable && cfg.withHomeManager) {

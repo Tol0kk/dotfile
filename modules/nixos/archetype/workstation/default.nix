@@ -66,6 +66,14 @@ in
           '';
         }
       ];
+      nix.optimise.automatic = true;
+      nix.optimise.dates = [ "03:45" ];
+
+      nix.gc = {
+        automatic = true;
+        dates = "weekly";
+        options = "--delete-older-than 7d";
+      };
 
       # services.displayManager.ly.enable = true;
       programs.wireshark.enable = true;
@@ -175,6 +183,9 @@ in
         flex
         imagemagick
         feh
+
+        gparted
+        tparted
 
       ];
     })
