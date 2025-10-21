@@ -141,5 +141,11 @@
   "theme.bar.buttons.modules.hyprsunset.enableBorder": true,
   "menus.dashboard.stats.enable_gpu": false,
   "wallpaper.image": "/home/titouan/.config/nixos/assets/backgrounds/takopi.png",
-  "wallpaper.enable": true
+  "wallpaper.enable": true,
+  "menus.dashboard.shortcuts.left.shortcut1.tooltip": "Zen",
+  "menus.dashboard.shortcuts.left.shortcut1.command": "zen-beta",
+  "menus.dashboard.shortcuts.left.shortcut2.tooltip": "Zeditor",
+  "menus.dashboard.shortcuts.left.shortcut2.command": "zeditor",
+  "menus.dashboard.shortcuts.left.shortcut4.command": "anyrun",
+  "notifications.autoDismiss": true
 }

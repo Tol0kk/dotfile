@@ -8,15 +8,14 @@
   ...
 }:
 with lib;
-with libCustom;
-let
+with libCustom; let
   cfg = config.modules.desktop.wayland.hypr.hyprland;
 
-  isEnableOption =
-    enableOption: default: message:
-    if (enableOption) then default else "${pkgs.libnotify}/bin/notify-send '${message}'";
-in
-{
+  isEnableOption = enableOption: default: message:
+    if enableOption
+    then default
+    else "${pkgs.libnotify}/bin/notify-send '${message}'";
+in {
   options.modules.desktop.wayland.hypr.hyprland = {
     enable = mkEnableOpt "Enable Hyprland";
     withEffects = mkEnableOpt "Enable Effects like blur, animation shadow";
@@ -29,7 +28,7 @@ in
 
     services.wluma.enable = true;
     # See https://github.com/maximbaz/wluma/blob/main/config.toml for available options.
-    services.wluma.settings = { };
+    services.wluma.settings = {};
     services.wluma.systemd.enable = true; # use systemctl --user stop/start to disable it
 
     home.file.".config/hypr/hyprland/binding.conf".source =
@@ -87,10 +86,14 @@ in
 
       $wluma = ${
         isEnableOption config.services.wluma.enable
-          "systemctl --user is-active --quiet wluma && systemctl --user stop wluma || systemctl --user start wluma"
-          "wluma is not enabled on the system"
+        "systemctl --user is-active --quiet wluma && systemctl --user stop wluma || systemctl --user start wluma"
+        "wluma is not enabled on the system"
       }
     '';
+
+    home.packages = [
+      pkgs.rose-pine-hyprcursor
+    ];
 
     wayland.windowManager.hyprland = {
       enable = true;
@@ -98,6 +101,8 @@ in
         pkgs.hyprlandPlugins.hypr-dynamic-cursors
       ];
       extraConfig = ''
+        env = HYPRCURSOR_THEME,rose-pine-hyprcursors
+
         source = ~/.config/hypr/hyprland/variables.conf
         source = ~/.config/hypr/hyprland/*
 
@@ -121,20 +126,32 @@ in
             rounding = ${builtins.toString cfg.rounding}
 
             blur {
-                enabled = ${if (cfg.withEffects) then "true" else "false"}
+                enabled = ${
+          if (cfg.withEffects)
+          then "true"
+          else "false"
+        }
                 size = 10
                 passes = 2
             }
 
             shadow {
-                enabled =  ${if (cfg.withEffects) then "true" else "false"}
+                enabled =  ${
+          if (cfg.withEffects)
+          then "true"
+          else "false"
+        }
                 range = 4
                 render_power = 3
                 color = rgba(33ccffee)
             }
         }
         animations {
-            enabled = ${if (cfg.withEffects) then "yes" else "no"}
+            enabled = ${
+          if (cfg.withEffects)
+          then "yes"
+          else "no"
+        }
             # Some default animations, see https://wiki.hyprland.org/Configuring/Animations/ for more
             bezier = myBezier, 0.05, 0.9, 0.1, 1.05
             animation = windows, 1, 7, myBezier

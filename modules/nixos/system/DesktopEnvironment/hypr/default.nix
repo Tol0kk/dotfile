@@ -24,6 +24,7 @@ in
 
     environment.systemPackages = with pkgs; [
       hyprpolkitagent
+      rose-pine-hyprcursor
     ];
 
     security.polkit.enable = true;

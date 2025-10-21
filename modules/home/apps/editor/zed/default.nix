@@ -26,6 +26,7 @@ in
       # package = zed-wrap;
       enable = true;
     };
+    home.packages = with pkgs; [ package-version-server ];
     modules.defaults.editor = "${config.programs.zed-editor.package}/bin/zeditor";
     xdg.mimeApps = {
       enable = true;

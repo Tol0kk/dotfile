@@ -80,6 +80,48 @@ with libCustom;
 
   networking.hostId = "0be1cd29";
 
+  ## Hardware acceleration
+  # nixpkgs.config.packageOverrides = pkgs: {
+  #   intel-vaapi-driver = pkgs.intel-vaapi-driver.override { enableHybridCodec = true; };
+  # };
+  hardware.graphics = {
+    # hardware.graphics since NixOS 24.11
+    enable = true;
+    extraPackages = with pkgs; [
+      intel-media-driver # LIBVA_DRIVER_NAME=iHD
+      intel-vaapi-driver # LIBVA_DRIVER_NAME=i965 (older but works better for Firefox/Chromium)
+      libvdpau-va-gl
+    ];
+  };
+  environment.sessionVariables = {
+    LIBVA_DRIVER_NAME = "iHD";
+  };
+
+  ## Upower
+  services.upower = {
+    enable = true;
+    percentageLow = 25;
+    percentageCritical = 10;
+    percentageAction = 5;
+    criticalPowerAction = "HybridSleep";
+  };
+
+  ## Laptop Lid
+  services.logind.lidSwitch = "suspend-then-hibernate";
+  services.logind.lidSwitchExternalPower = "lock";
+  services.logind.lidSwitchDocked = "ignore";
+
+  # Laptop power
+  powerManagement.enable = true;
+  powerManagement.powertop.enable = true;
+  services.thermald.enable = true;
+
+  environment.systemPackages = with pkgs; [
+    config.boot.kernelPackages.cpupower
+  ];
+
+  ## Virtual executions
+
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
   system.stateVersion = "24.05"; # Did you read the comment?
