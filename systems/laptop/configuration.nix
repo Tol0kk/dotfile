@@ -19,7 +19,7 @@ with libCustom;
     };
     system = {
       zfs.enable = true;
-      impermanance.enable = true;
+      persist.enable = true;
       boot.limine = enabled;
       boot.plymouth = enabled;
       ssh = enabled;

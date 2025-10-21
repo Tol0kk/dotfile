@@ -140,6 +140,6 @@
   "theme.bar.buttons.modules.hypridle.enableBorder": true,
   "theme.bar.buttons.modules.hyprsunset.enableBorder": true,
   "menus.dashboard.stats.enable_gpu": false,
-  "wallpaper.image": "/home/titouan/Pictures/Wallpapers/wallhaven-kw31kd_3840x2400.png",
+  "wallpaper.image": "/home/titouan/.config/nixos/assets/backgrounds/takopi.png",
   "wallpaper.enable": true
 }
