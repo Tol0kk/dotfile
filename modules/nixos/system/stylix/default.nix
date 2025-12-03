@@ -8,16 +8,18 @@
   ...
 }:
 with lib;
-with libCustom; let
+with libCustom;
+let
   cfg = config.modules.system.stylix;
-in {
+in
+{
   options.modules.system.stylix = {
     enable = mkEnableOpt "Enable Stylix";
   };
 
-  imports = [inputs.stylix.nixosModules.stylix];
+  imports = [ inputs.stylix.nixosModules.stylix ];
   config = mkMerge [
-    (mkIf (!cfg.enable) {stylix.autoEnable = false;})
+    (mkIf (!cfg.enable) { stylix.autoEnable = false; })
     (mkIf cfg.enable {
       # stylix.autoEnable = false;
       stylix.enable = true;
@@ -51,7 +53,7 @@ in {
         };
 
         emoji = {
-          package = noto-fonts-emoji;
+          package = noto-fonts-color-emoji;
           name = "Noto Color Emoji";
         };
 

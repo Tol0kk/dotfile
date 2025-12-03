@@ -36,9 +36,10 @@ in
             hyprland.enable = mkDefault true;
             hyprland.withEffects = mkDefault true;
             hyprland.rounding = mkDefault 10;
-            hyprpanel = mkDefault enabled;
+            # hyprpanel = mkDefault enabled;
           };
           wayland.anyrun = mkDefault enabled;
+          wayland.shells.noctalia = mkDefault enabled;
           theme = {
             enable = mkDefault true;
             polarity = mkDefault "dark";

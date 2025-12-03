@@ -2,9 +2,11 @@
   config,
   libCustom,
   pkgs,
+  inputs,
   ...
 }:
-with libCustom; {
+with libCustom;
+{
   modules = {
     hardware = {
       bluetooth = enabled;
@@ -39,7 +41,7 @@ with libCustom; {
     name = "🖥️ Desktop";
     hardware.info = "R5 1600 | 16GB | GTX 1070";
     interfaces.wg0 = {
-      addresses = ["10.100.0.3"];
+      addresses = [ "10.100.0.3" ];
       network = "wg0"; # Use the network we define below
       type = "wireguard"; # changes the icon
       physicalConnections = [
@@ -48,17 +50,28 @@ with libCustom; {
     };
   };
 
+  nix = {
+    settings = {
+      cores = 6;
+    };
+  };
+  nix.settings = {
+    substituters = [
+      "https://cuda-maintainers.cachix.org"
+      "https://nix-community.cachix.org"
+    ];
+    trusted-public-keys = [
+      "cuda-maintainers.cachix.org-1:0dq3bujKpuEPMCX6U4WylrUDZ9JyUG0VpVZa7CNfq5E="
+      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+    ];
+  };
+
   # Need for sops
   # fileSystems."/home".neededForBoot = lib.strings.hasPrefix "/home" config.modules.system.sops.keyFile; # Make sure that /home is mounted for sops runtime a boot
 
   environment.systemPackages = with pkgs; [
-    (python312Full.withPackages (python-pkgs:
-      with python-pkgs; [
-        # select Python packages here
-        pyyaml
-        requests
-      ]))
     cmake
+    cachix
     gnumake
     espup
     cargo
@@ -81,6 +94,13 @@ with libCustom; {
     ncurses
     flex
     bison # linux kernel
+    (inputs.fenix.packages.${pkgs.system}.stable.toolchain)
+    (inputs.fenix.packages.${pkgs.system}.targets.wasm32-unknown-unknown.stable.toolchain)
+    (inputs.fenix.packages.${pkgs.system}.targets.wasm32-wasip1.stable.toolchain)
+  ];
+
+  nix.settings.trusted-users = [
+    "titouan"
   ];
 
   programs.nix-ld.enable = true;
@@ -93,6 +113,7 @@ with libCustom; {
     fuse3
     icu
     ncurses
+    libdecor.out
     openssl.dev
     openssl
     nss
@@ -118,17 +139,18 @@ with libCustom; {
   boot.initrd.systemd.enable = true;
 
   # LUCKS: Activate encription
-  boot.initrd.luks.devices."luks-c19801cf-8ba0-488b-97d1-959651c21ab9".device = "/dev/disk/by-uuid/c19801cf-8ba0-488b-97d1-959651c21ab9";
+  boot.initrd.luks.devices."luks-c19801cf-8ba0-488b-97d1-959651c21ab9".device =
+    "/dev/disk/by-uuid/c19801cf-8ba0-488b-97d1-959651c21ab9";
 
   # TODO change because startup crash with gdm (deactivate gdm)
   services.displayManager.autoLogin.enable = true;
   services.displayManager.autoLogin.user = "titouan";
 
   # TODO Move to system/virtualisation maybe
-  boot.binfmt.emulatedSystems = ["aarch64-linux"];
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
-  boot.extraModulePackages = [config.boot.kernelPackages.ddcci-driver];
-  boot.kernelModules = ["ddcci_backlight"];
+  boot.extraModulePackages = [ config.boot.kernelPackages.ddcci-driver ];
+  boot.kernelModules = [ "ddcci_backlight" ];
 
   hardware.i2c.enable = true;
 

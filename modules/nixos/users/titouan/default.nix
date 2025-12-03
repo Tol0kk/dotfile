@@ -37,6 +37,7 @@ in
           "libvirtd"
           "input"
           "adbusers"
+          "gamemode"
           "dialout" # Acess to /dev/ttyUSBX
         ]
         ++ optionals cfg.isWheel [ "wheel" ];

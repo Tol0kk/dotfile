@@ -22,6 +22,51 @@ This configuration cover an ARM Server, a X86-64 Desktop, a X86-64 laptop and an
 
 # Install
 
-Disable secureboot
+- Disable secureboot
+- Preprare usb stick with iso
+- prepare usb stick with secrets
+- boot usb stick with iso
+- follow command
 ```sh
+# 0.1. Connect to internet
+# Ethernet or wifi (nmtui)
+
+# 1. copy sevrets inside installer
+mkdir usb && sudo mount /dev/sdX disk && cp disk/secretes.tar.gz . && tar xvf seretes.tar.gz
+
+# 2. clone configuration
+git clone git@gitthub.com:Tol0kk/dotfile.git .config/nixos
+
+# 3. Format disks
+sudo disko --mode destroy,format,mount ~/.config/nixos/systems/<sys>/disko.nix
+
+# 4. Install nixos
+sudo nixos-install --flake ~/.config/nixos#<sys>
+
+# 5. Mouve config & secrets into new install
+cp -r ~/.config/nixos /mnt/home/<user>/.
+cp secrets.tar.gz /mnt/home/<user>/.
+
+# 5. Enter new install
+sudo nixos-enter --root /mnt
+
+# 6. Change user password
+passwd <user>
+
+# 7. Change owner shipt of config
+chmod <user>:users /home/<user> -R
+
+# 8. Switch user
+su <user>
+
+# 9. unpack files
+cd && tar xvf secrets.tar.gz && mv nixos .config/.
+
+# 10. activate home manager
+home-manager switch --flake .config/nixos
 ```
+
+## custo miso Improvements
+- fix terminial fonts when inside hyprland
+- remove welcome screen for zen
+- create install script for step 2,3,4 at least

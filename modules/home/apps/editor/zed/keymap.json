@@ -10,6 +10,12 @@
     "context": "Workspace",
     "bindings": {
       // "shift shift": "file_finder::Toggle"
+      "ctrl-r ctrl-r": [
+        "task::Spawn",
+        {
+          "task_name": "r/python"
+        }
+      ]
     }
   },
   {

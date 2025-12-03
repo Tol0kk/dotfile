@@ -104,7 +104,7 @@ in
       };
 
       emoji = {
-        package = noto-fonts-emoji;
+        package = noto-fonts-color-emoji;
         name = "Noto Color Emoji";
       };
 

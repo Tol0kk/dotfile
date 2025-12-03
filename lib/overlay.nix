@@ -23,6 +23,23 @@
     rkffmpeg = prev.callPackage "${self}/packages/rkffmpeg" { };
     rkmpp = prev.callPackage "${self}/packages/rkffmpeg/rkmpp.nix" { };
     nixos-plymouth-custom = prev.callPackage "${self}/packages/nixos-plymouth-custom" { };
+
+    steam = super.steam.override {
+      extraPkgs =
+        pkgs: with pkgs; [
+          xorg.libXcursor
+          xorg.libXi
+          xorg.libXinerama
+          xorg.libXScrnSaver
+          libpng
+          libpulseaudio
+          libvorbis
+          stdenv.cc.cc.lib
+          libkrb5
+          keyutils
+          libdecor
+        ];
+    };
   })
   inputs.blender-bin.overlays.default
   inputs.nix-topology.overlays.default

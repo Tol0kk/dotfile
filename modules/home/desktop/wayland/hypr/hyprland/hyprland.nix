@@ -8,14 +8,15 @@
   ...
 }:
 with lib;
-with libCustom; let
+with libCustom;
+let
   cfg = config.modules.desktop.wayland.hypr.hyprland;
 
-  isEnableOption = enableOption: default: message:
-    if enableOption
-    then default
-    else "${pkgs.libnotify}/bin/notify-send '${message}'";
-in {
+  isEnableOption =
+    enableOption: default: message:
+    if enableOption then default else "${pkgs.libnotify}/bin/notify-send '${message}'";
+in
+{
   options.modules.desktop.wayland.hypr.hyprland = {
     enable = mkEnableOpt "Enable Hyprland";
     withEffects = mkEnableOpt "Enable Effects like blur, animation shadow";
@@ -25,10 +26,11 @@ in {
   config = mkIf cfg.enable {
     services.hyprpaper.enable = false;
     stylix.targets.hyprland.enable = false;
+    stylix.targets.hyprpanel.enable = false;
 
     services.wluma.enable = true;
     # See https://github.com/maximbaz/wluma/blob/main/config.toml for available options.
-    services.wluma.settings = {};
+    services.wluma.settings = { };
     services.wluma.systemd.enable = true; # use systemctl --user stop/start to disable it
 
     home.file.".config/hypr/hyprland/binding.conf".source =
@@ -56,11 +58,11 @@ in {
       # $browser = ${inputs.zen-browser.packages."${pkgs.system}".beta}/bin/zen-beta
       # $wallpaper_daemon = ${pkgs.wpaperd}/bin/wpaperd
       $wallpaper_daemon = ${pkgs.swww}/bin/swww img ${assets.backgrounds.background-2}
-      $locker = ${pkgs.hyprlock}/bin/hyprlock
+      $locker = noctalia-shell ipc call sessionMenu lockAndSuspend
       $file_manager = ${config.modules.defaults.file_manager}
       $editor = ${config.modules.defaults.editor}
-      $launcher = anyrun
-      $bar = ${inputs.hyprpanel.packages."${pkgs.system}".default}/bin/hyprpanel
+      $launcher = noctalia-shell ipc call launcher toggle
+      $bar = sessionVariables
       $network_applet = nm-applet
 
       $screenshot_region = ${pkgs.hyprshot}/bin/hyprshot -m region --raw | ${pkgs.satty}/bin/satty -f - -o ~/Pictures/Screenshots/satty-$(date '+%Y%m%d-%H:%M:%S').png --action-on-enter save-to-clipboard --early-exit --copy-command wl-copy
@@ -86,8 +88,8 @@ in {
 
       $wluma = ${
         isEnableOption config.services.wluma.enable
-        "systemctl --user is-active --quiet wluma && systemctl --user stop wluma || systemctl --user start wluma"
-        "wluma is not enabled on the system"
+          "systemctl --user is-active --quiet wluma && systemctl --user stop wluma || systemctl --user start wluma"
+          "wluma is not enabled on the system"
       }
     '';
 
@@ -102,7 +104,6 @@ in {
       ];
       extraConfig = ''
         env = HYPRCURSOR_THEME,rose-pine-hyprcursors
-
         source = ~/.config/hypr/hyprland/variables.conf
         source = ~/.config/hypr/hyprland/*
 
@@ -126,32 +127,20 @@ in {
             rounding = ${builtins.toString cfg.rounding}
 
             blur {
-                enabled = ${
-          if (cfg.withEffects)
-          then "true"
-          else "false"
-        }
+                enabled = ${if (cfg.withEffects) then "true" else "false"}
                 size = 10
                 passes = 2
             }
 
             shadow {
-                enabled =  ${
-          if (cfg.withEffects)
-          then "true"
-          else "false"
-        }
+                enabled =  ${if (cfg.withEffects) then "true" else "false"}
                 range = 4
                 render_power = 3
                 color = rgba(33ccffee)
             }
         }
         animations {
-            enabled = ${
-          if (cfg.withEffects)
-          then "yes"
-          else "no"
-        }
+            enabled = ${if (cfg.withEffects) then "yes" else "no"}
             # Some default animations, see https://wiki.hyprland.org/Configuring/Animations/ for more
             bezier = myBezier, 0.05, 0.9, 0.1, 1.05
             animation = windows, 1, 7, myBezier

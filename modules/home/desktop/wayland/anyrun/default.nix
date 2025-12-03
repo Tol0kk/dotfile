@@ -8,11 +8,13 @@
   ...
 }:
 with lib;
-with libCustom; let
+with libCustom;
+let
   cfg = config.modules.desktop.wayland.anyrun;
   isStylixEnabled = config.modules.desktop.theme.enable;
   inherit (libColor) toRGBA hexToRgba;
-in {
+in
+{
   options.modules.desktop.wayland.anyrun = {
     enable = mkEnableOpt "Enable Anyrun";
   };
@@ -37,10 +39,18 @@ in {
           "${pkgs.anyrun}/lib/libdictionary.so"
           "${pkgs.anyrun}/lib/libwebsearch.so"
         ];
-        x = {fraction = 0.5;};
-        y = {fraction = 0.4;};
-        width = {fraction = 0.3;};
-        # height = { fraction = 0.2; };
+        x = {
+          fraction = 0.5;
+        };
+        y = {
+          fraction = 0.4;
+        };
+        width = {
+          fraction = 0.3;
+        };
+        height = {
+          fraction = 0.2;
+        };
         hideIcons = false;
         ignoreExclusiveZones = false;
         layer = "overlay";
@@ -50,48 +60,52 @@ in {
         maxEntries = 5;
       };
 
-      extraCss = mkIf isStylixEnabled (with config.lib.stylix.colors; let
-        hexToRGBA = c: toRGBA (hexToRgba c);
-        fontFamily = "Lexend";
-        fontSize = "1.3rem";
-        transparentColor = "transparent";
-        rgbaColor = "rgba(203, 166, 247, 0.7)";
-        bgColor = hexToRGBA base02;
-        borderColor = "#${base05}";
-        borderRadius = "16px";
-        paddingValue = "8px";
-      in ''
-        * {
-        	transition: 200ms ease;
-        	font-family: ${fontFamily};
-        	font-size: ${fontSize};
-        }
+      extraCss = mkIf isStylixEnabled (
+        with config.lib.stylix.colors;
+        let
+          hexToRGBA = c: toRGBA (hexToRgba c);
+          fontFamily = "Lexend";
+          fontSize = "1.3rem";
+          transparentColor = "transparent";
+          rgbaColor = "rgba(203, 166, 247, 0.7)";
+          bgColor = hexToRGBA base02;
+          borderColor = "#${base05}";
+          borderRadius = "16px";
+          paddingValue = "8px";
+        in
+        ''
+          * {
+          	transition: 200ms ease;
+          	font-family: ${fontFamily};
+          	font-size: ${fontSize};
+          }
 
-        /*
-        #window {
-        	background: ${transparentColor};
-        }
-        #match:selected {
-        	background: ${rgbaColor};
-        }
+          /*
+          #window {
+          	background: ${transparentColor};
+          }
+          #match:selected {
+          	background: ${rgbaColor};
+          }
 
-        #match {
-        	padding: 3px;
-        	border-radius: ${borderRadius};
-        }
+          #match {
+          	padding: 3px;
+          	border-radius: ${borderRadius};
+          }
 
-        #entry,
-        #plugin:hover {
-        	border-radius: ${borderRadius};
-        }
+          #entry,
+          #plugin:hover {
+          	border-radius: ${borderRadius};
+          }
 
-        box#main {
-        	background: ${bgColor};
-        	border: 1px solid ${borderColor};
-        	border-radius: ${borderRadius};
-        	padding: ${paddingValue};
-        } */
-      '');
+          box#main {
+          	background: ${bgColor};
+          	border: 1px solid ${borderColor};
+          	border-radius: ${borderRadius};
+          	padding: ${paddingValue};
+          } */
+        ''
+      );
 
       # Application plugin configuration
       extraConfigFiles."applications.ron".text = ''

@@ -120,6 +120,9 @@ in
 
       qt.enable = true; # Used for quickshell developement
 
+      services.tuned.enable = true;
+      services.upower.enable = true;
+
       ## package
       environment.systemPackages = with pkgs; [
         inputs.zen-browser.packages."${system}".beta
@@ -133,7 +136,7 @@ in
         mdcat
         # onlyoffice-bin
         # obsidian
-        pavucontrol # Audio Control Panel
+        pwvucontrol # Audio Control Panel
         ani-cli
         yazi
         onagre
@@ -175,9 +178,6 @@ in
         typst
         tinymist
 
-        # QML developments (QT/quickshell)
-        kdePackages.full
-
         sphinx # Python documentation generator (used for linux kernel documentation generation)
 
         flex
@@ -186,6 +186,8 @@ in
 
         gparted
         tparted
+
+        home-manager
 
       ];
     })

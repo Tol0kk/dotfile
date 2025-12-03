@@ -1,4 +1,5 @@
 {
+  "file_types": { "Markdown": ["qmd"] },
   "inlay_hints": {
     "enabled": true,
     "show_value_hints": true,
@@ -186,9 +187,27 @@
   "languages": {
     "Nix": {
       "language_servers": ["!nixd", "nil"]
+    },
+    "Python": {
+      "language_servers": ["!ty", "basedpyright", "!pylsp"]
     }
   },
   "lsp": {
+    "slint": {
+      "binary": {
+        "path": "slint-lsp"
+      }
+    },
+    "pyright": {
+      "settings": {
+        "pyright": {}
+      }
+    },
+    "ruff": {
+      "initialization_options": {
+        "settings": {}
+      }
+    },
     "nil": {
       "settings": {
         "diagnostics": {
@@ -196,7 +215,7 @@
         },
         "nix": {
           "flake": {
-            "autoArchive": true
+            "autoArchive": false
           }
         }
       }

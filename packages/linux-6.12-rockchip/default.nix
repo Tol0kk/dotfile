@@ -1,7 +1,9 @@
 {
   lib,
-  pkgs,
+  pkgsCross,
+  # pkgs,
 }: let
+  pkgs = pkgsCross.aarch64-multiplatform;
   kernelConfig = with lib.kernel; {
     # arch/arm64/Kconfig.platforms
     ARCH_ROCKCHIP = yes;
@@ -27,14 +29,20 @@
     PHY_ROCKCHIP_TYPEC = yes; # Enable this to support the Rockchip USB TYPEC PHY.
     PHY_ROCKCHIP_USB = yes; #  Enable this to support the Rockchip USB 2.0 PHY.
 
-    # # drivers/gpu/drm/rockchip/Kconfig
-    # DRM_ROCKCHIP = yes;
-    # ROCKCHIP_VOP2 = yes;
+    # drivers/gpu/drm/rockchip/Kconfig
+    DRM_ROCKCHIP = yes;
+    ROCKCHIP_VOP2 = yes;
 
-    # # drivers/media/platform/verisilicon/Kconfig
-    # VIDEO_HANTRO = yes;            # Enable Hantro VPU driver - hardware video encoding/decoding acceleration for H.264, HEVC, VP8, VP9, JPEG
-    # VIDEO_HANTRO_HEVC_RFC = yes;    # Enable HEVC reference frame compression - saves memory bandwidth but uses more RAM for HEVC codec
-    # VIDEO_HANTRO_ROCKCHIP = yes;
+    # drivers/media/platform/rockchip/rga/Kconfig
+    VIDEO_ROCKCHIP_RGA = module; # This is a v4l2 driver for Rockchip SOC RGA 2d graphics accelerator.
+                              # Rockchip RGA is a separate 2D raster graphic acceleration unit.
+                              # It accelerates 2D graphics operations, such as point/line drawing,
+                              # image scaling, rotation, BitBLT, alpha blending and image blur/sharpness.
+
+    # drivers/media/platform/verisilicon/Kconfig
+    VIDEO_HANTRO = module;            # Enable Hantro VPU driver - hardware video encoding/decoding acceleration for H.264, HEVC, VP8, VP9, JPEG
+    VIDEO_HANTRO_HEVC_RFC = yes;    # Enable HEVC reference frame compression - saves memory bandwidth but uses more RAM for HEVC codec
+    VIDEO_HANTRO_ROCKCHIP = yes;
 
     # # drivers/soc/rockchip/Kconfig
     # ROCKCHIP_IODOMAIN = yes; # Enable support io domains on Rockchip SoCs.
@@ -43,12 +51,6 @@
 
     # # drivers/gpio/Kconfig
     # GPIO_ROCKCHIP = yes;
-
-    # # drivers/media/platform/rockchip/rga/Kconfig
-    # VIDEO_ROCKCHIP_RGA = yes; # This is a v4l2 driver for Rockchip SOC RGA 2d graphics accelerator.
-    #                           # Rockchip RGA is a separate 2D raster graphic acceleration unit.
-    #                           # It accelerates 2D graphics operations, such as point/line drawing,
-    #                           # image scaling, rotation, BitBLT, alpha blending and image blur/sharpness.
 
     # SND_SOC_ROCKCHIP = yes;            # Enable Rockchip SoC audio framework - core audio support for Rockchip chips
     # SND_SOC_ROCKCHIP_I2S = yes;        # Enable I2S audio driver - digital audio interface for codecs and audio devices
@@ -64,6 +66,6 @@
     # ROCKCHIP_PM_DOMAINS = yes;
   };
 in
-  pkgs.linuxKernel.packagesFor (
+  # pkgs.linuxKernel.packagesFor (
     pkgs.linuxKernel.kernels.linux_6_12.override {structuredExtraConfig = kernelConfig;}
-  )
+  # )

@@ -21,6 +21,7 @@ with libCustom;
       key = config.sops.secrets."titouan/syncthings_key".path;
       cert = config.sops.secrets."titouan/syncthings_cert".path;
     };
+    desktop.wayland.niri = enabled;
   };
   sops.defaultSopsFile = "${self}/home/titouan@desktop/secrets.yaml";
 
