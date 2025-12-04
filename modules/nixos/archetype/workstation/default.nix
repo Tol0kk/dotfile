@@ -171,9 +171,16 @@ in
 
       services.tuned.enable = true;
       services.upower.enable = true;
+      programs.nix-ld.enable = true;
+
+      # Sets up all the libraries to load
+      programs.nix-ld.libraries = with pkgs; [
+        stdenv.cc.cc
+      ];
 
       ## package
       environment.systemPackages = with pkgs; [
+        gpu-viewer # Front-end to glxinfo, vulkaninfo, clinfo and es2_info
         inputs.zen-browser.packages."${system}".beta
         lazygit
         nix-du

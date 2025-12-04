@@ -29,6 +29,7 @@ in
             thunar = enabled;
             glxgears = enabled;
             mangohud = enabled;
+            vencord = enabled;
             yazi = enabled;
             mpv = enabled;
             zathura = enabled;
@@ -50,6 +51,7 @@ in
         };
 
         desktop = {
+          wayland.onagre.enable = false; # Slow asf
           profiles = "aestetic";
           theme = {
             polarity = "dark";

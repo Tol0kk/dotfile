@@ -3,10 +3,14 @@
   libCustom,
   pkgs,
   username,
+  inputs,
   ...
 }:
 with libCustom;
 {
+
+  imports = [ inputs.nixos-hardware.nixosModules.dell-xps-15-9500 ];
+
   modules = {
     hardware = {
       bluetooth = enabled;
@@ -62,6 +66,13 @@ with libCustom;
   services.greetd.settings.initial_session.user = "titouan";
   services.greetd.settings.initial_session.command = "Hyprland";
 
+  services.pcscd.enable = true;
+  programs.gnupg.agent = {
+    enable = true;
+    pinentryPackage = pkgs.pinentry-tty;
+    # enableSSHSupport = true;
+  };
+
   # boot.initrd.systemd = {
   #   enable = true;
   #   services.initrd-rollback-root = {
@@ -85,8 +96,6 @@ with libCustom;
   #   intel-vaapi-driver = pkgs.intel-vaapi-driver.override { enableHybridCodec = true; };
   # };
   hardware.graphics = {
-    # hardware.graphics since NixOS 24.11
-    enable = true;
     extraPackages = with pkgs; [
       intel-media-driver # LIBVA_DRIVER_NAME=iHD
       intel-vaapi-driver # LIBVA_DRIVER_NAME=i965 (older but works better for Firefox/Chromium)
@@ -107,7 +116,7 @@ with libCustom;
   };
 
   ## Laptop Lid
-  services.logind.lidSwitch = "suspend-then-hibernate";
+  services.logind.lidSwitch = "hybrid-sleep";
   services.logind.lidSwitchExternalPower = "lock";
   services.logind.lidSwitchDocked = "ignore";
 

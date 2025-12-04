@@ -85,6 +85,14 @@ in
       size = 24;
     };
 
+    qt = {
+      enable = true;
+
+      platformTheme = "qtct";
+
+      style.name = "kvantum";
+    };
+
     stylix.fonts = with pkgs; {
       serif = {
         package = noto-fonts-cjk-sans;

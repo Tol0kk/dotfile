@@ -24,6 +24,7 @@ in
   };
 
   config = mkIf cfg.enable {
+    modules.desktop.wayland.hypr.hyprlock.enable = true;
     services.hyprpaper.enable = false;
     stylix.targets.hyprland.enable = false;
     stylix.targets.hyprpanel.enable = false;
@@ -95,6 +96,7 @@ in
 
     home.packages = [
       pkgs.rose-pine-hyprcursor
+      pkgs.wdisplays
     ];
 
     wayland.windowManager.hyprland = {
@@ -152,5 +154,6 @@ in
         }
       '';
     };
+
   };
 }

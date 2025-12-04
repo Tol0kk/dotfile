@@ -27,6 +27,14 @@ in
       rose-pine-hyprcursor
     ];
 
+    programs.hyprlock.enable = true;
+
+    qt = {
+      enable = true;
+      platformTheme = "qt5ct";
+      style = "kvantum";
+    };
+
     security.polkit.enable = true;
 
     xdg.portal = {
