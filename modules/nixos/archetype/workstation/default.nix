@@ -118,6 +118,42 @@ in
         memoryPercent = 80;
       };
 
+      services.ananicy = {
+        enable = true;
+        extraTypes = [
+          {
+            nice = -10;
+            type = "ui";
+          }
+          {
+            nice = -2;
+            type = "terminal";
+          }
+          {
+            nice = -1;
+            type = "apps";
+          }
+        ];
+        extraRules = [
+          {
+            name = ".Hyprland-wrapp";
+            type = "ui";
+          }
+          {
+            name = "alacritty";
+            type = "terminal";
+          }
+          {
+            name = ".zed-editor-wra";
+            type = "apps";
+          }
+          {
+            name = ".zen-beta-wrapp";
+            type = "apps";
+          }
+        ];
+      };
+
       qt.enable = true; # Used for quickshell developement
 
       services.tuned.enable = true;

@@ -62,7 +62,7 @@ in
       $file_manager = ${config.modules.defaults.file_manager}
       $editor = ${config.modules.defaults.editor}
       $launcher = noctalia-shell ipc call launcher toggle
-      $bar = sessionVariables
+      $bar = noctalia-shell
       $network_applet = nm-applet
 
       $screenshot_region = ${pkgs.hyprshot}/bin/hyprshot -m region --raw | ${pkgs.satty}/bin/satty -f - -o ~/Pictures/Screenshots/satty-$(date '+%Y%m%d-%H:%M:%S').png --action-on-enter save-to-clipboard --early-exit --copy-command wl-copy

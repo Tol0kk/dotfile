@@ -120,6 +120,9 @@
             ],
             "right": [
                 {
+                    "id": "plugin:privacy-indicator"
+                },
+                {
                     "id": "NoctaliaPerformance"
                 },
                 {
@@ -142,7 +145,7 @@
                     "showUnreadBadge": true
                 },
                 {
-                    "deviceNativePath": "",
+                    "deviceNativePath": "/org/bluez/hci0/dev_80_99_E7_E4_29_50",
                     "displayMode": "onhover",
                     "id": "Battery",
                     "warningThreshold": 30

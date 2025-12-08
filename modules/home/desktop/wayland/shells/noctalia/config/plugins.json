@@ -8,6 +8,9 @@
     "states": {
         "launcher-button": {
             "enabled": true
+        },
+        "privacy-indicator": {
+            "enabled": true
         }
     },
     "version": 1

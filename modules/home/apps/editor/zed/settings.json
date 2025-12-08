@@ -1,4 +1,46 @@
 {
+  "ssh_connections": [
+    {
+      "host": "servrock.tolok.org",
+      "args": [],
+      "projects": []
+    },
+    {
+      "host": "laptop.tolok.org",
+      "args": [],
+      "projects": []
+    },
+    {
+      "host": "servrock.tolok.org",
+      "username": "odin",
+      "args": [],
+      "projects": []
+    },
+    {
+      "host": "servrock",
+      "username": "odin",
+      "args": [],
+      "projects": [
+        {
+          "paths": [
+            "/home/odin"
+          ]
+        }
+      ]
+    },
+    {
+      "host": "servrock.tolok.org",
+      "username": "odin",
+      "args": [],
+      "projects": []
+    },
+    {
+      "host": "servrock.tolok.org",
+      "username": "odin",
+      "args": [],
+      "projects": []
+    }
+  ],
   "file_types": { "Markdown": ["qmd"] },
   "inlay_hints": {
     "enabled": true,
