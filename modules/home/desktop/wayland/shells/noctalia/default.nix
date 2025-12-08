@@ -29,7 +29,7 @@ in
       config.lib.file.mkOutOfStoreSymlink "${config.dotfiles}/modules/home/desktop/wayland/shells/noctalia/config";
 
     home.sessionVariables = {
-      QT_QPA_PLATFORMTHEME = "gtk3";
+      # QT_QPA_PLATFORMTHEME = "gtk3";
     };
 
     home.packages = [

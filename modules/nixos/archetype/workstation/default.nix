@@ -170,6 +170,7 @@ in
       qt.enable = true; # Used for quickshell developement
 
       services.tuned.enable = true;
+      services.tlp.enable = false;
       services.upower.enable = true;
       programs.nix-ld.enable = true;
 

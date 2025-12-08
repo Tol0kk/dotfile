@@ -7,7 +7,7 @@
 with lib;
 with libCustom;
 let
-  cfg = config.modules.apps.mics.vencord;
+  cfg = config.modules.apps.misc.vencord;
 in
 {
   options.modules.apps.misc.vencord = {

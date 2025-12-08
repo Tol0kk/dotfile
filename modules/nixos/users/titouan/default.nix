@@ -24,6 +24,7 @@ in
 
   config = mkMerge [
     (mkIf cfg.enable {
+      nix.settings.trusted-users = [ "titouan" ];
       users.users.titouan = {
         isNormalUser = true;
         extraGroups = [

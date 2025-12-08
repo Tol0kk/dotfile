@@ -231,36 +231,36 @@
       "language_servers": ["!nixd", "nil"]
     },
     "Python": {
-      "language_servers": ["!ty", "basedpyright", "!pylsp"],
-      "PHP": {
-        "language_servers": ["!intelephense", "phpactor"]
+      "language_servers": ["!ty", "basedpyright", "!pylsp"]
+      // "PHP": {
+      //   "language_servers": ["!intelephense", "phpactor"]
+      // }
+    }
+  },
+  "lsp": {
+    "slint": {
+      "binary": {
+        "path": "slint-lsp"
       }
     },
-    "lsp": {
-      "slint": {
-        "binary": {
-          "path": "slint-lsp"
-        }
-      },
-      "pyright": {
-        "settings": {
-          "pyright": {}
-        }
-      },
-      "ruff": {
-        "initialization_options": {
-          "settings": {}
-        }
-      },
-      "nil": {
-        "settings": {
-          "diagnostics": {
-            "excludedFiles": ["Cargo.nix"]
-          },
-          "nix": {
-            "flake": {
-              "autoArchive": false
-            }
+    "pyright": {
+      "settings": {
+        "pyright": {}
+      }
+    },
+    "ruff": {
+      "initialization_options": {
+        "settings": {}
+      }
+    },
+    "nil": {
+      "settings": {
+        "diagnostics": {
+          "excludedFiles": ["Cargo.nix"]
+        },
+        "nix": {
+          "flake": {
+            "autoArchive": false
           }
         }
       }

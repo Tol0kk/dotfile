@@ -29,7 +29,7 @@ in
     stylix.targets.hyprland.enable = false;
     stylix.targets.hyprpanel.enable = false;
 
-    services.wluma.enable = true;
+    services.wluma.enable = false;
     # See https://github.com/maximbaz/wluma/blob/main/config.toml for available options.
     services.wluma.settings = { };
     services.wluma.systemd.enable = true; # use systemctl --user stop/start to disable it
