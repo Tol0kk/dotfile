@@ -133,6 +133,10 @@ in
             nice = -1;
             type = "apps";
           }
+          {
+            nice = 3;
+            type = "compiler";
+          }
         ];
         extraRules = [
           {
@@ -148,9 +152,18 @@ in
             type = "apps";
           }
           {
-            name = ".zen-beta-wrapp";
-            type = "apps";
+            name = "cargo";
+            type = "compiler";
           }
+          {
+            name = "nix";
+            type = "compiler";
+          }
+          {
+            name = "nix-daemon";
+            type = "compiler";
+          }
+
         ];
       };
 
