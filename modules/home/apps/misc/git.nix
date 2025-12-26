@@ -5,9 +5,11 @@
   ...
 }:
 with lib;
-with libCustom; let
+with libCustom;
+let
   cfg = config.modules.apps.misc.git;
-in {
+in
+{
   options.modules.apps.misc.git = {
     enable = mkEnableOpt "Enable Git";
   };
@@ -15,12 +17,11 @@ in {
   config = mkIf cfg.enable {
     programs.git = {
       enable = true;
-      diff-so-fancy.enable = true;
       # difftastic.enable = true;
-      userEmail = "personal@tolok.org";
-      userName = "Tol0kk";
       signing.signByDefault = true;
-      extraConfig = {
+      settings = {
+        user.email = "personal@tolok.org";
+        user.name = "Tol0kk";
         commit.gpgsign = true;
         gpg.format = "ssh";
         submodule.recurse = true;
@@ -29,5 +30,7 @@ in {
         init.defaultBranch = "main";
       };
     };
+    programs.diff-so-fancy.enable = true;
+    programs.diff-so-fancy.enableGitIntegration = true;
   };
 }
