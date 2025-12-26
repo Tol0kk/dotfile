@@ -94,6 +94,7 @@ with libCustom;
   };
 
   users.extraUsers.root.initialPassword = "nixos";
+  users.extraUsers.root.initialHashedPassword = lib.mkForce null;
 
-  system.stateVersion = "25.05"; # Did you read the comment?
+  system.stateVersion = "25.11"; # Did you read the comment?
 }

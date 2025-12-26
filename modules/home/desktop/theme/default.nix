@@ -88,7 +88,7 @@ in
     qt = {
       enable = true;
 
-      platformTheme = "qtct";
+      # platformTheme = "qtct";
 
       style.name = "kvantum";
     };

@@ -5,6 +5,7 @@
   config,
   inputs,
   libCustom,
+  isPure,
   ...
 }:
 with lib;
@@ -15,6 +16,9 @@ let
   isEnableOption =
     enableOption: default: message:
     if enableOption then default else "${pkgs.libnotify}/bin/notify-send '${message}'";
+
+  mkSource =
+    relPath: absPath: if isPure then relPath else config.lib.file.mkOutOfStoreSymlink absPath;
 in
 {
   options.modules.desktop.wayland.hypr.hyprland = {
@@ -34,25 +38,10 @@ in
     services.wluma.settings = { };
     services.wluma.systemd.enable = true; # use systemctl --user stop/start to disable it
 
-    home.file.".config/hypr/hyprland/binding.conf".source =
-      config.lib.file.mkOutOfStoreSymlink "${config.dotfiles}/modules/home/desktop/wayland/hypr/hyprland/config/binding.conf";
+    home.file.".config/hypr/hyprland".source =
+      mkSource ./config "${config.dotfiles}/modules/home/desktop/wayland/hypr/hyprland/config";
 
-    home.file.".config/hypr/hyprland/exec_once.conf".source =
-      config.lib.file.mkOutOfStoreSymlink "${config.dotfiles}/modules/home/desktop/wayland/hypr/hyprland/config/exec_once.conf";
-
-    home.file.".config/hypr/hyprland/misc.conf".source =
-      config.lib.file.mkOutOfStoreSymlink "${config.dotfiles}/modules/home/desktop/wayland/hypr/hyprland/config/misc.conf";
-
-    home.file.".config/hypr/hyprland/monitor.conf".source =
-      config.lib.file.mkOutOfStoreSymlink "${config.dotfiles}/modules/home/desktop/wayland/hypr/hyprland/config/monitor.conf";
-
-    home.file.".config/hypr/hyprland/plugins.conf".source =
-      config.lib.file.mkOutOfStoreSymlink "${config.dotfiles}/modules/home/desktop/wayland/hypr/hyprland/config/plugins.conf";
-
-    home.file.".config/hypr/hyprland/window_rules.conf".source =
-      config.lib.file.mkOutOfStoreSymlink "${config.dotfiles}/modules/home/desktop/wayland/hypr/hyprland/config/window_rules.conf";
-
-    home.file.".config/hypr/hyprland/variables.conf".text = ''
+    home.file.".config/hypr/variables.conf".text = ''
       $mainMod = SUPER
       $term = ${config.modules.defaults.terminal}
       $browser = ${config.modules.defaults.browser}
@@ -106,7 +95,7 @@ in
       ];
       extraConfig = ''
         env = HYPRCURSOR_THEME,rose-pine-hyprcursors
-        source = ~/.config/hypr/hyprland/variables.conf
+        source = ~/.config/hypr/variables.conf
         source = ~/.config/hypr/hyprland/*
 
         ############

@@ -81,6 +81,7 @@ builtins.mapAttrs (
     system,
     nixpkgs,
     withHomeManager ? false,
+    isPure ? false,
     ...
   }:
   nixpkgs.lib.nixosSystem {
@@ -92,7 +93,12 @@ builtins.mapAttrs (
       overlays = common_overlay;
     };
     specialArgs = {
-      inherit inputs self withHomeManager;
+      inherit
+        inputs
+        self
+        withHomeManager
+        isPure
+        ;
     }
     // libs
     // extraPkgs system;
@@ -107,7 +113,7 @@ builtins.mapAttrs (
     ++ (if builtins.pathExists (hardware_path name) then [ (hardware_path name) ] else [ ])
     ++ lib.optionals withHomeManager [
       {
-        home-manager.useGlobalPkgs = true;
+        # home-manager.useGlobalPkgs = true;
         home-manager.useUserPackages = true;
         home-manager.backupFileExtension = "homeManagerBackup";
         home-manager.sharedModules = [
@@ -134,7 +140,7 @@ builtins.mapAttrs (
 
         ];
         home-manager.extraSpecialArgs = {
-          inherit inputs self;
+          inherit inputs self isPure;
           hostname = name;
         }
         // libs

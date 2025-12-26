@@ -51,8 +51,8 @@ let
     configName:
     let
       splitArray = lib.strings.splitString "@" configName;
-      arrayLen = builtins.length splitArray;
-      _ = lib.asserts.assertMsg (arrayLen > 2) "home config name ( ${configName} ) has a wrong format";
+      _arrayLen = builtins.length splitArray;
+      _ = lib.asserts.assertMsg (_arrayLen > 2) "home config name ( ${configName} ) has a wrong format";
       username = builtins.elemAt splitArray 0;
     in
     username;
@@ -74,6 +74,7 @@ builtins.mapAttrs (
     nixpkgs,
     username ? getUsername configName,
     hostname ? getHostName configName,
+    isPure ? false,
     ...
   }:
   home-manager-unstable.lib.homeManagerConfiguration {
@@ -89,6 +90,7 @@ builtins.mapAttrs (
         self
         username
         hostname
+        isPure
         ;
     }
     // libs

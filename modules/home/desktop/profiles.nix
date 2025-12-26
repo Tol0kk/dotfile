@@ -20,7 +20,6 @@ in
           "aestetic"
           "minimal"
           "work"
-          "quickshell"
         ]);
       default = "aestetic";
     };
@@ -46,27 +45,6 @@ in
             theme = mkDefault "gruvbox-dark-medium";
             background-image = mkDefault assets.backgrounds.takopi;
           };
-        };
-      };
-    })
-    (mkIf (cfg == "quickshell") {
-      modules = {
-        desktop = {
-          wayland.hypr = {
-            hyprland.enable = mkDefault true;
-            hyprland.withEffects = mkDefault true;
-            hyprland.rounding = mkDefault 10;
-            hyprpanel = mkDefault enabled;
-          };
-          wayland.anyrun = mkDefault enabled;
-          theme = {
-            enable = mkDefault true;
-            polarity = mkDefault "dark";
-            theme = mkDefault "gruvbox-dark-medium";
-            background-image = mkDefault assets.backgrounds.background-2;
-          };
-
-          wayland.quickshell = enabled;
         };
       };
     })

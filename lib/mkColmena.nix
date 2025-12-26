@@ -88,10 +88,17 @@ in
       {
         system,
         withHomeManager ? false,
+        isPure ? false,
         ...
       }:
       {
-        inherit inputs self withHomeManager;
+        inherit
+          inputs
+          self
+          withHomeManager
+          isPure
+
+          ;
       }
       // libs
       // extraPkgs system
@@ -122,6 +129,7 @@ in
     targetUser ? null, # TODO create a standalone user for deployment
     targetHost ? name,
     withHomeManager ? false,
+    isPure ? false,
     nixpkgs,
     ...
   }:
@@ -153,7 +161,11 @@ in
           inputs.sops-nix.homeManagerModules.sops
         ];
         home-manager.extraSpecialArgs = {
-          inherit inputs self;
+          inherit
+            inputs
+            self
+            isPure
+            ;
         }
         // libs
         // extraPkgs system;

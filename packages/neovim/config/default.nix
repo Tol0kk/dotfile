@@ -2,9 +2,11 @@
   isMinimal,
   lib,
   ...
-}: let
+}:
+let
   isNormal = !isMinimal;
-in {
+in
+{
   # Add any custom options (and do feel free to upstream them!)
   # options = { ... };
 
@@ -135,7 +137,7 @@ in {
       };
       rust = {
         enable = isNormal;
-        crates.enable = isNormal;
+        extensions.crates-nvim.enable = isNormal;
       };
     };
   };
