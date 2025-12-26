@@ -105,24 +105,24 @@ with libCustom;
   #
   hardware.deviceTree.enable = true;
 
-  boot.kernelPackages = pkgs.linuxKernel.packagesFor (
-    pkgs.linuxKernel.manualConfig rec {
-      version = "6.1.115";
-      modDirVersion = version;
+  # boot.kernelPackages = pkgs.linuxKernel.packagesFor (
+  #   pkgs.linuxKernel.manualConfig rec {
+  #     version = "6.1.115";
+  #     modDirVersion = version;
 
-      src = pkgs.fetchFromGitHub {
-        owner = "armbian";
-        repo = "linux-rockchip";
-        rev = "rk-6.1-rkr5.1"; # Check for latest branch
-        sha256 = "sha256-6ii2iFm7wcMhUOA5D9psB0Aqs8k/bimX9E0zuikmKPg="; # You'll need to fill this
-      };
+  #     src = pkgs.fetchFromGitHub {
+  #       owner = "armbian";
+  #       repo = "linux-rockchip";
+  #       rev = "rk-6.1-rkr5.1"; # Check for latest branch
+  #       sha256 = "sha256-6ii2iFm7wcMhUOA5D9psB0Aqs8k/bimX9E0zuikmKPg="; # You'll need to fill this
+  #     };
 
-      configfile = ./rockchip-rk3588.config; # Extract from Armbian
+  #     configfile = ./rockchip-rk3588.config; # Extract from Armbian
 
-      kernelPatches = [ ];
-      allowImportFromDerivation = true;
-    }
-  );
+  #     kernelPatches = [ ];
+  #     allowImportFromDerivation = true;
+  #   }
+  # );
 
   # Work bu no data tree
   # boot.kernelPackages = pkgs.linuxKernel.packagesFor (

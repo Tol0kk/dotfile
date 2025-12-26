@@ -5,16 +5,17 @@
   ...
 }:
 with lib;
-with libCustom; let
+with libCustom;
+let
   cfg = config.modules.hardware.audio;
-in {
+in
+{
   options.modules.hardware.audio = {
     enable = mkEnableOpt "Enable Audio";
   };
 
   config = mkIf cfg.enable {
-    # TODO rename hardware to services when updating server to 25.05
-    hardware.pulseaudio.enable = false;
+    services.pulseaudio.enable = false;
     security.rtkit.enable = true;
     services.pipewire = {
       enable = true;

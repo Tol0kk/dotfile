@@ -22,9 +22,7 @@
       "args": [],
       "projects": [
         {
-          "paths": [
-            "/home/odin"
-          ]
+          "paths": ["/home/odin"]
         }
       ]
     },
@@ -123,7 +121,7 @@
   "middle_click_paste": false,
   "multi_cursor_modifier": "alt",
   "redact_private_values": true,
-  "relative_line_numbers": true,
+  "relative_line_numbers": "wrapped",
   "when_closing_with_no_tabs": "close_window",
   "title_bar": {
     "show_branch_icon": true,
@@ -217,8 +215,8 @@
       "theme": "One Light"
     }
   },
-  "ui_font_size": 12,
-  "buffer_font_size": 10,
+  "ui_font_size": 14,
+  "buffer_font_size": 12,
   "theme": "Gruvbox Dark",
   "auto_install_extensions": {
     "make": true,
@@ -232,9 +230,9 @@
     },
     "Python": {
       "language_servers": ["!ty", "basedpyright", "!pylsp"]
-      // "PHP": {
-      //   "language_servers": ["!intelephense", "phpactor"]
-      // }
+    },
+    "PHP": {
+      "language_servers": ["phpactor", "!intelephense", "!phptools"]
     }
   },
   "lsp": {

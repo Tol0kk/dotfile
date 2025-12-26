@@ -115,7 +115,8 @@ in
       zramSwap = {
         enable = true;
         algorithm = lib.mkDefault "zstd";
-        memoryPercent = 80;
+        memoryPercent = lib.mkDefault 80;
+        priority = 100;
       };
 
       services.ananicy = {
@@ -183,6 +184,10 @@ in
       environment.systemPackages = with pkgs; [
         gpu-viewer # Front-end to glxinfo, vulkaninfo, clinfo and es2_info
         inputs.zen-browser.packages."${system}".beta
+        caido
+        seclists
+        payloadsallthethings
+        mullvad-browser
         lazygit
         nix-du
         graphviz
@@ -197,7 +202,6 @@ in
         ani-cli
         yazi
         onagre
-        pkgs.diffsitter.out
         blender_4_0
         iperf # network benchmark
         mdcat
@@ -245,6 +249,7 @@ in
         tparted
 
         home-manager
+        qbittorrent
 
       ];
     })

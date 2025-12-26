@@ -17,6 +17,16 @@ in
       type = types.bool;
       default = false;
     };
+    port = mkOption {
+      description = "Port for Jellyfin web interface";
+      type = types.port;
+      default = 8096;
+    };
+    openFirewall = mkOption {
+      description = "Open port in the firewall for Jellyfin (8096)";
+      type = types.bool;
+      default = false;
+    };
   };
 
   config = mkIf cfg.enable {
@@ -28,7 +38,7 @@ in
       };
     };
 
-    modules.server.traefik.enable = true;
+    # modules.server.traefik.enable = true;
 
     services.traefik = {
       dynamicConfigOptions = {
@@ -51,6 +61,7 @@ in
     # Jellyfin
     services.jellyfin = {
       enable = true;
+      openFirewall = cfg.openFirewall;
     };
     environment.systemPackages = [
       pkgs.jellyfin
@@ -61,7 +72,7 @@ in
         # See jellyfin-ffmpeg package source for details
         # ffmpeg_7-full = pkgs.rkffmpeg;
       })
-      pkgs.rkmpp
+      # pkgs.rkmpp
     ];
   };
 }
