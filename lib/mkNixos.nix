@@ -113,7 +113,7 @@ builtins.mapAttrs (
     ++ (if builtins.pathExists (hardware_path name) then [ (hardware_path name) ] else [ ])
     ++ lib.optionals withHomeManager [
       {
-        # home-manager.useGlobalPkgs = true;
+        home-manager.useGlobalPkgs = true;
         home-manager.useUserPackages = true;
         home-manager.backupFileExtension = "homeManagerBackup";
         home-manager.sharedModules = [
