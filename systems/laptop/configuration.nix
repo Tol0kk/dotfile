@@ -32,6 +32,7 @@ with libCustom;
     };
     services = {
       # restic = enabled; # Backup
+      pixiecore = enabled;
     };
     archetype.workstation = enabled;
     archetype.gamingstation = enabled;
@@ -92,6 +93,7 @@ with libCustom;
     # enableSSHSupport = true;
   };
 
+  # Impermanance
   # boot.initrd.systemd = {
   #   enable = true;
   #   services.initrd-rollback-root = {
@@ -111,9 +113,6 @@ with libCustom;
   networking.hostId = "0be1cd29";
 
   ## Hardware acceleration
-  # nixpkgs.config.packageOverrides = pkgs: {
-  #   intel-vaapi-driver = pkgs.intel-vaapi-driver.override { enableHybridCodec = true; };
-  # };
   hardware.graphics = {
     extraPackages = with pkgs; [
       intel-media-driver # LIBVA_DRIVER_NAME=iHD

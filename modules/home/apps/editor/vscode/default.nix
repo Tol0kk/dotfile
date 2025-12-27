@@ -6,15 +6,20 @@
   ...
 }:
 with lib;
-with libCustom; let
+with libCustom;
+let
   cfg = config.modules.apps.editor.vscode;
-in {
+in
+{
   options.modules.apps.editor.vscode = {
     enable = mkEnableOpt "Enable Visual Studio Code.";
   };
 
   config = mkIf cfg.enable {
-    home.packages = [pkgs.alejandra pkgs.bruno];
+    home.packages = [
+      pkgs.alejandra
+      pkgs.bruno
+    ];
     stylix.targets.vscode.enable = false;
     programs.vscode = {
       enable = true;
@@ -50,7 +55,7 @@ in {
             "serverSettings" = {
               "nil" = {
                 "formatting" = {
-                  "command" = ["alejandra"];
+                  "command" = [ "alejandra" ];
                 };
               };
             };
@@ -65,7 +70,8 @@ in {
             when = "textInputFocus";
           }
         ];
-        extensions = with pkgs.vscode-extensions;
+        extensions =
+          with pkgs.vscode-extensions;
           [
             pkief.material-product-icons
             llvm-vs-code-extensions.vscode-clangd # Clangd
