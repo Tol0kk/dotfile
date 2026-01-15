@@ -124,7 +124,7 @@
   "middle_click_paste": false,
   "multi_cursor_modifier": "alt",
   "redact_private_values": true,
-  "relative_line_numbers": "wrapped",
+  "relative_line_numbers": true,
   "when_closing_with_no_tabs": "close_window",
   "title_bar": {
     "show_branch_icon": true,
@@ -239,6 +239,7 @@
     },
   },
   "lsp": {
+    "PHP": {},
     "slint": {
       "binary": {
         "path": "slint-lsp",
