@@ -98,7 +98,6 @@ in
       programs.direnv.nix-direnv.enable = true;
 
       services.gvfs.enable = true;
-      programs.adb.enable = true;
 
       # Add support for QMK keyboard
       hardware.keyboard.qmk.enable = true;
@@ -227,7 +226,7 @@ in
         nixd
         openssl
         # openfortivpn # University VPN
-        oculante # Image Viewer / editor
+        # oculante # Image Viewer / editor
         wireguard-tools
         qrencode
         networkmanagerapplet

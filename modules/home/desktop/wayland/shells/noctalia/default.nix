@@ -24,6 +24,7 @@ in
   ];
 
   config = mkIf cfg.enable {
+    stylix.targets.noctalia-shell.enable= false;
     programs.noctalia-shell = {
       enable = true;
     };

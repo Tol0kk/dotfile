@@ -36,7 +36,7 @@ in
     services.wluma.enable = false;
     # See https://github.com/maximbaz/wluma/blob/main/config.toml for available options.
     services.wluma.settings = { };
-    services.wluma.systemd.enable = true; # use systemctl --user stop/start to disable it
+    # services.wluma.systemd.enable = true; # use systemctl --user stop/start to disable it
 
     home.file.".config/hypr/hyprland".source =
       mkSource ./config "${config.dotfiles}/modules/home/desktop/wayland/hypr/hyprland/config";
