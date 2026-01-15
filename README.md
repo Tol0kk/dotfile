@@ -19,6 +19,11 @@ This configuration cover an ARM Server, a X86-64 Desktop, a X86-64 laptop and an
 - Centralized Theming with [Stylix](https://github.com/danth/stylix)
 - Modularized Configuration
 
+# Build custom iso
+
+```sh
+nix build .#nixosConfigurations.iso.config.system.build.isoImage
+```
 
 # Install
 
@@ -27,6 +32,7 @@ This configuration cover an ARM Server, a X86-64 Desktop, a X86-64 laptop and an
 - prepare usb stick with secrets
 - boot usb stick with iso
 - follow command
+
 ```sh
 # 0.1. Connect to internet
 # Ethernet or wifi (nmtui)
@@ -66,7 +72,40 @@ cd && tar xvf secrets.tar.gz && mv nixos .config/.
 home-manager switch --flake .config/nixos
 ```
 
-## custo miso Improvements
+## custom iso Improvements
+
 - fix terminial fonts when inside hyprland
 - remove welcome screen for zen
 - create install script for step 2,3,4 at least
+
+# Setup new devices
+
+## Host configuration (systems)
+
+```sh
+# Copy an other profile
+cp -r systems/laptop systems/<host>
+
+# (Optional) Edit disko.nix
+# (Optional) Edit hardware.nix
+# (Optional) Edit hardware.nix
+# Edit configuration.nix
+# - update system.stateVersion has needed
+
+# Edit home.nix file for more
+```
+
+## User Configuration (home)
+
+```sh
+# Create new syncthing secrets
+mkdir synconfig && nix-shell -p syncthing --run "syncthing generate --config synconfig --data synconfig"
+
+# Copy an other profile
+cp -r home/titouan@laptop home/<user>@<host>
+
+# Update sops secrets using generated secrets
+sops home/<user>@<host>/secrets.yaml
+
+# Edit home.nix file for more
+```

@@ -199,7 +199,7 @@ with libCustom;
   };
 
   # Cross Compile
-  nixpkgs.config.allowUnsupportedSystem = true;
+  # nixpkgs.config.allowUnsupportedSystem = true;
 
   # Boot
   boot.loader.systemd-boot.enable = true;
@@ -298,7 +298,7 @@ with libCustom;
       # See jellyfin-ffmpeg package source for details
       # ffmpeg_7-full = pkgs.rkffmpeg;
     })
-    pkgs.rkmpp
+    # pkgs.rkmpp
 
     ani-cli
     (pkgs.writeShellScriptBin "mount_zfs_pool" ''

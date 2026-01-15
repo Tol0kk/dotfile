@@ -28,6 +28,8 @@ in
       enable = true;
     };
 
+    stylix.targets.noctalia-shell.enable = false;
+
     home.file.".config/noctalia" = {
       source = mkSource ./config "${config.dotfiles}/modules/home/desktop/wayland/shells/noctalia/config";
       recursive = true;

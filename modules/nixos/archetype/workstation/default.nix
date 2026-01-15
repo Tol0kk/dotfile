@@ -81,7 +81,7 @@ in
       networking.networkmanager.enable = true;
 
       # Flatpack
-      # services.flatpak.enable = true;
+      services.flatpak.enable = true;
 
       services.udisks2.enable = true;
       programs.dconf.enable = true;
@@ -193,6 +193,7 @@ in
         graphviz
         p7zip
         zip
+        joplin
         vial # QMK/Via for Keyboard
         via # QMK/Via for Keyboard
         mdcat

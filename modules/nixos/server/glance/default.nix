@@ -4,11 +4,13 @@
   pkgs-unstable,
   ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.modules.server.glance;
   tunnelId = config.modules.server.cloudflared.tunnelId;
   serverDomain = config.modules.server.cloudflared.domain;
   domain = "${serverDomain}";
+
   news = {
     tech = {
       feeds = [
@@ -18,7 +20,7 @@ with lib; let
           limit = 4;
         }
       ];
-      subreddit = ["technology"];
+      subreddit = [ "technology" ];
       youtbe = [
         "UCeeFfhMcJa1kjtfZAGskOCA" # TechLinked
         "UCXuqSBlHAE6Xw-yeJA0Tunw" # LinusTechTips
@@ -28,8 +30,8 @@ with lib; let
       ];
     };
     vulgarization = {
-      feeds = [];
-      subreddit = [];
+      feeds = [ ];
+      subreddit = [ ];
       youtbe = [
         "UCHnyfMqiRRG1u-2MsSQLbXA" # Veritasium
       ];
@@ -52,7 +54,11 @@ with lib; let
           limit = 4;
         }
       ];
-      subreddit = ["games" "pcgaming" "feedthebeast"];
+      subreddit = [
+        "games"
+        "pcgaming"
+        "feedthebeast"
+      ];
       youtube = [
         "UCRHXUZ0BxbkU2MYZgsuFgkQ" # The Spiffing Brit
         "UCE-f0sqi-H7kuLT0YiW9rcA" # TheLazyPeon
@@ -72,7 +78,7 @@ with lib; let
           limit = 4;
         }
       ];
-      subreddit = [];
+      subreddit = [ ];
       youtube = [
         "UCH6ppHEvV3_WIXEwmhv9HEg" # Deus Ex Silicium
         "UCS0N5baNlQWJCUrhCEo8WlA" # Ben Eater
@@ -106,7 +112,14 @@ with lib; let
           limit = 4;
         }
       ];
-      subreddit = ["rust" "linuxmasterrace" "NixOS" "cpp" "selfhosted" "rust_gamedev"];
+      subreddit = [
+        "rust"
+        "linuxmasterrace"
+        "NixOS"
+        "cpp"
+        "selfhosted"
+        "rust_gamedev"
+      ];
       youtube = [
         # Top
         "UCYI-TL0LoFRl1gFnnUFwdow" # Better Software Conference
@@ -156,20 +169,23 @@ with lib; let
           limit = 4;
         }
       ];
-      subreddit = [];
-      youtube = [];
+      subreddit = [ ];
+      youtube = [ ];
     };
     cyber = {
-      feeds = [];
-      subreddit = ["hackthebox" "privacy"];
+      feeds = [ ];
+      subreddit = [
+        "hackthebox"
+        "privacy"
+      ];
       youtube = [
         "UC7YOGHUfC1Tb6E4pudI9STA" # Mental Outlaw
         "UC6biysICWOJ-C3P4Tyeggzg" # Low Level
       ];
     };
     diy = {
-      feeds = [];
-      subreddit = [];
+      feeds = [ ];
+      subreddit = [ ];
       youtube = [
         "UCwivlXhhHxc7c5RAtmpLykw" # Play Conveyor
         "UCEIwxahdLz7bap-VDs9h35A" # Steve Mould
@@ -196,7 +212,10 @@ with lib; let
           limit = 4;
         }
       ];
-      subreddit = ["etudiants" "pcgaming"];
+      subreddit = [
+        "etudiants"
+        "pcgaming"
+      ];
       youtube = [
         "UCkgO4A3Fzm5D9Xu1Y_4vCKQ" # Elucid
         "UC__xRB5L4toU9yYawt_lIKg" # Blast
@@ -208,7 +227,10 @@ with lib; let
       ];
     };
   };
-  weatherLocationList = ["Rennes, France" "Lannion, France"];
+  weatherLocationList = [
+    "Rennes, France"
+    "Lannion, France"
+  ];
 
   searchBangs = [
     # Youtube Bang
@@ -293,15 +315,14 @@ with lib; let
     }
   ];
 
-  mapRedditWidget = builtins.map (
-    subreddit: {
-      inherit subreddit;
-      type = "reddit";
-      show-thumbnails = true;
-      style = "vertical-list";
-    }
-  );
-in {
+  mapRedditWidget = builtins.map (subreddit: {
+    inherit subreddit;
+    type = "reddit";
+    show-thumbnails = true;
+    style = "vertical-list";
+  });
+in
+{
   options.modules.server.glance = {
     enable = mkOption {
       description = "Enable glance services";
@@ -310,396 +331,424 @@ in {
     };
   };
 
-  config =
-    mkIf cfg.enable
-    {
-      # Traefik
-      modules.server.traefik.enable = true;
+  config = mkIf cfg.enable {
+    # Traefik
+    modules.server.traefik.enable = true;
 
-      # services.cloudflared = {
-      #   tunnels."${tunnelId}".ingress."${domain}" = {
-      #     service = "https://home.${domain}";
-      #   };
-      # };
+    # services.cloudflared = {
+    #   tunnels."${tunnelId}".ingress."${domain}" = {
+    #     service = "https://home.${domain}";
+    #   };
+    # };
 
-      services.traefik = {
-        # glance Configuration
-        dynamicConfigOptions = {
-          http = {
-            services.glance.loadBalancer.servers = [
-              {
-                url = "http://127.0.0.1:8080";
-              }
-            ];
+    services.traefik = {
+      # glance Configuration
+      dynamicConfigOptions = {
+        http = {
+          services.glance.loadBalancer.servers = [
+            {
+              url = "http://127.0.0.1:8080";
+            }
+          ];
 
-            routers.glance = {
-              entryPoints = ["websecure"];
-              rule = "Host(`${domain}`)";
-              service = "glance";
-              tls.certResolver = "letsencrypt";
-            };
+          routers.glance = {
+            entryPoints = [ "websecure" ];
+            rule = "Host(`${domain}`)";
+            service = "glance";
+            tls.certResolver = "letsencrypt";
+          };
 
-            routers.glanceServerPage = {
-              entryPoints = ["websecure"];
-              rule = "Host(`${domain}`) && (Path(`/server`) || Path(`/oidc/callback`))";
-              service = "glance";
-              tls.certResolver = "letsencrypt";
-              middlewares = ["oidc-auth"];
-            };
+          routers.glanceServerPage = {
+            entryPoints = [ "websecure" ];
+            rule = "Host(`${domain}`) && (Path(`/server`) || Path(`/oidc/callback`))";
+            service = "glance";
+            tls.certResolver = "letsencrypt";
+            middlewares = [ "oidc-auth" ];
           };
         };
       };
+    };
 
-      topology.self.services = {
-        glance = {
-          name = "Glance";
-          info = "Dashboard";
-          details.listen.text = domain;
-        };
-      };
-
-      # glance Services
-      services.glance = {
-        enable = true;
-        package = pkgs-unstable.glance;
-        settings = {
-          server.port = 8080;
-          branding.custom-footer = ''
-            <p>Powered by <a href="https://github.com/glanceapp/glance">Glance</a></p>
-          '';
-          pages = [
-            # Startpage
-            {
-              name = "Startpage";
-              width = "slim";
-              # hide-desktop-navigation = true;
-              center-vertically = true;
-              columns = [
-                {
-                  size = "full";
-                  widgets = [
-                    # Search
-                    {
-                      type = "search";
-                      search-engine = "duckduckgo";
-                      autofocus = true;
-                      bangs = searchBangs;
-                    }
-                    {
-                      type = "custom-api";
-                      title = "Random Fact";
-                      cache = "6h";
-                      url = "https://uselessfacts.jsph.pl/api/v2/facts/random";
-                      template = ''
-                        <p class="size-h4 color-paragraph">{{ .JSON.String "text" }}</p>
-                      '';
-                    }
-                    {
-                      type = "bookmarks";
-                      groups = [
-                        {
-                          title = "General";
-                          links = [
-                            {
-                              title = "Gmail";
-                              url = "https://mail.google.com/mail/u/0/";
-                            }
-                            {
-                              title = "Github";
-                              url = "https://github.com/";
-                            }
-                            {
-                              title = "Amazon";
-                              url = "https://www.amazon.com/";
-                            }
-                            {
-                              title = "Aliexpress";
-                              url = "https://aliexpress.com/";
-                            }
-                          ];
-                        }
-                        {
-                          title = "University";
-                          links = [
-                            {
-                              title = "Moodle";
-                              url = "https://foad.univ-rennes.fr/my/";
-                            }
-                            {
-                              title = "Planning";
-                              url = "https://planning.univ-rennes1.fr/direct/myplanning.jsp";
-                            }
-                            {
-                              title = "Intranet ESIR";
-                              url = "https://esir.univ-rennes.fr/intranet-general-etudiants-et-personnels";
-                            }
-                            {
-                              title = "Gitlab ESIR";
-                              url = "https://gitlab2.istic.univ-rennes1.fr/";
-                            }
-                          ];
-                        }
-                        {
-                          title = "Entertainment";
-                          links = [
-                            {
-                              title = "YouTube";
-                              url = "https://www.youtube.com/";
-                            }
-                            {
-                              title = "Prime Video";
-                              url = "https://www.primevideo.com/";
-                            }
-                            {
-                              title = "JellyFin";
-                              url = "https://media.cloud.tolok.org";
-                            }
-                          ];
-                        }
-                        {
-                          title = "Developement";
-                          links = [
-                            {
-                              title = "Home Manager Options";
-                              url = "https://nix-community.github.io/home-manager/options.xhtml";
-                            }
-                            {
-                              title = "Nixos Search";
-                              url = "https://search.nixos.org/packages";
-                            }
-                          ];
-                        }
-                      ];
-                    }
-                  ];
-                }
-              ];
-            }
-
-            # Server Info
-            {
-              name = "Server";
-              columns = [
-                {
-                  size = "full";
-                  widgets = [
-                    # Services
-                    {
-                      type = "monitor";
-                      cache = "1m";
-                      title = "Services";
-                      sites = tolokServices;
-                    }
-                  ];
-                }
-              ];
-            }
-
-            # Home Page
-            # > Calendar, Weather, Small Video, Small RSS, ...
-            {
-              name = "Home";
-              columns = [
-                {
-                  size = "small";
-                  widgets = [
-                    {
-                      type = "releases";
-                      cache = "1d";
-                      repositories = ["glanceapp/glance" "go-gitea/gitea" "immich-app/immich" "syncthing/syncthing"];
-                    }
-                    # TODO Display statistics from a self-hosted ad-blocking DNS resolver such as AdGuard Home or Pi-hole.
-                    # {
-                    #   type = "dns-stats";
-                    #   service = "adguard";
-                    #   username = "admin";
-                    #   password = "\${ADGUARD_PASSWORD}"; # From Env
-                    #   url = "https://adguard.domain.com/";
-                    # }
-                    {
-                      type = "custom-api";
-                      title = "Steam Specials";
-                      cache = "12h";
-                      url = "https://store.steampowered.com/api/featuredcategories?cc=us";
-                      template = ''
-                        <ul class="list list-gap-10 collapsible-container" data-collapse-after="5">
-                        {{ range .JSON.Array "specials.items" }}
-                          <li>
-                            <a class="size-h4 color-highlight block text-truncate" href="https://store.steampowered.com/app/{{ .Int "id" }}/">{{ .String "name" }}</a>
-                            <ul class="list-horizontal-text">
-                              <li>{{ div (.Int "final_price" | toFloat) 100 | printf "$%.2f" }}</li>
-                              {{ $discount := .Int "discount_percent" }}
-                              <li{{ if ge $discount 40 }} class="color-positive"{{ end }}>{{ $discount }}% off</li>
-                            </ul>
-                          </li>
-                        {{ end }}
-                        </ul>
-                      '';
-                    }
-                    {
-                      type = "twitch-channels";
-                      channels = ["theprimeagen" "j_blow" "piratesoftware" "cohhcarnage" "christitustech" "EJ_SA"];
-                    }
-                  ];
-                }
-                {
-                  size = "full";
-                  widgets = [
-                    # Search Bang
-                    {
-                      type = "search";
-                      search-engine = "duckduckgo";
-                      autofocus = false;
-                      bangs = searchBangs;
-                    }
-                    # Reddit
-                    {
-                      type = "group";
-                      widgets =
-                        mapRedditWidget (news.programation.subreddit ++ news.tech.subreddit ++ news.electronics.subreddit ++ news.politics.subreddit ++ news.diy.subreddit);
-                    }
-                    {
-                      type = "bookmarks";
-                      groups = [
-                        {
-                          title = "Usefull Links";
-                          links = [
-                            {
-                              title = "Icons";
-                              url = "https://selfh.st/icons/";
-                            }
-                          ];
-                        }
-                      ];
-                    }
-                  ];
-                }
-                {
-                  size = "small";
-                  widgets = [
-                    {
-                      type = "clock";
-                    }
-                    {
-                      type = "calendar";
-                      first-day-of-week = "monday";
-                    }
-                    {
-                      type = "group";
-                      widgets =
-                        builtins.map (
-                          location: {
-                            inherit location;
-                            type = "weather";
-                            units = "metric";
-                            hour-format = "24h";
-                          }
-                        )
-                        weatherLocationList;
-                    }
-                  ];
-                }
-              ];
-            }
-            # Media Content news
-            # > Youtube Video
-            {
-              name = "Prog";
-              columns = [
-                {
-                  size = "small";
-                  widgets = [
-                    # News Widgets
-                    {
-                      type = "group";
-                      widgets = [{type = "hacker-news";} {type = "lobsters";}];
-                    }
-                  ];
-                }
-                {
-                  size = "full";
-                  widgets = [
-                    # Large Youtube Video Grid
-                    {
-                      type = "videos";
-                      channels = news.programation.youtube ++ news.electronics.youtube ++ news.selfhost.youtube ++ news.cyber.youtube;
-                      style = "grid-cards";
-                      collapse-after-rows = 3;
-                    }
-                    # Reddit
-                    {
-                      type = "group";
-                      widgets =
-                        mapRedditWidget (news.programation.subreddit ++ news.electronics.subreddit ++ news.selfhost.subreddit ++ news.cyber.subreddit);
-                    }
-                  ];
-                }
-                {
-                  size = "small";
-                  widgets = [
-                    # RSS Feeds
-                    {
-                      type = "rss";
-                      limit = 20;
-                      collapse-after = 10;
-                      cache = "12h";
-                      style = "vertical-lis";
-                      feeds = news.programation.feeds ++ news.electronics.feeds ++ news.selfhost.feeds ++ news.cyber.feeds;
-                    }
-                  ];
-                }
-              ];
-            }
-
-            # Gamming
-            # > Youtube Twitch Reddit
-            {
-              name = "Gaming";
-              columns = [
-                {
-                  size = "small";
-                  widgets = [
-                    {
-                      type = "twitch-top-games";
-                      limit = 20;
-                      collapse-after = 13;
-                      exclude = ["just-chatting" "pools-hot-tubs-and-beaches" "music" "art" "asmr"];
-                    }
-                  ];
-                }
-                {
-                  size = "full";
-                  widgets = [
-                    {
-                      type = "videos";
-                      channels = news.gamming.youtube;
-                      style = "grid-cards";
-                      collapse-after-rows = 3;
-                    }
-                    {
-                      type = "group";
-                      widgets =
-                        mapRedditWidget (news.gamming.subreddit);
-                    }
-                  ];
-                }
-                {
-                  size = "small";
-                  widgets = [
-                    {
-                      type = "rss";
-                      limit = 20;
-                      collapse-after = 10;
-                      cache = "12h";
-                      style = "vertical-lis";
-                      feeds = news.gamming.feeds;
-                    }
-                  ];
-                }
-              ];
-            }
-          ];
-        };
+    topology.self.services = {
+      glance = {
+        name = "Glance";
+        info = "Dashboard";
+        details.listen.text = domain;
       };
     };
+
+    # glance Services
+    services.glance = {
+      enable = true;
+      package = pkgs-unstable.glance;
+      settings = {
+        server.port = 8080;
+        branding.custom-footer = ''
+          <p>Powered by <a href="https://github.com/glanceapp/glance">Glance</a></p>
+        '';
+        pages = [
+          # Startpage
+          {
+            name = "Startpage";
+            width = "slim";
+            # hide-desktop-navigation = true;
+            center-vertically = true;
+            columns = [
+              {
+                size = "full";
+                widgets = [
+                  # Search
+                  {
+                    type = "search";
+                    search-engine = "duckduckgo";
+                    autofocus = true;
+                    bangs = searchBangs;
+                  }
+                  {
+                    type = "custom-api";
+                    title = "Random Fact";
+                    cache = "6h";
+                    url = "https://uselessfacts.jsph.pl/api/v2/facts/random";
+                    template = ''
+                      <p class="size-h4 color-paragraph">{{ .JSON.String "text" }}</p>
+                    '';
+                  }
+                  {
+                    type = "bookmarks";
+                    groups = [
+                      {
+                        title = "General";
+                        links = [
+                          {
+                            title = "Gmail";
+                            url = "https://mail.google.com/mail/u/0/";
+                          }
+                          {
+                            title = "Github";
+                            url = "https://github.com/";
+                          }
+                          {
+                            title = "Amazon";
+                            url = "https://www.amazon.com/";
+                          }
+                          {
+                            title = "Aliexpress";
+                            url = "https://aliexpress.com/";
+                          }
+                        ];
+                      }
+                      {
+                        title = "University";
+                        links = [
+                          {
+                            title = "Moodle";
+                            url = "https://foad.univ-rennes.fr/my/";
+                          }
+                          {
+                            title = "Planning";
+                            url = "https://planning.univ-rennes1.fr/direct/myplanning.jsp";
+                          }
+                          {
+                            title = "Intranet ESIR";
+                            url = "https://esir.univ-rennes.fr/intranet-general-etudiants-et-personnels";
+                          }
+                          {
+                            title = "Gitlab ESIR";
+                            url = "https://gitlab2.istic.univ-rennes1.fr/";
+                          }
+                        ];
+                      }
+                      {
+                        title = "Entertainment";
+                        links = [
+                          {
+                            title = "YouTube";
+                            url = "https://www.youtube.com/";
+                          }
+                          {
+                            title = "Prime Video";
+                            url = "https://www.primevideo.com/";
+                          }
+                          {
+                            title = "JellyFin";
+                            url = "https://media.cloud.tolok.org";
+                          }
+                        ];
+                      }
+                      {
+                        title = "Developement";
+                        links = [
+                          {
+                            title = "Home Manager Options";
+                            url = "https://nix-community.github.io/home-manager/options.xhtml";
+                          }
+                          {
+                            title = "Nixos Search";
+                            url = "https://search.nixos.org/packages";
+                          }
+                        ];
+                      }
+                    ];
+                  }
+                ];
+              }
+            ];
+          }
+
+          # Server Info
+          {
+            name = "Server";
+            columns = [
+              {
+                size = "full";
+                widgets = [
+                  # Services
+                  {
+                    type = "monitor";
+                    cache = "1m";
+                    title = "Services";
+                    sites = tolokServices;
+                  }
+                ];
+              }
+            ];
+          }
+
+          # Home Page
+          # > Calendar, Weather, Small Video, Small RSS, ...
+          {
+            name = "Home";
+            columns = [
+              {
+                size = "small";
+                widgets = [
+                  {
+                    type = "releases";
+                    cache = "1d";
+                    repositories = [
+                      "glanceapp/glance"
+                      "go-gitea/gitea"
+                      "immich-app/immich"
+                      "syncthing/syncthing"
+                    ];
+                  }
+                  # TODO Display statistics from a self-hosted ad-blocking DNS resolver such as AdGuard Home or Pi-hole.
+                  # {
+                  #   type = "dns-stats";
+                  #   service = "adguard";
+                  #   username = "admin";
+                  #   password = "\${ADGUARD_PASSWORD}"; # From Env
+                  #   url = "https://adguard.domain.com/";
+                  # }
+                  {
+                    type = "custom-api";
+                    title = "Steam Specials";
+                    cache = "12h";
+                    url = "https://store.steampowered.com/api/featuredcategories?cc=us";
+                    template = ''
+                      <ul class="list list-gap-10 collapsible-container" data-collapse-after="5">
+                      {{ range .JSON.Array "specials.items" }}
+                        <li>
+                          <a class="size-h4 color-highlight block text-truncate" href="https://store.steampowered.com/app/{{ .Int "id" }}/">{{ .String "name" }}</a>
+                          <ul class="list-horizontal-text">
+                            <li>{{ div (.Int "final_price" | toFloat) 100 | printf "$%.2f" }}</li>
+                            {{ $discount := .Int "discount_percent" }}
+                            <li{{ if ge $discount 40 }} class="color-positive"{{ end }}>{{ $discount }}% off</li>
+                          </ul>
+                        </li>
+                      {{ end }}
+                      </ul>
+                    '';
+                  }
+                  {
+                    type = "twitch-channels";
+                    channels = [
+                      "theprimeagen"
+                      "j_blow"
+                      "piratesoftware"
+                      "cohhcarnage"
+                      "christitustech"
+                      "EJ_SA"
+                    ];
+                  }
+                ];
+              }
+              {
+                size = "full";
+                widgets = [
+                  # Search Bang
+                  {
+                    type = "search";
+                    search-engine = "duckduckgo";
+                    autofocus = false;
+                    bangs = searchBangs;
+                  }
+                  # Reddit
+                  {
+                    type = "group";
+                    widgets = mapRedditWidget (
+                      news.programation.subreddit
+                      ++ news.tech.subreddit
+                      ++ news.electronics.subreddit
+                      ++ news.politics.subreddit
+                      ++ news.diy.subreddit
+                    );
+                  }
+                  {
+                    type = "bookmarks";
+                    groups = [
+                      {
+                        title = "Usefull Links";
+                        links = [
+                          {
+                            title = "Icons";
+                            url = "https://selfh.st/icons/";
+                          }
+                        ];
+                      }
+                    ];
+                  }
+                ];
+              }
+              {
+                size = "small";
+                widgets = [
+                  {
+                    type = "clock";
+                  }
+                  {
+                    type = "calendar";
+                    first-day-of-week = "monday";
+                  }
+                  {
+                    type = "group";
+                    widgets = builtins.map (location: {
+                      inherit location;
+                      type = "weather";
+                      units = "metric";
+                      hour-format = "24h";
+                    }) weatherLocationList;
+                  }
+                ];
+              }
+            ];
+          }
+          # Media Content news
+          # > Youtube Video
+          {
+            name = "Prog";
+            columns = [
+              {
+                size = "small";
+                widgets = [
+                  # News Widgets
+                  {
+                    type = "group";
+                    widgets = [
+                      { type = "hacker-news"; }
+                      { type = "lobsters"; }
+                    ];
+                  }
+                ];
+              }
+              {
+                size = "full";
+                widgets = [
+                  # Large Youtube Video Grid
+                  {
+                    type = "videos";
+                    channels =
+                      news.programation.youtube
+                      ++ news.electronics.youtube
+                      ++ news.selfhost.youtube
+                      ++ news.cyber.youtube;
+                    style = "grid-cards";
+                    collapse-after-rows = 3;
+                  }
+                  # Reddit
+                  {
+                    type = "group";
+                    widgets = mapRedditWidget (
+                      news.programation.subreddit
+                      ++ news.electronics.subreddit
+                      ++ news.selfhost.subreddit
+                      ++ news.cyber.subreddit
+                    );
+                  }
+                ];
+              }
+              {
+                size = "small";
+                widgets = [
+                  # RSS Feeds
+                  {
+                    type = "rss";
+                    limit = 20;
+                    collapse-after = 10;
+                    cache = "12h";
+                    style = "vertical-lis";
+                    feeds =
+                      news.programation.feeds ++ news.electronics.feeds ++ news.selfhost.feeds ++ news.cyber.feeds;
+                  }
+                ];
+              }
+            ];
+          }
+
+          # Gamming
+          # > Youtube Twitch Reddit
+          {
+            name = "Gaming";
+            columns = [
+              {
+                size = "small";
+                widgets = [
+                  {
+                    type = "twitch-top-games";
+                    limit = 20;
+                    collapse-after = 13;
+                    exclude = [
+                      "just-chatting"
+                      "pools-hot-tubs-and-beaches"
+                      "music"
+                      "art"
+                      "asmr"
+                    ];
+                  }
+                ];
+              }
+              {
+                size = "full";
+                widgets = [
+                  {
+                    type = "videos";
+                    channels = news.gamming.youtube;
+                    style = "grid-cards";
+                    collapse-after-rows = 3;
+                  }
+                  {
+                    type = "group";
+                    widgets = mapRedditWidget (news.gamming.subreddit);
+                  }
+                ];
+              }
+              {
+                size = "small";
+                widgets = [
+                  {
+                    type = "rss";
+                    limit = 20;
+                    collapse-after = 10;
+                    cache = "12h";
+                    style = "vertical-lis";
+                    feeds = news.gamming.feeds;
+                  }
+                ];
+              }
+            ];
+          }
+        ];
+      };
+    };
+  };
 }

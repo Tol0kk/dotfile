@@ -87,6 +87,24 @@ in
       pkgs.rose-pine-hyprcursor
       pkgs.wdisplays
     ];
+    xdg.portal = {
+      enable = true;
+      extraPortals = with pkgs; [
+        xdg-desktop-portal-hyprland
+        xdg-desktop-portal-gtk
+      ];
+      config = {
+        common = {
+          default = [ "gtk" ];
+        };
+        hyprland = {
+          default = [
+            "hyprland"
+            "gtk"
+          ];
+        };
+      };
+    };
 
     wayland.windowManager.hyprland = {
       enable = true;
@@ -119,7 +137,7 @@ in
 
             blur {
                 enabled = ${if (cfg.withEffects) then "true" else "false"}
-                size = 10
+                size = 3
                 passes = 2
             }
 

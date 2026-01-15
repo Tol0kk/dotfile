@@ -6,7 +6,16 @@
         }
     ],
     "states": {
+        "catwalk": {
+            "enabled": true
+        },
         "launcher-button": {
+            "enabled": true
+        },
+        "mini-docker": {
+            "enabled": true
+        },
+        "noctalia-supergfxctl": {
             "enabled": true
         },
         "privacy-indicator": {

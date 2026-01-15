@@ -1,6 +1,7 @@
 keys:
   - &titouan age1aejhqus9tnmuace0u4xgltzuhcjfry6rnmkjwwh6ptarr6zcf42sa7d84a
   - &laptop age1w6v2we3gsw3jed26xl2ucpc8dcsc90a2e4n69mrcpmue2d3gdylqn2sy3q
+  - &tuxlaptop age1w6v2we3gsw3jed26xl2ucpc8dcsc90a2e4n69mrcpmue2d3gdylqn2sy3q
   - &olympus age1hqzdev2l5v7w3mjsgpnq7v0fcnznj7af5xxr5u5e4tj8zg8gugfs8jac28
 creation_rules:
   - path_regrex: secrets/secrets.yaml
@@ -14,3 +15,8 @@ creation_rules:
       - age:
           - *titouan
           - *laptop
+  - path_regrex: home/titouan@tuxlaptop/secrets.yaml
+    key_groups:
+      - age:
+          - *titouan
+          - *tuxlaptop

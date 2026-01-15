@@ -25,6 +25,21 @@ in
       };
     };
 
+    assertions = [
+      {
+        assertion = !(cfg.pixiecore.enable && cfg.traefik.enable);
+        message = ''
+          Pixiecore and Traefik are mutually exclusive and cannot both be enabled. Pixiecore need port port 80.
+
+          Current state:
+          - modules.services.pixiecore.enable = ${lib.boolToString cfg.pixiecore.enable}
+          - modules.services.traefik.enable = ${lib.boolToString cfg.traefik.enable}
+
+          Please set one of them to false.
+        '';
+      }
+      ];
+
     services.pixiecore = {
       enable = cfg.enable;
       openFirewall = true;

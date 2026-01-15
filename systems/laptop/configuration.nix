@@ -8,8 +8,21 @@
 }:
 with libCustom;
 {
-
   imports = [ inputs.nixos-hardware.nixosModules.dell-xps-15-9500 ];
+
+  sops.secrets."delugeAuthFile" = {
+    owner = config.services.deluge.user;
+    group = config.services.deluge.group;
+    mode = "0600";
+    sopsFile = ./secrets.yaml;
+  };
+
+  sops.secrets."coturnPasswordFile" = {
+    owner = "coturn";
+    group = "coturn";
+    mode = "0660";
+    sopsFile = ./secrets.yaml;
+  };
 
   modules = {
     hardware = {
@@ -32,17 +45,31 @@ with libCustom;
     };
     services = {
       # restic = enabled; # Backup
-      pixiecore = enabled;
+      pixiecore = disabled; # Need port 80, imcompatible with traefik
+      glance = enabled;
+      jellyfin = enabled;
+      deluge = {
+        enable = true;
+        authFileSecretsPath = config.sops.secrets."delugeAuthFile".path;
+      };
+      traefik = {
+        enable = true;
+      };
+      netbird.client = enabled;
+      netbird.server = {
+        enable = true;
+        coturnPasswordFile = config.sops.secrets."coturnPasswordFile".path;
+      };
     };
     archetype.workstation = enabled;
     archetype.gamingstation = enabled;
     apps.tools.security.enable = true;
     server = {
       media-center = {
-        jellyfin = {
-          enable = true;
-          openFirewall = true;
-        };
+        # jellyfin = {
+        #   enable = true;
+        #   openFirewall = true;
+        # };
       };
     };
   };
