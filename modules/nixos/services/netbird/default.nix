@@ -4,10 +4,12 @@
   pkgs,
   ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.modules.services.netbird;
   traefikcfg = config.modules.services.traefik;
-in {
+in
+{
   options.modules.services.netbird = {
     client = {
       enable = mkOption {
@@ -24,7 +26,7 @@ in {
       };
       web.port = mkOption {
         description = "Port for Jellyfin web interface";
-        type = types.enum [8112];
+        type = types.enum [ 8112 ];
         default = 8112;
       };
       coturnPasswordFile = mkOption {
@@ -37,26 +39,26 @@ in {
     mkMerge [
       (mkIf cfg.server.enable {
         topology.self.services = {
-          deluge = {
+          netbird = {
             name = "Netbird Server";
             icon = "services.adguardhome";
             info = lib.mkForce "VPN Server";
-            details.listen.text = lib.mkForce "${domain}(localhost:${cfg.server.web.port})";
+            details.listen.text = lib.mkForce "netbird.${traefikcfg.domain}(localhost:${toString cfg.server.web.port})";
           };
         };
 
         services.traefik = {
           dynamicConfigOptions = {
             http = {
-              services.deluge.loadBalancer.servers = [
+              services.netbird.loadBalancer.servers = [
                 {
                   url = "http://localhost:${toString cfg.server.web.port}";
                 }
               ];
-              routers.deluge = {
-                entryPoints = ["websecure"];
-                rule = "Host(`deluge.${traefikcfg.domain}`)";
-                service = "deluge";
+              routers.netbird = {
+                entryPoints = [ "websecure" ];
+                rule = "Host(`netbird.${traefikcfg.domain}`)";
+                service = "Netbird";
                 tls = traefikcfg.tlsConfig;
               };
             };
@@ -81,12 +83,13 @@ in {
             oidcConfigEndpoint = "https://example.eu.auth0.com/.well-known/openid-configuration";
           };
         };
-        systemd.services.coturn = let
-          preStart' = optionalString (cfg.server.coturnPasswordFile != null) '''';
-        in
-          (optionalAttrs (preStart' != "") {preStart = mkAfter preStart';})
+        systemd.services.coturn =
+          let
+            preStart' = optionalString (cfg.server.coturnPasswordFile != null) "";
+          in
+          (optionalAttrs (preStart' != "") { preStart = mkAfter preStart'; })
           // {
-            serviceConfig.LoadCredential = ["password:${cfg.server.coturnPasswordFile}"];
+            serviceConfig.LoadCredential = [ "password:${cfg.server.coturnPasswordFile}" ];
           };
       })
       (mkIf cfg.client.enable {
