@@ -5,11 +5,9 @@
   ...
 }:
 with lib;
-with libCustom;
-let
+with libCustom; let
   cfg = config.modules.hardware.nvidia;
-in
-{
+in {
   options.modules.hardware.nvidia = {
     enable = mkEnableOpt "Enable nvidia";
     offload.enable = mkEnableOpt "Enable nvidia PRIME offload";
@@ -34,7 +32,7 @@ in
       # package = config.boot.kernelPackages.nvidiaPackages.beta;
       open = false;
     };
-    services.xserver.videoDrivers = [ "nvidia" ];
+    services.xserver.videoDrivers = ["nvidia"];
     hardware.nvidia.prime = mkIf cfg.offload.enable {
       offload.enable = true;
       offload.enableOffloadCmd = true;

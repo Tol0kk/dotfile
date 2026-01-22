@@ -5,11 +5,9 @@
   ...
 }:
 with lib;
-with libCustom;
-let
+with libCustom; let
   cfg = config.modules.apps.misc.thunar;
-in
-{
+in {
   options.modules.apps.misc.thunar = {
     enable = mkEnableOpt "Enable Thunar Actions";
   };

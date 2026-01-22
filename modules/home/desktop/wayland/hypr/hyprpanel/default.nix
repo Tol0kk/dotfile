@@ -7,17 +7,15 @@
   ...
 }:
 with lib;
-with libCustom;
-let
+with libCustom; let
   cfg = config.modules.desktop.wayland.hypr.hyprpanel;
-in
-{
+in {
   options.modules.desktop.wayland.hypr.hyprpanel = {
     enable = mkEnableOpt "Enable Hyprland";
   };
 
   config = mkIf cfg.enable {
-    sops.secrets."titouan/weather_api_key" = { };
+    sops.secrets."titouan/weather_api_key" = {};
 
     home.file.".config/hyprpanel/config.json".source =
       config.lib.file.mkOutOfStoreSymlink "${config.dotfiles}/modules/home/desktop/wayland/hypr/hyprpanel/hyprpanel_config.json";

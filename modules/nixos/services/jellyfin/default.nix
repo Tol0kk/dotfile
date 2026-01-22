@@ -4,12 +4,10 @@
   pkgs,
   ...
 }:
-with lib;
-let
+with lib; let
   cfg = config.modules.services.jellyfin;
   traefikcfg = config.modules.services.traefik;
-in
-{
+in {
   options.modules.services.jellyfin = {
     enable = mkOption {
       description = "Enable Jellyfin service";
@@ -18,7 +16,7 @@ in
     };
     port = mkOption {
       description = "Port for Jellyfin web interface";
-      type = (types.enum [ 8096 ]);
+      type = types.enum [8096];
       default = 8096;
     };
     openFirewall = mkOption {
@@ -48,7 +46,7 @@ in
             }
           ];
           routers.jellyfin = {
-            entryPoints = [ "websecure" ];
+            entryPoints = ["websecure"];
             rule = "Host(`media.${traefikcfg.domain}`)";
             service = "jellyfin";
             tls = traefikcfg.tlsConfig;

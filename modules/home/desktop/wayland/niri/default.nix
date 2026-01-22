@@ -8,11 +8,9 @@
   ...
 }:
 with lib;
-with libCustom;
-let
+with libCustom; let
   cfg = config.modules.desktop.wayland.niri;
-in
-{
+in {
   options.modules.desktop.wayland.niri = {
     enable = mkEnableOpt "Enable Niri";
     withEffects = mkEnableOpt "Enable Effects like blur, animation shadow";

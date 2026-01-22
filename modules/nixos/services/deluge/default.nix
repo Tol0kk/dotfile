@@ -4,12 +4,10 @@
   pkgs,
   ...
 }:
-with lib;
-let
+with lib; let
   cfg = config.modules.services.deluge;
   traefikcfg = config.modules.services.traefik;
-in
-{
+in {
   options.modules.services.deluge = {
     enable = mkOption {
       description = "Enable Deluge torrent services";
@@ -18,7 +16,7 @@ in
     };
     web.port = mkOption {
       description = "Port for Jellyfin web interface";
-      type = (types.enum [ 8112 ]);
+      type = types.enum [8112];
       default = 8112;
     };
     authFileSecretsPath = mkOption {
@@ -56,7 +54,7 @@ in
             }
           ];
           routers.deluge = {
-            entryPoints = [ "websecure" ];
+            entryPoints = ["websecure"];
             rule = "Host(`deluge.${traefikcfg.domain}`)";
             service = "deluge";
             tls = traefikcfg.tlsConfig;
@@ -77,6 +75,5 @@ in
         allow_remote = true;
       };
     };
-
   };
 }

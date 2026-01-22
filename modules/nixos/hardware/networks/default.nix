@@ -5,8 +5,7 @@
   ...
 }:
 with lib;
-with libCustom;
-let
+with libCustom; let
   cfg = config.modules.hardware.network;
 
   # Helper Function
@@ -24,21 +23,24 @@ let
       value = {
         sopsFile = "${dir}/secrets.yaml";
       };
-    }) profiles_dirs
+    })
+    profiles_dirs
   );
   # EnvornmentFiles: Insert secrets path to env files used by network manager
-  envFiles_list = builtins.map (
-    dir: config.sops.secrets.${get-networkFileName dir}.path
-  ) profiles_dirs;
+  envFiles_list =
+    builtins.map (
+      dir: config.sops.secrets.${get-networkFileName dir}.path
+    )
+    profiles_dirs;
   # Profiles: Read profiles and insert them inside networkmanager under the porfile folder name;
   profiles = builtins.listToAttrs (
     builtins.map (dir: {
       name = get-fileNameNoCtx dir;
       value = import "${dir}/profile.nix";
-    }) profiles_dirs
+    })
+    profiles_dirs
   );
-in
-{
+in {
   options.modules.hardware.network = {
     wifi-profiles.enable = mkEnableOpt "Enable Wifi Profiles";
     avahi.enable = mkEnableOpt "Enable Dns";

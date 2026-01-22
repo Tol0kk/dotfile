@@ -7,11 +7,9 @@
   ...
 }:
 with lib;
-with libCustom;
-let
+with libCustom; let
   cfg = config.modules.desktop.theme;
-in
-{
+in {
   # imports = [inputs.stylix.homeModules.stylix];
   options.modules.desktop.theme = {
     enable = mkEnableOpt "Enable Stylix";
@@ -30,12 +28,10 @@ in
     };
     polarity = mkOption {
       description = "Theme polarity";
-      type =
-        with types;
-        (enum [
-          "dark"
-          "light"
-        ]);
+      type = with types; (enum [
+        "dark"
+        "light"
+      ]);
       default = "light";
     };
     background-image = mkOption {

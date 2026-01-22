@@ -6,11 +6,9 @@
   ...
 }:
 with lib;
-with libCustom;
-let
+with libCustom; let
   cfg = config.modules.system.fonts;
-in
-{
+in {
   options.modules.system.fonts = {
     enable = mkEnableOpt "Enable fonts";
   };

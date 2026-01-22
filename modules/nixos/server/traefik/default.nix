@@ -4,8 +4,7 @@
   pkgs,
   ...
 }:
-with lib;
-let
+with lib; let
   cfg = config.modules.server.traefik;
   serverDomain = config.modules.server.cloudflared.domain;
 
@@ -15,12 +14,11 @@ let
     ${pkgs.coreutils}/bin/chown kanidm /var/lib/certificates/sso.tolok.org/public.crt
   '';
 
-  mytraefik =
-    let
-      oidc-auth_author = "sevensolutions";
-      oidc-auth_name = "traefik-oidc-auth";
-      oidc-auth_version = "0.6.1";
-    in
+  mytraefik = let
+    oidc-auth_author = "sevensolutions";
+    oidc-auth_name = "traefik-oidc-auth";
+    oidc-auth_version = "0.17.0";
+  in
     pkgs.traefik.overrideAttrs (oldAttrs: {
       postInstall =
         oldAttrs.postInstall or ''
@@ -30,13 +28,12 @@ let
               owner = oidc-auth_author;
               repo = oidc-auth_name;
               rev = "refs/tags/v${oidc-auth_version}";
-              sha256 = "sha256-PZbAlxtPXpihKt/Jo3OFVdn8LXslUNIicTNIzacpsBc=";
+              sha256 = "sha256-aVSnmNzRIJuSm0GzgKLKSgTvxbC6D7U7TuyMyR65QH8=";
             }
           } $out/bin/plugins-local/src/github.com/${oidc-auth_author}/${oidc-auth_name}
         '';
     });
-in
-{
+in {
   options.modules.server.traefik = {
     enable = mkOption {
       description = "Enable Traefik Reverse Proxy service";
@@ -50,7 +47,7 @@ in
       traefik = {
         name = "Traefik";
         info = lib.mkForce "Reverse Proxy / MiddleWare";
-        details = lib.mkForce { };
+        details = lib.mkForce {};
       };
     };
 
@@ -123,7 +120,7 @@ in
           http.tls.domains = [
             {
               main = "tolok.org";
-              sans = [ "*.tolok.org" ];
+              sans = ["*.tolok.org"];
             }
           ];
           http.tls.certResolver = "letsencrypt";
@@ -161,8 +158,8 @@ in
       serviceConfig = {
         ExecStart = "${dump-cert}/bin/dump-cert";
       };
-      wantedBy = [ "multi-user.target" ];
-      partOf = [ "traefik.service" ];
+      wantedBy = ["multi-user.target"];
+      partOf = ["traefik.service"];
       after = [
         "traefik.service"
       ];

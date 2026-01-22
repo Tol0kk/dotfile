@@ -5,11 +5,9 @@
   ...
 }:
 with lib;
-with libCustom;
-let
+with libCustom; let
   cfg = config.modules.hardware.audio;
-in
-{
+in {
   options.modules.hardware.audio = {
     enable = mkEnableOpt "Enable Audio";
   };

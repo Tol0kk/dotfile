@@ -6,11 +6,9 @@
   ...
 }:
 with lib;
-with libCustom;
-let
+with libCustom; let
   cfg = config.modules.users.titouan;
-in
-{
+in {
   options.modules.users.titouan = {
     enable = mkEnableOpt "Enable Titouan Users";
   };

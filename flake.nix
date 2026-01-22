@@ -55,42 +55,37 @@
     fenix.url = "github:nix-community/fenix";
   };
 
-  outputs =
-    {
-      self,
-      blender-bin,
-      ...
-    }@inputs:
-    let
-      supportedSystems = [
-        "x86_64-linux"
-        "x86_64-darwin"
-        "aarch64-linux"
-        "aarch64-darwin"
-      ];
-      forAllSystems = inputs.nixpkgs-stable.lib.genAttrs supportedSystems;
-      nixpkgsFor = forAllSystems (system: import inputs.nixpkgs-unstable { inherit system; });
-      lib = import ./lib inputs;
-    in
-    {
-      homeConfigurations = lib.mkHome inputs;
-      colmena = lib.mkColmena inputs;
-      nixosConfigurations = lib.mkNixos inputs;
+  outputs = {
+    self,
+    blender-bin,
+    ...
+  } @ inputs: let
+    supportedSystems = [
+      "x86_64-linux"
+      "x86_64-darwin"
+      "aarch64-linux"
+      "aarch64-darwin"
+    ];
+    forAllSystems = inputs.nixpkgs-stable.lib.genAttrs supportedSystems;
+    nixpkgsFor = forAllSystems (system: import inputs.nixpkgs-unstable {inherit system;});
+    lib = import ./lib inputs;
+  in {
+    homeConfigurations = lib.mkHome inputs;
+    colmena = lib.mkColmena inputs;
+    nixosConfigurations = lib.mkNixos inputs;
 
-      # Apps / Packages provided by this flake
-      packages = forAllSystems (
-        system:
-        let
-          pkgs = nixpkgsFor.${system};
-        in
-        {
-          inherit (pkgs.callPackage ./packages/neovim { inherit (inputs) nvf; }) tiny-neovim neovim;
-          rkffmpeg = pkgs.callPackage ./packages/rkffmpeg { };
-          linux-1_12-rockchip = pkgs.callPackage ./packages/linux-6.12-rockchip { };
-        }
-      );
+    # Apps / Packages provided by this flake
+    packages = forAllSystems (
+      system: let
+        pkgs = nixpkgsFor.${system};
+      in {
+        inherit (pkgs.callPackage ./packages/neovim {inherit (inputs) nvf;}) tiny-neovim neovim;
+        rkffmpeg = pkgs.callPackage ./packages/rkffmpeg {};
+        linux-1_12-rockchip = pkgs.callPackage ./packages/linux-6.12-rockchip {};
+      }
+    );
 
-      # Topology using https://github.com/oddlama/nix-topology
-      topology = forAllSystems (system: lib.mkTopology system inputs self);
-    };
+    # Topology using https://github.com/oddlama/nix-topology
+    topology = forAllSystems (system: lib.mkTopology system inputs self);
+  };
 }

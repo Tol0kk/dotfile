@@ -8,13 +8,13 @@
   ...
 }:
 with lib;
-with libCustom;
-let
+with libCustom; let
   cfg = config.modules.desktop.wayland.shells.noctalia;
-  mkSource =
-    relPath: absPath: if isPure then relPath else config.lib.file.mkOutOfStoreSymlink absPath;
-in
-{
+  mkSource = relPath: absPath:
+    if isPure
+    then relPath
+    else config.lib.file.mkOutOfStoreSymlink absPath;
+in {
   options.modules.desktop.wayland.shells.noctalia = {
     enable = mkEnableOpt "Enable Noctalia Shell (Quickshell)";
   };
@@ -24,12 +24,10 @@ in
   ];
 
   config = mkIf cfg.enable {
-    stylix.targets.noctalia-shell.enable= false;
+    stylix.targets.noctalia-shell.enable = false;
     programs.noctalia-shell = {
       enable = true;
     };
-
-    stylix.targets.noctalia-shell.enable = false;
 
     home.file.".config/noctalia" = {
       source = mkSource ./config "${config.dotfiles}/modules/home/desktop/wayland/shells/noctalia/config";

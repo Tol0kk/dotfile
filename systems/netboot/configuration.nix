@@ -6,9 +6,7 @@
   lib,
   ...
 }:
-with libCustom;
-{
-
+with libCustom; {
   imports = [
     "${modulesPath}/installer/netboot/netboot-minimal.nix"
   ];

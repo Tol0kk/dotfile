@@ -8,15 +8,15 @@
   ...
 }:
 with lib;
-with libCustom;
-let
+with libCustom; let
   cfg = config.modules.archetype.common;
-in
-{
+in {
   options.modules.archetype.common = {
-    enable = mkEnableOpt "Enable Common archetype" // {
-      default = true;
-    };
+    enable =
+      mkEnableOpt "Enable Common archetype"
+      // {
+        default = true;
+      };
   };
 
   options.dotfiles = lib.mkOption {
@@ -33,7 +33,11 @@ in
     system.nixos.label =
       (builtins.concatStringsSep "-" (builtins.sort (x: y: x < y) config.system.nixos.tags))
       + config.system.nixos.version
-      + (if (self ? rev) then "-SHA:${self.rev}" else "-impure");
+      + (
+        if (self ? rev)
+        then "-SHA:${self.rev}"
+        else "-impure"
+      );
 
     # Set your time zone.
     time.timeZone = "Europe/Paris";
@@ -62,7 +66,7 @@ in
 
     # Deactivate channels, we use flake
     nix.channel.enable = false;
-    nix.nixPath = [ "nixpkgs=flake:nixpkgs" ];
+    nix.nixPath = ["nixpkgs=flake:nixpkgs"];
 
     networking.firewall.enable = true;
     networking.firewall.allowPing = false;

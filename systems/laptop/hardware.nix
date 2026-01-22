@@ -16,52 +16,45 @@
   boot.kernelModules = ["kvm-intel"];
   boot.extraModulePackages = [];
 
-  fileSystems."/boot" =
-    {
-      device = "/dev/disk/by-uuid/5948-3337";
-      fsType = "vfat";
-      options = [ "fmask=0077" "dmask=0077" ];
-    };
+  fileSystems."/boot" = {
+    device = "/dev/disk/by-uuid/5948-3337";
+    fsType = "vfat";
+    options = ["fmask=0077" "dmask=0077"];
+  };
 
-    fileSystems."/" =
-       {
-         device = "rpool/nixos/root";
-         fsType = "zfs";
-         neededForBoot = true;
-       };
+  fileSystems."/" = {
+    device = "rpool/nixos/root";
+    fsType = "zfs";
+    neededForBoot = true;
+  };
 
-    fileSystems."/home" =
-       {
-         device = "rpool/nixos/home";
-         fsType = "zfs";
-         neededForBoot = true;
-       };
+  fileSystems."/home" = {
+    device = "rpool/nixos/home";
+    fsType = "zfs";
+    neededForBoot = true;
+  };
 
-     fileSystems."/nix" =
-       {
-         device = "rpool/nixos/nix";
-         fsType = "zfs";
-         neededForBoot = true;
-       };
+  fileSystems."/nix" = {
+    device = "rpool/nixos/nix";
+    fsType = "zfs";
+    neededForBoot = true;
+  };
 
-     fileSystems."/persist" =
-       {
-         device = "rpool/nixos/persist";
-         fsType = "zfs";
-         neededForBoot = true;
-       };
+  fileSystems."/persist" = {
+    device = "rpool/nixos/persist";
+    fsType = "zfs";
+    neededForBoot = true;
+  };
 
-     fileSystems."/var/lib" =
-       {
-         device = "rpool/nixos/var/lib";
-         fsType = "zfs";
-       };
+  fileSystems."/var/lib" = {
+    device = "rpool/nixos/var/lib";
+    fsType = "zfs";
+  };
 
-     fileSystems."/var/log" =
-       {
-         device = "rpool/nixos/var/log";
-         fsType = "zfs";
-       };
+  fileSystems."/var/log" = {
+    device = "rpool/nixos/var/log";
+    fsType = "zfs";
+  };
 
   swapDevices = [];
 

@@ -7,11 +7,9 @@
   ...
 }:
 with lib;
-with libCustom;
-let
+with libCustom; let
   cfg = config.modules.system.boot;
-in
-{
+in {
   options.modules.system.boot = {
     windowsUUID = mkOption {
       description = "Select the Disk where windows is installed by UUID. This Speed up the processed from Osprober. You can find the UUID with lsblk -fa";
@@ -49,7 +47,7 @@ in
       ];
     }
     (mkIf cfg.grub.enable {
-      boot.kernelParams = [ "quiet" ];
+      boot.kernelParams = ["quiet"];
       boot.loader = {
         timeout = 1;
         efi.canTouchEfiVariables = true;
@@ -93,7 +91,7 @@ in
       };
     })
     (mkIf cfg.systemd.enable {
-      boot.kernelParams = [ "quiet" ];
+      boot.kernelParams = ["quiet"];
       boot.loader.systemd-boot.enable = true;
       boot.loader.efi.canTouchEfiVariables = true;
     })
@@ -114,7 +112,7 @@ in
           themePackages = with pkgs; [
             # By default we would install all themes
             (adi1090x-plymouth-themes.override {
-              selected_themes = [ "cubes" ];
+              selected_themes = ["cubes"];
             })
             nixos-plymouth-custom
           ];

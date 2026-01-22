@@ -5,17 +5,15 @@
   ...
 }:
 with lib;
-with libCustom;
-let
+with libCustom; let
   cfg = config.modules.services.restic;
-in
-{
+in {
   options.modules.services.syncthings = {
     enable = mkEnableOpt "Enable Sync";
   };
 
   # TODO check
-  config = mkIf cfg.enable {
-
-  };
+  config =
+    mkIf cfg.enable {
+    };
 }

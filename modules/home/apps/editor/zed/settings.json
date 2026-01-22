@@ -63,6 +63,7 @@
   "buffer_font_features": {
     "calt": 1,
   },
+  "colorize_brackets": true,
   "ui_font_family": ".SystemUIFont",
   "buffer_font_family": "Maple Mono",
   "base_keymap": "VSCode",
@@ -124,7 +125,7 @@
   "middle_click_paste": false,
   "multi_cursor_modifier": "alt",
   "redact_private_values": true,
-  "relative_line_numbers": true,
+  "relative_line_numbers": "wrapped",
   "when_closing_with_no_tabs": "close_window",
   "title_bar": {
     "show_branch_icon": true,
@@ -151,7 +152,7 @@
     "starts_open": false,
   },
   "git_panel": {
-    "tree_view": true
+    "tree_view": true,
   },
   "outline_panel": {
     "button": true,
@@ -223,22 +224,17 @@
       "language_servers": ["!nixd", "nil"],
     },
     "Python": {
-      "language_servers": ["!ty", "basedpyright", "!pylsp"],
+      "language_servers": ["ty", "ruff", "!basedpyright", "!pylsp"],
     },
-    "PHP": {
-      "language_servers": ["phpactor", "!intelephense", "!phptools"],
-    },
+    // "PHP": {
+    //   "language_servers": ["phpactor", "!intelephense", "!phptools"],
+    // },
   },
   "lsp": {
     "PHP": {},
     "slint": {
       "binary": {
         "path": "slint-lsp",
-      },
-    },
-    "pyright": {
-      "settings": {
-        "pyright": {},
       },
     },
     "ruff": {

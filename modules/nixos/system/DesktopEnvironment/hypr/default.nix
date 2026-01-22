@@ -6,11 +6,9 @@
   ...
 }:
 with lib;
-with libCustom;
-let
+with libCustom; let
   cfg = config.modules.system.desktopEnvironment.hypr;
-in
-{
+in {
   options.modules.system.desktopEnvironment.hypr = {
     enable = mkEnableOpt "Enable Hyprland Desktop Environment";
   };
@@ -38,6 +36,8 @@ in
     security.polkit.enable = true;
 
     xdg.portal = {
+      xdgOpenUsePortal = true;
+      wlr.enable = true;
       enable = true;
       extraPortals = with pkgs; [
         xdg-desktop-portal-gtk
@@ -47,6 +47,5 @@ in
       config = {
       };
     };
-
   };
 }

@@ -5,8 +5,7 @@
   fetchFromGitHub,
   lib,
   ...
-}:
-let
+}: let
   rockchip_mpp = stdenv.mkDerivation {
     name = "rockchip_mpp";
     version = "develop";
@@ -30,7 +29,7 @@ let
       chmod +x merge_static_lib.sh
     '';
 
-    nativeBuildInputs = [ cmake ];
+    nativeBuildInputs = [cmake];
 
     outputs = [
       "lib"
@@ -39,4 +38,4 @@ let
     ];
   };
 in
-rockchip_mpp
+  rockchip_mpp

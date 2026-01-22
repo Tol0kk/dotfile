@@ -4,8 +4,7 @@
   pkgs,
   ...
 }:
-with lib;
-let
+with lib; let
   cfg = config.modules.services.traefik;
 
   dump-cert = pkgs.writeShellScriptBin "dump-cert" ''
@@ -14,12 +13,11 @@ let
     ${pkgs.coreutils}/bin/chown kanidm /var/lib/certificates/sso.tolok.org/public.crt
   '';
 
-  mytraefik =
-    let
-      oidc-auth_author = "sevensolutions";
-      oidc-auth_name = "traefik-oidc-auth";
-      oidc-auth_version = "0.6.1";
-    in
+  mytraefik = let
+    oidc-auth_author = "sevensolutions";
+    oidc-auth_name = "traefik-oidc-auth";
+    oidc-auth_version = "0.6.1";
+  in
     pkgs.traefik.overrideAttrs (oldAttrs: {
       postInstall =
         oldAttrs.postInstall or ''
@@ -34,8 +32,7 @@ let
           } $out/bin/plugins-local/src/github.com/${oidc-auth_author}/${oidc-auth_name}
         '';
     });
-in
-{
+in {
   options.modules.services.traefik = {
     enable = mkOption {
       description = "Enable Traefik Reverse Proxy service";
@@ -59,8 +56,7 @@ in
     };
     certResolver = mkOption {
       description = "Certificat resolver, use self sign if null, need api_env_path if not null";
-      type =
-        with types;
+      type = with types;
         nullOr (enum [
           "letsencrypt"
         ]);
@@ -68,7 +64,10 @@ in
     };
     tlsConfig = mkOption {
       type = types.nullOr types.attrs;
-      default = if cfg.certResolver != null then { inherit certResolver; } else { };
+      default =
+        if cfg.certResolver != null
+        then {inherit certResolver;}
+        else {};
       visible = false; # Hidden from documentation
     };
   };
@@ -78,7 +77,7 @@ in
       traefik = {
         name = "Traefik";
         info = lib.mkForce "Reverse Proxy / MiddleWare";
-        details = lib.mkForce { };
+        details = lib.mkForce {};
       };
     };
 
@@ -114,7 +113,7 @@ in
         certificatesResolvers = {
           # vpn.tailscale = {};
 
-          letsencrypt = { };
+          letsencrypt = {};
 
           # lib.optionals (cfg.certResolver == "letsencrypt") {
           #   acme = {
@@ -149,7 +148,7 @@ in
           #     sans = [ "*.${cfg.domain}" ];
           #   }
           # ];
-          http.tls = { };
+          http.tls = {};
           # http.tls.certResolver = lib.optionals (cfg.certResolver != null) cfg.certResolver;
         };
       };
@@ -176,8 +175,8 @@ in
     };
 
     systemd.services.traefik.serviceConfig = {
-      AmbientCapabilities = [ "CAP_NET_BIND_SERVICE" ];
-      CapabilityBoundingSet = [ "CAP_NET_BIND_SERVICE" ];
+      AmbientCapabilities = ["CAP_NET_BIND_SERVICE"];
+      CapabilityBoundingSet = ["CAP_NET_BIND_SERVICE"];
     };
 
     # Traefik certs dumper

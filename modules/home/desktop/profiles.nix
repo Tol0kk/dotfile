@@ -6,21 +6,17 @@
   ...
 }:
 with lib;
-with libCustom;
-let
+with libCustom; let
   cfg = config.modules.desktop.profiles;
-in
-{
+in {
   options.modules.desktop = {
     profiles = mkOption {
       description = "Profile to select";
-      type =
-        with types;
-        (enum [
-          "aestetic"
-          "minimal"
-          "work"
-        ]);
+      type = with types; (enum [
+        "aestetic"
+        "minimal"
+        "work"
+      ]);
       default = "aestetic";
     };
   };
@@ -72,6 +68,6 @@ in
     })
     # TODO
     (mkIf (cfg == "work") {
-    })
+      })
   ];
 }

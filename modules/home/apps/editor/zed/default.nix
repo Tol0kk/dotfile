@@ -6,11 +6,9 @@
   ...
 }:
 with lib;
-with libCustom;
-let
+with libCustom; let
   cfg = config.modules.apps.editor.zed;
-in
-{
+in {
   options.modules.apps.editor.zed = {
     enable = mkEnableOpt "Enable Zed";
   };
@@ -26,7 +24,7 @@ in
       # package = zed-wrap;
       enable = true;
     };
-    home.packages = with pkgs; [ package-version-server ];
+    home.packages = with pkgs; [package-version-server];
     modules.defaults.editor = "${config.programs.zed-editor.package}/bin/zeditor";
     xdg.mimeApps = {
       enable = true;

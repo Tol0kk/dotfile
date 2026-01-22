@@ -5,11 +5,9 @@
   ...
 }:
 with lib;
-with libCustom;
-let
+with libCustom; let
   cfg = config.modules.apps.misc.vencord;
-in
-{
+in {
   options.modules.apps.misc.vencord = {
     enable = mkEnableOpt "Enable Vencord";
   };

@@ -2,8 +2,7 @@
   inputs,
   self,
   ...
-}:
-[
+}: [
   (prev: super: {
     python312 = super.python312.override {
       packageOverrides = python-final: python-prev: {
@@ -20,13 +19,13 @@
         });
       };
     };
-    rkffmpeg = prev.callPackage "${self}/packages/rkffmpeg" { };
-    rkmpp = prev.callPackage "${self}/packages/rkffmpeg/rkmpp.nix" { };
-    nixos-plymouth-custom = prev.callPackage "${self}/packages/nixos-plymouth-custom" { };
+    rkffmpeg = prev.callPackage "${self}/packages/rkffmpeg" {};
+    rkmpp = prev.callPackage "${self}/packages/rkffmpeg/rkmpp.nix" {};
+    nixos-plymouth-custom = prev.callPackage "${self}/packages/nixos-plymouth-custom" {};
 
     steam = super.steam.override {
-      extraPkgs =
-        pkgs: with pkgs; [
+      extraPkgs = pkgs:
+        with pkgs; [
           xorg.libXcursor
           xorg.libXi
           xorg.libXinerama

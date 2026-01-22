@@ -6,8 +6,7 @@
   ...
 }:
 with lib;
-with libCustom;
-{
+with libCustom; {
   options.modules.defaults = {
     file_manager = mkOpt (types.either types.path types.str) null "Default FileManager";
     terminal = mkOpt (types.either types.path types.str) null "Default Terminal";

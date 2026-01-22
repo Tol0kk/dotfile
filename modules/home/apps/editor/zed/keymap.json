@@ -121,5 +121,10 @@
       "shift-s": "vim::PushAddSurrounds",
       "shift-x": "vim::Exchange"
     }
+  },
+  {
+    "bindings": {
+      "ctrl-m": "terminal_panel::Toggle"
+    }
   }
 ]

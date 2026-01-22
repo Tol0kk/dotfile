@@ -6,11 +6,9 @@
   ...
 }:
 with lib;
-with libCustom;
-let
+with libCustom; let
   cfg = config.modules.apps.editor.vscode;
-in
-{
+in {
   options.modules.apps.editor.vscode = {
     enable = mkEnableOpt "Enable Visual Studio Code.";
   };
@@ -55,7 +53,7 @@ in
             "serverSettings" = {
               "nil" = {
                 "formatting" = {
-                  "command" = [ "alejandra" ];
+                  "command" = ["alejandra"];
                 };
               };
             };
@@ -70,8 +68,7 @@ in
             when = "textInputFocus";
           }
         ];
-        extensions =
-          with pkgs.vscode-extensions;
+        extensions = with pkgs.vscode-extensions;
           [
             pkief.material-product-icons
             llvm-vs-code-extensions.vscode-clangd # Clangd

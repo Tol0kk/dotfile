@@ -8,13 +8,11 @@
   ...
 }:
 with lib;
-with libCustom;
-let
+with libCustom; let
   cfg = config.modules.desktop.wayland.anyrun;
   isStylixEnabled = config.modules.desktop.theme.enable;
   inherit (libColor) toRGBA hexToRgba;
-in
-{
+in {
   options.modules.desktop.wayland.anyrun = {
     enable = mkEnableOpt "Enable Anyrun";
   };
@@ -61,8 +59,7 @@ in
       };
 
       extraCss = mkIf isStylixEnabled (
-        with config.lib.stylix.colors;
-        let
+        with config.lib.stylix.colors; let
           hexToRGBA = c: toRGBA (hexToRgba c);
           fontFamily = "Lexend";
           fontSize = "1.3rem";
@@ -72,8 +69,7 @@ in
           borderColor = "#${base05}";
           borderRadius = "16px";
           paddingValue = "8px";
-        in
-        ''
+        in ''
           * {
           	transition: 200ms ease;
           	font-family: ${fontFamily};

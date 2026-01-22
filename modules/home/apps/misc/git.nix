@@ -5,11 +5,9 @@
   ...
 }:
 with lib;
-with libCustom;
-let
+with libCustom; let
   cfg = config.modules.apps.misc.git;
-in
-{
+in {
   options.modules.apps.misc.git = {
     enable = mkEnableOpt "Enable Git";
   };
