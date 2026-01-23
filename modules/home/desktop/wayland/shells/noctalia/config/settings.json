@@ -172,6 +172,9 @@
                     "icon": "noctalia",
                     "id": "ControlCenter",
                     "useDistroLogo": true
+                },
+                {
+                    "id": "plugin:screen-recorder"
                 }
             ]
         }
