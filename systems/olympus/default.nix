@@ -4,4 +4,5 @@ inputs: {
   allowLocalDeployment = false;
   targetHost = "servrock.tolok.org";
   targetUser = "odin";
+  withOCI = true;
 }

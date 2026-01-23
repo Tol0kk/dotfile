@@ -78,11 +78,13 @@
     packages = forAllSystems (
       system: let
         pkgs = nixpkgsFor.${system};
-      in {
-        inherit (pkgs.callPackage ./packages/neovim {inherit (inputs) nvf;}) tiny-neovim neovim;
-        rkffmpeg = pkgs.callPackage ./packages/rkffmpeg {};
-        linux-1_12-rockchip = pkgs.callPackage ./packages/linux-6.12-rockchip {};
-      }
+      in
+        {
+          inherit (pkgs.callPackage ./packages/neovim {inherit (inputs) nvf;}) tiny-neovim neovim;
+          rkffmpeg = pkgs.callPackage ./packages/rkffmpeg {};
+          linux-1_12-rockchip = pkgs.callPackage ./packages/linux-6.12-rockchip {};
+        }
+        // lib.mkIso inputs pkgs
     );
 
     # Topology using https://github.com/oddlama/nix-topology
