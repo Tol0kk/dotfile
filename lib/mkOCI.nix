@@ -21,7 +21,13 @@ in
     name: _:
       pkgs.lib.nameValuePair "${name}-oci" (
         (self.nixosConfigurations.${name}.extendModules {
-          modules = ["${pkgs.path}/nixos/modules/virtualisation/oci-image.nix"];
+          modules = [
+            {
+              # Disable boot because there is no bootloader needed for oci-image
+              config.modules.system.boot.enable = false;
+            }
+            "${pkgs.path}/nixos/modules/virtualisation/oci-image.nix"
+          ];
         }).config.system.build.OCIImage
       )
   )

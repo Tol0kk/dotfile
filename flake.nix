@@ -84,7 +84,7 @@
           rkffmpeg = pkgs.callPackage ./packages/rkffmpeg {};
           linux-1_12-rockchip = pkgs.callPackage ./packages/linux-6.12-rockchip {};
         }
-        // lib.mkIso inputs pkgs
+        // lib.mkOCI inputs pkgs
     );
 
     # Topology using https://github.com/oddlama/nix-topology

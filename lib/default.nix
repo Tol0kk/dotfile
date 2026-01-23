@@ -5,7 +5,7 @@
   mkTopology = import ./mkTopology.nix {inherit lib;};
   mkHome = import ./mkHome.nix {inherit lib libCustom;};
   mkColmena = import ./mkColmena.nix {inherit lib libCustom;};
-  mkIso = import ./mkIso.nix {inherit lib libCustom;};
+  mkOCI = import ./mkOCI.nix {inherit lib libCustom;};
   libCustom = import ./libCustom.nix {inherit lib;};
   libColor = import ./libColor.nix {inherit lib;};
   assets = import ../assets {inherit lib;};
@@ -15,7 +15,7 @@ in {
     mkColmena
     libColor
     mkNixos
-    mkIso
+    mkOCI
     libCustom
     mkTopology
     assets

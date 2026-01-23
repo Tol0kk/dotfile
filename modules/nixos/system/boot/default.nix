@@ -11,6 +11,11 @@ with libCustom; let
   cfg = config.modules.system.boot;
 in {
   options.modules.system.boot = {
+    enable = mkOption {
+      description = "Enable bootloader";
+      type = types.bool;
+      default = true;
+    };
     windowsUUID = mkOption {
       description = "Select the Disk where windows is installed by UUID. This Speed up the processed from Osprober. You can find the UUID with lsblk -fa";
       type = types.str;
@@ -46,7 +51,7 @@ in {
         }
       ];
     }
-    (mkIf cfg.grub.enable {
+    (mkIf (cfg.enable && cfg.grub.enable) {
       boot.kernelParams = ["quiet"];
       boot.loader = {
         timeout = 1;
@@ -90,19 +95,19 @@ in {
         };
       };
     })
-    (mkIf cfg.systemd.enable {
+    (mkIf (cfg.enable && cfg.systemd.enable) {
       boot.kernelParams = ["quiet"];
       boot.loader.systemd-boot.enable = true;
       boot.loader.efi.canTouchEfiVariables = true;
     })
-    (mkIf cfg.limine.enable {
+    (mkIf (cfg.enable && cfg.limine.enable) {
       boot.loader.limine.enable = true;
       boot.loader.limine.secureBoot.enable = false;
       boot.loader.limine.style.wallpapers = [
         assets.backgrounds.background-1
       ];
     })
-    (mkIf ((cfg.grub.enable || cfg.limine.enable) && cfg.plymouth.enable) {
+    (mkIf (cfg.enable && ((cfg.grub.enable || cfg.limine.enable) && cfg.plymouth.enable)) {
       boot = {
         initrd.systemd.enable = true; # Needed for plymouth
         plymouth = {
