@@ -17,7 +17,7 @@ in {
     };
 
     lsp = {
-      enable = true;
+      # enable = true;
       formatOnSave = true;
       lspSignature.enable = true;
       lightbulb.enable = true; # Show Lightbulb when code action available
@@ -110,7 +110,7 @@ in {
         extensions.render-markdown-nvim.enable = true;
       };
       bash.enable = true;
-      html.enable = true;
+      # html.enable = true;
       nix.enable = true;
       python.enable = true;
       sql.enable = true;

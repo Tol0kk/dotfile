@@ -60,10 +60,10 @@ in {
       # Add all the secrets from profiles
       sops.secrets = secrets_attrs;
 
-      networking.networkmanager.ensureProfiles = {
-        environmentFiles = envFiles_list;
-        profiles = profiles;
-      };
+      # networking.networkmanager.ensureProfiles = {
+      #   environmentFiles = envFiles_list;
+      #   profiles = profiles;
+      # };
     })
     (mkIf cfg.avahi.enable {
       # TODO check this

@@ -83,10 +83,8 @@ in {
 
     qt = {
       enable = true;
-
-      # platformTheme = "qtct";
-
-      style.name = "kvantum";
+      style.name = "adwaita-dark";
+      platformTheme.name = "gtk3";
     };
 
     stylix.fonts = with pkgs; {
