@@ -1,0 +1,70 @@
+include "bind.kdl"
+include "misc.kdl"
+include "style.kdl"
+
+input {
+    keyboard {
+        xkb {
+            layout "fr,us"
+            options "grp:alt_shift_toggle"
+        }
+        track-layout "global" // Can track layout per window with "window"
+        numlock
+    }
+
+    focus-follows-mouse
+
+    touchpad {
+        tap
+        natural-scroll
+        scroll-method "two-finger"
+        drag-lock //  lifting the finger off for a short time while dragging will not drop the dragged item
+        // dwt // disable-when-typing
+    }
+
+    // mouse {
+    //     // sensitivity 0
+    // }
+}
+
+// --- Output (Monitor) Configuration ---
+// Niri uses name or connector. You may need to run `niri msg outputs` to get exact names.
+output "eDP-1" {
+    scale 2.0
+}
+
+// Example for your RTK monitor (using its description logic)
+output "desc:Invalid Vendor Codename - RTK HG560T34" {
+    mode "2560x1440"
+    scale 1.666667
+    transform "270" // Niri uses degrees or 90-degree increments
+}
+
+
+window-rule {
+    match app-id="blueman-manager"
+    match app-id="nm-connection-editor"
+    match app-id="com.saivert.pwvucontrol"
+    match title="Syncthing"
+    open-floating true
+}
+
+window-rule {
+    match title="Bitwarden"
+
+    block-out-from "screen-capture"
+    open-floating true
+
+    // Use this instead if you want them visible on third-party screenshot tools.
+    // block-out-from "screencast"
+}
+
+layer-rule {
+  match namespace="^noctalia-overview*"
+  place-within-backdrop true
+}
+
+debug {
+  // Allows notification actions and window activation from Noctalia.
+  honor-xdg-activation-with-invalid-serial
+}

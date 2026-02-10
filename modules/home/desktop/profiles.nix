@@ -27,14 +27,8 @@ in {
       modules = {
         apps.term.alacritty = mkDefault enabled;
         desktop = {
-          wayland.hypr = {
-            hyprland.enable = mkDefault true;
-            hyprland.withEffects = mkDefault true;
-            hyprland.rounding = mkDefault 10;
-            # hyprpanel = mkDefault enabled;
-          };
-          wayland.anyrun = mkDefault enabled;
           wayland.shells.noctalia = mkDefault enabled;
+          wayland.niri = mkDefault enabled;
           theme = {
             enable = mkDefault true;
             polarity = mkDefault "dark";

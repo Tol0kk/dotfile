@@ -5,12 +5,18 @@
   config,
   inputs,
   libCustom,
+  isPure,
   ...
 }:
 with lib;
-with libCustom; let
+with libCustom;
+let
   cfg = config.modules.desktop.wayland.niri;
-in {
+
+  mkSource =
+    relPath: absPath: if isPure then relPath else config.lib.file.mkOutOfStoreSymlink absPath;
+in
+{
   options.modules.desktop.wayland.niri = {
     enable = mkEnableOpt "Enable Niri";
     withEffects = mkEnableOpt "Enable Effects like blur, animation shadow";
@@ -18,8 +24,15 @@ in {
   };
 
   config = mkIf cfg.enable {
+    home.sessionVariables = {
+      "QT_QPA_PLATFORMTHEME" = "gtk3";
+    };
+
+    home.file.".config/niri".source =
+      mkSource ./config "${config.dotfiles}/modules/home/desktop/wayland/niri/config";
     home.packages = [
       pkgs.niri
+      pkgs.gpu-screen-recorder
     ];
   };
 }

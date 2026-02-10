@@ -30,7 +30,7 @@ in {
         };
         system = {
           fonts = enabled;
-          desktopEnvironment.hypr = enabled;
+          desktopEnvironment.niri = enabled;
           virtualisation.docker = enabled;
           virtualisation.qemu = enabled;
         };
@@ -45,19 +45,11 @@ in {
         enable32Bit = true;
       };
 
-      # Kanidm Client for my SSO # TODO make home manager module for this. ...it's a client. shouln't be systemd wide.
-      services.kanidm = {
-        enableClient = true;
-        package = pkgs.kanidm;
-        clientSettings = {
-          uri = "https://sso.tolok.org";
-        };
-      };
-
       assertions = [
         {
           assertion =
             config.modules.system.desktopEnvironment.gnome.enable
+            || config.modules.system.desktopEnvironment.niri.enable
             || config.modules.system.desktopEnvironment.hypr.enable;
           message = ''
             You have to enable at leat one desktop environment.
@@ -83,7 +75,7 @@ in {
 
       services.udisks2.enable = true;
       programs.dconf.enable = true;
-      programs.ssh.startAgent = true;
+      # programs.ssh.startAgent = true;
 
       programs.nix-index.enable = true;
       programs.nix-index.enableZshIntegration = true;
@@ -215,7 +207,7 @@ in {
         ffmpeg.bin
         # qbittorrent
         # gnome-multi-writer
-        vdhcoapp # for Video DownloadHelper Firefox extension
+        # vdhcoapp # for Video DownloadHelper Firefox extension
         colmena # Nixos Deploy Framework
         vulkan-tools
         busybox

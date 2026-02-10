@@ -2,16 +2,21 @@
   "preview_tabs": {
     "enable_preview_multibuffer_from_code_navigation": true,
     "enable_keep_preview_on_code_navigation": true,
-    "enable_preview_from_file_finder": true
+    "enable_preview_from_file_finder": true,
   },
   "experimental.theme_overrides": {
     "background.appearance": "transparent",
   },
+  "window_decorations": "server",
   "ssh_connections": [
     {
       "host": "servrock.tolok.org",
       "args": [],
-      "projects": [],
+      "projects": [
+        {
+          "paths": ["/home/titouan/.config/nixos"],
+        },
+      ],
     },
     {
       "host": "laptop.tolok.org",
@@ -43,6 +48,11 @@
     {
       "host": "servrock.tolok.org",
       "username": "odin",
+      "args": [],
+      "projects": [],
+    },
+    {
+      "host": "desktop.tolok.org",
       "args": [],
       "projects": [],
     },

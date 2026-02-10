@@ -61,25 +61,6 @@ in {
       sops.defaultSopsFormat = "yaml";
 
       home.packages = with pkgs; [
-        # TODO move wayland
-        grim
-        slurp
-        swappy
-        wl-clipboard
-        libnotify
-        jq
-        ags
-        waybar
-        gtksourceview
-        libdbusmenu-gtk3
-        satty
-        hyprshot
-        ironbar
-
-        # personal
-        accountsservice
-        cargo-generate
-        brave
       ];
 
       services.amberol.enable = true;
