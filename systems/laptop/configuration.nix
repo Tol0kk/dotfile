@@ -24,7 +24,10 @@ with libCustom; {
       udev.enableExtraRules = true;
     };
     users = {
-      titouan = enabled;
+      titouan = {
+        enable = true;
+        auto-login = true;
+      };
     };
     system = {
       zfs.enable = true;

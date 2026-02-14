@@ -7,21 +7,23 @@
   ...
 }:
 with lib;
-with libCustom; let
+with libCustom;
+let
   cfg = config.modules.archetype.workstation;
-in {
+in
+{
   options.modules.archetype.workstation = {
     enable = mkEnableOpt "Enable workstation archetype";
   };
 
-  imports = [inputs.nix-flatpak.nixosModules.nix-flatpak];
+  imports = [ inputs.nix-flatpak.nixosModules.nix-flatpak ];
 
   config = mkMerge [
     (mkIf cfg.enable {
       nix.registry.nixpkgs.flake = inputs.nixpkgs-unstable;
 
       # Also set the NIX_PATH for legacy commands
-      nix.nixPath = ["nixpkgs=${inputs.nixpkgs-unstable}"];
+      nix.nixPath = [ "nixpkgs=${inputs.nixpkgs-unstable}" ];
 
       modules = {
         hardware = {
@@ -57,7 +59,7 @@ in {
         }
       ];
       nix.optimise.automatic = true;
-      nix.optimise.dates = ["03:45"];
+      nix.optimise.dates = [ "03:45" ];
 
       nix.gc = {
         automatic = true;
@@ -91,11 +93,11 @@ in {
 
       # Add support for QMK keyboard
       hardware.keyboard.qmk.enable = true;
-      services.udev.packages = [pkgs.via];
+      services.udev.packages = [ pkgs.via ];
 
       security.apparmor = {
         enable = true;
-        packages = [pkgs.apparmor-profiles];
+        packages = [ pkgs.apparmor-profiles ];
       };
 
       services.fwupd.enable = true;
@@ -240,6 +242,8 @@ in {
 
         home-manager
         qbittorrent
+
+        unoconv # Convertion tool .ppt(x) to .pdf (any document from and to any LibreOffice supported format)
       ];
     })
   ];

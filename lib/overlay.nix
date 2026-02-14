@@ -19,6 +19,7 @@
         });
       };
     };
+<<<<<<< HEAD
     rkffmpeg = prev.callPackage "${self}/packages/rkffmpeg" {};
     rkmpp = prev.callPackage "${self}/packages/rkffmpeg/rkmpp.nix" {};
     nixos-plymouth-custom = prev.callPackage "${self}/packages/nixos-plymouth-custom" {};
@@ -39,6 +40,11 @@
           libdecor
         ];
     };
+=======
+    rkffmpeg = prev.callPackage "${self}/packages/rkffmpeg" { };
+    rkmpp = prev.callPackage "${self}/packages/rkffmpeg/rkmpp.nix" { };
+    nixos-plymouth-custom = prev.callPackage "${self}/packages/nixos-plymouth-custom" { };
+>>>>>>> e95bbfb (Add niri + setup autologin for niri on laptop)
   })
   inputs.blender-bin.overlays.default
   inputs.nix-topology.overlays.default

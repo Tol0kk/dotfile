@@ -12,7 +12,7 @@ input {
         numlock
     }
 
-    focus-follows-mouse
+    // focus-follows-mouse
 
     touchpad {
         tap
@@ -25,6 +25,9 @@ input {
     // mouse {
     //     // sensitivity 0
     // }
+    //
+    // focus-follows-mouse
+    focus-follows-mouse max-scroll-amount="0%"
 }
 
 // --- Output (Monitor) Configuration ---
@@ -49,15 +52,22 @@ window-rule {
     open-floating true
 }
 
+// Privacy mode
 window-rule {
     match title="Bitwarden"
+    match title="sops"
+    match title="Picture-in-Picture"
 
     block-out-from "screen-capture"
-    open-floating true
-
-    // Use this instead if you want them visible on third-party screenshot tools.
-    // block-out-from "screencast"
 }
+
+// Bitwarden
+window-rule {
+    match title="Bitwarden"
+    default-column-width { proportion 0.33;}
+    max-width 500
+}
+
 
 layer-rule {
   match namespace="^noctalia-overview*"
@@ -67,4 +77,14 @@ layer-rule {
 debug {
   // Allows notification actions and window activation from Noctalia.
   honor-xdg-activation-with-invalid-serial
+  // strict-new-window-focus-policy
+}
+
+window-rule {
+    match app-id="steam" title=r#"^notificationtoasts_\d+_desktop$"#
+    default-floating-position x=10 y=10 relative-to="bottom-right"
+}
+
+layout {
+    center-focused-column "never"
 }

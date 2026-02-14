@@ -30,9 +30,13 @@ in
 
     home.file.".config/niri".source =
       mkSource ./config "${config.dotfiles}/modules/home/desktop/wayland/niri/config";
+
     home.packages = [
       pkgs.niri
+      pkgs.wl-mirror
+      pkgs.wl-clipboard
       pkgs.gpu-screen-recorder
+      pkgs.xwayland-satellite
     ];
   };
 }
