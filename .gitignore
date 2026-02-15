@@ -4,3 +4,5 @@ result-dev
 result-lib
 result-bin
 result-man
+*.key
+*.pub
