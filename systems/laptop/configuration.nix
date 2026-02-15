@@ -59,32 +59,12 @@ with libCustom;
       #   enable = true;
       # };
     };
-    archetype.workstation = enabled;
-    archetype.gamingstation = enabled;
-    archetype.security = enabled;
-    server = {
-      media-center = {
-        # jellyfin = {
-        #   enable = true;
-        #   openFirewall = true;
-        # };
-      };
+    archetype = {
+      workstation = enabled;
+      gamingstation = enabled;
+      security = enabled;
+      laptop = enabled;
     };
-  };
-
-  zramSwap = {
-    enable = true;
-    # algorithm = "lzo-rle";
-    memoryPercent = 100;
-  };
-
-  boot.kernel.sysctl = {
-    # Aggressively use zram
-    # Higher values will make the kernel prefer swapping out idle processes over dropping caches
-    "vm.swappiness" = 180;
-    "vm.watermark_boost_factor" = 0;
-    "vm.watermark_scale_factor" = 125;
-    "vm.page-cluster" = 0;
   };
 
   # Optional: Information Given for generating systems topology
@@ -109,14 +89,7 @@ with libCustom;
   services.greetd.settings.default_session.command =
     "${pkgs.greetd}/bin/agreety --cmd ${pkgs.bashInteractive}/bin/bash";
   services.greetd.settings.initial_session.user = "titouan";
-  services.greetd.settings.initial_session.command = "Hyprland";
-
-  services.pcscd.enable = true;
-  programs.gnupg.agent = {
-    enable = true;
-    pinentryPackage = pkgs.pinentry-tty;
-    # enableSSHSupport = true;
-  };
+  services.greetd.settings.initial_session.command = "niri-session";
 
   # Impermanance
   # boot.initrd.systemd = {
@@ -135,8 +108,6 @@ with libCustom;
   #   };
   # };
 
-  networking.hostId = "0be1cd29";
-
   ## Hardware acceleration
   hardware.graphics = {
     extraPackages = with pkgs; [
@@ -149,36 +120,14 @@ with libCustom;
     LIBVA_DRIVER_NAME = "iHD";
   };
 
-  ## Upower
-  services.upower = {
-    enable = true;
-    percentageLow = 25;
-    percentageCritical = 10;
-    percentageAction = 5;
-    criticalPowerAction = "HybridSleep";
-  };
-
-  ## Laptop Lid
-  services.logind.settings.Login.HandleLidSwitch = "hybrid-sleep";
-  services.logind.settings.Login.HandleLidSwitchExternalPower = "lock";
-  services.logind.settings.Login.HandlelidSwitchDocked = "ignore";
-
-  # Laptop power
-  powerManagement.enable = true;
-  powerManagement.powertop.enable = true;
-  services.thermald.enable = true;
-
-  environment.systemPackages = with pkgs; [
-    config.boot.kernelPackages.cpupower
-  ];
-
   ## Virtual executions
-
   boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
 
+  # Nix deamon signing key
   nix.settings = {
     secret-key-files = config.sops.secrets.binaryCacheSecretKey.path;
   };
 
-  system.stateVersion = "24.05"; # Did you read the comment?
+  system.stateVersion = "24.05";
+  networking.hostId = "0be1cd29";
 }

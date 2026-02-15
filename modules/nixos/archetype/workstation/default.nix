@@ -58,17 +58,12 @@ in
           '';
         }
       ];
-      nix.optimise.automatic = true;
-      nix.optimise.dates = [ "03:45" ];
 
-      nix.gc = {
-        automatic = true;
-        dates = "weekly";
-        options = "--delete-older-than 7d";
+      programs.gnupg.agent = {
+        enable = true;
+        pinentryPackage = pkgs.pinentry-tty;
+        # enableSSHSupport = true;
       };
-
-      # services.displayManager.ly.enable = true;
-      programs.wireshark.enable = true;
 
       networking.networkmanager.enable = true;
 
