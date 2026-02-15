@@ -6,8 +6,9 @@
   inputs,
   ...
 }:
-with libCustom; {
-  imports = [inputs.nixos-hardware.nixosModules.dell-xps-15-9500];
+with libCustom;
+{
+  imports = [ inputs.nixos-hardware.nixosModules.dell-xps-15-9500 ];
 
   # sops.secrets."delugeAuthFile" = {
   #   owner = config.services.deluge.user;
@@ -15,11 +16,18 @@ with libCustom; {
   #   mode = "0600";
   #   sopsFile = ./secrets.yaml;
   # };
+  #
+  sops.secrets.binaryCacheSecretKey = {
+    sopsFile = ./secrets.yaml;
+  };
 
   modules = {
     hardware = {
       bluetooth = enabled;
-      nvidia = enabled;
+      nvidia = {
+        enable = true;
+        powerManagement.enable = true;
+      };
       network.wifi-profiles = enabled;
       udev.enableExtraRules = true;
     };
@@ -53,7 +61,7 @@ with libCustom; {
     };
     archetype.workstation = enabled;
     archetype.gamingstation = enabled;
-    apps.tools.security.enable = true;
+    archetype.security = enabled;
     server = {
       media-center = {
         # jellyfin = {
@@ -84,7 +92,7 @@ with libCustom; {
     name = "💻  Laptop";
     hardware.info = "i7 10750H | 32GB | GTX 1650Ti";
     interfaces.wg0 = {
-      addresses = ["10.100.0.2"];
+      addresses = [ "10.100.0.2" ];
       network = "wg0"; # Use the network we define below
       type = "wireguard"; # changes the icon
       physicalConnections = [
@@ -92,13 +100,14 @@ with libCustom; {
       ];
     };
     interfaces.wlp30s0 = {
-      addresses = ["192.168.1.78/24"];
+      addresses = [ "192.168.1.78/24" ];
       network = "home"; # Use the network we define below
     };
   };
 
   services.greetd.enable = true;
-  services.greetd.settings.default_session.command = "${pkgs.greetd}/bin/agreety --cmd ${pkgs.bashInteractive}/bin/bash";
+  services.greetd.settings.default_session.command =
+    "${pkgs.greetd}/bin/agreety --cmd ${pkgs.bashInteractive}/bin/bash";
   services.greetd.settings.initial_session.user = "titouan";
   services.greetd.settings.initial_session.command = "Hyprland";
 
@@ -165,7 +174,11 @@ with libCustom; {
 
   ## Virtual executions
 
-  boot.binfmt.emulatedSystems = ["aarch64-linux"];
+  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
+
+  nix.settings = {
+    secret-key-files = config.sops.secrets.binaryCacheSecretKey.path;
+  };
 
   system.stateVersion = "24.05"; # Did you read the comment?
 }

@@ -52,7 +52,13 @@ in
       home-manager.users.titouan = import "${self}/home/titouan@${config.networking.hostName}/home.nix";
     })
     (mkIf (cfg.enable && cfg.auto-login) {
-      services.getty.autologinUser = "titouan";
+      # services.greetd = {
+      #   settings = rec {
+      #     initial_session = {
+      #       user = "titouan";
+      #     };
+      #   };
+      # };
     })
   ];
 }

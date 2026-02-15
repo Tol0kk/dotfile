@@ -5,9 +5,11 @@
   ...
 }:
 with lib;
-with libCustom; let
+with libCustom;
+let
   cfg = config.modules.hardware.nvidia;
-in {
+in
+{
   options.modules.hardware.nvidia = {
     enable = mkEnableOpt "Enable nvidia";
     offload.enable = mkEnableOpt "Enable nvidia PRIME offload";
@@ -21,23 +23,30 @@ in {
       type = types.str;
       default = "";
     };
-    PowerManagement.enable = mkEnableOpt "Enable nvidia PowerManagement";
+    powerManagement.enable = mkEnableOpt "Enable nvidia PowerManagement";
   };
 
   config = mkIf cfg.enable {
     hardware.nvidia = {
       modesetting.enable = true;
       nvidiaSettings = true;
-      powerManagement.enable = cfg.PowerManagement.enable;
+      powerManagement.enable = cfg.powerManagement.enable;
       # package = config.boot.kernelPackages.nvidiaPackages.beta;
       open = false;
     };
-    services.xserver.videoDrivers = ["nvidia"];
+    services.xserver.videoDrivers = [ "nvidia" ];
     hardware.nvidia.prime = mkIf cfg.offload.enable {
       offload.enable = true;
       offload.enableOffloadCmd = true;
       intelBusId = cfg.offload.intelBusId;
       nvidiaBusId = cfg.offload.nvidiaBusId;
+    };
+
+    services.supergfxd = {
+      enable = true;
+      settings = {
+        always_reboot = true;
+      };
     };
   };
 }

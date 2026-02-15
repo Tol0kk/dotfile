@@ -172,78 +172,68 @@ in
 
       ## package
       environment.systemPackages = with pkgs; [
-        gpu-viewer # Front-end to glxinfo, vulkaninfo, clinfo and es2_info
-        inputs.zen-browser.packages."${system}".beta
-        caido
-        seclists
-        payloadsallthethings
-        mullvad-browser
-        lazygit
-        nix-du
-        graphviz
-        p7zip
+        # Essentials
         zip
-        joplin
-        vial # QMK/Via for Keyboard
-        via # QMK/Via for Keyboard
-        mdcat
-        # onlyoffice-bin
-        # obsidian
-        pwvucontrol # Audio Control Panel
+        p7zip
+        graphviz
         ani-cli
         yazi
-        onagre
-        blender_4_0
-        iperf # network benchmark
-        mdcat
-        # android-studio
         tldr
         file
-        # jetbrains.webstorm
         btop
         jq
         imv
         unzip
-        # vlc
-        # discord
         ffmpeg.bin
-        # qbittorrent
-        # gnome-multi-writer
-        # vdhcoapp # for Video DownloadHelper Firefox extension
         colmena # Nixos Deploy Framework
         vulkan-tools
         busybox
-        nil
-        nixd
         openssl
-        # openfortivpn # University VPN
-        # oculante # Image Viewer / editor
-        wireguard-tools
-        qrencode
-        networkmanagerapplet
         imagemagick
         xdg-utils
+        wireguard-tools
+        feh
+        qrencode
+        home-manager
+        tparted
+
+        # oculante # Image Viewer / editor
+
+        # Heavy
+        onlyoffice-desktopeditors
+        inputs.zen-browser.packages."${system}".beta
+        # obsidian
+        # blender_4_0
+        # android-studio
+        # jetbrains.webstorm
+        # sphinx # Python documentation generator (used for linux kernel documentation generation)
+        unoconv # Convertion tool .ppt(x) to .pdf (any document from and to any LibreOffice supported format)
+        # qbittorrent
+        # gparted
+
+        payloadsallthethings
+        lazygit
+        nix-du
+        iperf # network benchmark
+        # joplin # Note taking app
+        # vial # QMK/Via for Keyboard
+        # via # QMK/Via for Keyboard
+
+        # TODO move:
+        pwvucontrol # Audio Control Panel
+        gpu-viewer # Front-end to glxinfo, vulkaninfo, clinfo and es2_info
+        onagre
 
         # LSP
         nil
+        nixd
 
         # Typst
         typst
         tinymist
 
-        sphinx # Python documentation generator (used for linux kernel documentation generation)
+        # flex ??
 
-        flex
-        imagemagick
-        feh
-
-        gparted
-        tparted
-
-        home-manager
-        qbittorrent
-
-        unoconv # Convertion tool .ppt(x) to .pdf (any document from and to any LibreOffice supported format)
       ];
     })
   ];

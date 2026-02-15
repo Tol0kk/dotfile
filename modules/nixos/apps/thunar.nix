@@ -6,9 +6,11 @@
   ...
 }:
 with lib;
-with libCustom; let
+with libCustom;
+let
   cfg = config.modules.apps.thunar;
-in {
+in
+{
   options.modules.apps.thunar = {
     enable = mkEnableOpt "Enable Thunar";
   };
@@ -31,7 +33,6 @@ in {
       ffmpegthumbnailer
       gnome-epub-thumbnailer
       gnome-font-viewer
-      f3d
       xarchiver
     ];
   };

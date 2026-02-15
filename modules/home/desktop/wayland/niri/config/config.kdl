@@ -31,8 +31,15 @@ input {
 }
 
 // --- Output (Monitor) Configuration ---
-// Niri uses name or connector. You may need to run `niri msg outputs` to get exact names.
+//
+output "Iiyama North America PL2783Q 1151265001263" {
+    focus-at-startup
+    variable-refresh-rate on-demand=true
+    position x=1920 y=0
+}
+
 output "eDP-1" {
+    position x=0 y=0
     scale 2.0
 }
 

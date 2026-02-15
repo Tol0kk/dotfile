@@ -27,7 +27,6 @@ in
 
       security.polkit.enable = true;
 
-      services.supergfxd.enable = true;
 
       xdg.portal = {
         enable = true;
@@ -43,24 +42,15 @@ in
       };
     })
     (mkIf (cfg.enable && cfg.autostart) {
-
-      programs.bash.loginShellInit = ''
-        if [ "$(tty)" = "/dev/tty1" ]; then
-          exec niri-session
-        fi
-      '';
-
-      programs.fish.loginShellInit = ''
-        if [ "$(tty)" = "/dev/tty1" ]; then
-          exec niri-session
-        fi
-      '';
-
-      programs.zsh.loginShellInit = ''
-        if [ "$(tty)" = "/dev/tty1" ]; then
-          exec niri-session
-        fi
-      '';
+      # services.greetd = {
+      #   enable = true;
+      #   settings = rec {
+      #     initial_session = {
+      #       command = "niri-session";
+      #     };
+      #     default_session = initial_session;
+      #   };
+      # };
     })
   ];
 }
