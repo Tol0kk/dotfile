@@ -1,9 +1,7 @@
 {
   pkgs,
   lib,
-  assets,
   config,
-  inputs,
   libCustom,
   isPure,
   ...

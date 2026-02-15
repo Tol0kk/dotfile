@@ -1,5 +1,4 @@
 {
-  pkgs,
   lib,
   libCustom,
   config,
@@ -36,7 +35,7 @@ in
       powerManagement.powertop.enable = true;
       services.thermald.enable = true;
 
-      environment.systemPackages = with pkgs; [
+      environment.systemPackages = [
         config.boot.kernelPackages.cpupower
       ];
 

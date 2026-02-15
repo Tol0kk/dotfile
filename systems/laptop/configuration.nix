@@ -2,7 +2,6 @@
   config,
   libCustom,
   pkgs,
-  username,
   inputs,
   ...
 }:

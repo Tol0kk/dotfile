@@ -6,9 +6,11 @@
   ...
 }:
 with lib;
-with libCustom; let
+with libCustom;
+let
   cfg = config.modules.users.titouan;
-in {
+in
+{
   options.modules.users.titouan = {
     enable = mkEnableOpt "Enable Titouan Users";
   };
@@ -59,9 +61,6 @@ in {
 
       sops.age.keyFile = "${config.home.homeDirectory}/.config/sops/age/keys.txt";
       sops.defaultSopsFormat = "yaml";
-
-      home.packages = with pkgs; [
-      ];
 
       services.amberol.enable = true;
     })
