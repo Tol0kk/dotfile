@@ -25,15 +25,17 @@ with libCustom;
       stylix.enable = true;
       ssh.auto-start-sshd = true;
       sops.enable = true;
-      sops.keyFile = builtins.trace "${config.users.users.titouan.home}/.config/sops/age/keys.txt" "${config.users.users.titouan.home}/.config/sops/age/keys.txt";
+      sops.keyFile = "${config.users.users.titouan.home}/.config/sops/age/keys.txt";
     };
     services = {
       # restic = enabled; # Backup
       ollama = disabled;
     };
-    archetype.workstation = enabled;
-    archetype.gamingstation = enabled;
-    apps.tools.security.enable = true;
+    archetype = {
+      workstation = enabled;
+      gamingstation = enabled;
+      security = enabled;
+    };
   };
 
   # Optional: Information Given for generating systems topology

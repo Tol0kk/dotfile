@@ -4,7 +4,7 @@
   ...
 }:
 { self, ... }@inputs:
-pkgs:
+pkgs: baseSystemsConfig:
 let
   inherit (libCustom) get-directories;
   systems = get-directories "${self}/systems";
@@ -22,11 +22,11 @@ in
 pkgs.lib.mapAttrs' (
   name: _:
   pkgs.lib.nameValuePair "${name}-oci" (
-    (self.nixosConfigurations."${name}-base".extendModules {
+    (baseSystemsConfig."${name}-base".extendModules {
       modules = [
         {
           # Disable boot because there is no bootloader needed for oci-image
-          config.modules.system.boot.enable = lib.mkForce false;
+          modules.system.boot.enable = lib.mkForce false;
 
           services.cloud-init = {
             enable = true;

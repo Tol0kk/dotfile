@@ -9,6 +9,7 @@
   nixpkgs-unstable,
   ...
 }@inputs:
+baseSystemsConfig:
 let
   inherit (libCustom) get-directories import-tree;
   # Global Config
@@ -40,12 +41,14 @@ let
   # Import systems folder
   systems = get-directories "${self}/systems";
   systemsConfig = builtins.listToAttrs (
-    builtins.map (system: {
-      name = lib.strings.removeSuffix ".nix" (
-        builtins.unsafeDiscardStringContext (builtins.baseNameOf system)
-      );
-      value = import system inputs;
-    }) systems
+    builtins.filter (item: item.value.isnixosConfigurations or true) (
+      builtins.map (system: {
+        name = lib.strings.removeSuffix ".nix" (
+          builtins.unsafeDiscardStringContext (builtins.baseNameOf system)
+        );
+        value = import system inputs;
+      }) systems
+    )
   );
 
   # Import Common Overlay

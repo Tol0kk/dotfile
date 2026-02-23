@@ -132,7 +132,7 @@ in
       enable = mkOption {
         description = "Enable the Kanidm CLI client on this machine";
         type = types.bool;
-        default = true;
+        default = false;
       };
 
       # ── Unix integration ───────────────────────────────────────────────────
@@ -147,7 +147,7 @@ in
   config = mkMerge [
     (mkIf cfg.client.enable {
       services.kanidm = {
-        package = pkgs.kanidm_1_8;
+        package = pkgs.kanidm_1_9;
         enableClient = true;
         clientSettings = {
           uri = "https://${cfg.server.domain}";

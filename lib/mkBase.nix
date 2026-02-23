@@ -122,6 +122,7 @@ lib.mapAttrs' (
             (import-tree "${self}/modules/home")
             inputs.sops-nix.homeManagerModules.sops
             inputs.stylix.homeModules.stylix
+            inputs.vicinae.homeManagerModules.default
             (
               { config, ... }:
               {

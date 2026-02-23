@@ -87,8 +87,7 @@ in
 
     qt = {
       enable = true;
-      style.name = "adwaita-dark";
-      platformTheme.name = "gtk3";
+      platformTheme.name = mkForce "gtk3";
     };
 
     stylix.fonts = with pkgs; {

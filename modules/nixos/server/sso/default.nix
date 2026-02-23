@@ -64,7 +64,7 @@ in
     };
 
     services.kanidm = {
-      package = pkgs-unstable.kanidm;
+      package = pkgs-unstable.kanidm_1_7;
       enableServer = true;
       serverSettings = {
         origin = "https://${domain}";

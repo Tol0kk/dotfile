@@ -80,11 +80,12 @@
       forAllSystems = inputs.nixpkgs-stable.lib.genAttrs supportedSystems;
       nixpkgsFor = forAllSystems (system: import inputs.nixpkgs-unstable { inherit system; });
       lib = import ./lib inputs;
+      baseSystemsConfig = lib.mkBase inputs;
     in
     {
       homeConfigurations = lib.mkHome inputs;
-      colmena = lib.mkColmena inputs;
-      nixosConfigurations = lib.mkNixos inputs;
+      colmena = lib.mkColmena inputs baseSystemsConfig;
+      nixosConfigurations = lib.mkNixos inputs baseSystemsConfig;
 
       # Apps / Packages provided by this flake
       packages = forAllSystems (
@@ -97,7 +98,7 @@
           rkffmpeg = pkgs.callPackage ./packages/rkffmpeg { };
           linux-1_12-rockchip = pkgs.callPackage ./packages/linux-6.12-rockchip { };
         }
-        // lib.mkOCI inputs pkgs
+        // lib.mkOCI inputs pkgs baseSystemsConfig
       );
       # Topology using https://github.com/oddlama/nix-topology
       topology = forAllSystems (system: lib.mkTopology system inputs self);
@@ -126,6 +127,7 @@
         in
         pkgs.writeShellScriptBin "pre-commit-run" script
       );
+
       pre-commit-check = inputs.git-hooks.run {
         hooks = {
           nixfmt.enable = true;
