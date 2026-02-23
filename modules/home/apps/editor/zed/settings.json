@@ -1,4 +1,5 @@
 {
+  "tab_size": 2,
   "preview_tabs": {
     "enable_preview_multibuffer_from_code_navigation": true,
     "enable_keep_preview_on_code_navigation": true,
@@ -8,55 +9,7 @@
     "background.appearance": "transparent",
   },
   "window_decorations": "server",
-  "ssh_connections": [
-    {
-      "host": "servrock.tolok.org",
-      "args": [],
-      "projects": [
-        {
-          "paths": ["/home/titouan/.config/nixos"],
-        },
-      ],
-    },
-    {
-      "host": "laptop.tolok.org",
-      "args": [],
-      "projects": [],
-    },
-    {
-      "host": "servrock.tolok.org",
-      "username": "odin",
-      "args": [],
-      "projects": [],
-    },
-    {
-      "host": "servrock",
-      "username": "odin",
-      "args": [],
-      "projects": [
-        {
-          "paths": ["/home/odin"],
-        },
-      ],
-    },
-    {
-      "host": "servrock.tolok.org",
-      "username": "odin",
-      "args": [],
-      "projects": [],
-    },
-    {
-      "host": "servrock.tolok.org",
-      "username": "odin",
-      "args": [],
-      "projects": [],
-    },
-    {
-      "host": "desktop.tolok.org",
-      "args": [],
-      "projects": [],
-    },
-  ],
+  "ssh_connections": [],
   "file_types": { "Markdown": ["qmd"] },
   "inlay_hints": {
     "enabled": true,
@@ -241,12 +194,11 @@
     "Python": {
       "language_servers": ["ty", "ruff", "!basedpyright", "!pylsp"],
     },
-    // "PHP": {
-    //   "language_servers": ["phpactor", "!intelephense", "!phptools"],
-    // },
+    "PHP": {
+      "language_servers": ["phpactor", "!intelephense", "!phptools"],
+    },
   },
   "lsp": {
-    "PHP": {},
     "slint": {
       "binary": {
         "path": "slint-lsp",

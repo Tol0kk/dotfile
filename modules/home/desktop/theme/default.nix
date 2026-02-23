@@ -7,9 +7,11 @@
   ...
 }:
 with lib;
-with libCustom; let
+with libCustom;
+let
   cfg = config.modules.desktop.theme;
-in {
+in
+{
   # imports = [inputs.stylix.homeModules.stylix];
   options.modules.desktop.theme = {
     enable = mkEnableOpt "Enable Stylix";
@@ -28,10 +30,12 @@ in {
     };
     polarity = mkOption {
       description = "Theme polarity";
-      type = with types; (enum [
-        "dark"
-        "light"
-      ]);
+      type =
+        with types;
+        (enum [
+          "dark"
+          "light"
+        ]);
       default = "light";
     };
     background-image = mkOption {
@@ -101,7 +105,7 @@ in {
       monospace = {
         # Full version, embed with icons, Chinese and Japanese glyphs (With -NF-CN suffix)
         # Unhinted font is used for high resolution screen (e.g. for MacBook). Using "hinted font" will blur your text or make it looks weird.
-        package = maple-mono.truetype;
+        package = maple-mono.NF-CN;
         name = "Maple Mono";
       };
 
