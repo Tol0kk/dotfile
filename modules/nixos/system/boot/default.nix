@@ -7,14 +7,16 @@
   ...
 }:
 with lib;
-with libCustom; let
+with libCustom;
+let
   cfg = config.modules.system.boot;
-in {
+in
+{
   options.modules.system.boot = {
     enable = mkOption {
       description = "Enable bootloader";
       type = types.bool;
-      default = true;
+      default = cfg.systemd.enable || cfg.grub.enable || cfg.limine.enable;
     };
     windowsUUID = mkOption {
       description = "Select the Disk where windows is installed by UUID. This Speed up the processed from Osprober. You can find the UUID with lsblk -fa";
@@ -34,15 +36,7 @@ in {
     {
       assertions = [
         {
-          assertion = cfg.systemd.enable || cfg.grub.enable || cfg.limine.enable;
-          message = ''
-            You have to enable systemd or grub bootloader with one of the following:
-              - modules.system.boot.systemd.enable
-              - modules.system.boot.grub.enable
-          '';
-        }
-        {
-          assertion = cfg.systemd.enable || cfg.grub.enable || cfg.limine.enable;
+          assertion = !cfg.enable || cfg.systemd.enable || cfg.grub.enable || cfg.limine.enablez;
           message = ''
             You have enable systemd and grub bootloader. You can only choose ONE of the following:
               - modules.system.boot.systemd.enable
@@ -52,7 +46,7 @@ in {
       ];
     }
     (mkIf (cfg.enable && cfg.grub.enable) {
-      boot.kernelParams = ["quiet"];
+      boot.kernelParams = [ "quiet" ];
       boot.loader = {
         timeout = 1;
         efi.canTouchEfiVariables = true;
@@ -96,7 +90,7 @@ in {
       };
     })
     (mkIf (cfg.enable && cfg.systemd.enable) {
-      boot.kernelParams = ["quiet"];
+      boot.kernelParams = [ "quiet" ];
       boot.loader.systemd-boot.enable = true;
       boot.loader.efi.canTouchEfiVariables = true;
     })
@@ -117,7 +111,7 @@ in {
           themePackages = with pkgs; [
             # By default we would install all themes
             (adi1090x-plymouth-themes.override {
-              selected_themes = ["cubes"];
+              selected_themes = [ "cubes" ];
             })
             nixos-plymouth-custom
           ];

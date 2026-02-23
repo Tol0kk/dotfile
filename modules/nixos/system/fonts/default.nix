@@ -6,9 +6,11 @@
   ...
 }:
 with lib;
-with libCustom; let
+with libCustom;
+let
   cfg = config.modules.system.fonts;
-in {
+in
+{
   options.modules.system.fonts = {
     enable = mkEnableOpt "Enable fonts";
   };
@@ -26,6 +28,7 @@ in {
         nerd-fonts.inconsolata
         maple-mono.truetype
         noto-fonts-cjk-sans
+        maple-mono.NF-CN
       ];
       fontconfig.defaultFonts = {
         monospace = [
