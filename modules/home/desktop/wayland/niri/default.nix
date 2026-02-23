@@ -33,6 +33,7 @@ in
       pkgs.niri
       pkgs.wl-mirror
       pkgs.wl-clipboard
+      pkgs.brightnessctl
       pkgs.gpu-screen-recorder
       pkgs.xwayland-satellite
     ];

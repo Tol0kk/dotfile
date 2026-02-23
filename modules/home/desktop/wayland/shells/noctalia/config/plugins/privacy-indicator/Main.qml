@@ -25,39 +25,30 @@ Item {
   property var _prevCamApps: []
   property var _prevScrApps: []
 
+  // Get active color from settings or default
+  property var cfg: pluginApi?.pluginSettings || ({})
+  property var defaults: pluginApi?.manifest?.metadata?.defaultSettings || ({})
+  property bool enableToast: cfg.enableToast ?? defaults.enableToast ?? true
+  property string activeColorKey: cfg.activeColor ?? defaults.activeColor ?? "primary"
+
   PwObjectTracker {
     objects: Pipewire.ready ? Pipewire.nodes.values : []
   }
 
   Process {
-    id: cameraCheckProcess
+    id: cameraDetectionProcess
     running: false
-    command: ["sh", "-c", "for dev in /dev/video*; do [ -e \"$dev\" ] && [ -n \"$(find /proc/[0-9]*/fd/ -lname \"$dev\" 2>/dev/null | head -n1)\" ] && echo \"active\" && exit 0; done; exit 1"]
-    onExited: (code, status) => {
-      var isActive = code === 0;
-      root.camActive = isActive;
-      if (isActive) {
-        cameraAppsProcess.running = true;
-      } else {
-        root.camApps = [];
+    command: ["sh", "-c", "for dev in /sys/class/video4linux/video*; do [ -e \"$dev/name\" ] && grep -qv 'Metadata' \"$dev/name\" && dev_name=$(basename \"$dev\") && find /proc/[0-9]*/fd -lname \"/dev/$dev_name\" 2>/dev/null; done | cut -d/ -f3 | xargs -r ps -o comm= -p | sort -u | tr '\\n' ',' | sed 's/,$//'"]
+    stdout: StdioCollector {
+      onStreamFinished: {
+        var appsString = this.text.trim();
+        var apps = appsString.length > 0 ? appsString.split(',') : [];
+        root.camApps = apps;
+        root.camActive = apps.length > 0;
       }
     }
   }
 
-  Process {
-    id: cameraAppsProcess
-    running: false
-    command: ["sh", "-c", "for dev in /dev/video*; do [ -e \"$dev\" ] && for fd in /proc/[0-9]*/fd/*; do [ -L \"$fd\" ] && [ \"$(readlink \"$fd\" 2>/dev/null)\" = \"$dev\" ] && ps -p \"$(echo \"$fd\" | cut -d/ -f3)\" -o comm= 2>/dev/null; done; done | sort -u | tr '\\n' ',' | sed 's/,$//'"]
-    onExited: (code, status) => {
-      if (stdout) {
-        var appsString = stdout.trim();
-        var apps = appsString.length > 0 ? appsString.split(',') : [];
-        root.camApps = apps;
-      } else {
-        root.camApps = [];
-      }
-    }
-  }
 
   Timer {
     interval: 1000
@@ -99,7 +90,7 @@ Item {
   }
 
   function updateCameraState() {
-    cameraCheckProcess.running = true;
+    cameraDetectionProcess.running = true;
   }
 
   function isScreenShareNode(node) {
@@ -251,10 +242,6 @@ Item {
     }
   }
 
-  // Get active color from settings or default
-  property var cfg: pluginApi?.pluginSettings || ({})
-  property var defaults: pluginApi?.manifest?.metadata?.defaultSettings || ({})
-  property string activeColorKey: cfg.activeColor ?? defaults.activeColor ?? "primary"
 
   onMicAppsChanged: {
     checkAppChanges(micApps, _prevMicApps, "Microphone", "microphone", activeColorKey);
@@ -263,7 +250,7 @@ Item {
   // Helper to detect activation edge
   property bool oldMicActive: false
   onMicActiveChanged: {
-    if (micActive && (!oldMicActive)) {
+    if (enableToast && micActive && !oldMicActive) {
         ToastService.showNotice(pluginApi?.tr("toast.mic-on") || "Microphone is active", "", "microphone");
     }
     oldMicActive = micActive
@@ -271,7 +258,7 @@ Item {
 
   property bool oldCamActive: false
   onCamActiveChanged: {
-      if (camActive && !oldCamActive) {
+      if (enableToast && camActive && !oldCamActive) {
           ToastService.showNotice(pluginApi?.tr("toast.cam-on") || "Camera is active", "", "camera");
       }
       oldCamActive = camActive
@@ -283,7 +270,7 @@ Item {
 
   property bool oldScrActive: false
   onScrActiveChanged: {
-      if (scrActive && !oldScrActive) {
+      if (enableToast && scrActive && !oldScrActive) {
           ToastService.showNotice(pluginApi?.tr("toast.screen-on") || "Screen sharing is active", "", "screen-share");
       }
       oldScrActive = scrActive

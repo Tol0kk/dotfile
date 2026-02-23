@@ -4,7 +4,8 @@ binds {
     Mod+Return hotkey-overlay-title="Terminal" { spawn "nice" "-n" "8" "alacritty"; }
     Mod+B hotkey-overlay-title="Browser" { spawn "nice" "-n" "9" "zen"; }
     Mod+G hotkey-overlay-title="File Manager" { spawn "nice" "-n" "8" "thunar"; }
-    Mod+D hotkey-overlay-title="Launcher" allow-inhibiting=false  { spawn "noctalia-shell" "ipc" "call" "launcher" "toggle"; }
+    // Mod+D hotkey-overlay-title="Launcher" allow-inhibiting=false  { spawn "noctalia-shell" "ipc" "call" "launcher" "toggle"; }
+    Mod+D hotkey-overlay-title="Launcher" allow-inhibiting=false  { spawn "vicinae" "open"; }
     Mod+N hotkey-overlay-title="Binding" { spawn "noctalia-shell" "ipc" "call" "plugin:keybind-cheatsheet" "toggle"; }
 
     // #"Window Management"

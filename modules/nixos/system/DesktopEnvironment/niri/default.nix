@@ -24,9 +24,7 @@ in
       programs.niri.enable = true;
       programs.niri.useNautilus = false;
       programs.xwayland.enable = false;
-
       security.polkit.enable = true;
-
 
       xdg.portal = {
         enable = true;

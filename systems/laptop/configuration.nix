@@ -15,7 +15,7 @@ with libCustom;
   #   mode = "0600";
   #   sopsFile = ./secrets.yaml;
   # };
-  #
+
   sops.secrets.binaryCacheSecretKey = {
     sopsFile = ./secrets.yaml;
   };

@@ -6,17 +6,21 @@
   ...
 }:
 with lib;
-with libCustom; let
+with libCustom;
+let
   cfg = config.modules.desktop.profiles;
-in {
+in
+{
   options.modules.desktop = {
     profiles = mkOption {
       description = "Profile to select";
-      type = with types; (enum [
-        "aestetic"
-        "minimal"
-        "work"
-      ]);
+      type =
+        with types;
+        (enum [
+          "aestetic"
+          "minimal"
+          "work"
+        ]);
       default = "aestetic";
     };
   };
@@ -28,9 +32,11 @@ in {
         apps.term.alacritty = mkDefault enabled;
         desktop = {
           wayland.shells.noctalia = mkDefault enabled;
+          wayland.vicinae.enable = mkDefault true;
           wayland.niri = mkDefault enabled;
           theme = {
             enable = mkDefault true;
+            opacity = mkDefault 0.92;
             polarity = mkDefault "dark";
             theme = mkDefault "gruvbox-dark-medium";
             background-image = mkDefault assets.backgrounds.takopi;
@@ -62,6 +68,6 @@ in {
     })
     # TODO
     (mkIf (cfg == "work") {
-      })
+    })
   ];
 }
