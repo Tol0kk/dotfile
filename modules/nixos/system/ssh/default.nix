@@ -6,9 +6,11 @@
   ...
 }:
 with lib;
-with libCustom; let
+with libCustom;
+let
   cfg = config.modules.system.ssh;
-in {
+in
+{
   options.modules.system.ssh = {
     enable = mkEnableOpt "Enable SSH";
     auto-start-sshd = mkEnableOpt "Auto start sshd. By default no autostart";
@@ -34,6 +36,6 @@ in {
         PermitRootLogin = "no";
       };
     };
-    systemd.services.sshd.wantedBy = mkIf (!cfg.auto-start-sshd) (lib.mkForce []);
+    systemd.services.sshd.wantedBy = mkIf (!cfg.auto-start-sshd) (lib.mkForce [ ]);
   };
 }

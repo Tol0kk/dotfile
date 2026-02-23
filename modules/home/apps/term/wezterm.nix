@@ -6,9 +6,11 @@
   ...
 }:
 with lib;
-with libCustom; let
+with libCustom;
+let
   cfg = config.modules.apps.term.wezterm;
-in {
+in
+{
   options.modules.apps.term.wezterm = {
     enable = mkEnableOpt "Enable Anyrun";
   };
@@ -30,4 +32,3 @@ in {
   };
 }
 #          default_prog = { "fish", "-c", "zellij" },
-

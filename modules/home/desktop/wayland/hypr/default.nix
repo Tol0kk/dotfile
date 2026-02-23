@@ -5,9 +5,11 @@
   assets,
   ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.modules.desktop.wayland.hypr;
-in {
+in
+{
   # options.modules.desktop.wayland.hypr = {
   #   enable = mkOption {
   #     description = "Enable hypr enviroment configuration";

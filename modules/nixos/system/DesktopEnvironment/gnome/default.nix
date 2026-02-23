@@ -6,9 +6,11 @@
   ...
 }:
 with lib;
-with libCustom; let
+with libCustom;
+let
   cfg = config.modules.system.desktopEnvironment.gnome;
-in {
+in
+{
   options.modules.system.desktopEnvironment.gnome = {
     enable = mkEnableOpt "Enable Gnome Desktop Environment";
   };

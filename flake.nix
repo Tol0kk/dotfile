@@ -56,6 +56,7 @@
       inputs.nixpkgs.follows = "nixpkgs-unstable";
     };
     fenix.url = "github:nix-community/fenix";
+    git-hooks.url = "github:cachix/git-hooks.nix";
     vicinae.url = "github:vicinaehq/vicinae";
     vicinae-extensions = {
       url = "github:vicinaehq/extensions";
@@ -97,20 +98,58 @@
           linux-1_12-rockchip = pkgs.callPackage ./packages/linux-6.12-rockchip { };
         }
         // lib.mkOCI inputs pkgs
-    );
-    # Topology using https://github.com/oddlama/nix-topology
-    topology = forAllSystems (system: lib.mkTopology system inputs self);
+      );
+      # Topology using https://github.com/oddlama/nix-topology
+      topology = forAllSystems (system: lib.mkTopology system inputs self);
 
-    devShells = forAllSystems (
-      system: let
-        pkgs = nixpkgsFor.${system};
-      in {
-        default = pkgs.mkShell {
-          buildInputs = with pkgs; [
-            opentofu
-          ];
+      # Run the hooks in a sandbox with `nix flake check`.
+      # Read-only filesystem and no internet access.
+      checks = forAllSystems (system: {
+        pre-commit-check = inputs.git-hooks.lib.${system}.run {
+          src = ./.;
+          hooks = {
+            nixfmt.enable = true;
+          };
         };
-      }
-    );
-  };
+      });
+
+      # Run the hooks with `nix fmt`.
+      formatter = forAllSystems (
+        system:
+        let
+          pkgs = inputs.nixpkgs-stable.legacyPackages.${system};
+          config = self.checks.${system}.pre-commit-check.config;
+          inherit (config) package configFile;
+          script = ''
+            ${pkgs.lib.getExe package} run --all-files --config ${configFile}
+          '';
+        in
+        pkgs.writeShellScriptBin "pre-commit-run" script
+      );
+      pre-commit-check = inputs.git-hooks.run {
+        hooks = {
+          nixfmt.enable = true;
+        };
+      };
+
+      # Open the dev shell using `nix develop`
+      devShells = forAllSystems (
+        system:
+        let
+          pkgs = nixpkgsFor.${system};
+          inherit (self.checks.${system}) pre-commit-check;
+        in
+        {
+          default = pkgs.mkShell {
+            shellHook = ''
+              ${pre-commit-check.shellHook}
+            '';
+            buildInputs = with pkgs; [
+              pre-commit-check.enabledPackages
+              opentofu
+            ];
+          };
+        }
+      );
+    };
 }

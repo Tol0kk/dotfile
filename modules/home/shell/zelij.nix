@@ -5,9 +5,11 @@
   ...
 }:
 with lib;
-with libCustom; let
+with libCustom;
+let
   cfg = config.modules.shell.zellij;
-in {
+in
+{
   options.modules.shell.zellij = {
     enable = mkEnableOpt "Enable zellij";
   };

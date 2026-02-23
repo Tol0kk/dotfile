@@ -5,9 +5,11 @@
   pkgs-unstable,
   ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.modules.server.cloudflared;
-in {
+in
+{
   options.modules.server.cloudflared = {
     enable = mkOption {
       description = "Enable Cloudflared Tunnel services";

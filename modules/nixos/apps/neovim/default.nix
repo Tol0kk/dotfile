@@ -8,16 +8,20 @@
   ...
 }:
 with lib;
-with libCustom; let
+with libCustom;
+let
   cfg = config.modules.apps.neovim;
-in {
+in
+{
   options.modules.apps.neovim = {
     enable = mkEnableOpt "Enable nvim";
     custom.enable = mkEnableOpt "Enable custom Neovim config";
-    custom.minimal = mkEnableOpt "Make the custom Neovim config minimal" // {default = true;};
+    custom.minimal = mkEnableOpt "Make the custom Neovim config minimal" // {
+      default = true;
+    };
   };
 
-  imports = [inputs.nvf.nixosModules.default];
+  imports = [ inputs.nvf.nixosModules.default ];
   config = mkIf cfg.enable {
     programs.nvf = {
       enable = cfg.custom.enable;
@@ -29,8 +33,6 @@ in {
         }).config;
     };
 
-    environment.systemPackages =
-      mkIf (!cfg.custom.enable)
-      [pkgs.neovim];
+    environment.systemPackages = mkIf (!cfg.custom.enable) [ pkgs.neovim ];
   };
 }

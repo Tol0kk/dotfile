@@ -5,9 +5,11 @@
   ...
 }:
 with lib;
-with libCustom; let
+with libCustom;
+let
   cfg = config.modules.hardware.bluetooth;
-in {
+in
+{
   options.modules.hardware.bluetooth = {
     enable = mkEnableOpt "Enable bluetooth";
   };
@@ -31,7 +33,7 @@ in {
     hardware.xpadneo.enable = true;
     hardware.xone.enable = true;
     boot = {
-      extraModulePackages = with config.boot.kernelPackages; [xpadneo];
+      extraModulePackages = with config.boot.kernelPackages; [ xpadneo ];
       extraModprobeConfig = ''
         options bluetooth disable_ertm=0
       '';

@@ -5,13 +5,15 @@
   ...
 }:
 with lib;
-with libCustom; let
+with libCustom;
+let
   cfg = config.modules.services.home-assistant;
 
   # TODO: Remove
   serverDomain = config.modules.server.cloudflared.domain;
   domain = "ha.${serverDomain}";
-in {
+in
+{
   options.modules.services.home-assistant = {
     enable = mkEnableOpt "Enable Home Assistant container";
 
@@ -48,9 +50,9 @@ in {
 
     extraDevices = mkOption {
       type = types.listOf types.str;
-      default = [];
+      default = [ ];
       description = "Additional devices to pass through";
-      example = ["/dev/serial/by-id/usb-..."];
+      example = [ "/dev/serial/by-id/usb-..." ];
     };
 
     matterServer = {
@@ -167,7 +169,7 @@ in {
           ];
 
           routers.home-assistant = {
-            entryPoints = ["websecure"];
+            entryPoints = [ "websecure" ];
             rule = "Host(`${domain}`)";
             service = "home-assistant";
             tls.certResolver = "letsencrypt";
@@ -177,25 +179,24 @@ in {
       };
     };
 
-    systemd.tmpfiles.rules =
-      [
-        "d ${cfg.dataDir} 0755 root root -"
-      ]
-      ++ optionals cfg.matterServer.enable [
-        "d ${cfg.matterServer.dataDir} 0755 root root -"
-      ]
-      ++ optionals cfg.mosquitto.enable [
-        "d ${cfg.mosquitto.dataDir} 0755 root root -"
-        "d ${cfg.mosquitto.dataDir}/config 0755 root root -"
-        "d ${cfg.mosquitto.dataDir}/data 0755 root root -"
-        "d ${cfg.mosquitto.dataDir}/log 0755 root root -"
-      ]
-      ++ optionals cfg.zigbee2mqtt.enable [
-        "d ${cfg.zigbee2mqtt.dataDir} 0755 root root -"
-      ]
-      ++ optionals cfg.nodered.enable [
-        "d ${cfg.nodered.dataDir} 0755 root root -"
-      ];
+    systemd.tmpfiles.rules = [
+      "d ${cfg.dataDir} 0755 root root -"
+    ]
+    ++ optionals cfg.matterServer.enable [
+      "d ${cfg.matterServer.dataDir} 0755 root root -"
+    ]
+    ++ optionals cfg.mosquitto.enable [
+      "d ${cfg.mosquitto.dataDir} 0755 root root -"
+      "d ${cfg.mosquitto.dataDir}/config 0755 root root -"
+      "d ${cfg.mosquitto.dataDir}/data 0755 root root -"
+      "d ${cfg.mosquitto.dataDir}/log 0755 root root -"
+    ]
+    ++ optionals cfg.zigbee2mqtt.enable [
+      "d ${cfg.zigbee2mqtt.dataDir} 0755 root root -"
+    ]
+    ++ optionals cfg.nodered.enable [
+      "d ${cfg.nodered.dataDir} 0755 root root -"
+    ];
     virtualisation.oci-containers = {
       backend = "docker";
       containers = {
@@ -215,12 +216,11 @@ in {
             "${toString cfg.port}:8123"
           ];
 
-          extraOptions =
-            [
-              "--network=host"
-              "--privileged"
-            ]
-            ++ (map (dev: "--device=${dev}") (cfg.usbDevices ++ cfg.extraDevices));
+          extraOptions = [
+            "--network=host"
+            "--privileged"
+          ]
+          ++ (map (dev: "--device=${dev}") (cfg.usbDevices ++ cfg.extraDevices));
         };
         matter-server = optionalAttrs cfg.matterServer.enable {
           image = "ghcr.io/home-assistant-libs/python-matter-server:stable";
@@ -308,6 +308,6 @@ in {
     '';
 
     # Ensure user has access to dialout group for serial devices
-    users.groups.dialout = {};
+    users.groups.dialout = { };
   };
 }

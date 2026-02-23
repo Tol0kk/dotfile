@@ -6,9 +6,11 @@
   ...
 }:
 with lib;
-with libCustom; let
+with libCustom;
+let
   cfg = config.modules.system.virtualisation;
-in {
+in
+{
   options.modules.system.virtualisation = {
     docker.enable = mkEnableOpt "Enable docker virtualisation";
     virtualbox.enable = mkEnableOpt "Enable VirtualBox";
@@ -39,7 +41,7 @@ in {
       ];
     })
     (mkIf cfg.virtualbox.enable {
-      users.extraGroups.vboxusers.members = ["user-with-access-to-virtualbox"];
+      users.extraGroups.vboxusers.members = [ "user-with-access-to-virtualbox" ];
       virtualisation.virtualbox.host.enable = true;
       virtualisation.virtualbox.host.enableExtensionPack = true;
     })

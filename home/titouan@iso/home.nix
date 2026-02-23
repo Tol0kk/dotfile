@@ -4,7 +4,8 @@
   self,
   config,
   ...
-}: {
+}:
+{
   modules = {
     users.titouan.enable = true;
     services = {

@@ -7,13 +7,13 @@
   ...
 }:
 with lib;
-with libCustom; let
+with libCustom;
+let
   cfg = config.modules.desktop.wayland.onagre;
-  mkSource = relPath: absPath:
-    if isPure
-    then relPath
-    else config.lib.file.mkOutOfStoreSymlink absPath;
-in {
+  mkSource =
+    relPath: absPath: if isPure then relPath else config.lib.file.mkOutOfStoreSymlink absPath;
+in
+{
   options.modules.desktop.wayland.onagre = {
     enable = mkEnableOpt "Enable Onagre an application launcher";
   };

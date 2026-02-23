@@ -6,7 +6,8 @@
   ...
 }:
 with lib;
-with libCustom; let
+with libCustom;
+let
   cfg = config.modules.services.glance;
   traefikcfg = config.modules.services.traefik;
   news = {
@@ -18,7 +19,7 @@ with libCustom; let
           limit = 4;
         }
       ];
-      subreddit = ["technology"];
+      subreddit = [ "technology" ];
       youtbe = [
         "UCeeFfhMcJa1kjtfZAGskOCA" # TechLinked
         "UCXuqSBlHAE6Xw-yeJA0Tunw" # LinusTechTips
@@ -28,8 +29,8 @@ with libCustom; let
       ];
     };
     vulgarization = {
-      feeds = [];
-      subreddit = [];
+      feeds = [ ];
+      subreddit = [ ];
       youtbe = [
         "UCHnyfMqiRRG1u-2MsSQLbXA" # Veritasium
       ];
@@ -76,7 +77,7 @@ with libCustom; let
           limit = 4;
         }
       ];
-      subreddit = [];
+      subreddit = [ ];
       youtube = [
         "UCH6ppHEvV3_WIXEwmhv9HEg" # Deus Ex Silicium
         "UCS0N5baNlQWJCUrhCEo8WlA" # Ben Eater
@@ -177,11 +178,11 @@ with libCustom; let
           limit = 4;
         }
       ];
-      subreddit = [];
-      youtube = [];
+      subreddit = [ ];
+      youtube = [ ];
     };
     cyber = {
-      feeds = [];
+      feeds = [ ];
       subreddit = [
         "hackthebox"
         "privacy"
@@ -192,8 +193,8 @@ with libCustom; let
       ];
     };
     diy = {
-      feeds = [];
-      subreddit = [];
+      feeds = [ ];
+      subreddit = [ ];
       youtube = [
         "UCwivlXhhHxc7c5RAtmpLykw" # Play Conveyor
         "UCEIwxahdLz7bap-VDs9h35A" # Steve Mould
@@ -274,7 +275,8 @@ with libCustom; let
     show-thumbnails = true;
     style = "vertical-list";
   });
-in {
+in
+{
   options.modules.services.glance = {
     enable = mkEnableOpt "Enable glance homepage";
   };
@@ -300,7 +302,7 @@ in {
 
           routers.glance = {
             rule = "Host(`home.${traefikcfg.domain}`)";
-            entryPoints = ["websecure"];
+            entryPoints = [ "websecure" ];
             service = "glance";
             tls = traefikcfg.tlsConfig; # Uses Traefik's default self-signed cert
           };
@@ -567,14 +569,12 @@ in {
                   }
                   {
                     type = "group";
-                    widgets =
-                      builtins.map (location: {
-                        inherit location;
-                        type = "weather";
-                        units = "metric";
-                        hour-format = "24h";
-                      })
-                      weatherLocationList;
+                    widgets = builtins.map (location: {
+                      inherit location;
+                      type = "weather";
+                      units = "metric";
+                      hour-format = "24h";
+                    }) weatherLocationList;
                   }
                 ];
               }
@@ -592,8 +592,8 @@ in {
                   {
                     type = "group";
                     widgets = [
-                      {type = "hacker-news";}
-                      {type = "lobsters";}
+                      { type = "hacker-news"; }
+                      { type = "lobsters"; }
                     ];
                   }
                 ];

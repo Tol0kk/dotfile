@@ -4,7 +4,8 @@
   config,
   ...
 }:
-with libCustom; {
+with libCustom;
+{
   sops.secrets."titouan/syncthings_key" = {
     sopsFile = ./secrets.yaml;
   };
@@ -35,34 +36,34 @@ with libCustom; {
     folders = {
       "Documents" = {
         path = "~/Documents";
-        devices = ["laptop"];
+        devices = [ "laptop" ];
       };
       "dev" = {
         path = "~/dev";
       };
       "Pictures" = {
         path = "~/Pictures";
-        devices = ["laptop"];
+        devices = [ "laptop" ];
       };
       "Videos" = {
         path = "~/Videos";
-        devices = ["laptop"];
+        devices = [ "laptop" ];
       };
       "journal" = {
         path = "~/journal";
-        devices = ["laptop"];
+        devices = [ "laptop" ];
       };
       "Music" = {
         path = "~/Music";
-        devices = ["laptop"];
+        devices = [ "laptop" ];
       };
       "Templates" = {
         path = "~/Templates";
-        devices = ["laptop"];
+        devices = [ "laptop" ];
       };
       "Games/Sync" = {
         path = "~/Games/Sync";
-        devices = ["laptop"];
+        devices = [ "laptop" ];
       };
     };
   };

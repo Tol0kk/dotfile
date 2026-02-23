@@ -6,9 +6,11 @@
   ...
 }:
 with lib;
-with libCustom; let
+with libCustom;
+let
   cfg = config.modules.services.syncthing;
-in {
+in
+{
   options.modules.services.syncthing = {
     enable = mkEnableOpt "Enable Syncthing";
     key = mkOpt types.path null "path to a key.pem";
@@ -36,7 +38,7 @@ in {
       };
       key = cfg.key;
       cert = cfg.cert;
-      extraOptions = [];
+      extraOptions = [ ];
     };
 
     # Workaround for Failed to restart syncthingtray.service: Unit tray.target not found.
@@ -44,7 +46,7 @@ in {
     systemd.user.targets.tray = {
       Unit = {
         Description = "Home Manager System Tray";
-        Requires = ["graphical-session-pre.target"];
+        Requires = [ "graphical-session-pre.target" ];
       };
     };
   };

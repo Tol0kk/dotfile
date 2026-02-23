@@ -1,4 +1,4 @@
-{stdenvNoCC}:
+{ stdenvNoCC }:
 stdenvNoCC.mkDerivation {
   pname = "nixos-plymouth-custom";
   version = "0.1.1";

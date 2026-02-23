@@ -6,9 +6,11 @@
   ...
 }:
 with lib;
-with libCustom; let
+with libCustom;
+let
   cfg = config.modules.apps.term.alacritty;
-in {
+in
+{
   options.modules.apps.term.alacritty = {
     enable = mkEnableOpt "Enable Anyrun";
   };

@@ -5,9 +5,11 @@
   ...
 }:
 with lib;
-with libCustom; let
+with libCustom;
+let
   cfg = config.modules.archetype.server;
-in {
+in
+{
   options.modules.archetype.server = {
     enable = mkEnableOpt "Enable server archetype";
   };

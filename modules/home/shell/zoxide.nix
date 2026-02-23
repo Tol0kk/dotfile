@@ -5,9 +5,11 @@
   ...
 }:
 with lib;
-with libCustom; let
+with libCustom;
+let
   cfg = config.modules.shell.zoxide;
-in {
+in
+{
   options.modules.shell.zoxide = {
     enable = mkEnableOpt "Enable Zoxide";
   };

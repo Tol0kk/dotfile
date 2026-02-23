@@ -1,17 +1,18 @@
 {
   pkgs,
   nvf ? null,
-}: let
-  mkNeovim = {
-    pkgs,
-    isMinimal,
-    ...
-  } @ args:
+}:
+let
+  mkNeovim =
+    {
+      pkgs,
+      isMinimal,
+      ...
+    }@args:
     (nvf.lib.neovimConfiguration {
       inherit pkgs;
-      modules = [(import ./config (args // {lib = pkgs.lib;}))];
-    })
-      .neovim;
+      modules = [ (import ./config (args // { lib = pkgs.lib; })) ];
+    }).neovim;
 
   tiny-neovim = mkNeovim {
     inherit pkgs;
@@ -22,6 +23,7 @@
     inherit pkgs;
     isMinimal = false;
   };
-in {
+in
+{
   inherit tiny-neovim neovim mkNeovim;
 }

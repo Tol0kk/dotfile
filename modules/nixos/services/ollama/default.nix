@@ -6,9 +6,11 @@
   ...
 }:
 with lib;
-with libCustom; let
+with libCustom;
+let
   cfg = config.modules.services.ollama;
-in {
+in
+{
   options.modules.services.ollama = {
     enable = mkEnableOpt "Enable Ollama";
   };

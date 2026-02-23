@@ -6,9 +6,11 @@
   ...
 }:
 with lib;
-with libCustom; let
+with libCustom;
+let
   cfg = config.modules.services.element;
-in {
+in
+{
   options.modules.services.element = {
     enable = mkEnableOpt "Enable Element";
   };
@@ -19,7 +21,7 @@ in {
       (makeAutostartItem {
         name = "element-desktop";
         package = element-desktop;
-        prependExtraArgs = ["--start-in-tray"];
+        prependExtraArgs = [ "--start-in-tray" ];
       })
     ];
   };

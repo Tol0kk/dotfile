@@ -6,9 +6,11 @@
   ...
 }:
 with lib;
-with libCustom; let
+with libCustom;
+let
   cfg = config.modules.hardware.filesystems.ntfs;
-in {
+in
+{
   options.modules.hardware.filesystems.ntfs = {
     enable = mkEnableOpt "Enable ntfs support";
   };
@@ -17,6 +19,6 @@ in {
     environment.systemPackages = with pkgs; [
       ntfs3g
     ];
-    boot.supportedFilesystems = ["ntfs"];
+    boot.supportedFilesystems = [ "ntfs" ];
   };
 }

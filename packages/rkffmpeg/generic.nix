@@ -15,12 +15,11 @@
   # NOTICE: Always use this argument to override the version. Do not use overrideAttrs.
   version, # ffmpeg ABI version. Also declare this if you're overriding the source.
   hash ? "", # hash of the upstream source for the given ABI version
-  source ?
-    fetchgit {
-      url = "https://git.ffmpeg.org/ffmpeg.git";
-      rev = "n${version}";
-      inherit hash;
-    },
+  source ? fetchgit {
+    url = "https://git.ffmpeg.org/ffmpeg.git";
+    rev = "n${version}";
+    inherit hash;
+  },
   ffmpegVariant ? "small", # Decides which dependencies are enabled by default
   # Build with headless deps; excludes dependencies that are only necessary for
   # GUI applications. To be used for purposes that don't generally need such
@@ -69,11 +68,11 @@
     withHeadlessDeps
     && (
       with stdenv;
-        !isDarwin
-        && !isAarch32
-        && !hostPlatform.isLoongArch64
-        && !hostPlatform.isRiscV
-        && hostPlatform == buildPlatform
+      !isDarwin
+      && !isAarch32
+      && !hostPlatform.isLoongArch64
+      && !hostPlatform.isRiscV
+      && hostPlatform == buildPlatform
     ), # dynamically linked Nvidia code
   withFlite ? withFullDeps, # Voice Synthesis
   withFontconfig ? withHeadlessDeps, # Needed for drawtext filter
@@ -346,20 +345,19 @@
   testers,
 }:
 /*
-Maintainer notes:
+  Maintainer notes:
 
-Version bumps:
-It should always be safe to bump patch releases (e.g. 2.1.x, x being a patch release)
-If adding a new branch, note any configure flags that were added, changed, or deprecated/removed
-  and make the necessary changes.
+  Version bumps:
+  It should always be safe to bump patch releases (e.g. 2.1.x, x being a patch release)
+  If adding a new branch, note any configure flags that were added, changed, or deprecated/removed
+    and make the necessary changes.
 
-Known issues:
-Cross-compiling will disable features not present on host OS
-  (e.g. dxva2 support [DirectX] will not be enabled unless natively compiled on Cygwin)
+  Known issues:
+  Cross-compiling will disable features not present on host OS
+    (e.g. dxva2 support [DirectX] will not be enabled unless natively compiled on Cygwin)
 */
 let
-  inherit
-    (lib)
+  inherit (lib)
     optional
     optionals
     optionalString
@@ -368,690 +366,673 @@ let
     versionAtLeast
     ;
 in
-  assert lib.elem ffmpegVariant [
-    "headless"
-    "small"
-    "full"
-  ];
-  # Licensing dependencies
-  assert withGPLv3 -> withGPL && withVersion3;
-  # Build dependencies
-  assert withPixelutils -> buildAvutil;
-  assert !(withMfx && withVpl); # incompatible features
-  
-  # Program dependencies
-  assert buildFfmpeg
+assert lib.elem ffmpegVariant [
+  "headless"
+  "small"
+  "full"
+];
+# Licensing dependencies
+assert withGPLv3 -> withGPL && withVersion3;
+# Build dependencies
+assert withPixelutils -> buildAvutil;
+assert !(withMfx && withVpl); # incompatible features
+
+# Program dependencies
+assert
+  buildFfmpeg
   -> buildAvcodec && buildAvfilter && buildAvformat && (buildSwresample || buildAvresample);
-  assert buildFfplay
+assert
+  buildFfplay
   -> buildAvcodec && buildAvformat && buildSwscale && (buildSwresample || buildAvresample);
-  assert buildFfprobe -> buildAvcodec && buildAvformat;
-  # Library dependencies
-  assert buildAvcodec -> buildAvutil; # configure flag since 0.6
-  
-  assert buildAvdevice -> buildAvformat && buildAvcodec && buildAvutil; # configure flag since 0.6
-  
-  assert buildAvformat -> buildAvcodec && buildAvutil; # configure flag since 0.6
-  
-  assert buildPostproc -> buildAvutil;
-  assert buildSwscale -> buildAvutil;
-  # External Library dependencies
-  assert (withCuda || withCuvid || withNvdec || withNvenc) -> withNvcodec;
-    stdenv.mkDerivation (
-      finalAttrs:
-        {
-          pname = "ffmpeg" + (optionalString (ffmpegVariant != "small") "-${ffmpegVariant}");
-          inherit version;
-          src = source;
+assert buildFfprobe -> buildAvcodec && buildAvformat;
+# Library dependencies
+assert buildAvcodec -> buildAvutil; # configure flag since 0.6
 
-          postPatch =
-            ''
-              patchShebangs .
-            ''
-            + lib.optionalString withFrei0r ''
-              substituteInPlace libavfilter/vf_frei0r.c \
-                --replace /usr/local/lib/frei0r-1 ${frei0r}/lib/frei0r-1
-              substituteInPlace doc/filters.texi \
-                --replace /usr/local/lib/frei0r-1 ${frei0r}/lib/frei0r-1
-            '';
+assert buildAvdevice -> buildAvformat && buildAvcodec && buildAvutil; # configure flag since 0.6
 
-          patches =
-            []
-            ++ optionals (lib.versionOlder version "5") [
-              (fetchpatch2 {
-                name = "rename_iszero";
-                url = "https://git.ffmpeg.org/gitweb/ffmpeg.git/patch/b27ae2c0b704e83f950980102bc3f12f9ec17cb0";
-                hash = "sha256-l1t4LcUDSW757diNu69NzvjenW5Mxb5aYtXz64Yl9gs=";
-              })
-            ]
-            ++ optionals (lib.versionAtLeast version "6.1" && lib.versionOlder version "6.2") [
-              (fetchpatch2 {
-                # this can be removed post 6.1
-                name = "fix_build_failure_due_to_PropertyKey_EncoderID";
-                url = "https://git.ffmpeg.org/gitweb/ffmpeg.git/patch/cb049d377f54f6b747667a93e4b719380c3e9475";
-                hash = "sha256-sxRXKKgUak5vsQTiV7ge8vp+N22CdTIvuczNgVRP72c=";
-              })
-              (fetchpatch2 {
-                name = "CVE-2024-31582.patch";
-                url = "https://git.ffmpeg.org/gitweb/ffmpeg.git/patch/99debe5f823f45a482e1dc08de35879aa9c74bd2";
-                hash = "sha256-+CQ9FXR6Vr/AmsbXFiCUXZcxKj1s8nInEdke/Oc/kUA=";
-              })
-              (fetchpatch2 {
-                name = "CVE-2024-31578.patch";
-                url = "https://git.ffmpeg.org/gitweb/ffmpeg.git/patch/3bb00c0a420c3ce83c6fafee30270d69622ccad7";
-                hash = "sha256-oZMZysBA+/gwaGEM1yvI+8wCadXWE7qLRL6Emap3b8Q=";
-              })
-              (fetchpatch2 {
-                name = "CVE-2023-49501.patch";
-                url = "https://git.ffmpeg.org/gitweb/ffmpeg.git/patch/4adb93dff05dd947878c67784d98c9a4e13b57a7";
-                hash = "sha256-7cwktto3fPMDGvCZCVtB01X8Q9S/4V4bDLUICSNfGgw=";
-              })
-              (fetchpatch2 {
-                name = "CVE-2023-49502.patch";
-                url = "https://git.ffmpeg.org/gitweb/ffmpeg.git/patch/737ede405b11a37fdd61d19cf25df296a0cb0b75";
-                hash = "sha256-mpSJwR9TX5ENjjCKvzuM/9e1Aj/AOiQW0+72oOMl9v8=";
-              })
-              (fetchpatch2 {
-                name = "CVE-2023-50007.patch";
-                url = "https://git.ffmpeg.org/gitweb/ffmpeg.git/patch/b1942734c7cbcdc9034034373abcc9ecb9644c47";
-                hash = "sha256-v0hNcqBtm8GCGAU9UbRUCE0slodOjZCHrkS8e4TrVcQ=";
-              })
-              (fetchpatch2 {
-                name = "CVE-2023-50008.patch";
-                url = "https://git.ffmpeg.org/gitweb/ffmpeg.git/patch/5f87a68cf70dafeab2fb89b42e41a4c29053b89b";
-                hash = "sha256-sqUUSOPTPLwu2h8GbAw4SfEf+0oWioz52BcpW1n4v3Y=";
-              })
-            ]
-            ++ optionals (lib.versionOlder version "7.1.1") [
-              (fetchpatch2 {
-                name = "texinfo-7.1.patch";
-                url = "https://git.ffmpeg.org/gitweb/ffmpeg.git/patch/4d9cdf82ee36a7da4f065821c86165fe565aeac2";
-                hash = "sha256-BZsq1WI6OgtkCQE8koQu0CNcb5c8WgTu/LzQzu6ZLuo=";
-              })
-            ]
-            ++ optionals (lib.versionOlder version "7" && stdenv.hostPlatform.isAarch32) [
-              (fetchpatch2 {
-                name = "binutils-2-43-compat.patch";
-                url = "https://git.ffmpeg.org/gitweb/ffmpeg.git/patch/654bd47716c4f36719fb0f3f7fd8386d5ed0b916";
-                hash = "sha256-OLiQHKBNp2p63ZmzBBI4GEGz3WSSP+rMd8ITfZSVRgY=";
-              })
-            ]
-            ++ optionals (lib.versionAtLeast version "7.1" && lib.versionOlder version "7.1.1") [
-              ./fix-fate-ffmpeg-spec-disposition-7.1.patch
-            ]
-            ++ optionals (lib.versionAtLeast version "7.1.1") [
-              # Expose a private API for Chromium / Qt WebEngine.
-              (fetchpatch2 {
-                url = "https://gitlab.archlinux.org/archlinux/packaging/packages/ffmpeg/-/raw/a02c1a15706ea832c0d52a4d66be8fb29499801a/add-av_stream_get_first_dts-for-chromium.patch";
-                hash = "sha256-DbH6ieJwDwTjKOdQ04xvRcSLeeLP2Z2qEmqeo8HsPr4=";
-              })
-            ];
+assert buildAvformat -> buildAvcodec && buildAvutil; # configure flag since 0.6
 
-          configurePlatforms = [];
-          setOutputFlags = false; # Only accepts some of them
-          configureFlags =
-            [
-              #mingw64 is internally treated as mingw32, so 32 and 64 make no difference here
-              "--target_os=${
-                if stdenv.hostPlatform.isMinGW
-                then "mingw64"
-                else stdenv.hostPlatform.parsed.kernel.name
-              }"
-              "--arch=${stdenv.hostPlatform.parsed.cpu.name}"
-              "--pkg-config=${buildPackages.pkg-config.targetPrefix}pkg-config"
-              # Licensing flags
-              (enableFeature withGPL "gpl")
-              (enableFeature withVersion3 "version3")
-              (enableFeature withUnfree "nonfree")
-              # Build flags
-              (enableFeature withStatic "static")
-              (enableFeature withShared "shared")
-              (enableFeature withPic "pic")
-              (enableFeature withThumb "thumb")
+assert buildPostproc -> buildAvutil;
+assert buildSwscale -> buildAvutil;
+# External Library dependencies
+assert (withCuda || withCuvid || withNvdec || withNvenc) -> withNvcodec;
+stdenv.mkDerivation (
+  finalAttrs:
+  {
+    pname = "ffmpeg" + (optionalString (ffmpegVariant != "small") "-${ffmpegVariant}");
+    inherit version;
+    src = source;
 
-              (enableFeature withSmallBuild "small")
-              (enableFeature withRuntimeCPUDetection "runtime-cpudetect")
-              (enableFeature withGrayscale "gray")
-              (enableFeature withSwscaleAlpha "swscale-alpha")
-              (enableFeature withHardcodedTables "hardcoded-tables")
-              (enableFeature withSafeBitstreamReader "safe-bitstream-reader")
+    postPatch = ''
+      patchShebangs .
+    ''
+    + lib.optionalString withFrei0r ''
+      substituteInPlace libavfilter/vf_frei0r.c \
+        --replace /usr/local/lib/frei0r-1 ${frei0r}/lib/frei0r-1
+      substituteInPlace doc/filters.texi \
+        --replace /usr/local/lib/frei0r-1 ${frei0r}/lib/frei0r-1
+    '';
 
-              (enableFeature (withMultithread && stdenv.hostPlatform.isUnix) "pthreads")
-              (enableFeature (withMultithread && stdenv.hostPlatform.isWindows) "w32threads")
-              "--disable-os2threads" # We don't support OS/2
+    patches =
+      [ ]
+      ++ optionals (lib.versionOlder version "5") [
+        (fetchpatch2 {
+          name = "rename_iszero";
+          url = "https://git.ffmpeg.org/gitweb/ffmpeg.git/patch/b27ae2c0b704e83f950980102bc3f12f9ec17cb0";
+          hash = "sha256-l1t4LcUDSW757diNu69NzvjenW5Mxb5aYtXz64Yl9gs=";
+        })
+      ]
+      ++ optionals (lib.versionAtLeast version "6.1" && lib.versionOlder version "6.2") [
+        (fetchpatch2 {
+          # this can be removed post 6.1
+          name = "fix_build_failure_due_to_PropertyKey_EncoderID";
+          url = "https://git.ffmpeg.org/gitweb/ffmpeg.git/patch/cb049d377f54f6b747667a93e4b719380c3e9475";
+          hash = "sha256-sxRXKKgUak5vsQTiV7ge8vp+N22CdTIvuczNgVRP72c=";
+        })
+        (fetchpatch2 {
+          name = "CVE-2024-31582.patch";
+          url = "https://git.ffmpeg.org/gitweb/ffmpeg.git/patch/99debe5f823f45a482e1dc08de35879aa9c74bd2";
+          hash = "sha256-+CQ9FXR6Vr/AmsbXFiCUXZcxKj1s8nInEdke/Oc/kUA=";
+        })
+        (fetchpatch2 {
+          name = "CVE-2024-31578.patch";
+          url = "https://git.ffmpeg.org/gitweb/ffmpeg.git/patch/3bb00c0a420c3ce83c6fafee30270d69622ccad7";
+          hash = "sha256-oZMZysBA+/gwaGEM1yvI+8wCadXWE7qLRL6Emap3b8Q=";
+        })
+        (fetchpatch2 {
+          name = "CVE-2023-49501.patch";
+          url = "https://git.ffmpeg.org/gitweb/ffmpeg.git/patch/4adb93dff05dd947878c67784d98c9a4e13b57a7";
+          hash = "sha256-7cwktto3fPMDGvCZCVtB01X8Q9S/4V4bDLUICSNfGgw=";
+        })
+        (fetchpatch2 {
+          name = "CVE-2023-49502.patch";
+          url = "https://git.ffmpeg.org/gitweb/ffmpeg.git/patch/737ede405b11a37fdd61d19cf25df296a0cb0b75";
+          hash = "sha256-mpSJwR9TX5ENjjCKvzuM/9e1Aj/AOiQW0+72oOMl9v8=";
+        })
+        (fetchpatch2 {
+          name = "CVE-2023-50007.patch";
+          url = "https://git.ffmpeg.org/gitweb/ffmpeg.git/patch/b1942734c7cbcdc9034034373abcc9ecb9644c47";
+          hash = "sha256-v0hNcqBtm8GCGAU9UbRUCE0slodOjZCHrkS8e4TrVcQ=";
+        })
+        (fetchpatch2 {
+          name = "CVE-2023-50008.patch";
+          url = "https://git.ffmpeg.org/gitweb/ffmpeg.git/patch/5f87a68cf70dafeab2fb89b42e41a4c29053b89b";
+          hash = "sha256-sqUUSOPTPLwu2h8GbAw4SfEf+0oWioz52BcpW1n4v3Y=";
+        })
+      ]
+      ++ optionals (lib.versionOlder version "7.1.1") [
+        (fetchpatch2 {
+          name = "texinfo-7.1.patch";
+          url = "https://git.ffmpeg.org/gitweb/ffmpeg.git/patch/4d9cdf82ee36a7da4f065821c86165fe565aeac2";
+          hash = "sha256-BZsq1WI6OgtkCQE8koQu0CNcb5c8WgTu/LzQzu6ZLuo=";
+        })
+      ]
+      ++ optionals (lib.versionOlder version "7" && stdenv.hostPlatform.isAarch32) [
+        (fetchpatch2 {
+          name = "binutils-2-43-compat.patch";
+          url = "https://git.ffmpeg.org/gitweb/ffmpeg.git/patch/654bd47716c4f36719fb0f3f7fd8386d5ed0b916";
+          hash = "sha256-OLiQHKBNp2p63ZmzBBI4GEGz3WSSP+rMd8ITfZSVRgY=";
+        })
+      ]
+      ++ optionals (lib.versionAtLeast version "7.1" && lib.versionOlder version "7.1.1") [
+        ./fix-fate-ffmpeg-spec-disposition-7.1.patch
+      ]
+      ++ optionals (lib.versionAtLeast version "7.1.1") [
+        # Expose a private API for Chromium / Qt WebEngine.
+        (fetchpatch2 {
+          url = "https://gitlab.archlinux.org/archlinux/packaging/packages/ffmpeg/-/raw/a02c1a15706ea832c0d52a4d66be8fb29499801a/add-av_stream_get_first_dts-for-chromium.patch";
+          hash = "sha256-DbH6ieJwDwTjKOdQ04xvRcSLeeLP2Z2qEmqeo8HsPr4=";
+        })
+      ];
 
-              (enableFeature withNetwork "network")
-              (enableFeature withPixelutils "pixelutils")
+    configurePlatforms = [ ];
+    setOutputFlags = false; # Only accepts some of them
+    configureFlags = [
+      #mingw64 is internally treated as mingw32, so 32 and 64 make no difference here
+      "--target_os=${
+        if stdenv.hostPlatform.isMinGW then "mingw64" else stdenv.hostPlatform.parsed.kernel.name
+      }"
+      "--arch=${stdenv.hostPlatform.parsed.cpu.name}"
+      "--pkg-config=${buildPackages.pkg-config.targetPrefix}pkg-config"
+      # Licensing flags
+      (enableFeature withGPL "gpl")
+      (enableFeature withVersion3 "version3")
+      (enableFeature withUnfree "nonfree")
+      # Build flags
+      (enableFeature withStatic "static")
+      (enableFeature withShared "shared")
+      (enableFeature withPic "pic")
+      (enableFeature withThumb "thumb")
 
-              "--datadir=${placeholder "data"}/share/ffmpeg"
+      (enableFeature withSmallBuild "small")
+      (enableFeature withRuntimeCPUDetection "runtime-cpudetect")
+      (enableFeature withGrayscale "gray")
+      (enableFeature withSwscaleAlpha "swscale-alpha")
+      (enableFeature withHardcodedTables "hardcoded-tables")
+      (enableFeature withSafeBitstreamReader "safe-bitstream-reader")
 
-              # Program flags
-              (enableFeature buildFfmpeg "ffmpeg")
-              (enableFeature buildFfplay "ffplay")
-              (enableFeature buildFfprobe "ffprobe")
-            ]
-            ++ optionals withBin [
-              "--bindir=${placeholder "bin"}/bin"
-            ]
-            ++ [
-              # Library flags
-              (enableFeature buildAvcodec "avcodec")
-              (enableFeature buildAvdevice "avdevice")
-              (enableFeature buildAvfilter "avfilter")
-              (enableFeature buildAvformat "avformat")
-            ]
-            ++ optionals (lib.versionOlder version "5") [
-              # Ffmpeg > 4 doesn't know about the flag anymore
-              (enableFeature buildAvresample "avresample")
-            ]
-            ++ [
-              (enableFeature buildAvutil "avutil")
-              (enableFeature (buildPostproc && withGPL) "postproc")
-              (enableFeature buildSwresample "swresample")
-              (enableFeature buildSwscale "swscale")
-            ]
-            ++ optionals withLib [
-              "--libdir=${placeholder "lib"}/lib"
-              "--incdir=${placeholder "dev"}/include"
-            ]
-            ++ [
-              # Documentation flags
-              (enableFeature withDocumentation "doc")
-              (enableFeature withHtmlDoc "htmlpages")
-              (enableFeature withManPages "manpages")
-            ]
-            ++ optionals withManPages [
-              "--mandir=${placeholder "man"}/share/man"
-            ]
-            ++ [
-              (enableFeature withPodDoc "podpages")
-              (enableFeature withTxtDoc "txtpages")
-            ]
-            ++ optionals withDoc [
-              "--docdir=${placeholder "doc"}/share/doc/ffmpeg"
-            ]
-            ++ [
-              # External libraries
-              (enableFeature withAlsa "alsa")
-              (enableFeature withAmf "amf")
-              (enableFeature withAom "libaom")
-              (enableFeature withAribb24 "libaribb24")
-            ]
-            ++ optionals (versionAtLeast version "6.1") [
-              (enableFeature withAribcaption "libaribcaption")
-            ]
-            ++ [
-              (enableFeature withAss "libass")
-              (enableFeature withAvisynth "avisynth")
-              (enableFeature withBluray "libbluray")
-              (enableFeature withBs2b "libbs2b")
-              (enableFeature withBzlib "bzlib")
-              (enableFeature withCaca "libcaca")
-              (enableFeature withCdio "libcdio")
-              (enableFeature withCelt "libcelt")
-              (enableFeature withChromaprint "chromaprint")
-              (enableFeature withCodec2 "libcodec2")
-              (enableFeature withCuda "cuda")
-              (enableFeature withCudaLLVM "cuda-llvm")
-              (enableFeature withCudaNVCC "cuda-nvcc")
-              (enableFeature withCuvid "cuvid")
-              (enableFeature withDav1d "libdav1d")
-              (enableFeature withDc1394 "libdc1394")
-              (enableFeature withDrm "libdrm")
-            ]
-            ++ optionals (versionAtLeast version "7") [
-              (enableFeature withDvdnav "libdvdnav")
-              (enableFeature withDvdread "libdvdread")
-            ]
-            ++ [
-              (enableFeature withFdkAac "libfdk-aac")
-              (enableFeature withNvcodec "ffnvcodec")
-              (enableFeature withFlite "libflite")
-              (enableFeature withFontconfig "fontconfig")
-              (enableFeature withFontconfig "libfontconfig")
-              (enableFeature withFreetype "libfreetype")
-              (enableFeature withFrei0r "frei0r")
-              (enableFeature withFribidi "libfribidi")
-              (enableFeature withGme "libgme")
-              (enableFeature withGnutls "gnutls")
-              (enableFeature withGsm "libgsm")
-            ]
-            ++ optionals (versionAtLeast version "6.1") [
-              (enableFeature withHarfbuzz "libharfbuzz")
-            ]
-            ++ [
-              (enableFeature withIconv "iconv")
-              (enableFeature withIlbc "libilbc")
-              (enableFeature withJack "libjack")
-            ]
-            ++ optionals (versionAtLeast finalAttrs.version "5.0") [
-              (enableFeature withJxl "libjxl")
-            ]
-            ++ [
-              (enableFeature withKvazaar "libkvazaar")
-              (enableFeature withLadspa "ladspa")
-            ]
-            ++ optionals (versionAtLeast version "7.1") [
-              (enableFeature withLc3 "liblc3")
-              (enableFeature withLcevcdec "liblcevc-dec")
-            ]
-            ++ optionals (versionAtLeast version "5.1") [
-              (enableFeature withLcms2 "lcms2")
-            ]
-            ++ [
-              (enableFeature withLzma "lzma")
-            ]
-            ++ optionals (versionAtLeast version "5.0") [
-              (enableFeature withMetal "metal")
-            ]
-            ++ [
-              (enableFeature withMfx "libmfx")
-              (enableFeature withModplug "libmodplug")
-              (enableFeature withMp3lame "libmp3lame")
-              (enableFeature withMysofa "libmysofa")
-              (enableFeature withNpp "libnpp")
-              (enableFeature withNvdec "nvdec")
-              (enableFeature withNvenc "nvenc")
-              (enableFeature withOpenal "openal")
-              (enableFeature withOpencl "opencl")
-              (enableFeature withOpencoreAmrnb "libopencore-amrnb")
-              (enableFeature withOpencoreAmrwb "libopencore-amrwb")
-              (enableFeature withOpengl "opengl")
-              (enableFeature withOpenh264 "libopenh264")
-              (enableFeature withOpenjpeg "libopenjpeg")
-              (enableFeature withOpenmpt "libopenmpt")
-              (enableFeature withOpus "libopus")
-            ]
-            ++ optionals (versionAtLeast version "5.0") [
-              (enableFeature withPlacebo "libplacebo")
-            ]
-            ++ [
-              (enableFeature withPulse "libpulse")
-            ]
-            ++ optionals (versionAtLeast version "7") [
-              (enableFeature withQrencode "libqrencode")
-              (enableFeature withQuirc "libquirc")
-            ]
-            ++ [
-              (enableFeature withRav1e "librav1e")
-              (enableFeature withRist "librist")
-              (enableFeature withRtmp "librtmp")
-              (enableFeature withRubberband "librubberband")
-              (enableFeature withSamba "libsmbclient")
-              (enableFeature withSdl2 "sdl2")
-            ]
-            ++ optionals (versionAtLeast version "5.0") [
-              (enableFeature withShaderc "libshaderc")
-            ]
-            ++ [
-              (enableFeature withShine "libshine")
-              (enableFeature withSnappy "libsnappy")
-              (enableFeature withSoxr "libsoxr")
-              (enableFeature withSpeex "libspeex")
-              (enableFeature withSrt "libsrt")
-              (enableFeature withSsh "libssh")
-              (enableFeature withSvg "librsvg")
-              (enableFeature withSvtav1 "libsvtav1")
-              (enableFeature withTensorflow "libtensorflow")
-              (enableFeature withTheora "libtheora")
-              (enableFeature withTwolame "libtwolame")
-              (enableFeature withV4l2 "libv4l2")
-              (enableFeature withV4l2M2m "v4l2-m2m")
-              (enableFeature withVaapi "vaapi")
-              (enableFeature withVdpau "vdpau")
-            ]
-            ++ optionals (versionAtLeast version "6.0") [
-              (enableFeature withVpl "libvpl")
-            ]
-            ++ [
-              (enableFeature withVidStab "libvidstab") # Actual min. version 2.0
-              (enableFeature withVmaf "libvmaf")
-              (enableFeature withVoAmrwbenc "libvo-amrwbenc")
-              (enableFeature withVorbis "libvorbis")
-              (enableFeature withVpx "libvpx")
-              (enableFeature withVulkan "vulkan")
-            ]
-            ++ optionals (versionAtLeast version "7.1") [
-              (enableFeature withVvenc "libvvenc")
-            ]
-            ++ [
-              (enableFeature withWebp "libwebp")
-              (enableFeature withX264 "libx264")
-              (enableFeature withX265 "libx265")
-              (enableFeature withXavs "libxavs")
-              (enableFeature withXcb "libxcb")
-              (enableFeature withXcbShape "libxcb-shape")
-              (enableFeature withXcbShm "libxcb-shm")
-              (enableFeature withXcbxfixes "libxcb-xfixes")
-            ]
-            ++ optionals (versionAtLeast version "7") [
-              (enableFeature withXevd "libxevd")
-              (enableFeature withXeve "libxeve")
-            ]
-            ++ [
-              (enableFeature withXlib "xlib")
-              (enableFeature withXml2 "libxml2")
-              (enableFeature withXvid "libxvid")
-              (enableFeature withZimg "libzimg")
-              (enableFeature withZlib "zlib")
-              (enableFeature withZmq "libzmq")
-              (enableFeature withZvbi "libzvbi")
-              # Developer flags
-              (enableFeature withDebug "debug")
-              (enableFeature withOptimisations "optimizations")
-              (enableFeature withExtraWarnings "extra-warnings")
-              (enableFeature withStripping "stripping")
-            ]
-            ++ [
-              (enableFeature withRkmpp "rkmpp")
-            ]
-            ++ optionals (stdenv.hostPlatform != stdenv.buildPlatform) [
-              "--cross-prefix=${stdenv.cc.targetPrefix}"
-              "--enable-cross-compile"
-              "--host-cc=${buildPackages.stdenv.cc}/bin/cc"
-            ]
-            ++ optionals stdenv.cc.isClang [
-              "--cc=${stdenv.cc.targetPrefix}clang"
-              "--cxx=${stdenv.cc.targetPrefix}clang++"
-            ]
-            ++ optionals withMetal [
-              "--metalcc=${xcode}/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/metal"
-              "--metallib=${xcode}/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/metallib"
-            ];
+      (enableFeature (withMultithread && stdenv.hostPlatform.isUnix) "pthreads")
+      (enableFeature (withMultithread && stdenv.hostPlatform.isWindows) "w32threads")
+      "--disable-os2threads" # We don't support OS/2
 
-          # ffmpeg embeds the configureFlags verbatim in its binaries and because we
-          # configure binary, include, library dir etc., this causes references in
-          # outputs where we don't want them. Patch the generated config.h to remove all
-          # such references except for data.
-          postConfigure = let
-            toStrip =
-              map placeholder (lib.remove "data" finalAttrs.outputs) # We want to keep references to the data dir.
-              ++ lib.optional (stdenv.hostPlatform != stdenv.buildPlatform) buildPackages.stdenv.cc
-              ++ lib.optional withMetal xcode;
-          in "remove-references-to ${lib.concatStringsSep " " (map (o: "-t ${o}") toStrip)} config.h";
+      (enableFeature withNetwork "network")
+      (enableFeature withPixelutils "pixelutils")
 
-          strictDeps = true;
+      "--datadir=${placeholder "data"}/share/ffmpeg"
 
-          nativeBuildInputs =
-            [
-              removeReferencesTo
-              addDriverRunpath
-              perl
-              pkg-config
-              yasm
-            ]
-            # Texinfo version 7.1 introduced breaking changes, which older versions of ffmpeg do not handle.
-            ++ (
-              if versionOlder version "5"
-              then [texinfo6]
-              else [texinfo]
-            )
-            ++ optionals withCudaLLVM [clang]
-            ++ optionals withCudaNVCC [cuda_nvcc];
+      # Program flags
+      (enableFeature buildFfmpeg "ffmpeg")
+      (enableFeature buildFfplay "ffplay")
+      (enableFeature buildFfprobe "ffprobe")
+    ]
+    ++ optionals withBin [
+      "--bindir=${placeholder "bin"}/bin"
+    ]
+    ++ [
+      # Library flags
+      (enableFeature buildAvcodec "avcodec")
+      (enableFeature buildAvdevice "avdevice")
+      (enableFeature buildAvfilter "avfilter")
+      (enableFeature buildAvformat "avformat")
+    ]
+    ++ optionals (lib.versionOlder version "5") [
+      # Ffmpeg > 4 doesn't know about the flag anymore
+      (enableFeature buildAvresample "avresample")
+    ]
+    ++ [
+      (enableFeature buildAvutil "avutil")
+      (enableFeature (buildPostproc && withGPL) "postproc")
+      (enableFeature buildSwresample "swresample")
+      (enableFeature buildSwscale "swscale")
+    ]
+    ++ optionals withLib [
+      "--libdir=${placeholder "lib"}/lib"
+      "--incdir=${placeholder "dev"}/include"
+    ]
+    ++ [
+      # Documentation flags
+      (enableFeature withDocumentation "doc")
+      (enableFeature withHtmlDoc "htmlpages")
+      (enableFeature withManPages "manpages")
+    ]
+    ++ optionals withManPages [
+      "--mandir=${placeholder "man"}/share/man"
+    ]
+    ++ [
+      (enableFeature withPodDoc "podpages")
+      (enableFeature withTxtDoc "txtpages")
+    ]
+    ++ optionals withDoc [
+      "--docdir=${placeholder "doc"}/share/doc/ffmpeg"
+    ]
+    ++ [
+      # External libraries
+      (enableFeature withAlsa "alsa")
+      (enableFeature withAmf "amf")
+      (enableFeature withAom "libaom")
+      (enableFeature withAribb24 "libaribb24")
+    ]
+    ++ optionals (versionAtLeast version "6.1") [
+      (enableFeature withAribcaption "libaribcaption")
+    ]
+    ++ [
+      (enableFeature withAss "libass")
+      (enableFeature withAvisynth "avisynth")
+      (enableFeature withBluray "libbluray")
+      (enableFeature withBs2b "libbs2b")
+      (enableFeature withBzlib "bzlib")
+      (enableFeature withCaca "libcaca")
+      (enableFeature withCdio "libcdio")
+      (enableFeature withCelt "libcelt")
+      (enableFeature withChromaprint "chromaprint")
+      (enableFeature withCodec2 "libcodec2")
+      (enableFeature withCuda "cuda")
+      (enableFeature withCudaLLVM "cuda-llvm")
+      (enableFeature withCudaNVCC "cuda-nvcc")
+      (enableFeature withCuvid "cuvid")
+      (enableFeature withDav1d "libdav1d")
+      (enableFeature withDc1394 "libdc1394")
+      (enableFeature withDrm "libdrm")
+    ]
+    ++ optionals (versionAtLeast version "7") [
+      (enableFeature withDvdnav "libdvdnav")
+      (enableFeature withDvdread "libdvdread")
+    ]
+    ++ [
+      (enableFeature withFdkAac "libfdk-aac")
+      (enableFeature withNvcodec "ffnvcodec")
+      (enableFeature withFlite "libflite")
+      (enableFeature withFontconfig "fontconfig")
+      (enableFeature withFontconfig "libfontconfig")
+      (enableFeature withFreetype "libfreetype")
+      (enableFeature withFrei0r "frei0r")
+      (enableFeature withFribidi "libfribidi")
+      (enableFeature withGme "libgme")
+      (enableFeature withGnutls "gnutls")
+      (enableFeature withGsm "libgsm")
+    ]
+    ++ optionals (versionAtLeast version "6.1") [
+      (enableFeature withHarfbuzz "libharfbuzz")
+    ]
+    ++ [
+      (enableFeature withIconv "iconv")
+      (enableFeature withIlbc "libilbc")
+      (enableFeature withJack "libjack")
+    ]
+    ++ optionals (versionAtLeast finalAttrs.version "5.0") [
+      (enableFeature withJxl "libjxl")
+    ]
+    ++ [
+      (enableFeature withKvazaar "libkvazaar")
+      (enableFeature withLadspa "ladspa")
+    ]
+    ++ optionals (versionAtLeast version "7.1") [
+      (enableFeature withLc3 "liblc3")
+      (enableFeature withLcevcdec "liblcevc-dec")
+    ]
+    ++ optionals (versionAtLeast version "5.1") [
+      (enableFeature withLcms2 "lcms2")
+    ]
+    ++ [
+      (enableFeature withLzma "lzma")
+    ]
+    ++ optionals (versionAtLeast version "5.0") [
+      (enableFeature withMetal "metal")
+    ]
+    ++ [
+      (enableFeature withMfx "libmfx")
+      (enableFeature withModplug "libmodplug")
+      (enableFeature withMp3lame "libmp3lame")
+      (enableFeature withMysofa "libmysofa")
+      (enableFeature withNpp "libnpp")
+      (enableFeature withNvdec "nvdec")
+      (enableFeature withNvenc "nvenc")
+      (enableFeature withOpenal "openal")
+      (enableFeature withOpencl "opencl")
+      (enableFeature withOpencoreAmrnb "libopencore-amrnb")
+      (enableFeature withOpencoreAmrwb "libopencore-amrwb")
+      (enableFeature withOpengl "opengl")
+      (enableFeature withOpenh264 "libopenh264")
+      (enableFeature withOpenjpeg "libopenjpeg")
+      (enableFeature withOpenmpt "libopenmpt")
+      (enableFeature withOpus "libopus")
+    ]
+    ++ optionals (versionAtLeast version "5.0") [
+      (enableFeature withPlacebo "libplacebo")
+    ]
+    ++ [
+      (enableFeature withPulse "libpulse")
+    ]
+    ++ optionals (versionAtLeast version "7") [
+      (enableFeature withQrencode "libqrencode")
+      (enableFeature withQuirc "libquirc")
+    ]
+    ++ [
+      (enableFeature withRav1e "librav1e")
+      (enableFeature withRist "librist")
+      (enableFeature withRtmp "librtmp")
+      (enableFeature withRubberband "librubberband")
+      (enableFeature withSamba "libsmbclient")
+      (enableFeature withSdl2 "sdl2")
+    ]
+    ++ optionals (versionAtLeast version "5.0") [
+      (enableFeature withShaderc "libshaderc")
+    ]
+    ++ [
+      (enableFeature withShine "libshine")
+      (enableFeature withSnappy "libsnappy")
+      (enableFeature withSoxr "libsoxr")
+      (enableFeature withSpeex "libspeex")
+      (enableFeature withSrt "libsrt")
+      (enableFeature withSsh "libssh")
+      (enableFeature withSvg "librsvg")
+      (enableFeature withSvtav1 "libsvtav1")
+      (enableFeature withTensorflow "libtensorflow")
+      (enableFeature withTheora "libtheora")
+      (enableFeature withTwolame "libtwolame")
+      (enableFeature withV4l2 "libv4l2")
+      (enableFeature withV4l2M2m "v4l2-m2m")
+      (enableFeature withVaapi "vaapi")
+      (enableFeature withVdpau "vdpau")
+    ]
+    ++ optionals (versionAtLeast version "6.0") [
+      (enableFeature withVpl "libvpl")
+    ]
+    ++ [
+      (enableFeature withVidStab "libvidstab") # Actual min. version 2.0
+      (enableFeature withVmaf "libvmaf")
+      (enableFeature withVoAmrwbenc "libvo-amrwbenc")
+      (enableFeature withVorbis "libvorbis")
+      (enableFeature withVpx "libvpx")
+      (enableFeature withVulkan "vulkan")
+    ]
+    ++ optionals (versionAtLeast version "7.1") [
+      (enableFeature withVvenc "libvvenc")
+    ]
+    ++ [
+      (enableFeature withWebp "libwebp")
+      (enableFeature withX264 "libx264")
+      (enableFeature withX265 "libx265")
+      (enableFeature withXavs "libxavs")
+      (enableFeature withXcb "libxcb")
+      (enableFeature withXcbShape "libxcb-shape")
+      (enableFeature withXcbShm "libxcb-shm")
+      (enableFeature withXcbxfixes "libxcb-xfixes")
+    ]
+    ++ optionals (versionAtLeast version "7") [
+      (enableFeature withXevd "libxevd")
+      (enableFeature withXeve "libxeve")
+    ]
+    ++ [
+      (enableFeature withXlib "xlib")
+      (enableFeature withXml2 "libxml2")
+      (enableFeature withXvid "libxvid")
+      (enableFeature withZimg "libzimg")
+      (enableFeature withZlib "zlib")
+      (enableFeature withZmq "libzmq")
+      (enableFeature withZvbi "libzvbi")
+      # Developer flags
+      (enableFeature withDebug "debug")
+      (enableFeature withOptimisations "optimizations")
+      (enableFeature withExtraWarnings "extra-warnings")
+      (enableFeature withStripping "stripping")
+    ]
+    ++ [
+      (enableFeature withRkmpp "rkmpp")
+    ]
+    ++ optionals (stdenv.hostPlatform != stdenv.buildPlatform) [
+      "--cross-prefix=${stdenv.cc.targetPrefix}"
+      "--enable-cross-compile"
+      "--host-cc=${buildPackages.stdenv.cc}/bin/cc"
+    ]
+    ++ optionals stdenv.cc.isClang [
+      "--cc=${stdenv.cc.targetPrefix}clang"
+      "--cxx=${stdenv.cc.targetPrefix}clang++"
+    ]
+    ++ optionals withMetal [
+      "--metalcc=${xcode}/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/metal"
+      "--metallib=${xcode}/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/metallib"
+    ];
 
-          buildInputs =
-            []
-            ++ optionals stdenv.hostPlatform.isDarwin [apple-sdk_15]
-            ++ optionals withAlsa [alsa-lib]
-            ++ optionals withAmf [amf-headers]
-            ++ optionals withAom [libaom]
-            ++ optionals withAribb24 [aribb24]
-            ++ optionals withAribcaption [libaribcaption]
-            ++ optionals withAss [libass]
-            ++ optionals withAvisynth [avisynthplus]
-            ++ optionals withBluray [libbluray]
-            ++ optionals withBs2b [libbs2b]
-            ++ optionals withBzlib [bzip2]
-            ++ optionals withCaca [libcaca]
-            ++ optionals withCdio [
-              libcdio
-              libcdio-paranoia
-            ]
-            ++ optionals withCelt [celt]
-            ++ optionals withChromaprint [chromaprint]
-            ++ optionals withCodec2 [codec2]
-            ++ optionals withCudaNVCC [
-              cuda_cudart
-              cuda_nvcc
-            ]
-            ++ optionals withDav1d [dav1d]
-            ++ optionals withDc1394 ([libdc1394] ++ (lib.optional stdenv.hostPlatform.isLinux libraw1394))
-            ++ optionals withDrm [libdrm]
-            ++ optionals withDvdnav [libdvdnav]
-            ++ optionals withDvdread [libdvdread]
-            ++ optionals withFdkAac [fdk_aac]
-            ++ optionals withRkmpp [rockchip_mpp]
-            ++ optionals withNvcodec [
-              (
-                if (lib.versionAtLeast version "6")
-                then nv-codec-headers-12
-                else nv-codec-headers
-              )
-            ]
-            ++ optionals withFlite [flite]
-            ++ optionals withFontconfig [fontconfig]
-            ++ optionals withFreetype [freetype]
-            ++ optionals withFrei0r [frei0r]
-            ++ optionals withFribidi [fribidi]
-            ++ optionals withGme [game-music-emu]
-            ++ optionals withGnutls [gnutls]
-            ++ optionals withGsm [gsm]
-            ++ optionals withHarfbuzz [harfbuzz]
-            ++ optionals withIconv [libiconv] # On Linux this should be in libc, do we really need it?
-            ++ optionals withIlbc [libilbc]
-            ++ optionals withJack [libjack2]
-            ++ optionals withJxl [libjxl]
-            ++ optionals withKvazaar [kvazaar]
-            ++ optionals withLadspa [ladspaH]
-            ++ optionals withLc3 [liblc3]
-            ++ optionals withLcevcdec [lcevcdec]
-            ++ optionals withLcms2 [lcms2]
-            ++ optionals withLzma [xz]
-            ++ optionals withMfx [intel-media-sdk]
-            ++ optionals withModplug [libmodplug]
-            ++ optionals withMp3lame [lame]
-            ++ optionals withMysofa [libmysofa]
-            ++ optionals withNpp [
-              libnpp
-              cuda_cudart
-              cuda_nvcc
-            ]
-            ++ optionals withOpenal [openal]
-            ++ optionals withOpencl [
-              ocl-icd
-              opencl-headers
-            ]
-            ++ optionals (withOpencoreAmrnb || withOpencoreAmrwb) [opencore-amr]
-            ++ optionals withOpengl [
-              libGL
-              libGLU
-            ]
-            ++ optionals withOpenh264 [openh264]
-            ++ optionals withOpenjpeg [openjpeg]
-            ++ optionals withOpenmpt [libopenmpt]
-            ++ optionals withOpus [libopus]
-            ++ optionals withPlacebo [
-              (
-                if (lib.versionAtLeast version "6.1")
-                then libplacebo
-                else libplacebo_5
-              )
-              vulkan-headers
-            ]
-            ++ optionals withPulse [libpulseaudio]
-            ++ optionals withQrencode [qrencode]
-            ++ optionals withQuirc [quirc]
-            ++ optionals withRav1e [rav1e]
-            ++ optionals withRist [librist]
-            ++ optionals withRtmp [rtmpdump]
-            ++ optionals withRubberband [rubberband]
-            ++ optionals withSamba [samba]
-            ++ optionals withSdl2 [SDL2]
-            ++ optionals withShaderc [shaderc]
-            ++ optionals withShine [shine]
-            ++ optionals withSnappy [snappy]
-            ++ optionals withSoxr [soxr]
-            ++ optionals withSpeex [speex]
-            ++ optionals withSrt [srt]
-            ++ optionals withSsh [libssh]
-            ++ optionals withSvg [librsvg]
-            ++ optionals withSvtav1 [svt-av1]
-            ++ optionals withTensorflow [libtensorflow]
-            ++ optionals withTheora [libtheora]
-            ++ optionals withTwolame [twolame]
-            ++ optionals withV4l2 [libv4l]
-            ++ optionals withVaapi [
-              (
-                if withSmallDeps
-                then libva
-                else libva-minimal
-              )
-            ]
-            ++ optionals withVdpau [libvdpau]
-            ++ optionals withVidStab [vid-stab]
-            ++ optionals withVmaf [libvmaf]
-            ++ optionals withVoAmrwbenc [vo-amrwbenc]
-            ++ optionals withVorbis [libvorbis]
-            ++ optionals withVpl [libvpl]
-            ++ optionals withVpx [libvpx]
-            ++ optionals withVulkan [
-              vulkan-headers
-              vulkan-loader
-            ]
-            ++ optionals withVvenc [vvenc]
-            ++ optionals withWebp [libwebp]
-            ++ optionals withX264 [x264]
-            ++ optionals withX265 [x265]
-            ++ optionals withXavs [xavs]
-            ++ optionals withXcb [libxcb]
-            ++ optionals withXevd [xevd]
-            ++ optionals withXeve [xeve]
-            ++ optionals withXlib [
-              libX11
-              libXv
-              libXext
-            ]
-            ++ optionals withXml2 [libxml2]
-            ++ optionals withXvid [xvidcore]
-            ++ optionals withZimg [zimg]
-            ++ optionals withZlib [zlib]
-            ++ optionals withZmq [zeromq]
-            ++ optionals withZvbi [zvbi];
+    # ffmpeg embeds the configureFlags verbatim in its binaries and because we
+    # configure binary, include, library dir etc., this causes references in
+    # outputs where we don't want them. Patch the generated config.h to remove all
+    # such references except for data.
+    postConfigure =
+      let
+        toStrip =
+          map placeholder (lib.remove "data" finalAttrs.outputs) # We want to keep references to the data dir.
+          ++ lib.optional (stdenv.hostPlatform != stdenv.buildPlatform) buildPackages.stdenv.cc
+          ++ lib.optional withMetal xcode;
+      in
+      "remove-references-to ${lib.concatStringsSep " " (map (o: "-t ${o}") toStrip)} config.h";
 
-          buildFlags = ["all"] ++ optional buildQtFaststart "tools/qt-faststart"; # Build qt-faststart executable
+    strictDeps = true;
 
-          env = lib.optionalAttrs stdenv.cc.isGNU {
-            NIX_CFLAGS_COMPILE = toString [
-              "-Wno-error=incompatible-pointer-types"
-              "-Wno-error=int-conversion"
-            ];
-          };
+    nativeBuildInputs = [
+      removeReferencesTo
+      addDriverRunpath
+      perl
+      pkg-config
+      yasm
+    ]
+    # Texinfo version 7.1 introduced breaking changes, which older versions of ffmpeg do not handle.
+    ++ (if versionOlder version "5" then [ texinfo6 ] else [ texinfo ])
+    ++ optionals withCudaLLVM [ clang ]
+    ++ optionals withCudaNVCC [ cuda_nvcc ];
 
-          doCheck = stdenv.buildPlatform.canExecute stdenv.hostPlatform;
+    buildInputs =
+      [ ]
+      ++ optionals stdenv.hostPlatform.isDarwin [ apple-sdk_15 ]
+      ++ optionals withAlsa [ alsa-lib ]
+      ++ optionals withAmf [ amf-headers ]
+      ++ optionals withAom [ libaom ]
+      ++ optionals withAribb24 [ aribb24 ]
+      ++ optionals withAribcaption [ libaribcaption ]
+      ++ optionals withAss [ libass ]
+      ++ optionals withAvisynth [ avisynthplus ]
+      ++ optionals withBluray [ libbluray ]
+      ++ optionals withBs2b [ libbs2b ]
+      ++ optionals withBzlib [ bzip2 ]
+      ++ optionals withCaca [ libcaca ]
+      ++ optionals withCdio [
+        libcdio
+        libcdio-paranoia
+      ]
+      ++ optionals withCelt [ celt ]
+      ++ optionals withChromaprint [ chromaprint ]
+      ++ optionals withCodec2 [ codec2 ]
+      ++ optionals withCudaNVCC [
+        cuda_cudart
+        cuda_nvcc
+      ]
+      ++ optionals withDav1d [ dav1d ]
+      ++ optionals withDc1394 ([ libdc1394 ] ++ (lib.optional stdenv.hostPlatform.isLinux libraw1394))
+      ++ optionals withDrm [ libdrm ]
+      ++ optionals withDvdnav [ libdvdnav ]
+      ++ optionals withDvdread [ libdvdread ]
+      ++ optionals withFdkAac [ fdk_aac ]
+      ++ optionals withRkmpp [ rockchip_mpp ]
+      ++ optionals withNvcodec [
+        (if (lib.versionAtLeast version "6") then nv-codec-headers-12 else nv-codec-headers)
+      ]
+      ++ optionals withFlite [ flite ]
+      ++ optionals withFontconfig [ fontconfig ]
+      ++ optionals withFreetype [ freetype ]
+      ++ optionals withFrei0r [ frei0r ]
+      ++ optionals withFribidi [ fribidi ]
+      ++ optionals withGme [ game-music-emu ]
+      ++ optionals withGnutls [ gnutls ]
+      ++ optionals withGsm [ gsm ]
+      ++ optionals withHarfbuzz [ harfbuzz ]
+      ++ optionals withIconv [ libiconv ] # On Linux this should be in libc, do we really need it?
+      ++ optionals withIlbc [ libilbc ]
+      ++ optionals withJack [ libjack2 ]
+      ++ optionals withJxl [ libjxl ]
+      ++ optionals withKvazaar [ kvazaar ]
+      ++ optionals withLadspa [ ladspaH ]
+      ++ optionals withLc3 [ liblc3 ]
+      ++ optionals withLcevcdec [ lcevcdec ]
+      ++ optionals withLcms2 [ lcms2 ]
+      ++ optionals withLzma [ xz ]
+      ++ optionals withMfx [ intel-media-sdk ]
+      ++ optionals withModplug [ libmodplug ]
+      ++ optionals withMp3lame [ lame ]
+      ++ optionals withMysofa [ libmysofa ]
+      ++ optionals withNpp [
+        libnpp
+        cuda_cudart
+        cuda_nvcc
+      ]
+      ++ optionals withOpenal [ openal ]
+      ++ optionals withOpencl [
+        ocl-icd
+        opencl-headers
+      ]
+      ++ optionals (withOpencoreAmrnb || withOpencoreAmrwb) [ opencore-amr ]
+      ++ optionals withOpengl [
+        libGL
+        libGLU
+      ]
+      ++ optionals withOpenh264 [ openh264 ]
+      ++ optionals withOpenjpeg [ openjpeg ]
+      ++ optionals withOpenmpt [ libopenmpt ]
+      ++ optionals withOpus [ libopus ]
+      ++ optionals withPlacebo [
+        (if (lib.versionAtLeast version "6.1") then libplacebo else libplacebo_5)
+        vulkan-headers
+      ]
+      ++ optionals withPulse [ libpulseaudio ]
+      ++ optionals withQrencode [ qrencode ]
+      ++ optionals withQuirc [ quirc ]
+      ++ optionals withRav1e [ rav1e ]
+      ++ optionals withRist [ librist ]
+      ++ optionals withRtmp [ rtmpdump ]
+      ++ optionals withRubberband [ rubberband ]
+      ++ optionals withSamba [ samba ]
+      ++ optionals withSdl2 [ SDL2 ]
+      ++ optionals withShaderc [ shaderc ]
+      ++ optionals withShine [ shine ]
+      ++ optionals withSnappy [ snappy ]
+      ++ optionals withSoxr [ soxr ]
+      ++ optionals withSpeex [ speex ]
+      ++ optionals withSrt [ srt ]
+      ++ optionals withSsh [ libssh ]
+      ++ optionals withSvg [ librsvg ]
+      ++ optionals withSvtav1 [ svt-av1 ]
+      ++ optionals withTensorflow [ libtensorflow ]
+      ++ optionals withTheora [ libtheora ]
+      ++ optionals withTwolame [ twolame ]
+      ++ optionals withV4l2 [ libv4l ]
+      ++ optionals withVaapi [
+        (if withSmallDeps then libva else libva-minimal)
+      ]
+      ++ optionals withVdpau [ libvdpau ]
+      ++ optionals withVidStab [ vid-stab ]
+      ++ optionals withVmaf [ libvmaf ]
+      ++ optionals withVoAmrwbenc [ vo-amrwbenc ]
+      ++ optionals withVorbis [ libvorbis ]
+      ++ optionals withVpl [ libvpl ]
+      ++ optionals withVpx [ libvpx ]
+      ++ optionals withVulkan [
+        vulkan-headers
+        vulkan-loader
+      ]
+      ++ optionals withVvenc [ vvenc ]
+      ++ optionals withWebp [ libwebp ]
+      ++ optionals withX264 [ x264 ]
+      ++ optionals withX265 [ x265 ]
+      ++ optionals withXavs [ xavs ]
+      ++ optionals withXcb [ libxcb ]
+      ++ optionals withXevd [ xevd ]
+      ++ optionals withXeve [ xeve ]
+      ++ optionals withXlib [
+        libX11
+        libXv
+        libXext
+      ]
+      ++ optionals withXml2 [ libxml2 ]
+      ++ optionals withXvid [ xvidcore ]
+      ++ optionals withZimg [ zimg ]
+      ++ optionals withZlib [ zlib ]
+      ++ optionals withZmq [ zeromq ]
+      ++ optionals withZvbi [ zvbi ];
 
-          # Fails with SIGABRT otherwise FIXME: Why?
-          checkPhase = let
-            ldLibraryPathEnv =
-              if stdenv.hostPlatform.isDarwin
-              then "DYLD_LIBRARY_PATH"
-              else "LD_LIBRARY_PATH";
-            libsToLink =
-              []
-              ++ optional buildAvcodec "libavcodec"
-              ++ optional buildAvdevice "libavdevice"
-              ++ optional buildAvfilter "libavfilter"
-              ++ optional buildAvformat "libavformat"
-              ++ optional buildAvresample "libavresample"
-              ++ optional buildAvutil "libavutil"
-              ++ optional buildPostproc "libpostproc"
-              ++ optional buildSwresample "libswresample"
-              ++ optional buildSwscale "libswscale";
-          in ''
-            ${ldLibraryPathEnv}="${lib.concatStringsSep ":" libsToLink}" make check -j$NIX_BUILD_CORES
-          '';
+    buildFlags = [ "all" ] ++ optional buildQtFaststart "tools/qt-faststart"; # Build qt-faststart executable
 
-          outputs =
-            optionals withBin ["bin"] # The first output is the one that gets symlinked by default!
-            ++ optionals withLib [
-              "lib"
-              "dev"
-            ]
-            ++ optionals withDoc ["doc"]
-            ++ optionals withManPages ["man"]
-            ++ [
-              "data"
-              "out"
-            ]
-            # We need an "out" output because we get an error otherwise. It's just an empty dir.
-            ;
+    env = lib.optionalAttrs stdenv.cc.isGNU {
+      NIX_CFLAGS_COMPILE = toString [
+        "-Wno-error=incompatible-pointer-types"
+        "-Wno-error=int-conversion"
+      ];
+    };
 
-          postInstall = optionalString buildQtFaststart ''
-            install -D tools/qt-faststart -t $bin/bin
-          '';
+    doCheck = stdenv.buildPlatform.canExecute stdenv.hostPlatform;
 
-          # Set RUNPATH so that libnvcuvid and libcuda in /run/opengl-driver(-32)/lib can be found.
-          # See the explanation in addDriverRunpath.
-          postFixup =
-            optionalString (stdenv.hostPlatform.isLinux && withLib) ''
-              addDriverRunpath ${placeholder "lib"}/lib/libavcodec.so
-              addDriverRunpath ${placeholder "lib"}/lib/libavutil.so
-            ''
-            # https://trac.ffmpeg.org/ticket/10809
-            + optionalString (versionAtLeast version "5.0" && withVulkan && !stdenv.hostPlatform.isMinGW) ''
-              patchelf $lib/lib/libavcodec.so --add-needed libvulkan.so --add-rpath ${
-                lib.makeLibraryPath [vulkan-loader]
-              }
-            '';
+    # Fails with SIGABRT otherwise FIXME: Why?
+    checkPhase =
+      let
+        ldLibraryPathEnv = if stdenv.hostPlatform.isDarwin then "DYLD_LIBRARY_PATH" else "LD_LIBRARY_PATH";
+        libsToLink =
+          [ ]
+          ++ optional buildAvcodec "libavcodec"
+          ++ optional buildAvdevice "libavdevice"
+          ++ optional buildAvfilter "libavfilter"
+          ++ optional buildAvformat "libavformat"
+          ++ optional buildAvresample "libavresample"
+          ++ optional buildAvutil "libavutil"
+          ++ optional buildPostproc "libpostproc"
+          ++ optional buildSwresample "libswresample"
+          ++ optional buildSwscale "libswscale";
+      in
+      ''
+        ${ldLibraryPathEnv}="${lib.concatStringsSep ":" libsToLink}" make check -j$NIX_BUILD_CORES
+      '';
 
-          enableParallelBuilding = true;
+    outputs =
+      optionals withBin [ "bin" ] # The first output is the one that gets symlinked by default!
+      ++ optionals withLib [
+        "lib"
+        "dev"
+      ]
+      ++ optionals withDoc [ "doc" ]
+      ++ optionals withManPages [ "man" ]
+      ++ [
+        "data"
+        "out"
+      ]
+    # We need an "out" output because we get an error otherwise. It's just an empty dir.
+    ;
 
-          passthru.tests.pkg-config = testers.testMetaPkgConfig finalAttrs.finalPackage;
+    postInstall = optionalString buildQtFaststart ''
+      install -D tools/qt-faststart -t $bin/bin
+    '';
 
-          meta = with lib; {
-            description = "Complete, cross-platform solution to record, convert and stream audio and video";
-            homepage = "https://www.ffmpeg.org/";
-            changelog = "https://github.com/FFmpeg/FFmpeg/blob/n${version}/Changelog";
-            longDescription = ''
-              FFmpeg is the leading multimedia framework, able to decode, encode, transcode,
-              mux, demux, stream, filter and play pretty much anything that humans and machines
-              have created. It supports the most obscure ancient formats up to the cutting edge.
-              No matter if they were designed by some standards committee, the community or
-              a corporation.
-            '';
-            license = with licenses;
-              [lgpl21Plus]
-              ++ optional withGPL gpl2Plus
-              ++ optional withVersion3 lgpl3Plus
-              ++ optional withGPLv3 gpl3Plus
-              ++ optional withUnfree unfreeRedistributable
-              ++ optional (withGPL && withUnfree) unfree;
-            pkgConfigModules =
-              []
-              ++ optional buildAvcodec "libavcodec"
-              ++ optional buildAvdevice "libavdevice"
-              ++ optional buildAvfilter "libavfilter"
-              ++ optional buildAvformat "libavformat"
-              ++ optional buildAvresample "libavresample"
-              ++ optional buildAvutil "libavutil"
-              ++ optional buildPostproc "libpostproc"
-              ++ optional buildSwresample "libswresample"
-              ++ optional buildSwscale "libswscale";
-            platforms = platforms.all;
-            # See https://github.com/NixOS/nixpkgs/pull/295344#issuecomment-1992263658
-            broken = stdenv.hostPlatform.isMinGW && stdenv.hostPlatform.is64bit;
-            maintainers = with maintainers; [
-              atemu
-              jopejoe1
-              emily
-            ];
-            mainProgram = "ffmpeg";
-          };
+    # Set RUNPATH so that libnvcuvid and libcuda in /run/opengl-driver(-32)/lib can be found.
+    # See the explanation in addDriverRunpath.
+    postFixup =
+      optionalString (stdenv.hostPlatform.isLinux && withLib) ''
+        addDriverRunpath ${placeholder "lib"}/lib/libavcodec.so
+        addDriverRunpath ${placeholder "lib"}/lib/libavutil.so
+      ''
+      # https://trac.ffmpeg.org/ticket/10809
+      + optionalString (versionAtLeast version "5.0" && withVulkan && !stdenv.hostPlatform.isMinGW) ''
+        patchelf $lib/lib/libavcodec.so --add-needed libvulkan.so --add-rpath ${
+          lib.makeLibraryPath [ vulkan-loader ]
         }
-        // lib.optionalAttrs withCudaLLVM {
-          # remove once https://github.com/NixOS/nixpkgs/issues/318674 is addressed properly
-          hardeningDisable = [
-            "pacret"
-            "shadowstack"
-            "zerocallusedregs"
-          ];
-        }
-    )
+      '';
+
+    enableParallelBuilding = true;
+
+    passthru.tests.pkg-config = testers.testMetaPkgConfig finalAttrs.finalPackage;
+
+    meta = with lib; {
+      description = "Complete, cross-platform solution to record, convert and stream audio and video";
+      homepage = "https://www.ffmpeg.org/";
+      changelog = "https://github.com/FFmpeg/FFmpeg/blob/n${version}/Changelog";
+      longDescription = ''
+        FFmpeg is the leading multimedia framework, able to decode, encode, transcode,
+        mux, demux, stream, filter and play pretty much anything that humans and machines
+        have created. It supports the most obscure ancient formats up to the cutting edge.
+        No matter if they were designed by some standards committee, the community or
+        a corporation.
+      '';
+      license =
+        with licenses;
+        [ lgpl21Plus ]
+        ++ optional withGPL gpl2Plus
+        ++ optional withVersion3 lgpl3Plus
+        ++ optional withGPLv3 gpl3Plus
+        ++ optional withUnfree unfreeRedistributable
+        ++ optional (withGPL && withUnfree) unfree;
+      pkgConfigModules =
+        [ ]
+        ++ optional buildAvcodec "libavcodec"
+        ++ optional buildAvdevice "libavdevice"
+        ++ optional buildAvfilter "libavfilter"
+        ++ optional buildAvformat "libavformat"
+        ++ optional buildAvresample "libavresample"
+        ++ optional buildAvutil "libavutil"
+        ++ optional buildPostproc "libpostproc"
+        ++ optional buildSwresample "libswresample"
+        ++ optional buildSwscale "libswscale";
+      platforms = platforms.all;
+      # See https://github.com/NixOS/nixpkgs/pull/295344#issuecomment-1992263658
+      broken = stdenv.hostPlatform.isMinGW && stdenv.hostPlatform.is64bit;
+      maintainers = with maintainers; [
+        atemu
+        jopejoe1
+        emily
+      ];
+      mainProgram = "ffmpeg";
+    };
+  }
+  // lib.optionalAttrs withCudaLLVM {
+    # remove once https://github.com/NixOS/nixpkgs/issues/318674 is addressed properly
+    hardeningDisable = [
+      "pacret"
+      "shadowstack"
+      "zerocallusedregs"
+    ];
+  }
+)

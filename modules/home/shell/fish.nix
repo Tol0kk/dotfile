@@ -7,12 +7,16 @@
   ...
 }:
 with lib;
-with libCustom; let
+with libCustom;
+let
   cfg = config.modules.shell.fish;
-in {
+in
+{
   options.modules.shell.fish = {
     enable = mkEnableOpt "Enable Fish shell";
-    withfastfetch = mkEnableOpt "Enable fastfetch greeting" // {default = true;};
+    withfastfetch = mkEnableOpt "Enable fastfetch greeting" // {
+      default = true;
+    };
   };
 
   config = mkIf cfg.enable {

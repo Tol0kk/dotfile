@@ -4,7 +4,8 @@
   cmake,
   fetchFromGitHub,
   ...
-}: let
+}:
+let
   rockchip_mpp = stdenv.mkDerivation {
     name = "rockchip_mpp";
     version = "develop";
@@ -25,7 +26,7 @@
         --replace 'includedir=''${prefix}/' 'includedir='
     '';
 
-    nativeBuildInputs = [cmake];
+    nativeBuildInputs = [ cmake ];
 
     outputs = [
       "lib"
@@ -34,4 +35,4 @@
     ];
   };
 in
-  rockchip_mpp
+rockchip_mpp

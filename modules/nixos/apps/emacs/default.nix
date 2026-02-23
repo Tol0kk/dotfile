@@ -6,9 +6,11 @@
   ...
 }:
 with lib;
-with libCustom; let
+with libCustom;
+let
   cfg = config.modules.apps.emacs;
-in {
+in
+{
   options.modules.apps.emacs = {
     enable = mkEnableOpt "Enable emacs";
   };

@@ -6,7 +6,8 @@
 # }
 let
   root_pool = "rpool";
-in {
+in
+{
   disko.devices = {
     disk = {
       main = {
@@ -22,7 +23,7 @@ in {
                 type = "filesystem";
                 format = "vfat";
                 mountpoint = "/boot";
-                mountOptions = ["umask=0077"];
+                mountOptions = [ "umask=0077" ];
               };
             };
             zfs = {

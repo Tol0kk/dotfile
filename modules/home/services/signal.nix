@@ -6,9 +6,11 @@
   ...
 }:
 with lib;
-with libCustom; let
+with libCustom;
+let
   cfg = config.modules.services.signal;
-in {
+in
+{
   options.modules.services.signal = {
     enable = mkEnableOpt "Enable Signal";
   };
@@ -19,7 +21,7 @@ in {
       (makeAutostartItem {
         name = "signal";
         package = signal-desktop;
-        prependExtraArgs = ["--start-in-tray"];
+        prependExtraArgs = [ "--start-in-tray" ];
       })
     ];
   };

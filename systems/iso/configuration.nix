@@ -8,7 +8,8 @@
   inputs,
   ...
 }:
-with libCustom; {
+with libCustom;
+{
   imports = [
     "${modulesPath}/installer/cd-dvd/installation-cd-minimal.nix"
   ];

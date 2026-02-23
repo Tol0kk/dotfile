@@ -5,9 +5,11 @@
   ...
 }:
 with lib;
-with libCustom; let
+with libCustom;
+let
   cfg = config.modules.services.samba;
-in {
+in
+{
   options.modules.services.samba = {
     enable = mkEnableOpt "Enable samba";
   };

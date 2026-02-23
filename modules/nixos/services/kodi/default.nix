@@ -5,10 +5,12 @@
   ...
 }:
 with lib;
-with libCustom; let
+with libCustom;
+let
   cfg = config.modules.services.kodi;
   traefikcfg = config.modules.services.traefik;
-in {
+in
+{
   options.modules.services.kodi = {
     enable = mkEnableOpt "Enable kodi homepage";
   };
@@ -33,7 +35,7 @@ in {
 
           routers.kodi = {
             rule = "Host(`kodi.${traefikcfg.domain}`)";
-            entryPoints = ["websecure"];
+            entryPoints = [ "websecure" ];
             service = "kodi";
             tls = traefikcfg.tlsConfig; # Uses Traefik's default self-signed cert
           };
@@ -42,7 +44,7 @@ in {
     };
 
     environment.systemPackages = [
-      (pkgs.kodi.withPackages (kodiPkgs: with kodiPkgs; [jellyfin]))
+      (pkgs.kodi.withPackages (kodiPkgs: with kodiPkgs; [ jellyfin ]))
     ];
   };
 }

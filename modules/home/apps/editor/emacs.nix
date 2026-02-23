@@ -7,9 +7,11 @@
   ...
 }:
 with lib;
-with libCustom; let
+with libCustom;
+let
   cfg = config.modules.apps.editor.emacs;
-in {
+in
+{
   options.modules.apps.editor.emacs = {
     enable = mkEnableOpt "Enable Emacs";
   };
@@ -22,12 +24,13 @@ in {
     ];
     home.file = {
       # tree-sitter subdirectory of the directory specified by user-emacs-directory
-      ".config/emacs/.local/cache/tree-sitter".source = "${pkgs-unstable.emacsPackages.treesit-grammars.with-all-grammars}/lib";
+      ".config/emacs/.local/cache/tree-sitter".source =
+        "${pkgs-unstable.emacsPackages.treesit-grammars.with-all-grammars}/lib";
     };
     programs.emacs = {
       enable = true;
       package = pkgs-unstable.emacs;
-      extraPackages = epkgs: [epkgs.treesit-grammars.with-all-grammars];
+      extraPackages = epkgs: [ epkgs.treesit-grammars.with-all-grammars ];
     };
   };
 }

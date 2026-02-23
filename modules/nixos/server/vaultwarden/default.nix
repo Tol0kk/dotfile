@@ -4,12 +4,14 @@
   pkgs-unstable,
   ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.modules.server.vaultwarden;
   serverDomain = config.modules.server.cloudflared.domain;
   tunnelId = config.modules.server.cloudflared.tunnelId;
   domain = "vaultwarden.${serverDomain}";
-in {
+in
+{
   options.modules.server.vaultwarden = {
     enable = mkOption {
       description = "Enable Vaultwarden services";

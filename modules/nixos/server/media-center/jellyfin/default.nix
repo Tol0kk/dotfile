@@ -4,11 +4,13 @@
   pkgs,
   ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.modules.server.media-center.jellyfin;
   serverDomain = config.modules.server.cloudflared.domain;
   domain = "media.cloud.${serverDomain}";
-in {
+in
+{
   options.modules.server.media-center.jellyfin = {
     enable = mkOption {
       description = "Enable Jellyfin service";
@@ -47,7 +49,7 @@ in {
             }
           ];
           routers.jellyfin = {
-            entryPoints = ["websecure"];
+            entryPoints = [ "websecure" ];
             rule = "Host(`${domain}`)";
             service = "jellyfin";
             tls.certResolver = "letsencrypt";

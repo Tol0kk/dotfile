@@ -6,9 +6,11 @@
   ...
 }:
 with lib;
-with libCustom; let
+with libCustom;
+let
   cfg = config.modules.users.builder;
-in {
+in
+{
   options.modules.users.builder = {
     enable = mkEnableOpt "Enable Builder user";
   };
@@ -25,7 +27,7 @@ in {
       shell = pkgs.bashInteractive;
       group = "builders";
     };
-    nix.settings.trusted-users = ["builder"];
-    users.groups.builders = {};
+    nix.settings.trusted-users = [ "builder" ];
+    users.groups.builders = { };
   };
 }

@@ -2,7 +2,8 @@
   lib,
   pkgsCross,
   # pkgs,
-}: let
+}:
+let
   pkgs = pkgsCross.aarch64-multiplatform;
   kernelConfig = with lib.kernel; {
     # arch/arm64/Kconfig.platforms
@@ -27,7 +28,7 @@
     PHY_ROCKCHIP_PCIE = yes; # Enable this to support the Rockchip PCIe PHY.
     PHY_ROCKCHIP_SNPS_PCIE3 = yes; # Enable this to support the Rockchip snps PCIe3 PHY.
     PHY_ROCKCHIP_TYPEC = yes; # Enable this to support the Rockchip USB TYPEC PHY.
-    PHY_ROCKCHIP_USB = yes; #  Enable this to support the Rockchip USB 2.0 PHY.
+    PHY_ROCKCHIP_USB = yes; # Enable this to support the Rockchip USB 2.0 PHY.
 
     # drivers/gpu/drm/rockchip/Kconfig
     DRM_ROCKCHIP = yes;
@@ -66,7 +67,6 @@
     # ROCKCHIP_PM_DOMAINS = yes;
   };
 in
-  # pkgs.linuxKernel.packagesFor (
-  pkgs.linuxKernel.kernels.linux_6_12.override {structuredExtraConfig = kernelConfig;}
+# pkgs.linuxKernel.packagesFor (
+pkgs.linuxKernel.kernels.linux_6_12.override { structuredExtraConfig = kernelConfig; }
 # )
-

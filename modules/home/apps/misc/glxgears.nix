@@ -7,15 +7,17 @@
   ...
 }:
 with lib;
-with libCustom; let
+with libCustom;
+let
   cfg = config.modules.apps.misc.glxgears;
-in {
+in
+{
   options.modules.apps.misc.glxgears = {
     enable = mkEnableOpt "Enable glxgears";
   };
 
   config = mkIf cfg.enable {
-    home.packages = [inputs.mesa-demo.packages.${pkgs.system}.glxgears];
+    home.packages = [ inputs.mesa-demo.packages.${pkgs.system}.glxgears ];
     xdg.configFile."glxgears/config.conf".text = with config.lib.stylix.colors; ''
       -col-red-gear #${base08}FF
       -col-green-gear #${base0B}FF

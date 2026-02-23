@@ -6,9 +6,11 @@
   ...
 }:
 with lib;
-with libCustom; let
+with libCustom;
+let
   cfg = config.modules.shell.starship;
-in {
+in
+{
   options.modules.shell.starship = {
     enable = mkEnableOpt "Enable Starship";
   };

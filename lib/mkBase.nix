@@ -2,12 +2,14 @@
   libCustom,
   lib,
   ...
-}: {
+}:
+{
   self,
   nixpkgs-stable,
   nixpkgs-unstable,
   ...
-} @ inputs: let
+}@inputs:
+let
   inherit (libCustom) get-directories import-tree;
 
   # Global Config
@@ -44,22 +46,22 @@
         builtins.unsafeDiscardStringContext (builtins.baseNameOf system)
       );
       value = import system inputs;
-    })
-    systems
+    }) systems
   );
 
   # Import Common Overlay
-  common_overlay = import ./overlay.nix {inherit inputs self;};
+  common_overlay = import ./overlay.nix { inherit inputs self; };
 
-  common_config = {
-    name,
-    nixpkgs,
-  }: {
-    networking.hostName = name;
-    nix.registry.nixpkgs.flake = nixpkgs;
+  common_config =
+    {
+      name,
+      nixpkgs,
+    }:
+    {
+      networking.hostName = name;
+      nix.registry.nixpkgs.flake = nixpkgs;
 
-    nix.settings =
-      {
+      nix.settings = {
         experimental-features = [
           "nix-command"
           "flakes"
@@ -69,81 +71,79 @@
         auto-optimise-store = true;
       }
       // (import "${self}/lib/substituters.nix");
-  };
+    };
 in
-  lib.mapAttrs' (
-    name: {
-      system,
-      nixpkgs,
-      withHomeManager ? false,
-      isPure ? false,
-      ...
-    }:
-      lib.nameValuePair "${name}-base" (
-        nixpkgs.lib.nixosSystem {
-          inherit system;
-          pkgs = import nixpkgs {
-            inherit system;
-            systemPlatform.system = system;
-            config = nixpkgs_config;
-            overlays = common_overlay;
-          };
-          specialArgs =
+lib.mapAttrs' (
+  name:
+  {
+    system,
+    nixpkgs,
+    withHomeManager ? false,
+    isPure ? false,
+    ...
+  }:
+  lib.nameValuePair "${name}-base" (
+    nixpkgs.lib.nixosSystem {
+      inherit system;
+      pkgs = import nixpkgs {
+        inherit system;
+        systemPlatform.system = system;
+        config = nixpkgs_config;
+        overlays = common_overlay;
+      };
+      specialArgs = {
+        inherit
+          inputs
+          self
+          withHomeManager
+          isPure
+          ;
+      }
+      // libs
+      // extraPkgs system;
+      modules = [
+        "${self}/systems/${name}/configuration.nix"
+        (common_config { inherit name nixpkgs; })
+        inputs.nix-index-database.nixosModules.nix-index
+        inputs.nix-topology.nixosModules.default
+        { imports = [ (import-tree "${self}/modules/nixos") ]; }
+        inputs.home-manager-unstable.nixosModules.home-manager
+      ]
+      ++ lib.optionals withHomeManager [
+        {
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+          home-manager.backupFileExtension = "homeManagerBackup";
+          home-manager.sharedModules = [
             {
-              inherit
-                inputs
-                self
-                withHomeManager
-                isPure
-                ;
+              home.stateVersion = "24.05";
+              programs.home-manager.enable = true;
             }
-            // libs
-            // extraPkgs system;
-          modules =
-            [
-              "${self}/systems/${name}/configuration.nix"
-              (common_config {inherit name nixpkgs;})
-              inputs.nix-index-database.nixosModules.nix-index
-              inputs.nix-topology.nixosModules.default
-              {imports = [(import-tree "${self}/modules/nixos")];}
-              inputs.home-manager-unstable.nixosModules.home-manager
-            ]
-            ++ lib.optionals withHomeManager [
+            (import-tree "${self}/modules/home")
+            inputs.sops-nix.homeManagerModules.sops
+            inputs.stylix.homeModules.stylix
+            (
+              { config, ... }:
               {
-                home-manager.useGlobalPkgs = true;
-                home-manager.useUserPackages = true;
-                home-manager.backupFileExtension = "homeManagerBackup";
-                home-manager.sharedModules = [
-                  {
-                    home.stateVersion = "24.05";
-                    programs.home-manager.enable = true;
-                  }
-                  (import-tree "${self}/modules/home")
-                  inputs.sops-nix.homeManagerModules.sops
-                  inputs.stylix.homeModules.stylix
-                  (
-                    {config, ...}: {
-                      # Options used inside home configration
-                      options.dotfiles = lib.mkOption {
-                        type = lib.types.path;
-                        apply = toString;
-                        default = "${config.home.homeDirectory}/.config/nixos";
-                        example = "${config.home.homeDirectory}/.config/nixos";
-                        description = "Location of the dotfiles working copy";
-                      };
-                    }
-                  )
-                ];
-                home-manager.extraSpecialArgs =
-                  {
-                    inherit inputs self isPure;
-                    hostname = name;
-                  }
-                  // libs
-                  // extraPkgs system;
+                # Options used inside home configration
+                options.dotfiles = lib.mkOption {
+                  type = lib.types.path;
+                  apply = toString;
+                  default = "${config.home.homeDirectory}/.config/nixos";
+                  example = "${config.home.homeDirectory}/.config/nixos";
+                  description = "Location of the dotfiles working copy";
+                };
               }
-            ];
+            )
+          ];
+          home-manager.extraSpecialArgs = {
+            inherit inputs self isPure;
+            hostname = name;
+          }
+          // libs
+          // extraPkgs system;
         }
-      )
+      ];
+    }
   )
-  systemsConfig
+) systemsConfig

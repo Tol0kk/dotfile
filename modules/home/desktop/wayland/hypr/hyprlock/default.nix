@@ -5,9 +5,11 @@
   ...
 }:
 with lib;
-with libCustom; let
+with libCustom;
+let
   cfg = config.modules.desktop.wayland.hypr.hyprpanel;
-in {
+in
+{
   options.modules.desktop.wayland.hypr.hyprlock = {
     enable = mkEnableOpt "Enable Hyprlock";
   };

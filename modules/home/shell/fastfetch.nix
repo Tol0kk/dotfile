@@ -5,9 +5,11 @@
   ...
 }:
 with lib;
-with libCustom; let
+with libCustom;
+let
   cfg = config.modules.shell.fastfetch;
-in {
+in
+{
   options.modules.shell.fastfetch = {
     enable = mkEnableOpt "Enable Fastfetch";
   };

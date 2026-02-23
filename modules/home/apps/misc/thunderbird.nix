@@ -5,9 +5,11 @@
   ...
 }:
 with lib;
-with libCustom; let
+with libCustom;
+let
   cfg = config.modules.apps.misc.thunderbird;
-in {
+in
+{
   options.modules.apps.misc.thunderbird = {
     enable = mkEnableOpt "Enable Thunderbird";
   };

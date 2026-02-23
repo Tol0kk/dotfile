@@ -5,9 +5,11 @@
   ...
 }:
 with lib;
-with libCustom; let
+with libCustom;
+let
   cfg = config.modules.apps.misc.mpv;
-in {
+in
+{
   options.modules.apps.misc.mpv = {
     enable = mkEnableOpt "Enable MPV";
   };

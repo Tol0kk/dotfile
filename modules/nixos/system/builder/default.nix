@@ -5,9 +5,11 @@
   ...
 }:
 with lib;
-with libCustom; let
+with libCustom;
+let
   cfg = config.modules.system.remote-builder;
-in {
+in
+{
   options.modules.system.remote-builder = {
     enable = mkEnableOpt "Enable remote builder";
   };
@@ -29,13 +31,21 @@ in {
       {
         # Add desktop remote builder
         hostName = "builder";
-        systems = ["x86_64-linux" "aarch64-linux"];
+        systems = [
+          "x86_64-linux"
+          "aarch64-linux"
+        ];
         protocol = "ssh-ng";
         sshUser = "builder";
         maxJobs = 16;
         speedFactor = 30;
-        supportedFeatures = ["nixos-test" "benchmark" "big-parallel" "kvm"];
-        mandatoryFeatures = [];
+        supportedFeatures = [
+          "nixos-test"
+          "benchmark"
+          "big-parallel"
+          "kvm"
+        ];
+        mandatoryFeatures = [ ];
       }
     ];
     nix.distributedBuilds = true;

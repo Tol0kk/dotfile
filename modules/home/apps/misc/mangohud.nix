@@ -5,9 +5,11 @@
   ...
 }:
 with lib;
-with libCustom; let
+with libCustom;
+let
   cfg = config.modules.apps.misc.mangohud;
-in {
+in
+{
   options.modules.apps.misc.mangohud = {
     enable = mkEnableOpt "Enable MangoHud";
   };

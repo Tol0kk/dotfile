@@ -6,16 +6,18 @@
   ...
 }:
 with lib;
-with libCustom; let
+with libCustom;
+let
   cfg = config.modules.apps.avizo;
-in {
+in
+{
   options.modules.apps.avizo = {
     enable = mkEnableOpt "Enable avizo";
   };
 
   # TODO
   config = mkIf cfg.enable {
-    home.packages = [pkgs.pamixer];
+    home.packages = [ pkgs.pamixer ];
     services.avizo.enable = true;
     services.avizo.settings = {
       default = {

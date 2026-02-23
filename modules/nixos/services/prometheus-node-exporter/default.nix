@@ -5,9 +5,11 @@
   ...
 }:
 with lib;
-with libCustom; let
+with libCustom;
+let
   cfg = config.modules.services.prometheus-node-exporter;
-in {
+in
+{
   options.modules.services.prometheus-node-exporter = {
     enable = mkEnableOpt "Enable Prometheus node exports on the system";
   };

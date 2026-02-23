@@ -4,7 +4,8 @@
   pkgs-unstable,
   ...
 }:
-with lib; let
+with lib;
+let
   cfg = config.modules.server.glance;
   tunnelId = config.modules.server.cloudflared.tunnelId;
   serverDomain = config.modules.server.cloudflared.domain;
@@ -19,7 +20,7 @@ with lib; let
           limit = 4;
         }
       ];
-      subreddit = ["technology"];
+      subreddit = [ "technology" ];
       youtbe = [
         "UCeeFfhMcJa1kjtfZAGskOCA" # TechLinked
         "UCXuqSBlHAE6Xw-yeJA0Tunw" # LinusTechTips
@@ -29,8 +30,8 @@ with lib; let
       ];
     };
     vulgarization = {
-      feeds = [];
-      subreddit = [];
+      feeds = [ ];
+      subreddit = [ ];
       youtbe = [
         "UCHnyfMqiRRG1u-2MsSQLbXA" # Veritasium
       ];
@@ -77,7 +78,7 @@ with lib; let
           limit = 4;
         }
       ];
-      subreddit = [];
+      subreddit = [ ];
       youtube = [
         "UCH6ppHEvV3_WIXEwmhv9HEg" # Deus Ex Silicium
         "UCS0N5baNlQWJCUrhCEo8WlA" # Ben Eater
@@ -168,11 +169,11 @@ with lib; let
           limit = 4;
         }
       ];
-      subreddit = [];
-      youtube = [];
+      subreddit = [ ];
+      youtube = [ ];
     };
     cyber = {
-      feeds = [];
+      feeds = [ ];
       subreddit = [
         "hackthebox"
         "privacy"
@@ -183,8 +184,8 @@ with lib; let
       ];
     };
     diy = {
-      feeds = [];
-      subreddit = [];
+      feeds = [ ];
+      subreddit = [ ];
       youtube = [
         "UCwivlXhhHxc7c5RAtmpLykw" # Play Conveyor
         "UCEIwxahdLz7bap-VDs9h35A" # Steve Mould
@@ -320,7 +321,8 @@ with lib; let
     show-thumbnails = true;
     style = "vertical-list";
   });
-in {
+in
+{
   options.modules.server.glance = {
     enable = mkOption {
       description = "Enable glance services";
@@ -350,18 +352,18 @@ in {
           ];
 
           routers.glance = {
-            entryPoints = ["websecure"];
+            entryPoints = [ "websecure" ];
             rule = "Host(`${domain}`)";
             service = "glance";
             tls.certResolver = "letsencrypt";
           };
 
           routers.glanceServerPage = {
-            entryPoints = ["websecure"];
+            entryPoints = [ "websecure" ];
             rule = "Host(`${domain}`) && (Path(`/server`) || Path(`/oidc/callback`))";
             service = "glance";
             tls.certResolver = "letsencrypt";
-            middlewares = ["oidc-auth"];
+            middlewares = [ "oidc-auth" ];
           };
         };
       };
@@ -620,14 +622,12 @@ in {
                   }
                   {
                     type = "group";
-                    widgets =
-                      builtins.map (location: {
-                        inherit location;
-                        type = "weather";
-                        units = "metric";
-                        hour-format = "24h";
-                      })
-                      weatherLocationList;
+                    widgets = builtins.map (location: {
+                      inherit location;
+                      type = "weather";
+                      units = "metric";
+                      hour-format = "24h";
+                    }) weatherLocationList;
                   }
                 ];
               }
@@ -645,8 +645,8 @@ in {
                   {
                     type = "group";
                     widgets = [
-                      {type = "hacker-news";}
-                      {type = "lobsters";}
+                      { type = "hacker-news"; }
+                      { type = "lobsters"; }
                     ];
                   }
                 ];

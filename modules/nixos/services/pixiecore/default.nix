@@ -6,10 +6,12 @@
   ...
 }:
 with lib;
-with libCustom; let
+with libCustom;
+let
   cfg = config.modules.services.pixiecore;
   build = self.nixosConfigurations.netboot.config.system.build;
-in {
+in
+{
   options.modules.services.pixiecore = {
     enable = mkEnableOpt "Enable pixiecore, a iPXE server, allowing to netboot on this system";
   };
