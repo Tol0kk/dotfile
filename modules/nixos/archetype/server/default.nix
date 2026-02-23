@@ -14,9 +14,28 @@ in {
 
   # TODO replace modules/nixos/server
   config = mkIf cfg.enable {
-    hardware.graphics = {
+    environment.shellInit = ''
+      export TERM=xterm
+    '';
+
+    programs.command-not-found.enable = false;
+    documentation.enable = false;
+    documentation.nixos.enable = false;
+    documentation.man.enable = false;
+    documentation.doc.enable = false;
+    documentation.info.enable = false;
+    services.printing.enable = false; # Removes cups/ghostscript
+
+    modules.system.ssh = {
       enable = true;
-      # enable32Bit = true; # Only support x86_64
+      auto-start-sshd = true;
+    };
+
+    networking.firewall = {
+      enable = true;
+      allowedTCPPorts = [
+        22
+      ];
     };
   };
 }

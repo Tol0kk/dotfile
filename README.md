@@ -109,3 +109,10 @@ sops home/<user>@<host>/secrets.yaml
 
 # Edit home.nix file for more
 ```
+
+
+# Usefull command
+
+```sh
+sops updatekeys $(find . -type f -name "secrets.yaml")
+```

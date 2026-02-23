@@ -165,6 +165,23 @@ in
         stdenv.cc.cc
       ];
 
+      # Enforce DNS over HTTPS
+      services.dnscrypt-proxy2 = {
+        enable = true;
+        settings = {
+          ipv6_servers = true;
+          require_dnssec = true;
+          server_names = [ "cloudflare" ]; # Only use Cloudflare
+        };
+      };
+
+      # Force all system DNS to look at the local dnscrypt proxy
+      networking.nameservers = [
+        "127.0.0.1"
+        "::1"
+      ];
+      networking.networkmanager.dns = "none";
+
       ## package
       environment.systemPackages = with pkgs; [
         # Essentials

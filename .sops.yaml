@@ -3,20 +3,38 @@ keys:
   - &laptop age1w6v2we3gsw3jed26xl2ucpc8dcsc90a2e4n69mrcpmue2d3gdylqn2sy3q
   - &tuxlaptop age1w6v2we3gsw3jed26xl2ucpc8dcsc90a2e4n69mrcpmue2d3gdylqn2sy3q
   - &olympus age1hqzdev2l5v7w3mjsgpnq7v0fcnznj7af5xxr5u5e4tj8zg8gugfs8jac28
+  - &othrys_host age1ewe6shlcg4fzjwrnq8nrzxxch9r7hk903gx2m4y3rtqmr2vfnqpqpqx7ru
 creation_rules:
-  - path_regrex: secrets/secrets.yaml
+  - path_regex: secrets/secrets\.yaml$
     key_groups:
       - age:
           - *titouan
           - *laptop
           - *olympus
-  - path_regrex: home/titouan@laptop/secrets.yaml
+
+  - path_regex: home/titouan@laptop/secrets\.yaml$
     key_groups:
       - age:
           - *titouan
           - *laptop
-  - path_regrex: home/titouan@tuxlaptop/secrets.yaml
+  - path_regex: home/titouan@tuxlaptop/secrets\.yaml$
     key_groups:
       - age:
           - *titouan
           - *tuxlaptop
+  - path_regex: systems/othrys/secrets\.yaml$
+    key_groups:
+      - age:
+          - *titouan
+          - *othrys_host
+  - path_regex: .*/secrets\.yaml$
+    key_groups:
+      - age:
+          - *titouan
+          - *laptop
+          - *olympus
+  - path_regex: systems/othrys/secrets\.yaml$
+    key_groups:
+      - age:
+          - *titouan
+          - *othrys_host

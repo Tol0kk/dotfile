@@ -1,8 +1,22 @@
+
+# Nix build results
 result/
 result
 result-dev
 result-lib
 result-bin
 result-man
+
+# Generated keys
 *.key
 *.pub
+
+# Direnv
+.direnv
+
+# Terraform files
+**/.terraform/*
+terraform/.oci
+*.tfvars
+*.tfstate
+*.tfstate.*

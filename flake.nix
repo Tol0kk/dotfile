@@ -94,9 +94,20 @@
           linux-1_12-rockchip = pkgs.callPackage ./packages/linux-6.12-rockchip { };
         }
         // lib.mkOCI inputs pkgs
-      );
+    );
+    # Topology using https://github.com/oddlama/nix-topology
+    topology = forAllSystems (system: lib.mkTopology system inputs self);
 
-      # Topology using https://github.com/oddlama/nix-topology
-      topology = forAllSystems (system: lib.mkTopology system inputs self);
-    };
+    devShells = forAllSystems (
+      system: let
+        pkgs = nixpkgsFor.${system};
+      in {
+        default = pkgs.mkShell {
+          buildInputs = with pkgs; [
+            opentofu
+          ];
+        };
+      }
+    );
+  };
 }

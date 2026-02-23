@@ -2,6 +2,7 @@
   lib = nixpkgs-stable.lib;
 
   mkNixos = import ./mkNixos.nix {inherit lib libCustom;};
+  mkBase = import ./mkBase.nix {inherit lib libCustom;};
   mkTopology = import ./mkTopology.nix {inherit lib;};
   mkHome = import ./mkHome.nix {inherit lib libCustom;};
   mkColmena = import ./mkColmena.nix {inherit lib libCustom;};
@@ -12,6 +13,7 @@
 in {
   inherit
     mkHome
+    mkBase
     mkColmena
     libColor
     mkNixos

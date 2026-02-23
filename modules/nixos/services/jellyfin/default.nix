@@ -26,6 +26,10 @@ in
       type = types.bool;
       default = false;
     };
+    domain = mkOption {
+      type = types.str;
+      default = "media.${traefikcfg.domain}";
+    };
   };
 
   config = mkIf cfg.enable {
@@ -33,11 +37,9 @@ in
       jellyfin = {
         name = "Jellyfin";
         info = lib.mkForce "Media Server";
-        details.listen.text = lib.mkForce "media.${traefikcfg.domain}(localhost:${toString cfg.port})";
+        details.listen.text = lib.mkForce "${cfg.domain}(localhost:${toString cfg.port})";
       };
     };
-
-    # modules.server.traefik.enable = true;
 
     services.traefik = {
       dynamicConfigOptions = {
@@ -49,7 +51,7 @@ in
           ];
           routers.jellyfin = {
             entryPoints = [ "websecure" ];
-            rule = "Host(`media.${traefikcfg.domain}`)";
+            rule = "Host(`${cfg.domain}`)";
             service = "jellyfin";
             tls = traefikcfg.tlsConfig;
           };

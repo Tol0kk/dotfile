@@ -5,8 +5,7 @@
   inputs,
   ...
 }:
-with libCustom;
-{
+with libCustom; {
   modules = {
     hardware = {
       bluetooth = enabled;
@@ -41,7 +40,7 @@ with libCustom;
     name = "🖥️ Desktop";
     hardware.info = "R5 1600 | 16GB | GTX 1070";
     interfaces.wg0 = {
-      addresses = [ "10.100.0.3" ];
+      addresses = ["10.100.0.3"];
       network = "wg0"; # Use the network we define below
       type = "wireguard"; # changes the icon
       physicalConnections = [
@@ -49,11 +48,11 @@ with libCustom;
       ];
     };
     interfaces.enp25s0 = {
-      addresses = [ "192.168.1.xxx/24" ];
+      addresses = ["192.168.1.xxx/24"];
       # network = "home"; # Use the network we define below
     };
     interfaces.wlp30s0 = {
-      addresses = [ "192.168.1.64/24" ];
+      addresses = ["192.168.1.64/24"];
       network = "home"; # Use the network we define below
     };
   };
@@ -147,18 +146,17 @@ with libCustom;
   boot.initrd.systemd.enable = true;
 
   # LUCKS: Activate encription
-  boot.initrd.luks.devices."luks-c19801cf-8ba0-488b-97d1-959651c21ab9".device =
-    "/dev/disk/by-uuid/c19801cf-8ba0-488b-97d1-959651c21ab9";
+  boot.initrd.luks.devices."luks-c19801cf-8ba0-488b-97d1-959651c21ab9".device = "/dev/disk/by-uuid/c19801cf-8ba0-488b-97d1-959651c21ab9";
 
   # TODO change because startup crash with gdm (deactivate gdm)
   services.displayManager.autoLogin.enable = true;
   services.displayManager.autoLogin.user = "titouan";
 
   # TODO Move to system/virtualisation maybe
-  boot.binfmt.emulatedSystems = [ "aarch64-linux" ];
+  boot.binfmt.emulatedSystems = ["aarch64-linux"];
 
-  boot.extraModulePackages = [ config.boot.kernelPackages.ddcci-driver ];
-  boot.kernelModules = [ "ddcci_backlight" ];
+  boot.extraModulePackages = [config.boot.kernelPackages.ddcci-driver];
+  boot.kernelModules = ["ddcci_backlight"];
 
   hardware.i2c.enable = true;
 
