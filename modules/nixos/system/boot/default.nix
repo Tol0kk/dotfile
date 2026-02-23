@@ -36,7 +36,7 @@ in
     {
       assertions = [
         {
-          assertion = !cfg.enable || cfg.systemd.enable || cfg.grub.enable || cfg.limine.enablez;
+          assertion = !cfg.enable || cfg.systemd.enable || cfg.grub.enable || cfg.limine.enable;
           message = ''
             You have enable systemd and grub bootloader. You can only choose ONE of the following:
               - modules.system.boot.systemd.enable

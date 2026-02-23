@@ -103,10 +103,8 @@ in
       };
 
       monospace = {
-        # Full version, embed with icons, Chinese and Japanese glyphs (With -NF-CN suffix)
-        # Unhinted font is used for high resolution screen (e.g. for MacBook). Using "hinted font" will blur your text or make it looks weird.
         package = maple-mono.NF-CN;
-        name = "Maple Mono";
+        name = "Maple Mono NF CN";
       };
 
       emoji = {

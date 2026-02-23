@@ -147,6 +147,7 @@ in
   config = mkMerge [
     (mkIf cfg.client.enable {
       services.kanidm = {
+        package = pkgs.kanidm_1_8;
         enableClient = true;
         clientSettings = {
           uri = "https://${cfg.server.domain}";

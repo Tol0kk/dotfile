@@ -1,3 +1,5 @@
 {
-
+  "file_types": {
+    "JSONC": ["**/vicinae/settings.json"],
+  },
 }

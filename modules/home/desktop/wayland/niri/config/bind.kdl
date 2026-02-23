@@ -2,7 +2,7 @@ binds {
     // #'Applications"
     Mod+T hotkey-overlay-title="Terminal" allow-inhibiting=false  { spawn "nice" "-n" "8" "alacritty"; }
     Mod+Return hotkey-overlay-title="Terminal" { spawn "nice" "-n" "8" "alacritty"; }
-    Mod+B hotkey-overlay-title="Browser" { spawn "nice" "-n" "9" "zen"; }
+    Mod+B hotkey-overlay-title="Browser" { spawn "nice" "-n" "9" "zen-beta"; }
     Mod+G hotkey-overlay-title="File Manager" { spawn "nice" "-n" "8" "thunar"; }
     // Mod+D hotkey-overlay-title="Launcher" allow-inhibiting=false  { spawn "noctalia-shell" "ipc" "call" "launcher" "toggle"; }
     Mod+D hotkey-overlay-title="Launcher" allow-inhibiting=false  { spawn "vicinae" "open"; }
