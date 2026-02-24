@@ -1,0 +1,97 @@
+include "bind.kdl"
+include "misc.kdl"
+include "style.kdl"
+
+input {
+    keyboard {
+        xkb {
+            layout "fr,us"
+            options "grp:alt_shift_toggle"
+        }
+        track-layout "global" // Can track layout per window with "window"
+        numlock
+    }
+
+    // focus-follows-mouse
+
+    touchpad {
+        tap
+        natural-scroll
+        scroll-method "two-finger"
+        drag-lock //  lifting the finger off for a short time while dragging will not drop the dragged item
+        // dwt // disable-when-typing
+    }
+
+    // mouse {
+    //     // sensitivity 0
+    // }
+    //
+    // focus-follows-mouse
+    focus-follows-mouse max-scroll-amount="0%"
+}
+
+// --- Output (Monitor) Configuration ---
+//
+output "Iiyama North America PL2783Q 1151265001263" {
+    focus-at-startup
+    variable-refresh-rate on-demand=true
+    position x=1920 y=0
+}
+
+output "eDP-1" {
+    position x=0 y=0
+    scale 2.0
+}
+
+// Example for your RTK monitor (using its description logic)
+output "desc:Invalid Vendor Codename - RTK HG560T34" {
+    mode "2560x1440"
+    scale 1.666667
+    transform "270" // Niri uses degrees or 90-degree increments
+}
+
+
+window-rule {
+    match app-id="blueman-manager"
+    match app-id="nm-connection-editor"
+    match app-id="com.saivert.pwvucontrol"
+    match title="Syncthing"
+    open-floating true
+}
+
+// Privacy mode
+window-rule {
+    match title="Bitwarden"
+    match title="sops"
+    match title="Picture-in-Picture"
+
+    block-out-from "screen-capture"
+}
+
+// Bitwarden
+window-rule {
+    match title="Bitwarden"
+    default-column-width { proportion 0.33;}
+    max-width 500
+}
+
+
+layer-rule {
+  match namespace="^noctalia-overview*"
+  place-within-backdrop true
+}
+
+debug {
+  // Allows notification actions and window activation from Noctalia.
+  honor-xdg-activation-with-invalid-serial
+  // strict-new-window-focus-policy
+}
+
+window-rule {
+    match app-id="steam" title=r#"^notificationtoasts_\d+_desktop$"#
+    default-floating-position x=10 y=10 relative-to="bottom-right"
+}
+
+layout {
+    center-focused-column "never"
+}

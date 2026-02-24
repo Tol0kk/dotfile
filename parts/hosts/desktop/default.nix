@@ -1,0 +1,15 @@
+{
+  targetSystem = "x86_64-linux";
+  withHomeManager = false;
+  isUnstable = true;
+  hasUnstable = true;
+  isPure = true;
+  remote = {
+    targetHost = "desktop.tolok.org";
+    targetUser = "titouan";
+  };
+  withOCI = true;
+
+  stateVersion = "25.11";
+  homeStateVersion = "25.11";
+}
