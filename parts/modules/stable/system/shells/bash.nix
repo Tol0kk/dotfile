@@ -18,7 +18,7 @@
       imports = [
         self.homeModules.fastfetch
         self.homeModules.starship
-        self.homeModules.xodide
+        self.homeModules.zoxide
       ];
 
       options.modules.shell.bash = {
@@ -27,16 +27,19 @@
         };
       };
 
-      programs.nix-your-shell.enable = true;
+      config = {
 
-      programs.bash = {
-        enable = true;
-        enableCompletion = true;
-        shellAliases = assets.shellAliases;
-        initExtra = ''
-          ${pkgs.nix-your-shell}/bin/nix-your-shell fish | source
-          ${if cfg.withfastfetch then "fastfetch" else ""}
-        '';
+        programs.nix-your-shell.enable = true;
+
+        programs.bash = {
+          enable = true;
+          enableCompletion = true;
+          shellAliases = assets.shellAliases;
+          initExtra = ''
+            ${pkgs.nix-your-shell}/bin/nix-your-shell fish | source
+            ${if cfg.withfastfetch then "fastfetch" else ""}
+          '';
+        };
       };
     };
 }

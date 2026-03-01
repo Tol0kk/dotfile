@@ -4,6 +4,7 @@ let
 
   mkBase = import ./mkBase.nix { inherit lib libCustom; };
   mkHost = import ./mkHost.nix { inherit lib libCustom mkBase; };
+  mkHome = import ./mkHome.nix { inherit lib libCustom; };
   libCustom = import ./libCustom.nix { inherit lib; };
   assets = import ../assets { inherit lib; };
   libColor = import ./libColor.nix { inherit lib; };
@@ -13,6 +14,7 @@ in
     libColor
     libCustom
     mkHost
+    mkHome
     assets
     ;
 }

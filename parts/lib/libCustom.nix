@@ -97,7 +97,7 @@ let
           };
           isPure = mkOption {
             type = types.bool;
-            default = false;
+            default = true;
             description = "Whether to unable pure path or not. Used for home configuration, symlink direclty to configration is impure";
           };
           withOCI = mkOption {

@@ -1,6 +1,6 @@
 { self, ... }:
 {
-  flake.homeModules.vicinae =
+  flake.homeModules.niri =
     {
       pkgs,
       lib,
@@ -15,27 +15,30 @@
       imports = [
         self.homeModules.noctalia
         self.homeModules.vicinae
-        self.homeModules.theme
-        self.homeModules.fonts
+        # self.homeModules.theme
       ];
 
-      home.sessionVariables = {
-        "QT_QPA_PLATFORMTHEME" = "gtk3";
+      config = {
+
+        home.sessionVariables = {
+          "QT_QPA_PLATFORMTHEME" = "gtk3";
+        };
+
+        home.file.".config/niri".source =
+          mkSource isPure ./config
+            "${config.dotfiles}/modules/home/desktop/wayland/niri/config";
+
+        home.packages = [
+          pkgs.niri
+          pkgs.wl-mirror
+          pkgs.wl-clipboard
+          pkgs.brightnessctl
+          pkgs.gpu-screen-recorder
+          pkgs.xwayland-satellite
+          pkgs.pwvucontrol
+          pkgs.nautilus
+        ];
       };
-
-      home.file.".config/niri".source =
-        mkSource isPure ./config
-          "${config.dotfiles}/modules/home/desktop/wayland/niri/config";
-
-      home.packages = [
-        pkgs.niri
-        pkgs.wl-mirror
-        pkgs.wl-clipboard
-        pkgs.brightnessctl
-        pkgs.gpu-screen-recorder
-        pkgs.xwayland-satellite
-        pkgs.pwvucontrol
-      ];
     };
 
   flake.nixosModules.niri =
@@ -49,6 +52,11 @@
     with lib;
     with libCustom;
     {
+      imports = [
+        self.nixosModules.theme
+        self.nixosModules.fonts
+      ];
+
       config = {
         # Enable touchpad support (enabled default in most desktopManager).
         services.libinput.enable = true;
@@ -57,6 +65,7 @@
         programs.niri.useNautilus = false;
         programs.xwayland.enable = false;
         security.polkit.enable = true;
+        services.gvfs.enable = true;
 
         xdg.portal = {
           enable = true;

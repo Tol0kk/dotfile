@@ -1,10 +1,10 @@
+{ inputs, ... }:
 {
   flake.homeModules.vicinae =
     {
       lib,
       config,
       libCustom,
-      inputs,
       pkgs,
       isPure,
       ...
@@ -14,6 +14,10 @@
       jsonFormat = pkgs.formats.json { };
     in
     {
+      imports = [
+        inputs.vicinae.homeManagerModules.default
+      ];
+
       # TODO Clean UP
       stylix.targets.vicinae.enable = true;
       services.vicinae = {

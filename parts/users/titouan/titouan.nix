@@ -19,21 +19,35 @@
         self.homeModules.mpv
         self.homeModules.zathura
 
-        # # Shells
-        # self.homeModules.fish
-        # self.homeModules.bash
+        # Shells
+        self.homeModules.fish
+        self.homeModules.bash
 
-        # # Desktop Env
-        # self.homeModules.niri
+        # Desktop Env
+        self.homeModules.niri
 
-        # # Services
-        # self.homeModules.element
-        # self.homeModules.signal
+        # Services
+        self.homeModules.elements
+        self.homeModules.signal
 
-        # # System
-        # self.homeModules.sops
+        # System
+        self.homeModules.sops
       ];
     };
+
+  flake.homeModules."titouan@laptop" = {
+    imports = [
+      self.homeModules.titouan
+    ];
+    # Extra set for syncthings
+  };
+
+  flake.homeModules."titouan@desktop" = {
+    imports = [
+      self.homeModules.titouan
+    ];
+    # Extra set for syncthings
+  };
 
   flake.nixosModules.titouan = {
     nix.settings.trusted-users = [ "titouan" ];
@@ -66,12 +80,14 @@
       ];
     };
   };
+
   flake.nixosModules.titouan-home =
     {
       config,
       pkgs,
       nixpkgs,
       pkgs-unstable,
+      nixpkgsconfig,
       ...
     }:
     {
@@ -84,8 +100,7 @@
           self.homeModules.homemanager
         ];
         nixpkgs = {
-          config =
-          overlay =
+          inherit (nixpkgsconfig) config overlays;
         };
       };
     };

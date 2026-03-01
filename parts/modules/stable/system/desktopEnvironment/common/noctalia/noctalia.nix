@@ -1,15 +1,14 @@
+{ inputs, ... }:
 {
-  flake.homeModules.vicinae =
+  flake.homeModules.noctalia =
     {
       pkgs,
       lib,
       config,
-      inputs,
       libCustom,
       isPure,
       ...
     }:
-    with lib;
     let
       inherit (libCustom) mkSource;
     in
@@ -24,7 +23,9 @@
       };
 
       home.file.".config/noctalia" = {
-        source = mkSource ./config "${config.dotfiles}/modules/home/desktop/wayland/shells/noctalia/config";
+        source =
+          mkSource isPure ./config
+            "${config.dotfiles}/modules/home/desktop/wayland/shells/noctalia/config";
         recursive = true;
       };
       home.sessionVariables = {

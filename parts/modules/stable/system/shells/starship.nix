@@ -8,7 +8,6 @@
     {
       programs.starship = {
         enable = true;
-        package = pkgs.starship;
         enableBashIntegration = true;
         enableFishIntegration = true;
         enableNushellIntegration = true;

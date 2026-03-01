@@ -6,6 +6,7 @@
       pkgs-unstable,
       pkgs-stable,
       libs,
+      nixpkgsconfig,
       ...
     }:
     {
@@ -20,6 +21,7 @@
       }
       // hostMetaOptions
       // libs;
+
     };
 
   flake.homeModules.homemanager =

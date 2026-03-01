@@ -53,6 +53,8 @@
         ])
         ./packages
         (lib.mkHost inputs)
+        (lib.mkHome inputs)
+        { flake.libs = lib; }
       ];
     };
 }

@@ -1,9 +1,14 @@
+{ inputs, ... }:
 {
   flake.homeModules.sops =
-    { config }:
+    { config, ... }:
     {
-      sops.age.keyFile = "${config.home.homeDirectory}/.config/sops/age/keys.txt";
-      sops.defaultSopsFormat = "yaml";
+      imports = [ inputs.sops-nix.homeModules.sops ];
+
+      config = {
+        sops.age.keyFile = "${config.home.homeDirectory}/.config/sops/age/keys.txt";
+        sops.defaultSopsFormat = "yaml";
+      };
     };
 
   flake.nixosModules.sops =
@@ -11,9 +16,7 @@
       pkgs,
       lib,
       config,
-      inputs,
       libCustom,
-      self,
       ...
     }:
     with lib;

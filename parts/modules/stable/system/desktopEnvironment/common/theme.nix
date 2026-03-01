@@ -23,10 +23,12 @@
         };
         opacity = mkOption {
           description = "Set theme opacity";
+          type = types.float;
           default = 0.8;
         };
         font-size = mkOption {
           description = "Set theme font_size";
+          type = types.int;
           default = 11;
         };
         polarity = mkOption {
@@ -47,6 +49,8 @@
         };
       };
       config = {
+        _module.args.keys = "homeModules-theme";
+
         modules = {
           desktop = {
             theme = {
@@ -153,7 +157,7 @@
         enable = mkEnableOpt "Enable Stylix";
       };
 
-      imports = [ inputs.stylix.nixosModules.stylix ];
+      imports = [ inputs.stylix-unstable.nixosModules.stylix ];
       config = mkMerge [
         (mkIf (!cfg.enable) { stylix.autoEnable = false; })
         (mkIf cfg.enable {
