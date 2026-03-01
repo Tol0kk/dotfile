@@ -9,7 +9,7 @@
     targetUser = "titouan";
   };
   withOCI = true;
+  allowUnfree = true;
 
   stateVersion = "25.11";
-  homeStateVersion = "25.11";
 }

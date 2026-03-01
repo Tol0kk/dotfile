@@ -1,0 +1,38 @@
+{
+  flake.nixosModules.fonts =
+    {
+      pkgs,
+      ...
+    }:
+    {
+      fonts = {
+        packages = with pkgs; [
+          font-awesome
+          cascadia-code
+          nerd-fonts.cousine
+          nerd-fonts.fira-code
+          nerd-fonts.droid-sans-mono
+          nerd-fonts.dejavu-sans-mono
+          nerd-fonts.jetbrains-mono
+          nerd-fonts.inconsolata
+          maple-mono.truetype
+          noto-fonts-cjk-sans
+          maple-mono.NF-CN
+        ];
+        fontconfig.defaultFonts = {
+          monospace = [
+            "Maple Mono"
+            "font-awesome"
+          ];
+          sansSerif = [
+            "Noto Sans CJK JP"
+            "JetBrainsMono"
+          ];
+          serif = [
+            "Noto Sans CJK JP"
+            "JetBrainsMono"
+          ];
+        };
+      };
+    };
+}

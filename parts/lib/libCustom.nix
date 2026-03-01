@@ -114,10 +114,6 @@ let
             type = types.str;
             description = "NixOS state version for this host";
           };
-          homeStateVersion = mkOption {
-            type = types.str;
-            description = "Home Manager state version for this host";
-          };
           allowUnfree = mkOption {
             type = types.bool;
             default = false;

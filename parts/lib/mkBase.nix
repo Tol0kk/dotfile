@@ -25,18 +25,22 @@ lib.mapAttrs' (
   name: metaConfig:
   lib.nameValuePair name (
     let
+      libs = import ./default.nix inputs;
       nixpkgs = if metaConfig.isUnstable then nixpkgs-unstable else nixpkgs-stable;
       nixosConfig = nixpkgs.lib.nixosSystem {
         specialArgs = {
           inherit
-            inputs
             self
+            inputs
+            libs
+            nixpkgs
             ;
           hostMetaOptions = metaConfig;
           pkgs-stable = import nixpkgs-stable {
             system = metaConfig.targetSystem;
             systemPlatform.system = metaConfig.targetSystem;
-            config = nixpkgs_config;
+            config = nixpkgs_config metaConfig;
+            overlays = [ self.overlays.default ];
           };
           # secrets = inputs.secrets;
         }
@@ -44,17 +48,20 @@ lib.mapAttrs' (
           pkgs-unstable = import nixpkgs-unstable {
             system = metaConfig.targetSystem;
             config = nixpkgs_config metaConfig;
+            overlays = [ self.overlays.default ];
           };
         }
-        // import ./default.nix inputs;
+        // libs;
         pkgs = import nixpkgs {
           system = metaConfig.targetSystem;
           systemPlatform.system = metaConfig.targetSystem;
-          config = nixpkgs_config;
+          config = nixpkgs_config metaConfig;
+          overlays = [ self.overlays.default ];
         };
         modules = [
           "${self}/hosts/${name}/configuration.nix"
-          { nixpkgs.overlays = [ self.overlays.default ]; }
+          self.nixosModules.common
+          inputs.nix-topology.nixosModules.default
         ]
         ++ lib.optionals (builtins.pathExists "${self}/hosts/${name}/hardware.nix") [
           "${self}/hosts/${name}/hardware.nix"

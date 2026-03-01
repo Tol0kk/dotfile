@@ -1,14 +1,10 @@
 { self, ... }:
 {
   imports = [
-    self.nixosModules.boot
+    self.nixosModules.limine
+    self.nixosModules.plymouth
     self.nixosModules.ssh
   ];
 
-  modules = {
-    system = {
-      boot.limine.enable = true;
-      boot.plymouth.enable = true;
-    };
-  };
+  networking.hostId = "0be1cd29";
 }

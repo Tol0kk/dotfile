@@ -227,14 +227,10 @@ in
         lazygit
         nix-du
         iperf # network benchmark
-        # joplin # Note taking app
-        # vial # QMK/Via for Keyboard
-        # via # QMK/Via for Keyboard
 
         # TODO move:
         pwvucontrol # Audio Control Panel
         gpu-viewer # Front-end to glxinfo, vulkaninfo, clinfo and es2_info
-        onagre
 
         # LSP
         nil

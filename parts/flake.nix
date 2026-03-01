@@ -46,6 +46,7 @@
         (inputs.import-tree [
           ./miscs
           ./shells
+          ./users
           ./templates
           ./modules/stable
           ./modules/unstable

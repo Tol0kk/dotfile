@@ -84,9 +84,10 @@ with libCustom;
     };
   };
 
+  # Imported
   services.greetd.enable = true;
   services.greetd.settings.default_session.command =
-    "${pkgs.greetd}/bin/agreety --cmd ${pkgs.bashInteractive}/bin/bash";
+    "${pkgs.greetd}/bin/agreety --cmd ${pkgs.bashinteractive}/bin/bash";
   services.greetd.settings.initial_session.user = "titouan";
   services.greetd.settings.initial_session.command = "niri-session";
 

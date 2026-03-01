@@ -1,7 +1,7 @@
+# Improted
 {
   config,
   lib,
-  pkgs,
   inputs,
   ...
 }:
@@ -11,7 +11,6 @@ let
     assertMsg
     any
     unique
-    optionals
     mkIf
     mkEnableOption
     hasPrefix

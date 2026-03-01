@@ -5,6 +5,7 @@
       lib,
       config,
       libCustom,
+      isPure,
       ...
     }:
     with lib;
@@ -16,14 +17,13 @@
         mkSource isPure ./settings.json
           "${config.dotfiles}/modules/home/apps/editor/zed/settings.json";
       home.file.".config/zed/keymap.json".source =
-        mksource isPure ./keymap.json
+        mkSource isPure ./keymap.json
           "${config.dotfiles}/modules/home/apps/editor/zed/keymap.json";
       programs.zed-editor = {
         # package = zed-wrap;
         enable = true;
       };
       home.packages = with pkgs; [ package-version-server ];
-      modules.defaults.editor = "${config.programs.zed-editor.package}/bin/zeditor";
       xdg.mimeApps = {
         enable = true;
         defaultApplications = {

@@ -1,3 +1,4 @@
+{ inputs, ... }:
 {
   perSystem =
     {
@@ -5,7 +6,10 @@
       ...
     }:
     {
-      packages.nixos-plymouth-custom = pkgs.callPackage ./nixos-plymouth-custom/package.nix { };
+      packages = {
+        nixos-plymouth-custom = pkgs.callPackage ./nixos-plymouth-custom/package.nix { };
+        inherit (pkgs.callPackage ./neovim/package.nix { inherit (inputs) nvf; }) tiny-neovim neovim;
+      };
     };
 
   flake.overlays.default = final: prev: {

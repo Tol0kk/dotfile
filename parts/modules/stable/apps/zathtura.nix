@@ -1,3 +1,4 @@
+{ self, ... }:
 {
   flake.homeModules.zathura =
     {
@@ -13,6 +14,7 @@
       inherit (libColor) toRGBA hexAndOpacityToRgba;
     in
     {
+      imports = [ self.homeModules.theme ];
       stylix.targets.zathura.enable = false;
       programs.zathura = {
         enable = true;
