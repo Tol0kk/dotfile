@@ -12,29 +12,32 @@
   ...
 }@inputs:
 let
-  # users = libCustom.getUsers self; # TODO
+  hostsConfig = libCustom.getHostsConfig self; # format {<hostname> = {<hostConfig>}}
 
-  hostsConfig = libCustom.getHostsConfig self; # format {<hostname> = {<hostConfig}}
-  users = map (user_path: builtins.unsafeDiscardStringContext (builtins.baseNameOf user_path)) (
-    libCustom.get-directories "${self}/users"
-  );
+  users = lib.pipe "${self}/users" [
+    libCustom.get-directories
+    (map (user_path: builtins.unsafeDiscardStringContext (builtins.baseNameOf user_path)))
+  ];
 
-  UsersHostCouple = builtins.listToAttrs (
-    lib.flatten (
-      map (
-        user:
-        map (hostName: {
-          name = "${user}@${hostName}";
-          value = {
-            inherit user hostName;
-            metaConfig = hostsConfig.${hostName};
-          };
-        }) (builtins.attrNames hostsConfig)
-      ) users
-    )
-  );
+  validUsersHostCouples = lib.pipe users [
+    # Map over users and hosts, flattening the nested lists in one step
+    (lib.concatMap (
+      user:
+      map (hostName: {
+        name = "${user}@${hostName}";
+        value = {
+          inherit user hostName;
+          metaConfig = hostsConfig.${hostName};
+        };
+      }) (builtins.attrNames hostsConfig)
+    ))
 
-  validUsersHostCouple = builtins.intersectAttrs self.homeModules UsersHostCouple;
+    # Convert the flattened list of { name, value } pairs to an attribute set
+    builtins.listToAttrs
+
+    # Intersect with homeModules to keep only valid couples
+    (builtins.intersectAttrs self.homeModules)
+  ];
 
   nixpkgs_config = metaOptions: {
     allowUnsupportedSystem = false;
@@ -97,5 +100,5 @@ in
       in
       homeConfig
     )
-  ) validUsersHostCouple;
+  ) validUsersHostCouples;
 }

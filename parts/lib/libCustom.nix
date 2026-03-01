@@ -1,79 +1,79 @@
 { lib }:
 let
-  inherit (builtins) readDir pathExists;
-  inherit (lib) filterAttrs mapAttrsToList;
-  inherit (lib) types mkOption;
+  inherit (builtins)
+    readDir
+    pathExists
+    toString
+    baseNameOf
+    unsafeDiscardStringContext
+    listToAttrs
+    ;
 
+  inherit (lib)
+    filterAttrs
+    mapAttrsToList
+    mkOption
+    types
+    pipe
+    toList
+    flatten
+    map
+    filesystem
+    filter
+    hasSuffix
+    hasInfix
+    evalModules
+    ;
+
+  # --- Option Helpers ---
   enabled = {
     enable = true;
   };
   disabled = {
     enable = false;
   };
+
   mkOpt =
     type: default: description:
-    lib.mkOption { inherit type default description; };
-  mkBoolOpt = mkOpt lib.types.bool;
+    mkOption { inherit type default description; };
+  mkBoolOpt = mkOpt types.bool;
   mkEnableOpt = description: mkBoolOpt false description // { example = true; };
 
+  # --- Directory Helpers ---
   get-directories =
     path:
-    let
-      is-directory-kind = kind: kind == "directory";
-      safe-read-directory = path: if pathExists path then readDir path else { };
-      entries = safe-read-directory path;
-      filtered-entries = filterAttrs (name: kind: is-directory-kind kind) entries;
-    in
-    mapAttrsToList (name: kind: "${path}/${name}") filtered-entries;
+    if !pathExists path then
+      [ ]
+    else
+      pipe path [
+        readDir
+        (filterAttrs (_name: kind: kind == "directory"))
+        (mapAttrsToList (name: _kind: "${toString path}/${name}"))
+      ];
 
-  # Import tree function to get all .nix file recursicly in a directory, perfect for modules import
-  import-tree =
-    path:
-    let
-      module =
-        { lib, ... }:
-        {
-          imports = leafs lib path;
-        };
-
-      leafs =
-        lib: root:
+  import-tree = path: {
+    imports = pipe path [
+      toList
+      flatten
+      (map filesystem.listFilesRecursive)
+      flatten
+      (filter (
+        p:
         let
-          isNixFile = lib.hasSuffix ".nix";
-          notIgnored = p: !lib.hasInfix "/_" p;
-          stringFilter = f: path: f (builtins.toString path);
-          filterWithS = f: lib.filter (stringFilter f);
+          pStr = toString p;
         in
-        lib.pipe root [
-          (lib.toList)
-          (lib.lists.flatten)
-          (lib.map lib.filesystem.listFilesRecursive)
-          (lib.lists.flatten)
-          (filterWithS isNixFile)
-          (filterWithS notIgnored)
-        ];
+        hasSuffix ".nix" pStr && !(hasInfix "/_" pStr)
+      ))
+    ];
+  };
 
-      result = {
-        imports = [ module ];
-      };
-    in
-    result;
-
+  # --- Host Configuration Logic ---
   getHostsConfig =
     self:
     let
-      importIfExists = path: default: if builtins.pathExists path then import path else default;
-      systems = get-directories "${self}/hosts";
-      systemsConfig = builtins.listToAttrs (
-        builtins.map (system: {
-          name = lib.strings.removeSuffix ".nix" (
-            builtins.unsafeDiscardStringContext (builtins.baseNameOf system)
-          );
-          value = importIfExists "${system}/default.nix" { };
-        }) systems
-      );
+      importIfExists = path: default: if pathExists path then import path else default;
 
-      # Define meta confiration
+      # Define meta configuration schema
       hostMetaOptions = {
         options.hostMeta = {
           targetSystem = mkOption {
@@ -132,57 +132,62 @@ let
           remote = mkOption {
             default = { };
             description = "Remote build configuration";
-            type = (
-              types.submodule {
-                options = {
-                  targetHost = mkOption {
-                    type = types.nullOr types.str;
-                    description = "The target host (domain or ip) for remote build";
-                    default = null;
-                  };
-                  targetUser = mkOption {
-                    type = types.nullOr types.str;
-                    description = "The target user for remote build";
-                    default = null;
-                  };
+            type = types.submodule {
+              options = {
+                targetHost = mkOption {
+                  type = types.nullOr types.str;
+                  default = null;
+                  description = "The target host (domain or ip) for remote build";
                 };
-              }
-            );
+                targetUser = mkOption {
+                  type = types.nullOr types.str;
+                  default = null;
+                  description = "The target user for remote build";
+                };
+              };
+            };
           };
         };
       };
 
-      # Evaluate each configration with meta configuration :)
+      # Evaluates raw data against the module schema
       evalHostMeta =
         rawData:
-        let
-          result = lib.evalModules {
-            modules = [
-              hostMetaOptions
-              { hostMeta = rawData; }
-            ];
-          };
-        in
-        result.config.hostMeta;
+        (evalModules {
+          modules = [
+            hostMetaOptions
+            { hostMeta = rawData; }
+          ];
+        }).config.hostMeta;
 
-      attr = lib.mapAttrs' (name: content: lib.nameValuePair name (evalHostMeta content)) systemsConfig;
     in
-    attr;
+    pipe "${self}/hosts" [
+      get-directories
+      (map (systemPath: {
+        # Extract the directory name as the hostname
+        name = unsafeDiscardStringContext (baseNameOf systemPath);
 
+        # Import the default.nix and immediately evaluate it against our schema
+        value = evalHostMeta (importIfExists "${systemPath}/default.nix" { });
+      }))
+      listToAttrs
+    ];
+
+  # --- File Symlink Helper ---
   mkSource =
     isPure: relPath: absPath:
-    if isPure then relPath else lib.file.mkOutOfStoreSymlink absPath;
+    if isPure then relPath else lib.file.mkOutOfStoreSymlink absPath; # Note: requires config.lib.file in HM context!
 
 in
 {
   inherit
     enabled
-    get-directories
-    import-tree
     disabled
     mkOpt
     mkBoolOpt
     mkEnableOpt
+    get-directories
+    import-tree
     getHostsConfig
     mkSource
     ;
