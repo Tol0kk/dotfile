@@ -7,7 +7,7 @@
     self.nixosModules.gamingstation
     self.nixosModules.builder
     self.nixosModules.securitystation-essenstials
-    self.nixosModules.server
+    self.nixosModules.server # This import traefik modules
 
     # System
     self.nixosModules.grub
@@ -27,27 +27,40 @@
     self.nixosModules.titouan
     self.nixosModules.titouan-autologin
     self.nixosModules.titouan-home
+
+    # Services
+    self.nixosModules.ollama # Expose ollama throught ollama.<localDomain> or/and ollama.<publicDomain> using traefik
   ];
+
+  preferences = {
+    topDomain = "tolok.org"; # Optinal, if set mean that the host is accesible from the internet
+    openFirewall = false;
+  };
+
+  # API Secrets
+  sops.secrets."cloudflare/api_env" = {
+    sopsFile = ./secrets.yaml;
+  };
 
   # Topology
   topology.self = {
     name = "🖥️ Desktop";
     hardware.info = "R5 1600 | 16GB | GTX 1070";
-    interfaces.wg0 = {
-      addresses = [ "10.100.0.3" ];
-      network = "wg0"; # Use the network we define below
-      type = "wireguard"; # changes the icon
-      physicalConnections = [
-        (config.lib.topology.mkConnection "olympus" "wg0")
-      ];
-    };
+    # interfaces.wg0 = {
+    #   addresses = [ "10.100.0.3" ];
+    #   network = "wg0"; # Use the network we define below
+    #   type = "wireguard"; # changes the icon
+    #   physicalConnections = [
+    #     (config.lib.topology.mkConnection "olympus" "wg0")
+    #   ];
+    # };
     interfaces.enp25s0 = {
       addresses = [ "192.168.1.xxx/24" ];
       # network = "home"; # Use the network we define below
     };
     interfaces.wlp30s0 = {
       addresses = [ "192.168.1.64/24" ];
-      network = "home"; # Use the network we define below
+      # network = "home"; # Use the network we define below
     };
   };
 

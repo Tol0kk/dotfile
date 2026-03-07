@@ -1,3 +1,4 @@
+# TODO: create home-assistant services
 {
   flake.nixosModules.home-assistant =
     {

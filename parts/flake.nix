@@ -43,6 +43,7 @@
     inputs.flake-parts.lib.mkFlake { inherit inputs; } {
       imports = [
         inputs.home-manager-stable.flakeModules.home-manager
+        inputs.nix-topology.flakeModule
         (inputs.import-tree [
           ./miscs
           ./shells
@@ -54,6 +55,7 @@
         ./packages
         (lib.mkHost inputs)
         (lib.mkHome inputs)
+        (lib.mkTopology inputs) # nix build .#topology.$system.config.output
         { flake.libs = lib; }
       ];
     };

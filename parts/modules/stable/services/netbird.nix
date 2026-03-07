@@ -1,3 +1,4 @@
+# TODO: create netbird services
 {
   flake.nixosModules.netbird =
     # ╔══════════════════════════════════════════════════════════════════════════════╗

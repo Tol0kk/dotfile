@@ -1,3 +1,4 @@
+# TODO: create kanidm services
 {
   flake.nixosModules.kanidm =
     # ╔══════════════════════════════════════════════════════════════════════════════╗

@@ -1,3 +1,4 @@
+# TODO: create jellyfin services
 {
   flake.nixosModules.jellyfin =
     {

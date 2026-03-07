@@ -1,3 +1,4 @@
+# TODO: create kodi services
 {
   flake.nixosModules.kodi =
     {
