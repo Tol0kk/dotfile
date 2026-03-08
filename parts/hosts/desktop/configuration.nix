@@ -35,10 +35,15 @@
   preferences = {
     topDomain = "tolok.org"; # Optinal, if set mean that the host is accesible from the internet
     openFirewall = false;
+    public = false;
+    # sops.keyFile = "${config.users.users.titouan.home}/.config/sops/age/keys.txt";
   };
 
   # API Secrets
   sops.secrets."cloudflare/api_env" = {
+    sopsFile = ./secrets.yaml;
+  };
+  sops.secrets."ollama/webui" = {
     sopsFile = ./secrets.yaml;
   };
 

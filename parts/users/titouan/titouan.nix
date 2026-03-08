@@ -49,37 +49,43 @@
     # Extra set for syncthings
   };
 
-  flake.nixosModules.titouan = {
-    nix.settings.trusted-users = [ "titouan" ];
-    users.users.titouan = {
-      isNormalUser = true;
-      extraGroups = [
-        "scanner"
-        "lp"
-        "mpd"
-        "storage"
-        "networkmanager"
-        "wireshark"
-        "docker"
-        "libvirtd"
-        "input"
-        "adbusers"
-        "gamemode"
-        "dialout" # Acess to /dev/ttyUSBX
-        "wheel"
+  flake.nixosModules.titouan =
+    { ... }:
+    {
+      imports = [
+        self.nixosModules.niri
       ];
-      useDefaultShell = true;
-      createHome = true;
-      initialPassword = "nixos";
-    };
 
-    users.users.titouan = {
-      openssh.authorizedKeys.keys = [
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAID0FfndDkmaTNmM4XRWe5Qi1avRbhmNEGAjvJWr4GR9t titouan@laptop"
-        "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK7QCPO6Pc8Ir/lNbKK5YS0OwyLKtGFweL9K+Gd7MvFv personal@tolok.org"
-      ];
+      nix.settings.trusted-users = [ "titouan" ];
+      users.users.titouan = {
+        isNormalUser = true;
+        extraGroups = [
+          "scanner"
+          "lp"
+          "mpd"
+          "storage"
+          "networkmanager"
+          "wireshark"
+          "docker"
+          "libvirtd"
+          "input"
+          "adbusers"
+          "gamemode"
+          "dialout" # Acess to /dev/ttyUSBX
+          "wheel"
+        ];
+        useDefaultShell = true;
+        createHome = true;
+        initialPassword = "nixos";
+      };
+
+      users.users.titouan = {
+        openssh.authorizedKeys.keys = [
+          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAID0FfndDkmaTNmM4XRWe5Qi1avRbhmNEGAjvJWr4GR9t titouan@laptop"
+          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIK7QCPO6Pc8Ir/lNbKK5YS0OwyLKtGFweL9K+Gd7MvFv personal@tolok.org"
+        ];
+      };
     };
-  };
 
   flake.nixosModules.titouan-home =
     {

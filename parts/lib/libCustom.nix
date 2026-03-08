@@ -80,11 +80,6 @@ let
             type = types.str;
             description = "What system to target for this host";
           };
-          withHomeManager = mkOption {
-            type = types.bool;
-            default = false;
-            description = "If we use the home configuration directly inside the nixos system";
-          };
           isUnstable = mkOption {
             type = types.bool;
             default = false;

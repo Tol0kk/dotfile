@@ -55,6 +55,7 @@
       imports = [
         self.nixosModules.theme
         self.nixosModules.fonts
+        self.nixosModules.noctalia
       ];
 
       config = {

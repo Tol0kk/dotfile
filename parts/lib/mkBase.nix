@@ -78,7 +78,8 @@ lib.mapAttrs' (
               builders-use-substitutes = true;
               warn-dirty = false;
               auto-optimise-store = true;
-            };
+            }
+            // (import ./substituters.nix);
           }
         ];
       };

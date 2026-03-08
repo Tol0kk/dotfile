@@ -15,6 +15,7 @@
       cfg = config.modules.desktop.theme;
     in
     {
+      key = "homeModules.theme";
       imports = [ inputs.stylix-unstable.homeModules.stylix ];
       options.modules.desktop.theme = {
         theme = mkOption {
@@ -153,6 +154,7 @@
       cfg = config.modules.system.stylix;
     in
     {
+      key = "nixosModules.theme";
       options.modules.system.stylix = {
         enable = mkEnableOpt "Enable Stylix";
       };

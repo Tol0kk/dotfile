@@ -7,8 +7,8 @@
       pkgs,
       ...
     }:
-    with lib;
     let
+      inherit (lib) mkIf types mkOption;
       pref = config.preferences;
 
       # dump-cert =
@@ -43,6 +43,13 @@
         });
     in
     {
+      options.modules.services.traefik = {
+        public = mkOption {
+          default = pref.public;
+          type = types.bool;
+        };
+      };
+
       config = {
         # ── Topology / service catalogue ────────────────────────────────────────
         topology.self.services = {
@@ -104,24 +111,17 @@
             };
           };
 
-          # ── HTTPS "websecure" | "public_websecure" ────────────────────────────────────────────────
+          # ── HTTPS "websecure" ────────────────────────────────────────────────
           staticConfigOptions.entryPoints.websecure = {
             address = ":443";
             http.tls = {
               certResolver = "letsencrypt";
+              # List all your domains and wildcards under the same entrypoint
               domains = [
-                {
+                (mkIf config.modules.services.traefik.public {
                   main = "local.${pref.topDomain}";
                   sans = [ "*.local.${pref.topDomain}" ];
-                }
-              ];
-            };
-          };
-          staticConfigOptions.entryPoints.public_websecure = {
-            address = ":443";
-            http.tls = {
-              certResolver = "letsencrypt";
-              domains = [
+                })
                 {
                   main = pref.topDomain;
                   sans = [ "*.${pref.topDomain}" ];
@@ -239,7 +239,12 @@
         #   # Run the cert dumper before starting kanidm each time
         #   ExecStartPre = "-+${dump-cert}/bin/dump-cert";
         # };
-
+        networking.networkmanager = {
+          enable = true;
+          dns = "systemd-resolved";
+        };
+        networking.resolvconf.useLocalResolver = true;
       };
+
     };
 }

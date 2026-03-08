@@ -1,6 +1,5 @@
 {
   targetSystem = "x86_64-linux";
-  withHomeManager = false;
   isUnstable = true;
   hasUnstable = true;
   isPure = true;

@@ -20,6 +20,7 @@
 
       options.preferences = {
         openFirewall = mkEnableOpt "Allow Firewall";
+        public = mkEnableOpt "Is the host publicly accesible";
         topDomain = mkOption {
           type = types.str;
         };
