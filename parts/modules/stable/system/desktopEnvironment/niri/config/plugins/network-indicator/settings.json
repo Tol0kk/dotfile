@@ -1,0 +1,11 @@
+{
+  "useCustomColors": false,
+  "showNumbers": true,
+  "forceMegabytes": false,
+  "arrowType": "chevron",
+  "minWidth": 100,
+  "byteThresholdActive": 1024,
+  "fontSizeModifier": 1,
+  "iconSizeModifier": 1,
+  "spacingInbetween": 0
+}
