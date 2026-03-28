@@ -12,17 +12,25 @@
     {
       programs.steam.enable = true;
       hardware.steam-hardware.enable = true;
-      programs.steam.gamescopeSession.enable = true;
-      programs.gamemode.enable = true;
+      # programs.steam.gamescopeSession.enable = true;
+      # programs.gamemode.enable = true;
       programs.gamescope = {
         enable = true;
-        capSysNice = true;
+        capSysNice = false;
       };
-      environment.systemPackages = with pkgs; [
-        prismlauncher
-        # heroic
-        # lutris
-        # bottleso
-      ];
+      services.ananicy = {
+        extraRules = [
+          {
+            "name" = "gamescope";
+            "nice" = -20;
+          }
+        ];
+      };
+      # environment.systemPackages = with pkgs; [
+      #   prismlauncher
+      #   # heroic
+      #   # lutris
+      #   # bottleso
+      # ];
     };
 }

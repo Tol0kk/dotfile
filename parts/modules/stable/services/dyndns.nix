@@ -1,4 +1,4 @@
-# TODO: create deluge services
+{ self, ... }:
 {
   flake.nixosModules.dyndns =
     {
@@ -8,26 +8,20 @@
       pkgs,
       ...
     }:
-    with lib;
-    with libCustom;
     let
-      cfg = config.modules.services.dyndns;
+      pref = config.preferences;
     in
     {
-      options.modules.services.dyndns = {
-        enable = mkEnableOpt "Enable Sync";
-        api_env_path = mkOption {
-          type = types.nullOr types.path;
-          default = null;
+      config = {
+        topology.self.services = {
+          dyndns = {
+            icon = "${self}/assets/icons/cloudflare.svg";
+            name = "DynDNS";
+            info = lib.mkForce "Dynamic DNS for ${pref.topDomain}";
+          };
         };
-        domain = mkOption {
-          type = types.str;
-          default = config.modules.services.traefik.domain;
-        };
-      };
 
-      # TODO check
-      config = mkIf cfg.enable {
+        # ── DynDNS Configuration ────────────────────────────────────────
         systemd.services.cloudflare-dyndns = {
           description = "Cloudflare Dynamic DNS";
           after = [ "network-online.target" ];
@@ -38,11 +32,13 @@
             Type = "oneshot";
             ExecStart = ''
               ${pkgs.cloudflare-dyndns}/bin/cloudflare-dyndns \
-                --api-token-file ${config.sops.secrets.cloudflare_dyndns.path} \
-                ${cfg.domain} *.${cfg.domain}
+                --api-token-file ${config.sops.secrets."cloudflare/dyndns".path} \
+                ${pref.topDomain} *.${pref.topDomain}
             '';
           };
         };
+
+        # ── Misc ────────────────────────────────────────
 
         # Run every 5 minutes
         systemd.timers.cloudflare-dyndns = {

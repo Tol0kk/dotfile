@@ -1,4 +1,3 @@
-# TODO: create glance services
 {
   flake.nixosModules.glance =
     {
@@ -8,11 +7,19 @@
       pkgs-unstable,
       ...
     }:
-    with lib;
-    with libCustom;
     let
+      inherit (lib)
+        types
+        mkOption
+        mkForce
+        ;
+      pref = config.preferences;
       cfg = config.modules.services.glance;
-      traefikcfg = config.modules.services.traefik;
+
+      local = "local.${pref.topDomain}";
+      public = "${pref.topDomain}";
+      port = 8080;
+
       news = {
         tech = {
           feeds = [
@@ -272,6 +279,62 @@
         }
       ];
 
+      tolokServices = [
+        {
+          title = "Own Cloud";
+          url = "https://cloud.tolok.org";
+          icon = "si:owncloud";
+        }
+        {
+          title = "Vaultwarden";
+          url = "https://vaultwarden.tolok.org";
+          icon = "si:vaultwarden";
+        }
+        {
+          title = "Jellyfin";
+          url = "https://media.cloud.tolok.org";
+          icon = "si:jellyfin";
+        }
+        {
+          title = "Grafana";
+          url = "https://grafana.tolok.org";
+          check-url = "https://grafana.tolok.org/api/health";
+          icon = "si:grafana";
+        }
+        {
+          title = "Uptime Kuma";
+          url = "https://uptime.tolok.org/dashboard";
+          check-url = "http://127.0.0.1:8000";
+          icon = "si:uptimekuma";
+        }
+        {
+          title = "Deluge";
+          url = "https://deluge.media.tolok.org/";
+          check-url = "http://localhost:8112";
+          icon = "si:deluge";
+        }
+        {
+          title = "Home Assistant";
+          url = "https://ha.tolok.org";
+          icon = "si:homeassistant";
+        }
+        {
+          title = "Matrix Server";
+          check-url = "https://matrix.tolok.org/";
+          icon = "si:matrix";
+        }
+        {
+          title = "Prometheus";
+          check-url = "http://localhost:9001/-/healthy";
+          icon = "si:prometheus";
+        }
+        {
+          title = "Loki";
+          check-url = "http://localhost:3030/ready";
+          icon = "si:hermes";
+        }
+      ];
+
       mapRedditWidget = builtins.map (subreddit: {
         inherit subreddit;
         type = "reddit";
@@ -280,59 +343,79 @@
       });
     in
     {
+      # ── Modules Settings ────────────────────────────────────────
       options.modules.services.glance = {
-        enable = mkEnableOpt "Enable glance homepage";
+        public = mkOption {
+          default = pref.public;
+          type = types.bool;
+        };
       };
 
-      config = mkIf cfg.enable {
+      config = {
+        # ── Topology / service catalogue ────────────────────────────────────────
         topology.self.services = {
           glance = {
             name = "Glance";
-            # icon = "services.adguardhome"; # TODO create service extractor
             info = lib.mkForce "Self hosted homepage/dashboard";
-          };
-        };
-
-        services.traefik = {
-          # glance Configuration
-          dynamicConfigOptions = {
-            http = {
-              services.glance.loadBalancer.servers = [
-                {
-                  url = "http://127.0.0.1:8080";
-                }
-              ];
-
-              routers.glance = {
-                rule = "Host(`home.${traefikcfg.domain}`)";
-                entryPoints = [ "websecure" ];
-                service = "glance";
-                tls = traefikcfg.tlsConfig; # Uses Traefik's default self-signed cert
-              };
-
-              # routers.glance = {
-              #   entryPoints = [ "websecure" ];
-              #   rule = "Host(`${domain}`)";
-              #   service = "glance";
-              #   tls.certResolver = "letsencrypt";
-              # };
-
-              # routers.glanceServerPage = {
-              #   entryPoints = [ "websecure" ];
-              #   rule = "Host(`${domain}`) && (Path(`/server`) || Path(`/oidc/callback`))";
-              #   service = "glance";
-              #   tls.certResolver = "letsencrypt";
-              #   middlewares = [ "oidc-auth" ];
-              # };
+            details = {
+              Local.text = mkForce "${local} (localhost:${toString port})";
+            }
+            // lib.optionalAttrs cfg.public {
+              Public.text = mkForce "${public}";
             };
           };
         };
 
+        # ── Traefik Configuration ────────────────────────────────────────
+        services.traefik.dynamicConfigOptions = {
+          http = {
+            services.glance.loadBalancer.servers = [
+              { url = "http://127.0.0.1:${toString port}"; }
+            ];
+
+            routers.glance = {
+              rule = "Host(`${local}`) ${if cfg.public then "|| Host(`${public}`" else ""})";
+              entryPoints = [ "websecure" ]; # TODO use auth OICD if public
+              service = "glance";
+              tls.certResolver = "letsencrypt";
+            };
+
+            # routers.glanceServerPage = {
+            #   entryPoints = [ "websecure" ];
+            #   rule = "Host(`${domain}`) && (Path(`/server`) || Path(`/oidc/callback`))";
+            #   service = "glance";
+            #   tls.certResolver = "letsencrypt";
+            #   middlewares = [ "oidc-auth" ];
+            # };
+
+            # TODO only if public
+            routers.glanceServerPage = {
+              entryPoints = [ "websecure" ];
+              # Only route your app paths here
+              rule = "Host(`${public}`) && PathPrefix(`/server`)";
+              service = "glance";
+              tls.certResolver = "letsencrypt";
+              middlewares = [ "kanidm-auth" ]; # Protect this with Kanidm
+            };
+
+            routers.oauth2-proxy-route = {
+              entryPoints = [ "websecure" ];
+              # Catch all /oauth2/ traffic for this domain
+              rule = "Host(`${public}`) && PathPrefix(`/oauth2/`)";
+              service = "oauth2-proxy"; # Route this to the proxy, NOT glance
+              tls.certResolver = "letsencrypt";
+              # CRITICAL: Do NOT put the kanidm-auth middleware here!
+            };
+
+          };
+        };
+
+        # ── Glance Dashboard ────────────────────────────────────────
         services.glance = {
           enable = true;
           package = pkgs-unstable.glance;
           settings = {
-            server.port = 8080;
+            server.port = port;
             branding.custom-footer = ''
               <p>Powered by Glance</p>
             '';
@@ -446,23 +529,23 @@
               }
 
               # Server Info dodo handle this based on the allowed services
-              # {
-              #   name = "Server";
-              #   columns = [
-              #     {
-              #       size = "full";
-              #       widgets = [
-              #         # Services
-              #         {
-              #           type = "monitor";
-              #           cache = "1m";
-              #           title = "Services";
-              #           sites = tolokServices;
-              #         }
-              #       ];
-              #     }
-              #   ];
-              # }
+              {
+                name = "Server";
+                columns = [
+                  {
+                    size = "full";
+                    widgets = [
+                      # Services
+                      {
+                        type = "monitor";
+                        cache = "1m";
+                        title = "Services";
+                        sites = tolokServices;
+                      }
+                    ];
+                  }
+                ];
+              }
 
               # Home Page
               # > Calendar, Weather, Small Video, Small RSS, ...

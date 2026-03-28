@@ -74,76 +74,83 @@ let
       importIfExists = path: default: if pathExists path then import path else default;
 
       # Define meta configuration schema
-      hostMetaOptions = {
-        options.hostMeta = {
-          targetSystem = mkOption {
-            type = types.str;
-            description = "What system to target for this host";
-          };
-          isUnstable = mkOption {
-            type = types.bool;
-            default = false;
-            description = "Whether to use unstable channel as default for pkgs";
-          };
-          hasUnstable = mkOption {
-            type = types.bool;
-            default = true;
-            description = "Whether to add unstable channel as pkgs-unstable";
-          };
-          isPure = mkOption {
-            type = types.bool;
-            default = true;
-            description = "Whether to unable pure path or not. Used for home configuration, symlink direclty to configration is impure";
-          };
-          withOCI = mkOption {
-            type = types.bool;
-            default = false;
-            description = "Whether to add a <host>-oci for generating an oci image (.qwoc2)";
-          };
-          withISO = mkOption {
-            type = types.bool;
-            default = false;
-            description = "Whether to add a <host>-iso for generating an iso image";
-          };
-          stateVersion = mkOption {
-            type = types.str;
-            description = "NixOS state version for this host";
-          };
-          allowUnfree = mkOption {
-            type = types.bool;
-            default = false;
-            description = "Whether to allow unfree packages";
-          };
-          isNixos = mkOption {
-            type = types.bool;
-            default = true;
-            description = "Whether to generate a nixosConfiguration for this host";
-          };
-          isAndroid = mkOption {
-            type = types.bool;
-            default = false;
-            description = "Whether to generate a Nix-droid for this host";
-          };
-          remote = mkOption {
-            default = { };
-            description = "Remote build configuration";
-            type = types.submodule {
-              options = {
-                targetHost = mkOption {
-                  type = types.nullOr types.str;
-                  default = null;
-                  description = "The target host (domain or ip) for remote build";
-                };
-                targetUser = mkOption {
-                  type = types.nullOr types.str;
-                  default = null;
-                  description = "The target user for remote build";
+      hostMetaOptions =
+        { config, ... }:
+        {
+          options.hostMeta = {
+            targetSystem = mkOption {
+              type = types.str;
+              description = "What system to target for this host";
+            };
+            localSystem = mkOption {
+              type = types.nullOr types.str;
+              default = null;
+              description = "What system to target for this host";
+            };
+            isUnstable = mkOption {
+              type = types.bool;
+              default = false;
+              description = "Whether to use unstable channel as default for pkgs";
+            };
+            hasUnstable = mkOption {
+              type = types.bool;
+              default = true;
+              description = "Whether to add unstable channel as pkgs-unstable";
+            };
+            isPure = mkOption {
+              type = types.bool;
+              default = true;
+              description = "Whether to unable pure path or not. Used for home configuration, symlink direclty to configration is impure";
+            };
+            withOCI = mkOption {
+              type = types.bool;
+              default = false;
+              description = "Whether to add a <host>-oci for generating an oci image (.qwoc2)";
+            };
+            withISO = mkOption {
+              type = types.bool;
+              default = false;
+              description = "Whether to add a <host>-iso for generating an iso image";
+            };
+            stateVersion = mkOption {
+              type = types.str;
+              description = "NixOS state version for this host";
+            };
+            allowUnfree = mkOption {
+              type = types.bool;
+              default = false;
+              description = "Whether to allow unfree packages";
+            };
+            isNixos = mkOption {
+              type = types.bool;
+              default = true;
+              description = "Whether to generate a nixosConfiguration for this host";
+            };
+            isAndroid = mkOption {
+              type = types.bool;
+              default = false;
+              description = "Whether to generate a Nix-droid for this host";
+            };
+            remote = mkOption {
+              default = { };
+              description = "Remote build configuration";
+              type = types.submodule {
+                options = {
+                  targetHost = mkOption {
+                    type = types.nullOr types.str;
+                    default = null;
+                    description = "The target host (domain or ip) for remote build";
+                  };
+                  targetUser = mkOption {
+                    type = types.nullOr types.str;
+                    default = null;
+                    description = "The target user for remote build";
+                  };
                 };
               };
             };
           };
         };
-      };
 
       # Evaluates raw data against the module schema
       evalHostMeta =

@@ -10,6 +10,7 @@
       ...
     }:
     {
+      key = "nixosModules.neovim";
       imports = [ self.nixosModules.neovim-minimal ];
       programs.nvf.settings = lib.mkDefault (
         (import "${self}/packages/neovim/config" {
@@ -30,6 +31,7 @@
       ...
     }:
     {
+      key = "nixosModules.neovim-minimal";
       imports = [ inputs.nvf.nixosModules.default ];
       config = {
         programs.nvf = {

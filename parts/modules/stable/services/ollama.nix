@@ -8,9 +8,12 @@
       libCustom,
       ...
     }:
-    with lib;
-    with libCustom;
     let
+      inherit (lib)
+        types
+        mkOption
+        mkForce
+        ;
       pref = config.preferences;
       cfg = config.modules.services.ollama;
 
@@ -28,6 +31,7 @@
       };
     in
     {
+      # ── Modules Settings ────────────────────────────────────────
       options.modules.services.ollama = {
         public = mkOption {
           default = pref.public;
@@ -79,13 +83,27 @@
           };
 
           services = {
-            open-webui.loadBalancer.servers = [
-              { url = "http://127.0.0.1:${toString ports.web}"; }
-            ];
+            open-webui.loadBalancer = {
+              servers = [
+                { url = "http://127.0.0.1:${toString ports.web}"; }
+              ];
+              healthCheck = {
+                path = "/health";
+                interval = "10s";
+                timeout = "3s";
+              };
+            };
 
-            ollama.loadBalancer.servers = [
-              { url = "http://127.0.0.1:${toString ports.ollama}"; }
-            ];
+            ollama.loadBalancer = {
+              servers = [
+                { url = "http://127.0.0.1:${toString ports.ollama}"; }
+              ];
+              healthCheck = {
+                path = "/";
+                interval = "10s";
+                timeout = "3s";
+              };
+            };
           };
         };
 

@@ -8,6 +8,9 @@
     {
       virtualisation.docker.enable = true;
       # hardware.nvidia-container-toolkit.enable = true;
+      virtualisation.oci-containers = {
+        backend = "docker";
+      };
       virtualisation.docker.autoPrune.enable = true;
       virtualisation.docker.daemon.settings = {
         default-ulimits = {

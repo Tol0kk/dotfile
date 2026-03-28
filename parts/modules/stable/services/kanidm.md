@@ -363,3 +363,28 @@ stale processes: `systemctl stop kanidm && rm -f /var/lib/kanidm/kanidm.db.klock
 
 **Backup location:** Automatic backups go to the configured `backupPath`
 (`/var/backup/kanidm/` by default) on the schedule you set.
+
+
+# Commands
+
+```sh
+sudo kanidmd  recover-account idm_admin
+kanidm login -D idm_admin
+
+# Create User
+kanidm person create tolok "Tol0kk"
+
+# Create Groups
+kanidm group create guests
+kanidm group create users
+kanidm group create moderators
+
+# Join Groups
+kanidm group add-members moderators tolok
+kanidm group add-members users tolok
+
+# Create Services
+kanidm system oauth2 create oauth2-proxy "OAuth2 Proxy Middleware" https://auth.othrys.tolok.org
+kanidm system oauth2 update-scope-map oauth2-proxy users opened
+kanidm system oauth2 show-basic-secret oauth2-proxy
+```

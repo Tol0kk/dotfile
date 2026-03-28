@@ -1,4 +1,5 @@
 # TODO: create traefik services
+{ self, ... }:
 {
   flake.nixosModules.traefik =
     {
@@ -10,45 +11,19 @@
     let
       inherit (lib) mkIf types mkOption;
       pref = config.preferences;
-
-      # dump-cert =
-      #   let
-      #     kanidm_domain = config.modules.services.kanidm.server.domain;
-      #   in
-      #   pkgs.writeShellScriptBin "dump-cert" ''
-      #     ${pkgs.traefik-certs-dumper}/bin/traefik-certs-dumper file --domain-subdir --crt-name public --key-name private --source /var/lib/traefik/acme.json --dest /var/lib/certificates/ --version v2
-      #     ${pkgs.coreutils}/bin/chown kanidm /var/lib/certificates/${kanidm_domain}/private.key
-      #     ${pkgs.coreutils}/bin/chown kanidm /var/lib/certificates/${kanidm_domain}/public.crt
-      #   '';
-
-      mytraefik =
-        let
-          oidc-auth_author = "sevensolutions";
-          oidc-auth_name = "traefik-oidc-auth";
-          oidc-auth_version = "0.17.0";
-        in
-        pkgs.traefik.overrideAttrs (oldAttrs: {
-          postInstall =
-            oldAttrs.postInstall or ''
-              mkdir -p $out/bin/plugins-local/src/github.com/${oidc-auth_author}/
-              cp -r ${
-                pkgs.fetchFromGitHub {
-                  owner = oidc-auth_author;
-                  repo = oidc-auth_name;
-                  rev = "refs/tags/v${oidc-auth_version}";
-                  sha256 = "sha256-aVSnmNzRIJuSm0GzgKLKSgTvxbC6D7U7TuyMyR65QH8=";
-                }
-              } $out/bin/plugins-local/src/github.com/${oidc-auth_author}/${oidc-auth_name}
-            '';
-        });
     in
     {
+      key = "nixosModules.traefik";
       options.modules.services.traefik = {
         public = mkOption {
           default = pref.public;
           type = types.bool;
         };
       };
+
+      imports = [
+        self.nixosModules.oauth2-proxy
+      ];
 
       config = {
         # ── Topology / service catalogue ────────────────────────────────────────
@@ -67,7 +42,6 @@
 
         # ── Traefik NixOS service ────────────────────────────────────────────────
         services.traefik = {
-          package = mytraefik;
           enable = true;
 
           # ── Global Configuration  ────────────────────────────────────────────────
@@ -87,6 +61,8 @@
                 "400-499"
                 "500-599"
               ];
+              format = "json";
+              fields.headers.defaultMode = "keep";
             };
 
             # tracing.otlp = {
@@ -116,7 +92,6 @@
             address = ":443";
             http.tls = {
               certResolver = "letsencrypt";
-              # List all your domains and wildcards under the same entrypoint
               domains = [
                 (mkIf config.modules.services.traefik.public {
                   main = "local.${pref.topDomain}";
@@ -142,41 +117,41 @@
             };
           };
 
-          # ── Metrics ────────────────────────────────────────────────
-          # staticConfigOptions = {
-          #   metrics.prometheus = {
-          #     entryPoint = "metrics"; # Defined below
-          #     addEntryPointsLabels = true;
-          #     addRoutersLabels = true;
-          #     addServicesLabels = true;
-          #   };
-          #   entryPoints.metrics = {
-          #     address = ":8082";
-          #   };
-          # };
+          # -- Catchall Error Page
+          dynamicConfigOptions.http = {
+            routers.catchall = {
+              rule = "HostRegexp(`^.+[.]${pref.topDomain}$`) || Host(`${pref.topDomain}`)";
+              entryPoints = [ "websecure" ];
+              priority = 1;
+              service = "catchall-svc";
+            };
 
-          # ── Plugin OICD ────────────────────────────────────────────────
-          # staticConfigOptions.experimental.localPlugins.traefik-oidc-auth = {
-          #   modulename = "github.com/sevensolutions/traefik-oidc-auth";
-          # };
-          # dynamicConfigOptions.http = {
-          #   middlewares = {
-          #     oidc-auth = {
-          #       plugin.traefik-oidc-auth = {
-          #         provider = {
-          #           Url = "https://sso.tolok.org/oauth2/openid/traefik-auth";
-          #           ClientId = "traefik-auth"; # System ID in Kanidm
-          #           ClientSecretEnv = "TRAEFIK_AUTH_CLIENT_SECRETS"; # ClientSecret from Kanidm on the tarfik-auth service
-          #           TokenValidation = "IdToken";
-          #           UsePkce = true;
-          #         };
-          #         Scopes = [
-          #           "openid"
-          #           "profile"
-          #         ];
-          #       };
-          #     };
-          #   };
+            services.catchall-svc = {
+              loadBalancer.servers = [
+                { url = "http://127.0.0.1:8099"; }
+              ];
+            };
+          };
+
+          # -- OAuth Proxy Middlewares
+          dynamicConfigOptions.http = {
+            services.oauth2-proxy.loadBalancer.servers = [
+              { url = "http://127.0.0.1:4180"; }
+            ];
+
+            # 2. Define the ForwardAuth Middleware
+            middlewares.kanidm-auth.forwardAuth = {
+              address = "http://127.0.0.1:4180/";
+              # trustForwardHeader = true;
+              # These headers will be passed to your protected backend applications
+              authResponseHeaders = [
+                "X-Auth-Request-User"
+                "X-Auth-Request-Email"
+                "X-Auth-Request-Preferred-Username"
+                "Authorization"
+              ];
+            };
+          };
         };
 
         # --- Hardening Traefik ---
@@ -193,57 +168,32 @@
           443
         ];
 
-        # services.traefik.staticConfigOptions.certificatesResolvers.letsencrypt.acme.storage =
-        #   "/var/lib/traefik/acme.json";
-        # systemd.services.traefik = {
-        #   preStart = ''
-        #     mkdir -p /var/lib/traefik
-
-        #     # Secure acme.json if it exists, or create it
-        #     if [ ! -f /var/lib/traefik/acme.json ]; then
-        #       touch /var/lib/traefik/acme.json
-        #     fi
-        #     chmod 600 /var/lib/traefik/acme.json
-
-        #     # Link local plugins
-        #     rm -rf /var/lib/traefik/plugins-local
-        #     ln -sf ${config.services.traefik.package}/bin/plugins-local /var/lib/traefik/plugins-local
-        #   '';
-
-        #   # Unified Service Config
-        #   serviceConfig = {
-        #     WorkingDirectory = "/var/lib/traefik";
-        #     StateDirectory = "traefik"; # Systemd manages /var/lib/traefik ownership
-        #     # Run dumper immediately after start to ensure certs are present
-        #     ExecStartPost = "-+${dump-cert}/bin/dump-cert";
-        #   };
-        # };
-
-        # # --- Certificate Watcher & Dumper ---
-        # # Watches for changes in acme.json (renewals) and triggers the dump script
-        # systemd.paths.traefik-cert-watcher = {
-        #   description = "Watch Traefik ACME JSON for changes";
-        #   wantedBy = [ "multi-user.target" ];
-        #   pathConfig.PathChanged = "/var/lib/traefik/acme.json";
-        # };
-
-        # systemd.services.traefik-cert-watcher = {
-        #   description = "Dump Traefik certificates on change";
-        #   serviceConfig = {
-        #     Type = "oneshot";
-        #     ExecStart = "-+${dump-cert}/bin/dump-cert";
-        #   };
-        # };
-
-        # systemd.services.kanidm.serviceConfig = {
-        #   # Run the cert dumper before starting kanidm each time
-        #   ExecStartPre = "-+${dump-cert}/bin/dump-cert";
-        # };
         networking.networkmanager = {
           enable = true;
           dns = "systemd-resolved";
         };
         networking.resolvconf.useLocalResolver = true;
+
+        services.nginx = {
+          enable = true;
+          virtualHosts."catchall" = {
+            listen = [
+              {
+                addr = "127.0.0.1";
+                port = 8099;
+              }
+            ];
+            root = pkgs.writeTextDir "index.html" (builtins.readFile ./error.html);
+
+            extraConfig = ''
+              error_page 404 /index.html;
+            '';
+
+            locations."/" = {
+              return = "404";
+            };
+          };
+        };
       };
 
     };

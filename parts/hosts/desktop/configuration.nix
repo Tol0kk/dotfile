@@ -1,5 +1,20 @@
 { self, config, ... }:
 {
+  # ── Topology / service catalogue ────────────────────────────────────────
+  topology.self = {
+    name = "🖥️ Desktop";
+    hardware.info = "R5 1600 | 16GB | GTX 1070";
+    interfaces.enp25s0 = {
+      addresses = [ "192.168.1.xxx/24" ];
+      # network = "home"; # Use the network we define below
+    };
+    interfaces.wlp30s0 = {
+      addresses = [ "192.168.1.64/24" ];
+      # network = "home"; # Use the network we define below
+    };
+  };
+
+  # ── Modules Imports ────────────────────────────────────────
   imports = [
     # Archetype
     self.nixosModules.workstation
@@ -18,7 +33,7 @@
     self.nixosModules.docker
 
     # Apps
-    # self.nixosModules.neovim
+    self.nixosModules.neovim
 
     # DE
     self.nixosModules.niri
@@ -30,44 +45,32 @@
 
     # Services
     self.nixosModules.ollama # Expose ollama throught ollama.<localDomain> or/and ollama.<publicDomain> using traefik
+    self.nixosModules.prometheus-node-exporter
+    self.nixosModules.glance
+    # self.nixosModules.forgejo
   ];
 
+  # ── Globals Preferences ────────────────────────────────────────
   preferences = {
-    topDomain = "tolok.org"; # Optinal, if set mean that the host is accesible from the internet
+    topDomain = "desktop.tolok.org";
     openFirewall = false;
     public = false;
-    # sops.keyFile = "${config.users.users.titouan.home}/.config/sops/age/keys.txt";
   };
 
-  # API Secrets
+  # ── Modules Settings ────────────────────────────────────────
+
+  # ── Secrets Declaration ────────────────────────────────────────
   sops.secrets."cloudflare/api_env" = {
     sopsFile = ./secrets.yaml;
   };
   sops.secrets."ollama/webui" = {
     sopsFile = ./secrets.yaml;
   };
-
-  # Topology
-  topology.self = {
-    name = "🖥️ Desktop";
-    hardware.info = "R5 1600 | 16GB | GTX 1070";
-    # interfaces.wg0 = {
-    #   addresses = [ "10.100.0.3" ];
-    #   network = "wg0"; # Use the network we define below
-    #   type = "wireguard"; # changes the icon
-    #   physicalConnections = [
-    #     (config.lib.topology.mkConnection "olympus" "wg0")
-    #   ];
-    # };
-    interfaces.enp25s0 = {
-      addresses = [ "192.168.1.xxx/24" ];
-      # network = "home"; # Use the network we define below
-    };
-    interfaces.wlp30s0 = {
-      addresses = [ "192.168.1.64/24" ];
-      # network = "home"; # Use the network we define below
-    };
+  sops.secrets."forgejo/admin-env" = {
+    sopsFile = ./secrets.yaml;
   };
+
+  # ── Miscs ────────────────────────────────────────
 
   # Limits jobs for the pc to survive while building XD
   nix = {

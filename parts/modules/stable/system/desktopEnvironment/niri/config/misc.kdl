@@ -9,3 +9,10 @@ cursor {
     hide-after-inactive-ms 5000
     hide-when-typing
 }
+
+outputs "HDMI-A-1" {
+    mode "3840x2400@59.994"
+    // Adjust the scale if the UI looks too small
+    scale 2.0
+    transform "270" // Niri uses degrees or 90-degree increments
+}

@@ -55,6 +55,7 @@
         ./packages
         (lib.mkHost inputs)
         (lib.mkHome inputs)
+        (lib.mkOCI inputs)
         (lib.mkTopology inputs) # nix build .#topology.$system.config.output
         { flake.libs = lib; }
       ];

@@ -1,6 +1,6 @@
 { self, ... }:
 {
-  flake.nixosModules.server =
+  flake.nixosModules.server-minimal =
     {
       libCustom,
       lib,
@@ -14,8 +14,6 @@
         self.nixosModules.sops
         self.nixosModules.ssh
         self.nixosModules.ssh-autostart
-
-        self.nixosModules.traefik
       ];
 
       options.preferences = {
@@ -35,6 +33,14 @@
         # documentation.enable = false;
         # services.printing.enable = false; # Removes cups/ghostscript
 
+        documentation.enable = false;
+        documentation.nixos.enable = false;
+        documentation.man.enable = false;
+        documentation.info.enable = false;
+        documentation.doc.enable = false;
+
+        nix.settings.auto-optimise-store = true;
+
         networking.firewall = {
           enable = true;
           allowedTCPPorts = [
@@ -43,4 +49,11 @@
         };
       };
     };
+
+  flake.nixosModules.server = {
+    imports = [
+      self.nixosModules.server-minimal
+      self.nixosModules.traefik
+    ];
+  };
 }

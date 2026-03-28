@@ -1,4 +1,3 @@
-# TODO: create garage services
 # ╔══════════════════════════════════════════════════════════════════════════════╗
 # ║  Garage S3 Module — Self-hosted S3-compatible object storage                 ║
 # ║                                                                              ║
@@ -17,6 +16,7 @@
 # ║    • Admin API for bucket/key management                                     ║
 # ║    • Traefik reverse-proxy integration with TLS                              ║
 # ╚══════════════════════════════════════════════════════════════════════════════╝
+{ self, ... }:
 {
   flake.nixosModules.garage =
     {
@@ -26,33 +26,31 @@
       pkgs,
       ...
     }:
-    with lib;
-    with libCustom;
     let
+      inherit (lib)
+        types
+        mkOption
+        mkForce
+        mkMerge
+        optional
+        ;
+      pref = config.preferences;
       cfg = config.modules.services.garage;
-      traefikcfg = config.modules.services.traefik;
 
-      s3Domain = cfg.domain;
-      s3Port = cfg.ports.s3;
-      rpcPort = cfg.ports.rpc;
-      adminPort = cfg.ports.admin;
+      public = {
+        s3 = "s3.${pref.topDomain}";
+      };
+
+      local = {
+        s3 = "s3.local.${pref.topDomain}";
+      };
     in
     {
+      # ── Modules Settings ────────────────────────────────────────
       options.modules.services.garage = {
-        enable = mkEnableOpt "Enable Garage S3-compatible object storage";
-
-        domain = mkOption {
-          description = "Public FQDN for the S3 API endpoint";
-          type = types.str;
-          default = "s3.${traefikcfg.domain}";
-          example = "s3.example.com";
-        };
-
-        webDomain = mkOption {
-          description = "Public FQDN suffix for static website hosting (bucket websites)";
-          type = types.str;
-          default = "web.${cfg.domain}";
-          example = "web.s3.example.com";
+        public = mkOption {
+          default = pref.public;
+          type = types.bool;
         };
 
         region = mkOption {
@@ -92,36 +90,19 @@
           default = "/var/lib/garage/meta";
         };
 
-        rpcSecretFile = mkOption {
-          description = ''
-            Path to file containing the RPC secret (shared across all cluster nodes).
-            Generate with: openssl rand -hex 32
-          '';
-          type = types.path;
-          example = "/run/secrets/garage-rpc-secret";
-        };
-
-        adminTokenFile = mkOption {
-          description = "Path to a file containing the admin API bearer token (alternative to adminToken)";
-          type = types.nullOr types.path;
-          default = null;
-          example = "/run/secrets/garage-admin-token";
-        };
-
         metricsToken = mkOption {
           description = "Bearer token for the /metrics prometheus endpoint (null = disabled)";
           type = types.nullOr types.str;
           default = null;
         };
 
+        # ADDED: rpcPublicAddr because it was called in settings but missing here
         rpcPublicAddr = mkOption {
-          description = "Public address:port for RPC (other nodes connect here)";
+          description = "Public IP or hostname (with port) for inter-node RPC communication";
           type = types.str;
-          default = "127.0.0.1:${toString rpcPort}";
-          example = "10.0.0.1:3901";
+          default = "127.0.0.1:3901"; # Sane default for a single-node setup
         };
 
-        # ── Port configuration ──────────────────────────────────────────────────
         ports = {
           s3 = mkOption {
             description = "Local S3 API listen port";
@@ -133,11 +114,6 @@
             type = types.port;
             default = 3901;
           };
-          web = mkOption {
-            description = "Static website endpoint port";
-            type = types.port;
-            default = 3902;
-          };
           admin = mkOption {
             description = "Admin API listen port";
             type = types.port;
@@ -146,13 +122,47 @@
         };
       };
 
-      config = mkIf cfg.enable {
+      config = {
         # ── Topology / service catalogue ────────────────────────────────────────
         topology.self.services = {
           garage = {
+            icon = "${self}/assets/icons/garage.svg";
             name = "Garage S3";
             info = mkForce "S3-compatible object storage";
-            details.listen.text = mkForce "${s3Domain} (localhost:${toString s3Port})";
+            details = {
+              Local.text = mkForce "${local.s3} (localhost:${toString cfg.ports.s3})";
+              Admin.text = mkForce "(localhost:${toString cfg.ports.admin})";
+              RPC.text = mkForce "(localhost:${toString cfg.ports.rpc})";
+            }
+            // lib.optionalAttrs cfg.public {
+              Public.text = mkForce "${public.s3}";
+            };
+          };
+        };
+
+        # ── Traefik Configuration ────────────────────────────────────────
+        services.traefik.dynamicConfigOptions = {
+          http = {
+            services = {
+              garage-s3.loadBalancer = {
+                servers = [
+                  { url = "http://localhost:${toString cfg.ports.s3}"; }
+                ];
+                healthCheck = {
+                  path = "/health";
+                  interval = "10s";
+                  timeout = "3s";
+                };
+              };
+            };
+
+            routers.garage-s3 = {
+              entryPoints = [ "websecure" ];
+              # FIXED: String interpolation syntax
+              rule = "Host(`${local.s3}`) ${if cfg.public then "|| Host(`${public.s3}`)" else ""}";
+              service = "garage-s3";
+              tls.certResolver = "letsencrypt";
+            };
           };
         };
 
@@ -169,32 +179,36 @@
               replication_mode = cfg.replicationMode;
 
               # -- RPC (inter-node) --------------------------------------------
-              rpc_bind_addr = "[::]:${toString rpcPort}";
+              rpc_bind_addr = "[::]:${toString cfg.ports.rpc}";
               rpc_public_addr = cfg.rpcPublicAddr;
 
               # -- S3 API ------------------------------------------------------
               s3_api = {
                 s3_region = cfg.region;
-                api_bind_addr = "[::]:${toString s3Port}";
-                root_domain = ".${s3Domain}";
+                api_bind_addr = "[::]:${toString cfg.ports.s3}";
+                root_domain = ".${if cfg.public then public.s3 else local.s3}";
               };
 
               # -- Admin API ---------------------------------------------------
               admin = {
-                api_bind_addr = "127.0.0.1:${toString adminPort}";
+                api_bind_addr = "127.0.0.1:${toString cfg.ports.admin}";
               };
             }
           ];
 
           # Load the RPC secret from a file (never stored in /nix/store)
           # Garage reads GARAGE_RPC_SECRET from env when environmentFile is set.
-          environmentFile = cfg.rpcSecretFile;
+          environmentFile = config.sops.secrets."garage/rpc".path;
         };
 
         systemd.services.garage = {
           serviceConfig = {
             # Load admin token from file if specified
-            LoadCredential = [ ] ++ optional (cfg.adminTokenFile != null) "admin-token:${cfg.adminTokenFile}";
+            LoadCredential =
+              [ ]
+              ++
+                optional (config.sops.secrets."garage/admin".path != null)
+                  "admin-token:${config.sops.secrets."garage/admin".path}";
           };
 
           # Ensure data/meta dirs exist
@@ -203,29 +217,15 @@
           '';
         };
 
+        # ── SOPS Secrets ────────────────────────────────────────────────────────
+        # ADDED: Must be defined so `.path` can be resolved by Nix safely.
+        sops.secrets."garage/rpc" = { };
+        sops.secrets."garage/admin" = { };
+
         # ── Firewall ────────────────────────────────────────────────────────────
         networking.firewall.allowedTCPPorts = [
-          s3Port
-          rpcPort
+          cfg.ports.rpc
         ];
-
-        # ── Traefik dynamic config ──────────────────────────────────────────────
-        services.traefik.dynamicConfigOptions = {
-          http = {
-            # -- Services -----------------------------------------------------
-            services.garage-s3.loadBalancer.servers = [
-              { url = "http://localhost:${toString s3Port}"; }
-            ];
-
-            # -- Routers ------------------------------------------------------
-            routers.garage-s3 = {
-              entryPoints = [ "websecure" ];
-              rule = "Host(`${s3Domain}`) || HostRegexp(`{subdomain:[a-z0-9-]+}.${s3Domain}`)";
-              service = "garage-s3";
-              tls = traefikcfg.tlsConfig;
-            };
-          };
-        };
       };
     };
 }

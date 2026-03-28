@@ -81,16 +81,19 @@
 
       imports = [ inputs.impermanence.nixosModules.impermanence ];
       # Clear /tmp
-      boot.tmp.cleanOnBoot = true;
 
-      environment.persistence = {
-        "/persist" = {
-          hideMounts = true;
-          files = unique cfg.root.files;
-          directories = unique (
-            # optionals config.custom.hardware.wifi.enable [ "/etc/NetworkManager" ]
-            [ ] ++ cfg.root.directories
-          );
+      config = {
+        boot.tmp.cleanOnBoot = true;
+
+        environment.persistence = {
+          "/persist" = {
+            hideMounts = true;
+            files = unique cfg.root.files;
+            directories = unique (
+              # optionals config.custom.hardware.wifi.enable [ "/etc/NetworkManager" ]
+              [ ] ++ cfg.root.directories
+            );
+          };
         };
       };
     };

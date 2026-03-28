@@ -20,6 +20,7 @@ let
     keep-derivations = true;
     keep-outputs = true;
   };
+
 in
 lib.mapAttrs' (
   name: metaConfig:
@@ -31,7 +32,11 @@ lib.mapAttrs' (
         config = nixpkgs_config metaConfig;
         overlays = [ self.overlays.default ];
         systemPlatform.system = metaConfig.targetSystem;
-        system = metaConfig.targetSystem;
+        # system = metaConfig.targetSystem;
+
+        localSystem =
+          if metaConfig.localSystem == null then metaConfig.targetSystem else metaConfig.localSystem; # buildPlatform
+        crossSystem = metaConfig.targetSystem; # hostPlatform
       };
       nixosConfig = nixpkgs.lib.nixosSystem {
         specialArgs = {
@@ -62,7 +67,7 @@ lib.mapAttrs' (
           "${self}/hosts/${name}/hardware.nix"
         ]
         ++ lib.optionals (builtins.pathExists "${self}/hosts/${name}/disko.nix") [
-          "${self}/hosts/${name}/disko.nix"
+          # "${self}/hosts/${name}/disko.nix"
         ]
         ++ [
           {

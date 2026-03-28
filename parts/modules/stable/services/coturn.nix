@@ -1,4 +1,4 @@
-# TODO: create coturn services
+{ self, ... }:
 {
   flake.nixosModules.coturn =
     {
@@ -9,68 +9,108 @@
     }:
 
     let
+      inherit (lib)
+        types
+        mkOption
+        mkForce
+        ;
+      pref = config.preferences;
       cfg = config.modules.services.coturn;
 
-      # primaryIPv4 = lib.findFirst (
-      #   addr: addr.family == "ipv4" && !(lib.hasPrefix "127." addr.address)
-      # ) null (lib.flatten (lib.mapAttrsToList (n: i: i.addresses) config.networking.interfaces));
-
-      # publicConfig = {
-      #   realm = cfg.domain;
-      #   cert = "/var/lib/acme/${cfg.domain}/cert.pem";
-      #   pkey = "/var/lib/acme/${cfg.domain}/key.pem";
-      # };
-
-      # localConfig = {
-      #   listeningIp = "0.0.0.0";
-      #   relayAddress = primaryIPv4.address;
-      # };
-
+      domain = "turn.${pref.topDomain}";
+      ports = {
+        stun = 3478; # Standard STUN/TURN port (TCP/UDP)
+        turns = 5349; # Standard TLS STUN/TURN port (TCP/UDP)
+        min = 49152; # Min relay port for UDP traffic
+        max = 65535; # Max relay port for UDP traffic
+      };
     in
     {
+      # ── Modules Settings ────────────────────────────────────────
       options.modules.services.coturn = {
-        open = lib.mkOption {
-          type = lib.types.bool;
-          default = false;
-          description = "Open coturn to the internet using a public domain.";
-        };
-
-        local = lib.mkOption {
-          type = lib.types.bool;
-          default = true;
-          description = "Open coturn on the local network.";
-        };
-
-        domain = lib.mkOption {
-          type = lib.types.str;
-          default = config.modules.services.traefik.domain;
-          description = "Public domain for the coturn server. Defaults to networking.domain.";
+        public = mkOption {
+          default = pref.public;
+          type = types.bool;
+          description = "Whether to expose the Coturn server publicly";
         };
       };
 
-      config = lib.mkIf cfg.enable {
-        services.coturn = lib.mkMerge [
-          {
-            enable = true;
-            staticAuthSecretFile = config.sops.secrets."coturn/static-auth-secret".path;
-            minPort = 49152;
-            maxPort = 65535;
-            listeningPort = 3478;
-            tlsListeningPort = 5349;
+      config = {
+        # ── Topology / service catalogue ────────────────────────────────────────
+        topology.self.services.coturn = {
+          icon = "${self}/assets/icons/coturn.svg";
+          name = "Coturn";
+          info = "STUN/TURN server";
+          details = {
+            Local.text = mkForce "localhost:${toString ports.stun}";
           }
-          # (lib.mkIf cfg.open publicConfig)
-          # (lib.mkIf (cfg.local && primaryIPv4 != null) localConfig)
-        ];
+          // lib.optionalAttrs cfg.public {
+            Public.text = mkForce "${domain}:${toString ports.stun}";
+          };
+        };
 
-        networking.firewall.allowedTCPPorts = [
-          3478
-          5349
-        ];
-        networking.firewall.allowedUDPPorts = [
-          3478
-          5349
-        ]
-        ++ (lib.range config.services.coturn.minPort config.services.coturn.maxPort);
+        # ── Coturn Configuration ────────────────────────────────────────
+        services.coturn = {
+          enable = true;
+          realm = domain;
+
+          # Listening IPs and Ports
+          listening-ips = [
+            "0.0.0.0"
+            "::"
+          ];
+          listening-port = ports.stun;
+          tls-listening-port = ports.turns;
+
+          # Relay Port Range (Crucial for TURN UDP traffic allocation)
+          min-port = ports.min;
+          max-port = ports.max;
+
+          # Security & Authentication (Required for Matrix / Netbird)
+          use-auth-secret = true;
+          static-auth-secret-file = config.sops.secrets."coturn/auth-secret".path;
+
+          # Performance and Security Flags
+          extraConfig = ''
+            # No-CLI for security (disables telnet admin interface)
+            no-cli
+
+            # Prevent local IP leakage/loops (don't relay to localhost/LAN)
+            no-tcp-relay
+            denied-peer-ip=10.0.0.0-10.255.255.255
+            denied-peer-ip=192.168.0.0-192.168.255.255
+            denied-peer-ip=172.16.0.0-172.31.255.255
+
+            # Log settings
+            log-file=/var/log/coturn/turnserver.log
+            simple-log
+          '';
+        };
+
+        # ── Firewall Rules ────────────────────────────────────────
+        # Traefik usually handles HTTP/HTTPS, but STUN/TURN requires direct
+        # TCP/UDP port mapping to the host, bypassing standard HTTP proxies.
+        networking.firewall = lib.mkIf cfg.public {
+          allowedTCPPorts = [
+            ports.stun
+            ports.turns
+          ];
+          allowedUDPPorts = [
+            ports.stun
+            ports.turns
+          ];
+          allowedUDPPortRanges = [
+            {
+              from = ports.min;
+              to = ports.max;
+            }
+          ];
+        };
+        sops.secrets."coturn/auth-secret" = {
+          owner = config.systemd.services.coturn.serviceConfig.User;
+          group = config.systemd.services.coturn.serviceConfig.Group;
+          mode = "0400";
+        };
       };
     };
 }

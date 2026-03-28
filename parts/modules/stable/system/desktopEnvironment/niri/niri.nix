@@ -14,7 +14,7 @@
     {
       imports = [
         self.homeModules.noctalia
-        self.homeModules.vicinae
+        # self.homeModules.vicinae
         # self.homeModules.theme
       ];
 
@@ -37,6 +37,7 @@
           pkgs.xwayland-satellite
           pkgs.pwvucontrol
           pkgs.nautilus
+          pkgs.libnotify
         ];
       };
     };
