@@ -22,7 +22,7 @@
     self.nixosModules.gamingstation
     self.nixosModules.builder
     self.nixosModules.securitystation-essenstials
-    self.nixosModules.server # This import traefik modules
+    # self.nixosModules.server # This import traefik modules
 
     # System
     self.nixosModules.grub

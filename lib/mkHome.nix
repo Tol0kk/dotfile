@@ -62,7 +62,7 @@ in
         nixpkgs = if metaConfig.isUnstable then nixpkgs-unstable else nixpkgs-stable;
         nixpkgsconfig = {
           config = nixpkgs_config metaConfig;
-          overlays = [ self.overlays.default ];
+          overlays = [ self.overlays.pacakges ];
           systemPlatform.system = metaConfig.targetSystem;
           system = metaConfig.targetSystem;
         };

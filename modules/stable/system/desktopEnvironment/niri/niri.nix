@@ -9,12 +9,16 @@
       isPure,
       ...
     }:
-    with lib;
-    with libCustom;
+    let
+      mkSource = relPath: absPath: {
+        force = true;
+        source = if isPure then relPath else config.lib.file.mkOutOfStoreSymlink absPath;
+      };
+    in
     {
       imports = [
         self.homeModules.noctalia
-        # self.homeModules.vicinae
+        self.homeModules.vicinae
         # self.homeModules.theme
       ];
 
@@ -24,9 +28,8 @@
           "QT_QPA_PLATFORMTHEME" = "gtk3";
         };
 
-        home.file.".config/niri".source =
-          mkSource isPure ./config
-            "${config.dotfiles}/modules/home/desktop/wayland/niri/config";
+        home.file.".config/niri" =
+          mkSource ./config "${config.dotfiles}/modules/stable/system/desktopEnvironment/niri/config";
 
         home.packages = [
           pkgs.niri

@@ -10,7 +10,10 @@
       ...
     }:
     let
-      inherit (libCustom) mkSource;
+      mkSource = relPath: absPath: {
+        force = true;
+        source = if isPure then relPath else config.lib.file.mkOutOfStoreSymlink absPath;
+      };
     in
     {
       imports = [
@@ -22,12 +25,11 @@
         enable = true;
       };
 
-      home.file.".config/noctalia" = {
-        source =
-          mkSource isPure ./config
-            "${config.dotfiles}/modules/home/desktop/wayland/shells/noctalia/config";
-        recursive = true;
-      };
+      home.file.".config/noctalia" =
+        mkSource ./config "${config.dotfiles}/modules/stable/system/desktopEnvironment/common/noctalia/config"
+        // {
+          recursive = true;
+        };
       home.sessionVariables = {
         # QT_QPA_PLATFORMTHEME = "gtk3";
       };

@@ -1,0 +1,47 @@
+prefer-no-csd // No Client Side Decoration
+
+// --- Layout & Visuals ---
+layout {
+    gaps 8
+    center-focused-column "never"
+    always-center-single-column
+
+    // default-column-display "normal"
+
+    preset-column-widths {
+        proportion 0.33333
+        proportion 0.5
+        proportion 0.66667
+    }
+
+    default-column-width { proportion 0.5;}
+
+    focus-ring {
+        // on
+        off
+        width 1
+        active-gradient from="#00c8ff" to="#bbddff" angle=45
+        inactive-gradient from="#ff5050" to="#808080" angle=45 relative-to="workspace-view"
+    }
+
+    border {
+        on
+        width 2
+        active-gradient from="#ffbb6644" to="#ffc88044" angle=45 relative-to="workspace-view"
+        inactive-gradient from="#50505000" to="#80808000" angle=45 relative-to="workspace-view"
+    }
+
+    struts {
+        left -3
+        right -3
+        top -5
+        bottom -5
+    }
+}
+
+window-rule {
+    draw-border-with-background false
+    geometry-corner-radius 10
+    clip-to-geometry true
+    // baba-is-float true // WTF is happening ??
+}

@@ -176,9 +176,6 @@ let
     ];
 
   # --- File Symlink Helper ---
-  mkSource =
-    isPure: relPath: absPath:
-    if isPure then relPath else lib.file.mkOutOfStoreSymlink absPath; # Note: requires config.lib.file in HM context!
 
 in
 {
@@ -191,6 +188,5 @@ in
     get-directories
     import-tree
     getHostsConfig
-    mkSource
     ;
 }

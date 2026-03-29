@@ -12,7 +12,7 @@
       };
     };
 
-  flake.overlays.default = final: prev: {
+  flake.overlays.pacakges = final: prev: {
     nixos-plymouth-custom = final.callPackage ./nixos-plymouth-custom/package.nix { };
   };
 }

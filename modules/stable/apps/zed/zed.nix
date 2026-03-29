@@ -8,17 +8,19 @@
       isPure,
       ...
     }:
-    with lib;
-    with libCustom;
+    let
+      mkSource = relPath: absPath: {
+        force = true;
+        source = if isPure then relPath else config.lib.file.mkOutOfStoreSymlink absPath;
+      };
+    in
     {
       # nixGL.vulkan.enable = true;
       stylix.targets.zed.enable = false;
-      home.file.".config/zed/settings.json".source =
-        mkSource isPure ./settings.json
-          "${config.dotfiles}/modules/home/apps/editor/zed/settings.json";
-      home.file.".config/zed/keymap.json".source =
-        mkSource isPure ./keymap.json
-          "${config.dotfiles}/modules/home/apps/editor/zed/keymap.json";
+      home.file.".config/zed/settings.json" =
+        mkSource ./settings.json "${config.dotfiles}//modules/stable/apps/zed/settings.json";
+      home.file.".config/zed/keymap.json" =
+        mkSource ./keymap.json "${config.dotfiles}/modules/stable/apps/zed/keymap.json";
       programs.zed-editor = {
         # package = zed-wrap;
         enable = true;

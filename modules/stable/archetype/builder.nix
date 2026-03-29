@@ -12,7 +12,7 @@
     {
       imports = [
         # Archetype
-        self.nixosModules.server
+        self.nixosModules.server-minimal
       ];
       users.users.builder = {
         createHome = false;

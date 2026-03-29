@@ -30,13 +30,13 @@ lib.mapAttrs' (
       nixpkgs = if metaConfig.isUnstable then nixpkgs-unstable else nixpkgs-stable;
       nixpkgsconfig = {
         config = nixpkgs_config metaConfig;
-        overlays = [ self.overlays.default ];
+        overlays = [ self.overlays.pacakges ];
         systemPlatform.system = metaConfig.targetSystem;
-        # system = metaConfig.targetSystem;
+        system = metaConfig.targetSystem;
 
-        localSystem =
-          if metaConfig.localSystem == null then metaConfig.targetSystem else metaConfig.localSystem; # buildPlatform
-        crossSystem = metaConfig.targetSystem; # hostPlatform
+        # localSystem =
+        #   if metaConfig.localSystem == null then metaConfig.targetSystem else metaConfig.localSystem; # buildPlatform
+        # crossSystem = metaConfig.targetSystem; # hostPlatform
       };
       nixosConfig = nixpkgs.lib.nixosSystem {
         specialArgs = {

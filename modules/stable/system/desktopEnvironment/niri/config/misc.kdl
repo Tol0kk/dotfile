@@ -1,0 +1,11 @@
+spawn-sh-at-startup "nice -n -5 noctalia-shell"
+spawn-sh-at-startup "wpctl set-mute @DEFAULT_AUDIO_SINK@ 1" // Mute Sink
+spawn-sh-at-startup "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ 1" // Mute Source
+
+screenshot-path "~/Pictures/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
+
+cursor {
+    // Hide the cursor after one second of inactivity.
+    hide-after-inactive-ms 5000
+    hide-when-typing
+}

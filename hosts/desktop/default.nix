@@ -2,7 +2,7 @@
   targetSystem = "x86_64-linux";
   isUnstable = true;
   hasUnstable = true;
-  isPure = true;
+  isPure = false;
   remote = {
     targetHost = "desktop.tolok.org";
     targetUser = "titouan";
