@@ -1,3 +1,4 @@
+# Create a host by importing the right modules based on its default.nix configuration
 {
   libCustom,
   lib,
@@ -5,146 +6,91 @@
 }:
 {
   self,
-  nixpkgs-stable,
   nixpkgs-unstable,
+  nixpkgs-stable,
   ...
 }@inputs:
 let
-  inherit (libCustom) get-directories import-tree;
+  hostsConfig = libCustom.getHostsConfig self;
 
-  # Global Config
-  nixpkgs_config = {
+  nixpkgs_config = metaOptions: {
     allowUnsupportedSystem = false;
-    allowUnfree = true;
+    allowUnfree = metaOptions.allowUnfree;
     experimental-features = "nix-command flakes";
     keep-derivations = true;
     keep-outputs = true;
   };
 
-  # Import Libs
-  libs = import ./default.nix inputs;
-
-  extraPkgs = system: {
-    pkgs-unstable = import nixpkgs-unstable {
-      inherit system;
-      overlays = common_overlay;
-      config = nixpkgs_config;
-    };
-
-    pkgs-stable = import nixpkgs-stable {
-      inherit system;
-      overlays = common_overlay;
-      config = nixpkgs_config;
-    };
-  };
-
-  # Import system folder
-  systems = get-directories "${self}/systems";
-  systemsConfig = builtins.listToAttrs (
-    builtins.map (system: {
-      name = lib.strings.removeSuffix ".nix" (
-        builtins.unsafeDiscardStringContext (builtins.baseNameOf system)
-      );
-      value = import system inputs;
-    }) systems
-  );
-
-  # Import Common Overlay
-  common_overlay = import ./overlay.nix { inherit inputs self; };
-
-  common_config =
-    {
-      name,
-      nixpkgs,
-    }:
-    {
-      networking.hostName = name;
-      nix.registry.nixpkgs.flake = nixpkgs;
-
-      nix.settings = {
-        experimental-features = [
-          "nix-command"
-          "flakes"
-        ];
-        builders-use-substitutes = true;
-        warn-dirty = false;
-        auto-optimise-store = true;
-      }
-      // (import "${self}/lib/substituters.nix");
-    };
 in
 lib.mapAttrs' (
-  name:
-  {
-    system,
-    nixpkgs,
-    withHomeManager ? false,
-    isPure ? false,
-    ...
-  }:
-  lib.nameValuePair "${name}-base" (
-    nixpkgs.lib.nixosSystem {
-      inherit system;
-      pkgs = import nixpkgs {
-        inherit system;
-        systemPlatform.system = system;
-        config = nixpkgs_config;
-        overlays = common_overlay;
+  name: metaConfig:
+  lib.nameValuePair name (
+    let
+      libs = import ./default.nix inputs;
+      nixpkgs = if metaConfig.isUnstable then nixpkgs-unstable else nixpkgs-stable;
+      nixpkgsconfig = {
+        config = nixpkgs_config metaConfig;
+        overlays = [ self.overlays.default ];
+        systemPlatform.system = metaConfig.targetSystem;
+        # system = metaConfig.targetSystem;
+
+        localSystem =
+          if metaConfig.localSystem == null then metaConfig.targetSystem else metaConfig.localSystem; # buildPlatform
+        crossSystem = metaConfig.targetSystem; # hostPlatform
       };
-      specialArgs = {
-        inherit
-          inputs
-          self
-          withHomeManager
-          isPure
-          ;
-      }
-      // libs
-      // extraPkgs system;
-      modules = [
-        "${self}/systems/${name}/configuration.nix"
-        (common_config { inherit name nixpkgs; })
-        inputs.nix-index-database.nixosModules.nix-index
-        inputs.nix-topology.nixosModules.default
-        { imports = [ (import-tree "${self}/modules/nixos") ]; }
-        inputs.home-manager-unstable.nixosModules.home-manager
-      ]
-      ++ lib.optionals withHomeManager [
-        {
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-          home-manager.backupFileExtension = "homeManagerBackup";
-          home-manager.sharedModules = [
-            {
-              home.stateVersion = "24.05";
-              programs.home-manager.enable = true;
-            }
-            (import-tree "${self}/modules/home")
-            inputs.sops-nix.homeManagerModules.sops
-            inputs.stylix.homeModules.stylix
-            inputs.vicinae.homeManagerModules.default
-            (
-              { config, ... }:
-              {
-                # Options used inside home configration
-                options.dotfiles = lib.mkOption {
-                  type = lib.types.path;
-                  apply = toString;
-                  default = "${config.home.homeDirectory}/.config/nixos";
-                  example = "${config.home.homeDirectory}/.config/nixos";
-                  description = "Location of the dotfiles working copy";
-                };
-              }
-            )
-          ];
-          home-manager.extraSpecialArgs = {
-            inherit inputs self isPure;
-            hostname = name;
-          }
-          // libs
-          // extraPkgs system;
+      nixosConfig = nixpkgs.lib.nixosSystem {
+        specialArgs = {
+          inherit
+            self
+            inputs
+            libs
+            nixpkgs
+            nixpkgsconfig
+            ;
+
+          inherit (metaConfig) isPure;
+          hostMetaOptions = metaConfig;
+          pkgs-stable = import nixpkgs-stable nixpkgsconfig;
+          # secrets = inputs.secrets;
         }
-      ];
+        // lib.optionalAttrs metaConfig.hasUnstable {
+          pkgs-unstable = import nixpkgs-unstable nixpkgsconfig;
+        }
+        // libs;
+        pkgs = import nixpkgs nixpkgsconfig;
+        modules = [
+          "${self}/hosts/${name}/configuration.nix"
+          self.nixosModules.common
+          inputs.nix-topology.nixosModules.default
+        ]
+        ++ lib.optionals (builtins.pathExists "${self}/hosts/${name}/hardware.nix") [
+          "${self}/hosts/${name}/hardware.nix"
+        ]
+        ++ lib.optionals (builtins.pathExists "${self}/hosts/${name}/disko.nix") [
+          # "${self}/hosts/${name}/disko.nix"
+        ]
+        ++ [
+          {
+            system.stateVersion = metaConfig.stateVersion;
+            networking.hostName = name;
+            nix.registry.nixpkgs.flake = nixpkgs;
+
+            nix.settings = {
+              experimental-features = [
+                "nix-command"
+                "flakes"
+              ];
+              builders-use-substitutes = true;
+              warn-dirty = false;
+              auto-optimise-store = true;
+            }
+            // (import ./substituters.nix);
+          }
+        ];
+      };
+    in
+    {
+      inherit nixosConfig metaConfig;
     }
   )
-) systemsConfig
+) hostsConfig

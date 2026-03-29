@@ -1,157 +1,63 @@
 {
-  description = "My Nixos flake Configuration";
   inputs = {
-    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.11";
+    # Unstable
+    #
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-unstable.url = "github:nixos/nixpkgs/nixos-unstable";
+    home-manager-unstable.url = "github:nix-community/home-manager";
+    home-manager-unstable.inputs.nixpkgs.follows = "nixpkgs-unstable";
+    stylix-unstable.url = "github:danth/stylix";
+    stylix-unstable.inputs.nixpkgs.follows = "nixpkgs-unstable";
+    zen-browser.url = "github:0xc000022070/zen-browser-flake";
+    zen-browser.inputs.nixpkgs.follows = "nixpkgs-unstable";
+    noctalia.url = "github:noctalia-dev/noctalia-shell";
+    noctalia.inputs.nixpkgs.follows = "nixpkgs-unstable";
+    vicinae.url = "github:vicinaehq/vicinae"; # We use the nixpkgs from vicinar for cachix
+    vicinae-extensions.url = "github:vicinaehq/extensions";
+    vicinae-extensions.inputs.nixpkgs.follows = "nixpkgs-unstable";
+
+    # Stable
+    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.11";
+    home-manager-stable.url = "github:nix-community/home-manager";
+    home-manager-stable.inputs.nixpkgs.follows = "nixpkgs-stable";
+    stylix-stable.url = "github:danth/stylix";
+    stylix-stable.inputs.nixpkgs.follows = "nixpkgs-stable";
+
+    # Both
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
     impermanence.url = "github:nix-community/impermanence";
-    home-manager-unstable = {
-      url = "github:nix-community/home-manager";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
-    };
-    home-manager-stable = {
-      url = "github:nix-community/home-manager";
-      inputs.nixpkgs.follows = "nixpkgs-stable";
-    };
-    sops-nix = {
-      url = "github:Mic92/sops-nix";
-      inputs.nixpkgs.follows = "nixpkgs-stable";
-    };
-    stylix = {
-      url = "github:danth/stylix";
-      inputs.nixpkgs.follows = "nixpkgs-stable";
-    };
-    mesa-demo = {
-      url = "github:Tol0kk/Mesa-demos-8.4.0";
-      inputs.nixpkgs.follows = "nixpkgs-stable";
-    };
+    sops-nix.url = "github:Mic92/sops-nix";
+    flake-parts.url = "github:hercules-ci/flake-parts";
     nvf.url = "github:notashelf/nvf";
-    nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=v0.4.1";
-    nix-index-database.url = "github:nix-community/nix-index-database";
-    nix-index-database.inputs.nixpkgs.follows = "nixpkgs-stable";
-    zen-browser = {
-      url = "github:0xc000022070/zen-browser-flake";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
-    };
-    anyrun = {
-      url = "github:Kirottu/anyrun";
-    };
-    nixpkgs-ondroid.url = "github:nixos/nixpkgs/nixos-24.05";
-    nix-on-droid = {
-      url = "github:nix-community/nix-on-droid/release-24.05";
-      inputs.nixpkgs.follows = "nixpkgs-ondroid";
-    };
-    hyprpanel.url = "github:jas-singhfsu/hyprpanel";
-    hyprpanel.inputs.nixpkgs.follows = "nixpkgs-unstable";
-    nix-minecraft.url = "github:Infinidoge/nix-minecraft";
+    import-tree.url = "github:vic/import-tree";
     nix-topology.url = "github:oddlama/nix-topology";
-    espflash.url = "github:esp-rs/espflash";
-    espflash.flake = false;
-    quickshell = {
-      url = "git+https://git.outfoxxed.me/outfoxxed/quickshell";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
-    };
-    noctalia = {
-      url = "github:noctalia-dev/noctalia-shell";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
-    };
-    fenix.url = "github:nix-community/fenix";
     git-hooks.url = "github:cachix/git-hooks.nix";
-    vicinae.url = "github:vicinaehq/vicinae";
-    vicinae-extensions = {
-      url = "github:vicinaehq/extensions";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
-    };
   };
 
+  # TODO don't import everythings
   outputs =
-    {
-      self,
-      blender-bin,
-      ...
-    }@inputs:
+    inputs:
     let
-      supportedSystems = [
-        "x86_64-linux"
-        "x86_64-darwin"
-        "aarch64-linux"
-        "aarch64-darwin"
-      ];
-      forAllSystems = inputs.nixpkgs-stable.lib.genAttrs supportedSystems;
-      nixpkgsFor = forAllSystems (system: import inputs.nixpkgs-unstable { inherit system; });
       lib = import ./lib inputs;
-      baseSystemsConfig = lib.mkBase inputs;
     in
-    {
-      homeConfigurations = lib.mkHome inputs;
-      colmena = lib.mkColmena inputs baseSystemsConfig;
-      nixosConfigurations = lib.mkNixos inputs baseSystemsConfig;
-
-      # Apps / Packages provided by this flake
-      packages = forAllSystems (
-        system:
-        let
-          pkgs = nixpkgsFor.${system};
-        in
-        {
-          inherit (pkgs.callPackage ./packages/neovim { inherit (inputs) nvf; }) tiny-neovim neovim;
-          rkffmpeg = pkgs.callPackage ./packages/rkffmpeg { };
-          linux-1_12-rockchip = pkgs.callPackage ./packages/linux-6.12-rockchip { };
-        }
-        // lib.mkOCI inputs pkgs baseSystemsConfig
-      );
-      # Topology using https://github.com/oddlama/nix-topology
-      topology = forAllSystems (system: lib.mkTopology system inputs self);
-
-      # Run the hooks in a sandbox with `nix flake check`.
-      # Read-only filesystem and no internet access.
-      checks = forAllSystems (system: {
-        pre-commit-check = inputs.git-hooks.lib.${system}.run {
-          src = ./.;
-          hooks = {
-            nixfmt.enable = true;
-          };
-        };
-      });
-
-      # Run the hooks with `nix fmt`.
-      formatter = forAllSystems (
-        system:
-        let
-          pkgs = inputs.nixpkgs-stable.legacyPackages.${system};
-          config = self.checks.${system}.pre-commit-check.config;
-          inherit (config) package configFile;
-          script = ''
-            ${pkgs.lib.getExe package} run --all-files --config ${configFile}
-          '';
-        in
-        pkgs.writeShellScriptBin "pre-commit-run" script
-      );
-
-      pre-commit-check = inputs.git-hooks.run {
-        hooks = {
-          nixfmt.enable = true;
-        };
-      };
-
-      # Open the dev shell using `nix develop`
-      devShells = forAllSystems (
-        system:
-        let
-          pkgs = nixpkgsFor.${system};
-          inherit (self.checks.${system}) pre-commit-check;
-        in
-        {
-          default = pkgs.mkShell {
-            shellHook = ''
-              ${pre-commit-check.shellHook}
-            '';
-            buildInputs = with pkgs; [
-              pre-commit-check.enabledPackages
-              opentofu
-            ];
-          };
-        }
-      );
+    inputs.flake-parts.lib.mkFlake { inherit inputs; } {
+      imports = [
+        inputs.home-manager-stable.flakeModules.home-manager
+        inputs.nix-topology.flakeModule
+        (inputs.import-tree [
+          ./miscs
+          ./shells
+          ./users
+          ./templates
+          ./modules/stable
+          ./modules/unstable
+        ])
+        ./packages
+        (lib.mkHost inputs)
+        (lib.mkHome inputs)
+        (lib.mkOCI inputs)
+        (lib.mkTopology inputs) # nix build .#topology.$system.config.output
+        { flake.libs = lib; }
+      ];
     };
 }
