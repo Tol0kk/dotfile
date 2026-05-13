@@ -26,11 +26,11 @@
           }
         ];
       };
-      # environment.systemPackages = with pkgs; [
-      #   prismlauncher
-      #   # heroic
-      #   # lutris
-      #   # bottleso
-      # ];
+      environment.systemPackages = with pkgs; [
+        prismlauncher
+        # heroic
+        # lutris
+        # bottleso
+      ];
     };
 }

@@ -22,7 +22,7 @@
       home.file.".config/zed/keymap.json" =
         mkSource ./keymap.json "${config.dotfiles}/modules/stable/apps/zed/keymap.json";
       programs.zed-editor = {
-        # package = zed-wrap;
+        # package = pkgs.zed-editor;
         enable = true;
       };
       home.packages = with pkgs; [ package-version-server ];

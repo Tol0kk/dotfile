@@ -1,0 +1,33 @@
+input {
+    keyboard {
+        xkb {
+            layout "fr,us"
+            options "grp:alt_shift_toggle"
+        }
+        track-layout "global" // Can track layout per window with "window"
+        numlock
+    }
+
+    // focus-follows-mouse
+
+    touchpad {
+        tap
+        natural-scroll
+        scroll-method "two-finger"
+        drag-lock //  lifting the finger off for a short time while dragging will not drop the dragged item
+        // dwt // disable-when-typing
+    }
+
+    // mouse {
+    //     // sensitivity 0
+    // }
+    //
+    focus-follows-mouse
+    // focus-follows-mouse max-scroll-amount="0%"
+}
+
+cursor {
+    // Hide the cursor after one second of inactivity.
+    hide-after-inactive-ms 5000
+    hide-when-typing
+}

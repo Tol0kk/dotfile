@@ -15,6 +15,8 @@
     vicinae.url = "github:vicinaehq/vicinae"; # We use the nixpkgs from vicinar for cachix
     vicinae-extensions.url = "github:vicinaehq/extensions";
     vicinae-extensions.inputs.nixpkgs.follows = "nixpkgs-unstable";
+    wrappers.url = "github:BirdeeHub/nix-wrapper-modules";
+    wrappers.inputs.nixpkgs.follows = "nixpkgs-unstable";
 
     # Stable
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.11";
@@ -32,6 +34,8 @@
     import-tree.url = "github:vic/import-tree";
     nix-topology.url = "github:oddlama/nix-topology";
     git-hooks.url = "github:cachix/git-hooks.nix";
+    zed.url = "github:zed-industries/zed";
+    helium.url = "gitlab:ntgn/helium-flake";
   };
 
   # TODO don't import everythings

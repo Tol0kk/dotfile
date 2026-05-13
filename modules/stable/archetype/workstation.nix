@@ -53,6 +53,7 @@
             # Heavy
             onlyoffice-desktopeditors
             inputs.zen-browser.packages."${stdenv.hostPlatform.system}".beta
+
             # obsidian
             # blender_4_0
             # android-studio

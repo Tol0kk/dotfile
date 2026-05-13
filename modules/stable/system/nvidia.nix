@@ -28,21 +28,19 @@
       };
 
       config = {
+        services.xserver.videoDrivers = [ "nvidia" ];
+        hardware.graphics.enable = true;
         hardware.nvidia = {
-          modesetting.enable = true;
+          modesetting.enable = true; # Mandatory for wayland
           nvidiaSettings = true;
           powerManagement.enable = cfg.powerManagement.enable;
-          # package = config.boot.kernelPackages.nvidiaPackages.beta;
-          open = false;
         };
-        services.xserver.videoDrivers = [ "nvidia" ];
         hardware.nvidia.prime = mkIf cfg.offload.enable {
           offload.enable = true;
           offload.enableOffloadCmd = true;
           intelBusId = cfg.offload.intelBusId;
           nvidiaBusId = cfg.offload.nvidiaBusId;
         };
-
         services.supergfxd = {
           enable = true;
           settings = {

@@ -10,6 +10,7 @@
         packages = [
           pkgs.nix-diff
           pkgs.opentofu
+          pkgs.nixfmt
         ];
         shellHook = ''
           echo "========================================"

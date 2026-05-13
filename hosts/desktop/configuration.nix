@@ -31,6 +31,7 @@
     self.nixosModules.nvidia
     self.nixosModules.bluetooth
     self.nixosModules.docker
+    self.nixosModules.qemu
 
     # Apps
     self.nixosModules.neovim
@@ -94,4 +95,8 @@
   boot.extraModulePackages = [ config.boot.kernelPackages.ddcci-driver ];
   boot.kernelModules = [ "ddcci_backlight" ];
   hardware.i2c.enable = true;
+
+  # Nvidia
+  hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.legacy_580; # legacy_580 is mandatory for GTX 1070
+  hardware.nvidia.open = false; # False is mandatory for 1070
 }

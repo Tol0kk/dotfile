@@ -7,9 +7,6 @@ let
   isNormal = !isMinimal;
 in
 {
-  # Add any custom options (and do feel free to upstream them!)
-  # options = { ... };
-
   config.vim = {
     theme = {
       enable = true;
@@ -19,7 +16,7 @@ in
     };
 
     lsp = {
-      # enable = true;
+      enable = true;
       formatOnSave = true;
       lspSignature.enable = true;
       lightbulb.enable = true; # Show Lightbulb when code action available
@@ -40,7 +37,7 @@ in
     };
 
     ui = {
-      noice.enable = true;
+      # noice.enable = true;
       colorizer.enable = true;
     };
 
@@ -71,6 +68,13 @@ in
       cheatsheet.enable = true;
     };
 
+    options = {
+      tabstop = 2;
+      shiftwidth = 2;
+      expandtab = true;
+      smartindent = true;
+    };
+
     git = {
       enable = true;
       gitsigns.enable = true;
@@ -99,7 +103,7 @@ in
       # Create Tempalte file (https://github.com/otavioschwanck/new-file-template.nvim)
       new-file-template.enable = isNormal;
 
-      vim-wakatime.enable = true;
+      # vim-wakatime.enable = true;
     };
 
     telescope.enable = true;
@@ -114,6 +118,7 @@ in
       bash.enable = true;
       # html.enable = true;
       nix.enable = true;
+      nix.format.type = [ "nixfmt" ];
       python.enable = true;
       sql.enable = true;
 
