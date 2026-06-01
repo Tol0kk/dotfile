@@ -80,7 +80,7 @@
         {
           # Flatpak
           # imports = [ inputs.nix-flatpak.nixosModules.nix-flatpak ];
-          # services.flatpak.enable = true;
+          services.flatpak.enable = true;
         }
         {
           # Nix registries
@@ -106,6 +106,10 @@
             pinentryPackage = pkgs.pinentry-tty;
             # enableSSHSupport = true;
           };
+        }
+        {
+          # KDE Connect
+          programs.kdeconnect.enable = true;
         }
         {
           # File Manager

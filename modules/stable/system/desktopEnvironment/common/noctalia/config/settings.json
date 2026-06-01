@@ -274,6 +274,11 @@
                         "useCustomColors": false
                     },
                     "id": "plugin:todo"
+                },
+                {
+                    "defaultSettings": {
+                    },
+                    "id": "plugin:kde-connect"
                 }
             ]
         }
