@@ -5,6 +5,7 @@
       ...
     }:
     {
+      key = "nixosModules.fonts";
       fonts = {
         packages = with pkgs; [
           font-awesome

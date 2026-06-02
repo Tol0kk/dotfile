@@ -15,6 +15,7 @@
       cfg = config.modules.shell.bash;
     in
     {
+      key = "homeModules.bash";
       imports = [
         self.homeModules.fastfetch
         self.homeModules.starship
@@ -37,7 +38,7 @@
           shellAliases = assets.shellAliases;
           initExtra = ''
             ${pkgs.nix-your-shell}/bin/nix-your-shell fish | source
-            ${if cfg.withfastfetch then "fastfetch" else ""}
+            # ${if cfg.withfastfetch then "fastfetch" else ""}
           '';
         };
       };

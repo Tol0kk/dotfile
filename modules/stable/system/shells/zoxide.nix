@@ -4,6 +4,7 @@
       ...
     }:
     {
+      key = "homeModules.zoxide";
       programs.zoxide = {
         enable = true;
         enableBashIntegration = true;

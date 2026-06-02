@@ -22,6 +22,7 @@ in
       lightbulb.enable = true; # Show Lightbulb when code action available
       trouble.enable = true; # Add diagnostics, references, telescope results, quickfix
       otter-nvim.enable = true; # Add lsp features & code completion source for code embedded in other documents
+      presets.tailwindcss-language-server.enable = isNormal;
     };
 
     debugger = {
@@ -132,8 +133,7 @@ in
       kotlin.enable = isNormal;
       lua.enable = isNormal;
       svelte.enable = isNormal;
-      tailwind.enable = isNormal;
-      ts.enable = isNormal;
+      typescript.enable = isNormal;
       wgsl.enable = isNormal;
       zig.enable = isNormal;
       typst = {

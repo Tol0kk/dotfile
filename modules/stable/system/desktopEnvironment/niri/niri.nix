@@ -20,10 +20,11 @@
       };
     in
     {
+      key = "homeModules.niri";
       imports = [
         self.homeModules.noctalia
         self.homeModules.vicinae
-        # self.homeModules.theme
+        self.homeModules.theme
       ];
 
       config = {
@@ -61,6 +62,7 @@
     with lib;
     with libCustom;
     {
+      key = "nixosModules.niri";
       imports = [
         self.nixosModules.theme
         self.nixosModules.fonts

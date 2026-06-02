@@ -6,6 +6,7 @@
       ...
     }:
     {
+      key = "homeModules.starship";
       programs.starship = {
         enable = true;
         enableBashIntegration = true;

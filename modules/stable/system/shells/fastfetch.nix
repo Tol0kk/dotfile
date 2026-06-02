@@ -6,6 +6,7 @@
       ...
     }:
     {
+      key = "homeModules.fastfetch";
       config = {
         programs.fastfetch = {
           enable = true;

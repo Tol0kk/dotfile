@@ -15,6 +15,7 @@
       cfg = config.preference.shell.fish;
     in
     {
+      key = "homeModules.fish";
       imports = [
         self.homeModules.fastfetch
         self.homeModules.starship

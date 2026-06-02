@@ -20,9 +20,9 @@
 
     # Stable
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.11";
-    home-manager-stable.url = "github:nix-community/home-manager";
+    home-manager-stable.url = "github:nix-community/home-manager/release-25.11";
     home-manager-stable.inputs.nixpkgs.follows = "nixpkgs-stable";
-    stylix-stable.url = "github:danth/stylix";
+    stylix-stable.url = "github:nix-community/stylix/release-25.11";
     stylix-stable.inputs.nixpkgs.follows = "nixpkgs-stable";
 
     # Both
@@ -38,7 +38,6 @@
     helium.url = "gitlab:ntgn/helium-flake";
   };
 
-  # TODO don't import everythings
   outputs =
     inputs:
     let

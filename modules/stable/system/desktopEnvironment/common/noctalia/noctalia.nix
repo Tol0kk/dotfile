@@ -16,6 +16,7 @@
       };
     in
     {
+      key = "homeModules.noctalia";
       imports = [
         inputs.noctalia.homeModules.default
       ];
@@ -43,6 +44,7 @@
   flake.nixosModules.noctalia =
     { ... }:
     {
+      key = "nixosModules.noctalia";
       networking.networkmanager.enable = true;
       hardware.bluetooth.enable = true;
       services.tuned.enable = true;
