@@ -1,6 +1,15 @@
 {
   "todos": [
     {
+      "id": 1780432312918,
+      "text": "Appel mami anger anime samedi.",
+      "completed": false,
+      "createdAt": "2026-06-02T20:31:52.918Z",
+      "pageId": 1,
+      "priority": "medium",
+      "details": ""
+    },
+    {
       "id": 1772362691395,
       "text": "continue Cdecl port in rust",
       "completed": false,
@@ -39,7 +48,7 @@
     }
   ],
   "current_page_id": 1,
-  "count": 3,
+  "count": 4,
   "completedCount": 0,
   "showCompleted": true,
   "showBackground": true,

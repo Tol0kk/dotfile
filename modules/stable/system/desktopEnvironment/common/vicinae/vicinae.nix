@@ -29,17 +29,17 @@
         systemd = {
           enable = true;
           autoStart = true; # default: false
-          # environment = {
-          #   USE_LAYER_SHELL = 1;
-          # };
         };
-        # extensions = with inputs.vicinae-extensions.packages.${pkgs.stdenv.hostPlatform.system}; [
-        #   # bluetooth
-        #   nix
-        #   power-profile
-        #   searxng
-        #   stocks
-        # ];
+        extensions = with inputs.vicinae-extensions.packages.${pkgs.stdenv.hostPlatform.system}; [
+          # bluetooth
+          zed-recents
+          stocks
+          nerdfont-search
+          protondb-search
+          nix
+          power-profile
+          searxng
+        ];
       };
 
       home.file.".config/vicinae/settings.json" =

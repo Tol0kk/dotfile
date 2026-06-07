@@ -710,11 +710,137 @@
         "translucentWidgets": false
     },
     "wallpaper": {
-        "automationEnabled": false,
+        "automationEnabled": true,
         "directory": "/home/titouan/Pictures/Wallpapers",
         "enableMultiMonitorDirectories": false,
         "enabled": true,
         "favorites": [
+            {
+                "appearance": "dark",
+                "colorScheme": "Kanagawa",
+                "darkMode": true,
+                "generationMethod": "tonal-spot",
+                "paletteColors": [
+                    "#e4b5ff",
+                    "#d2c1d8",
+                    "#f4b7b9",
+                    "#ffb4ab"
+                ],
+                "path": "/home/titouan/Pictures/Wallpapers/takopi.png",
+                "useWallpaperColors": true
+            },
+            {
+                "appearance": "dark",
+                "colorScheme": "Kanagawa",
+                "darkMode": true,
+                "generationMethod": "tonal-spot",
+                "paletteColors": [
+                    "#a7c8ff",
+                    "#bdc7dc",
+                    "#dbbde2",
+                    "#ffb4ab"
+                ],
+                "path": "/home/titouan/Pictures/Wallpapers/anime-girl-billboard-neon-city-4k-3d.jpg",
+                "useWallpaperColors": true
+            },
+            {
+                "appearance": "dark",
+                "colorScheme": "Kanagawa",
+                "darkMode": true,
+                "generationMethod": "tonal-spot",
+                "paletteColors": [
+                    "#a7c8ff",
+                    "#bdc7dc",
+                    "#dbbde2",
+                    "#ffb4ab"
+                ],
+                "path": "/home/titouan/Pictures/Wallpapers/wallhaven-1p398w_3840x2400.png",
+                "useWallpaperColors": true
+            },
+            {
+                "appearance": "dark",
+                "colorScheme": "Kanagawa",
+                "darkMode": true,
+                "generationMethod": "tonal-spot",
+                "paletteColors": [
+                    "#fbacf8",
+                    "#d9bfd4",
+                    "#f6b8ab",
+                    "#ffb4ab"
+                ],
+                "path": "/home/titouan/Pictures/Wallpapers/wallhaven-v9z1dl_3840x2400.png",
+                "useWallpaperColors": true
+            },
+            {
+                "appearance": "dark",
+                "colorScheme": "Kanagawa",
+                "darkMode": true,
+                "generationMethod": "tonal-spot",
+                "paletteColors": [
+                    "#afc6ff",
+                    "#bfc6dc",
+                    "#dfbbde",
+                    "#ffb4ab"
+                ],
+                "path": "/home/titouan/Pictures/Wallpapers/wallhaven-j5v28q_3840x2400.png",
+                "useWallpaperColors": true
+            },
+            {
+                "appearance": "dark",
+                "colorScheme": "Kanagawa",
+                "darkMode": true,
+                "generationMethod": "tonal-spot",
+                "paletteColors": [
+                    "#a7c8ff",
+                    "#bdc7dc",
+                    "#dbbde2",
+                    "#ffb4ab"
+                ],
+                "path": "/home/titouan/Pictures/Wallpapers/the-shard-x0.jpg",
+                "useWallpaperColors": true
+            },
+            {
+                "appearance": "dark",
+                "colorScheme": "Kanagawa",
+                "darkMode": true,
+                "generationMethod": "tonal-spot",
+                "paletteColors": [
+                    "#c2c1ff",
+                    "#c6c4dd",
+                    "#eab9d2",
+                    "#ffb4ab"
+                ],
+                "path": "/home/titouan/Pictures/Wallpapers/sea-of-dreamscape-r4.jpg",
+                "useWallpaperColors": true
+            },
+            {
+                "appearance": "dark",
+                "colorScheme": "Kanagawa",
+                "darkMode": true,
+                "generationMethod": "tonal-spot",
+                "paletteColors": [
+                    "#e5b4ff",
+                    "#d3c0d8",
+                    "#f4b7b8",
+                    "#ffb4ab"
+                ],
+                "path": "/home/titouan/Pictures/Wallpapers/wallhaven-2eqjpm_3840x2400.png",
+                "useWallpaperColors": true
+            },
+            {
+                "appearance": "dark",
+                "colorScheme": "Kanagawa",
+                "darkMode": true,
+                "generationMethod": "tonal-spot",
+                "paletteColors": [
+                    "#fbacf8",
+                    "#d9bfd4",
+                    "#f6b8ab",
+                    "#ffb4ab"
+                ],
+                "path": "/home/titouan/Pictures/Wallpapers/wallhaven-3kpvkd_3840x2400.png",
+                "useWallpaperColors": true
+            }
         ],
         "fillColor": "#000000",
         "fillMode": "crop",
@@ -726,10 +852,10 @@
         "overviewEnabled": true,
         "overviewTint": 0.6,
         "panelPosition": "follow_bar",
-        "randomIntervalSec": 300,
+        "randomIntervalSec": 1440,
         "setWallpaperOnAllMonitors": true,
         "showHiddenFiles": false,
-        "skipStartupTransition": false,
+        "skipStartupTransition": true,
         "solidColor": "#1a1a2e",
         "sortOrder": "name",
         "transitionDuration": 1500,
