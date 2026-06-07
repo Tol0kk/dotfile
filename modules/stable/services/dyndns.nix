@@ -6,6 +6,7 @@
       lib,
       config,
       pkgs,
+      hostMetaOptions,
       ...
     }:
     let
@@ -33,7 +34,9 @@
             ExecStart = ''
               ${pkgs.cloudflare-dyndns}/bin/cloudflare-dyndns \
                 --api-token-file ${config.sops.secrets."cloudflare/dyndns".path} \
-                ${pref.topDomain} *.${pref.topDomain}
+                ${pref.topDomain} *.${pref.topDomain} ${
+                  if hostMetaOptions.remote.targetHost != null then hostMetaOptions.remote.targetHost else ""
+                }
             '';
           };
         };

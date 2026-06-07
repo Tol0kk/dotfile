@@ -102,6 +102,18 @@
         ];
 
         environment.shellAliases = assets.shellAliases;
+
+        services.avahi = {
+          enable = true;
+          nssmdns4 = true;
+          openFirewall = true;
+
+          publish = {
+            enable = true; # advertise this machine on the network
+            addresses = true; # publish IP addresses
+            workstation = true; # publish as a workstation
+          };
+        };
       };
     };
 }

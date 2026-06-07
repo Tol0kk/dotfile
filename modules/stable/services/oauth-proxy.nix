@@ -26,7 +26,8 @@
         httpAddress = "http://127.0.0.1:4180";
 
         # Tell OAuth2-proxy it's behind Traefik
-        # reverseProxy = true;
+        reverseProxy = true;
+        redirectURL = "https://${pref.topDomain}/oauth2/callback";
 
         # We are using OpenID Connect
         provider = "oidc";
@@ -41,8 +42,7 @@
         cookie = {
           domain = "${pref.topDomain}";
           secure = true;
-          # httpOnly = true;
-          # name = "_oauth2_proxy";
+          expire = "1h";
         };
 
         # Pass authentication headers
@@ -53,11 +53,13 @@
           whitelist-domain = "*.${pref.topDomain},${pref.topDomain}";
           # ── Browser Authentication (OIDC) ──
           oidc-issuer-url = "${kanidmUrl}/oauth2/openid/oauth2-proxy";
+          set-xauthrequest = "true";
 
           cookie-domain = ".${pref.topDomain}";
           cookie-secure = "true";
           cookie-samesite = "lax";
           code-challenge-method = "S256";
+          trusted-proxy-ip = "127.0.0.1/32,::1/128";
 
           # ── API Authentication (JWT) ──
           # This allows automated tools to pass a Bearer token

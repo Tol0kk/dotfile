@@ -19,15 +19,19 @@
       options.preferences = {
         openFirewall = mkEnableOpt "Allow Firewall";
         public = mkEnableOpt "Is the host publicly accesible";
+        sso = mkOption {
+          type = types.nullOr types.str;
+          default = null;
+        };
         topDomain = mkOption {
           type = types.str;
         };
       };
 
       config = {
-        # environment.shellInit = ''
-        #   export TERM=xterm
-        # '';
+        environment.shellInit = ''
+          export TERM=xterm
+        '';
 
         # programs.command-not-found.enable = false;
         # documentation.enable = false;

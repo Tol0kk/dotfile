@@ -139,7 +139,7 @@
 
         # ── Kanidm server ──────────────────────────────────────────────────────
         services.kanidm = {
-          package = pkgs.kanidm_1_9;
+          package = pkgs.kanidm_1_10;
           enableServer = true;
           enableClient = true;
           clientSettings = {
@@ -160,15 +160,6 @@
               };
             }
 
-            # {
-            #   # Enable Traefik
-            #   http_client_address_info = {
-            #     "x-forward-for" = [
-            #       "127.0.0.1"
-            #       "::1"
-            #     ];
-            #   };
-            # }
             (mkIf cfg.enableLdap {
               ldapbindaddress = "0.0.0.0:${toString cfg.ldapPort}";
             })

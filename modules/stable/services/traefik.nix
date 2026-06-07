@@ -139,16 +139,31 @@
               { url = "http://127.0.0.1:4180"; }
             ];
 
-            # 2. Define the ForwardAuth Middleware
-            middlewares.kanidm-auth.forwardAuth = {
-              address = "http://127.0.0.1:4180/";
-              # trustForwardHeader = true;
-              # These headers will be passed to your protected backend applications
-              authResponseHeaders = [
-                "X-Auth-Request-User"
-                "X-Auth-Request-Email"
-                "X-Auth-Request-Preferred-Username"
-                "Authorization"
+            middlewares = {
+              # 1. Verify: returns 401 if no valid session
+              kanidm-verify.forwardAuth = {
+                address = "http://127.0.0.1:4180/oauth2/auth";
+                trustForwardHeader = true;
+                authResponseHeaders = [
+                  "X-Auth-Request-User"
+                  "X-Auth-Request-Email"
+                ];
+              };
+
+              # 2. Sign-in: catch 401, send user to oauth2-proxy start → Kanidm login
+              kanidm-signin.errors = {
+                status = [ "401" ];
+                service = "oauth2-proxy";
+                query = "/oauth2/start?rd={url}";
+                statusRewrites = {
+                  "401" = 302;
+                };
+              };
+
+              # 3. Chain: run verify, and on 401 the errors middleware redirects
+              kanidm-auth.chain.middlewares = [
+                "kanidm-signin"
+                "kanidm-verify"
               ];
             };
           };

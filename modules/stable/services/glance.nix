@@ -372,41 +372,30 @@
             services.glance.loadBalancer.servers = [
               { url = "http://127.0.0.1:${toString port}"; }
             ];
-
             routers.glance = {
-              rule = "Host(`${local}`) ${if cfg.public then "|| Host(`${public}`" else ""})";
-              entryPoints = [ "websecure" ]; # TODO use auth OICD if public
+              rule = if cfg.public then "Host(`${local}`) || Host(`${public}`)" else "Host(`${local}`)";
+              priority = 10;
+              entryPoints = [ "websecure" ];
               service = "glance";
               tls.certResolver = "letsencrypt";
             };
-
-            # routers.glanceServerPage = {
-            #   entryPoints = [ "websecure" ];
-            #   rule = "Host(`${domain}`) && (Path(`/server`) || Path(`/oidc/callback`))";
-            #   service = "glance";
-            #   tls.certResolver = "letsencrypt";
-            #   middlewares = [ "oidc-auth" ];
-            # };
-
-            # TODO only if public
+            # Protected /server page + its data API — must outrank the catch-all
             routers.glanceServerPage = {
               entryPoints = [ "websecure" ];
-              # Only route your app paths here
-              rule = "Host(`${public}`) && PathPrefix(`/server`)";
+              rule = "Host(`${public}`) && (PathPrefix(`/server`) || PathPrefix(`/api/pages/server`))";
+              priority = 100;
               service = "glance";
               tls.certResolver = "letsencrypt";
-              middlewares = [ "kanidm-auth" ]; # Protect this with Kanidm
+              middlewares = [ "kanidm-auth" ];
             };
-
+            # OAuth2 login/callback — highest priority, NO auth middleware
             routers.oauth2-proxy-route = {
               entryPoints = [ "websecure" ];
-              # Catch all /oauth2/ traffic for this domain
               rule = "Host(`${public}`) && PathPrefix(`/oauth2/`)";
-              service = "oauth2-proxy"; # Route this to the proxy, NOT glance
+              priority = 200;
+              service = "oauth2-proxy";
               tls.certResolver = "letsencrypt";
-              # CRITICAL: Do NOT put the kanidm-auth middleware here!
             };
-
           };
         };
 
