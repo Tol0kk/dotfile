@@ -19,10 +19,10 @@
     wrappers.inputs.nixpkgs.follows = "nixpkgs-unstable";
 
     # Stable
-    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-25.11";
-    home-manager-stable.url = "github:nix-community/home-manager/release-25.11";
+    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-26.05";
+    home-manager-stable.url = "github:nix-community/home-manager/release-26.05";
     home-manager-stable.inputs.nixpkgs.follows = "nixpkgs-stable";
-    stylix-stable.url = "github:nix-community/stylix/release-25.11";
+    stylix-stable.url = "github:nix-community/stylix/release-26.05";
     stylix-stable.inputs.nixpkgs.follows = "nixpkgs-stable";
 
     # Both

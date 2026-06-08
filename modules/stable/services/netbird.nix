@@ -1,6 +1,58 @@
 { self, ... }:
+let
+  mkPublic = pref: {
+    dashboard = "netbird.${pref.topDomain}";
+    api = "api.netbird.${pref.topDomain}";
+    signal = "signal.netbird.${pref.topDomain}";
+  };
+
+  ports = {
+    dashboard = 11112;
+    management = 33073;
+    signal = 10000;
+  };
+in
 {
-  flake.nixosModules.netbird =
+  flake.nixosModules.netbird-client =
+    {
+      lib,
+      config,
+      pkgs,
+      ...
+    }:
+    let
+      public = mkPublic config.preferences;
+    in
+    {
+      # ── Netbird Client ────────────────────────────────────────────────────────
+      services.netbird.clients.default = {
+        port = 51820;
+        openFirewall = true;
+        autoStart = true;
+        hardened = true;
+
+        environment = {
+          NB_MANAGEMENT_URL = "https://${public.api}";
+        };
+
+        login = {
+          enable = true;
+          setupKeyFile = config.sops.secrets."netbird/setup-key".path;
+          systemdDependencies = [
+            "netbird-management.service"
+            "netbird-signal.service"
+            "traefik.service"
+            "sops-install-secrets.service" # ensure the key file exists first
+          ];
+        };
+      };
+
+      # ── SOPS Secrets ────────────────────────────────────────────────────────
+
+      # Setup key from netbird daskboard one time usage.
+      sops.secrets."netbird/setup-key" = { };
+    };
+  flake.nixosModules.netbird-server =
     {
       lib,
       config,
@@ -10,30 +62,20 @@
     let
       inherit (lib) mkForce;
       pref = config.preferences;
-
-      public = {
-        dashboard = "netbird.${pref.topDomain}";
-        api = "api.netbird.${pref.topDomain}";
-        signal = "signal.netbird.${pref.topDomain}";
-      };
-
-      ports = {
-        dashboard = 11112;
-        management = 33073;
-        signal = 10000;
-      };
+      public = mkPublic pref;
     in
     {
       config = {
         # ── Topology / Service Catalogue ────────────────────────────────────────
         topology.self.services = {
-          # netbird-dashboard = {
-          #   name = "Netbird Dashboard";
-          #   info = "Web UI for Netbird VPN";
-          #   details = {
-          #     Public.text = mkForce "${public.dashboard}";
-          #   };
-          # };
+          netbird-dashboard = {
+            icon = "${self}/assets/icons/netbird.svg";
+            name = "Netbird Dashboard";
+            info = "Web UI for Netbird VPN";
+            details = {
+              Public.text = mkForce "${public.dashboard}";
+            };
+          };
           netbird-management = {
             icon = "${self}/assets/icons/netbird.svg";
             name = "Netbird Management";
@@ -55,12 +97,6 @@
         # ── Traefik Configuration ───────────────────────────────────────────────
         services.traefik.dynamicConfigOptions.http = {
           routers = {
-            # netbird-dashboard = {
-            #   rule = "Host(`${public.dashboard}`)";
-            #   entryPoints = [ "websecure" ];
-            #   service = "netbird-dashboard";
-            #   tls.certResolver = "letsencrypt";
-            # };
             netbird-management = {
               rule = "Host(`${public.api}`)";
               entryPoints = [ "websecure" ];
@@ -76,29 +112,50 @@
           };
 
           services = {
-            # netbird-dashboard.loadBalancer.servers = [
-            #   { url = "http://127.0.0.1:${toString ports.dashboard}"; }
-            # ];
-            # Management and Signal require gRPC (h2c) in addition to standard HTTP
+            # Management is gRPC h2c
             netbird-management.loadBalancer.servers = [
               { url = "h2c://127.0.0.1:${toString ports.management}"; }
             ];
-            netbird-signal.loadBalancer.servers = [
-              { url = "h2c://127.0.0.1:${toString ports.signal}"; }
-            ];
+            # Signal fronts gRPC with an HTTP/WebSocket server — use plain http,
+            # let Traefik negotiate the WebSocket upgrade the stream needs
+            netbird-signal.loadBalancer = {
+              servers = [
+                { url = "h2c://127.0.0.1:${toString ports.signal}"; }
+              ];
+              passHostHeader = true;
+              responseForwarding.flushInterval = "1ms";
+            };
           };
+        };
+
+        services.nginx.virtualHosts.${public.dashboard}.listen = [
+          {
+            addr = "127.0.0.1";
+            port = ports.dashboard;
+          }
+        ];
+        services.traefik.dynamicConfigOptions.http = {
+          routers.netbird-dashboard = {
+            rule = "Host(`${public.dashboard}`)";
+            entryPoints = [ "websecure" ];
+            service = "netbird-dashboard";
+            tls.certResolver = "letsencrypt";
+          };
+          services.netbird-dashboard.loadBalancer.servers = [
+            { url = "http://127.0.0.1:${toString ports.dashboard}"; }
+          ];
         };
 
         # ── Netbird Server Components ───────────────────────────────────────────
 
-        # 1. Management Service
         services.netbird.server.management = {
           enable = true;
           port = ports.management;
           domain = pref.topDomain;
 
-          oidcConfigEndpoint = "https://auth.${pref.topDomain}/.well-known/openid-configuration";
           turnDomain = "turn.${pref.topDomain}";
+
+          oidcConfigEndpoint = "https://auth.${pref.topDomain}/oauth2/openid/netbird/.well-known/openid-configuration";
 
           settings = {
             DataStoreEncryptionKey = {
@@ -107,6 +164,8 @@
 
             HttpConfig = {
               AuthOIDCPath = "/auth";
+              AuthIssuer = "https://auth.${pref.topDomain}/oauth2/openid/netbird";
+              AuthAudience = "netbird";
             };
 
             TURNConfig = {
@@ -121,38 +180,53 @@
                 _secret = config.sops.secrets."coturn/auth-secret".path;
               };
             };
+            Signal = {
+              Proto = "https";
+              URI = "signal.netbird.${pref.topDomain}:10443";
+            };
 
             IdpManagerConfig = {
-              ManagerType = "zitadel";
-              ClientConfig = {
-                Issuer = "https://auth.${pref.topDomain}";
-                ClientID = "netbird-management";
-                ClientSecret = {
-                  _secret = config.sops.secrets."netbird/idp-secret".path;
-                };
-              };
+              ManagerType = "none";
             };
           };
         };
 
-        # 2. Signal Service
+        services.traefik.staticConfigOptions.entryPoints.signal = {
+          address = ":10443";
+        };
+
+        # TCP router with TLS termination, L4 forward to signal
+        services.traefik.dynamicConfigOptions.tcp = {
+          routers.netbird-signal = {
+            entryPoints = [ "signal" ];
+            rule = "HostSNI(`${public.signal}`)";
+            service = "netbird-signal";
+            tls.certResolver = "letsencrypt";
+          };
+          services.netbird-signal.loadBalancer.servers = [
+            { address = "127.0.0.1:${toString ports.signal}"; }
+          ];
+        };
+
+        networking.firewall.allowedTCPPorts = [ 10443 ];
+
         services.netbird.server.signal = {
           enable = true;
           port = ports.signal;
         };
 
-        # 3. Dashboard Web UI
         services.netbird.server.dashboard = {
           enable = true;
-          # port = ports.dashboard;
+          enableNginx = true;
+          domain = public.dashboard; # "netbird.${pref.topDomain}"
           managementServer = "https://${public.api}";
-
           settings = {
-            NETBIRD_MGMT_API_ENDPOINT = "https://${public.api}";
-            NETBIRD_MGMT_GRPC_API_ENDPOINT = "https://${public.api}";
-            AUTH_AUTHORITY = "https://auth.${pref.topDomain}";
-            AUTH_CLIENT_ID = "netbird-dashboard";
-            AUTH_SUPPORTED_SCOPES = "openid profile email offline_access api";
+            AUTH_AUTHORITY = "https://auth.${pref.topDomain}/oauth2/openid/netbird";
+            AUTH_CLIENT_ID = "netbird";
+            AUTH_AUDIENCE = "netbird";
+            AUTH_SUPPORTED_SCOPES = "openid profile email";
+            AUTH_REDIRECT_URI = "/callback";
+            AUTH_SILENT_REDIRECT_URI = "/silent-auth";
           };
         };
 
@@ -161,10 +235,6 @@
           owner = mkForce "root";
           group = mkForce "root";
           mode = mkForce "0444";
-        };
-
-        sops.secrets."netbird/idp-secret" = {
-          mode = "0400";
         };
 
         sops.secrets."netbird/datastore-key" = {

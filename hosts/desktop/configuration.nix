@@ -48,6 +48,7 @@
     self.nixosModules.ollama # Expose ollama throught ollama.<localDomain> or/and ollama.<publicDomain> using traefik
     self.nixosModules.prometheus-node-exporter
     self.nixosModules.glance
+    self.nixosModules.netbird-client
     # self.nixosModules.forgejo
   ];
 
@@ -68,6 +69,9 @@
     sopsFile = ./secrets.yaml;
   };
   sops.secrets."forgejo/admin-env" = {
+    sopsFile = ./secrets.yaml;
+  };
+  sops.secrets."netbird/setup-key" = {
     sopsFile = ./secrets.yaml;
   };
 

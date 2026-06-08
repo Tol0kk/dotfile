@@ -26,7 +26,8 @@
     self.nixosModules.garage
     self.nixosModules.coturn
     self.nixosModules.forgejo
-    # self.nixosModules.netbird
+    self.nixosModules.netbird-server
+    self.nixosModules.netbird-client
     self.nixosModules.searxng
 
     self.nixosModules.minecraft-gtnh
@@ -74,6 +75,9 @@
   sops.secrets."netbird/datastore-key" = {
     sopsFile = ./secrets.yaml;
   };
+  sops.secrets."netbird/setup-key" = {
+    sopsFile = ./secrets.yaml;
+  };
   sops.secrets."searxng/env" = {
     sopsFile = ./secrets.yaml;
   };
@@ -91,6 +95,8 @@
   };
 
   # ── Miscs ────────────────────────────────────────
+
+  systemd.network.wait-online.anyInterface = true;
 
   # services.restic.backups = {
   #   kanidm-db = {

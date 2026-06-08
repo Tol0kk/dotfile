@@ -10,7 +10,8 @@
     let
       pref = config.preferences;
       # Assuming your Kanidm domain is auth.domain.com
-      kanidmUrl = "https://auth.${pref.topDomain}";
+      kanidmUrl = if pref.sso == null then "https://auth.${pref.topDomain}" else "https://${pref.sso}";
+
     in
     {
       imports = [ self.nixosModules.oauth2-proxy-nixpkgs ];

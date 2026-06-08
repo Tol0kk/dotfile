@@ -73,6 +73,7 @@
           "gamemode"
           "dialout" # Acess to /dev/ttyUSBX
           "wheel"
+          "netbird-default"
         ];
         useDefaultShell = true;
         createHome = true;
