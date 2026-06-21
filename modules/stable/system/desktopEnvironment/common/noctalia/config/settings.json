@@ -279,6 +279,29 @@
                     "defaultSettings": {
                     },
                     "id": "plugin:kde-connect"
+                },
+                {
+                    "defaultSettings": {
+                        "compactMode": false,
+                        "defaultPeerAction": "copy-ip",
+                        "hideDisconnected": false,
+                        "managementUrl": "https://api.netbird.othrys.tolok.org",
+                        "pingCount": 5,
+                        "refreshInterval": 5000,
+                        "showIpAddress": true,
+                        "showPing": false,
+                        "terminalCommand": "netbird-default"
+                    },
+                    "id": "plugin:netbird"
+                },
+                {
+                    "defaultSettings": {
+                        "connectedColor": "primary",
+                        "disableToastNotifications": false,
+                        "disconnectedColor": "none",
+                        "displayMode": "onhover"
+                    },
+                    "id": "plugin:network-manager-vpn"
                 }
             ]
         }
@@ -287,7 +310,7 @@
         "backlightDeviceMappings": [
         ],
         "brightnessStep": 5,
-        "enableDdcSupport": false,
+        "enableDdcSupport": true,
         "enforceMinimum": true
     },
     "calendar": {
@@ -546,7 +569,7 @@
         "autoSchedule": true,
         "dayTemp": "6500",
         "enabled": true,
-        "forced": true,
+        "forced": false,
         "manualSunrise": "06:30",
         "manualSunset": "18:30",
         "nightTemp": "6000"
@@ -721,9 +744,9 @@
                 "darkMode": true,
                 "generationMethod": "tonal-spot",
                 "paletteColors": [
-                    "#e4b5ff",
-                    "#d2c1d8",
-                    "#f4b7b9",
+                    "#cfbcff",
+                    "#cbc2db",
+                    "#efb8c8",
                     "#ffb4ab"
                 ],
                 "path": "/home/titouan/Pictures/Wallpapers/takopi.png",
@@ -735,9 +758,9 @@
                 "darkMode": true,
                 "generationMethod": "tonal-spot",
                 "paletteColors": [
-                    "#a7c8ff",
-                    "#bdc7dc",
-                    "#dbbde2",
+                    "#e4b5ff",
+                    "#d2c1d8",
+                    "#f4b7b9",
                     "#ffb4ab"
                 ],
                 "path": "/home/titouan/Pictures/Wallpapers/anime-girl-billboard-neon-city-4k-3d.jpg",
@@ -763,9 +786,9 @@
                 "darkMode": true,
                 "generationMethod": "tonal-spot",
                 "paletteColors": [
-                    "#fbacf8",
-                    "#d9bfd4",
-                    "#f6b8ab",
+                    "#ffb4a3",
+                    "#e7bdb3",
+                    "#dbc58c",
                     "#ffb4ab"
                 ],
                 "path": "/home/titouan/Pictures/Wallpapers/wallhaven-v9z1dl_3840x2400.png",
@@ -777,9 +800,9 @@
                 "darkMode": true,
                 "generationMethod": "tonal-spot",
                 "paletteColors": [
-                    "#afc6ff",
-                    "#bfc6dc",
-                    "#dfbbde",
+                    "#fbacf8",
+                    "#d9bfd4",
+                    "#f6b8ab",
                     "#ffb4ab"
                 ],
                 "path": "/home/titouan/Pictures/Wallpapers/wallhaven-j5v28q_3840x2400.png",
@@ -791,9 +814,9 @@
                 "darkMode": true,
                 "generationMethod": "tonal-spot",
                 "paletteColors": [
-                    "#a7c8ff",
-                    "#bdc7dc",
-                    "#dbbde2",
+                    "#b3c5ff",
+                    "#c1c6dd",
+                    "#e1bbdc",
                     "#ffb4ab"
                 ],
                 "path": "/home/titouan/Pictures/Wallpapers/the-shard-x0.jpg",
@@ -805,9 +828,9 @@
                 "darkMode": true,
                 "generationMethod": "tonal-spot",
                 "paletteColors": [
-                    "#c2c1ff",
-                    "#c6c4dd",
-                    "#eab9d2",
+                    "#ffafd8",
+                    "#dfbdcc",
+                    "#f3ba9b",
                     "#ffb4ab"
                 ],
                 "path": "/home/titouan/Pictures/Wallpapers/sea-of-dreamscape-r4.jpg",
@@ -819,9 +842,9 @@
                 "darkMode": true,
                 "generationMethod": "tonal-spot",
                 "paletteColors": [
-                    "#e5b4ff",
-                    "#d3c0d8",
-                    "#f4b7b8",
+                    "#ffb2b6",
+                    "#e6bdbe",
+                    "#e7c08e",
                     "#ffb4ab"
                 ],
                 "path": "/home/titouan/Pictures/Wallpapers/wallhaven-2eqjpm_3840x2400.png",
@@ -833,9 +856,9 @@
                 "darkMode": true,
                 "generationMethod": "tonal-spot",
                 "paletteColors": [
-                    "#fbacf8",
-                    "#d9bfd4",
-                    "#f6b8ab",
+                    "#afc6ff",
+                    "#bfc6dc",
+                    "#dfbbde",
                     "#ffb4ab"
                 ],
                 "path": "/home/titouan/Pictures/Wallpapers/wallhaven-3kpvkd_3840x2400.png",

@@ -1,0 +1,11 @@
+{
+  "refreshInterval": 5000,
+  "compactMode": false,
+  "showIpAddress": true,
+  "hideDisconnected": true,
+  "showPing": false,
+  "terminalCommand": "netbird-default",
+  "pingCount": 5,
+  "defaultPeerAction": "copy-ip",
+  "managementUrl": "https://api.netbird.othrys.tolok.org"
+}
