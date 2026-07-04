@@ -50,6 +50,26 @@
             sendAnonymousUsage = false;
           };
 
+          # ── Traefik dashboard  ────────────────────────────────────────────────
+          staticConfigOptions.api = {
+            dashboard = true;
+          };
+
+          dynamicConfigOptions.http.routers.dashboard = {
+            rule = "Host(`traefik.${pref.topDomain}`)";
+            entryPoints = [ "websecure" ];
+            service = "api@internal";
+            middlewares = [ "kanidm-auth" ];
+            tls.certResolver = "letsencrypt";
+          };
+
+          # ── Prometheus metrics for Grafana  ────────────────────────────────────────────────
+          staticConfigOptions.metrics.prometheus = {
+            addEntryPointsLabels = true;
+            addRoutersLabels = true;
+            addServicesLabels = true;
+          };
+
           # ── Logs Configuration  ────────────────────────────────────────────────
           staticConfigOptions = {
             log.level = "INFO";

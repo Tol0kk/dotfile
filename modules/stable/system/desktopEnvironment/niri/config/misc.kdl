@@ -18,10 +18,11 @@ output "eDP-1" {
 }
 
 // Example for your RTK monitor (using its description logic)
-output "desc:Invalid Vendor Codename - RTK HG560T34" {
-    mode "2560x1440"
-    scale 1.666667
-    transform "270" // Niri uses degrees or 90-degree increments
+output "Invalid Vendor Codename - RTK HG560T34 0x10101010" {
+    mode "3840x2400"
+    position x=0 y=0
+    scale 2
+    transform "180"
 }
 
 
@@ -68,4 +69,27 @@ window-rule {
 
 layout {
     center-focused-column "never"
+}
+
+/* Noctalia: blur everywhere without xray for a better look */
+layer-rule {
+  match namespace="^noctalia-(background|launcher-overlay|dock)-.*$"
+  background-effect {
+    blur true
+    xray false
+  }
+}
+
+window-rule {
+  background-effect {
+    blur true
+    xray false
+  }
+}
+
+blur {
+  passes 2        // more passes = stronger blur (default: 3)
+  offset 3.0      // sample distance per pass (default: 3.0)
+  noise 0.03      // grain overlay (default: 0.02)
+  saturation 1.0  // color saturation boost (default: 1.5)
 }

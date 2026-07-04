@@ -1,4 +1,5 @@
 {
+  "cli_default_open_behavior": "new_window",
   "tab_size": 2,
   "preview_tabs": {
     "enable_preview_multibuffer_from_code_navigation": true,
@@ -17,7 +18,7 @@
     "show_type_hints": true,
     "show_parameter_hints": true,
     "show_other_hints": true,
-    "show_background": false,
+    "show_background": true,
     "edit_debounce_ms": 700,
     "scroll_debounce_ms": 50,
     "toggle_on_modifiers_press": {
@@ -45,7 +46,7 @@
   },
   "vim_mode": true,
   "icon_theme": {
-    "mode": "dark",
+    "mode": "light",
     "light": "Zed (Default)",
     "dark": "Colored Zed Icons Theme Dark",
   },
@@ -96,11 +97,11 @@
   "relative_line_numbers": "wrapped",
   "when_closing_with_no_tabs": "close_window",
   "title_bar": {
-    "show_branch_icon": true,
+    "show_branch_status_icon": true,
     "show_branch_name": true,
     "show_project_items": true,
     "show_onboarding_banner": false,
-    "show_user_picture": false,
+    "show_user_picture": true,
     "show_sign_in": false,
     "show_menus": false,
   },
@@ -117,7 +118,7 @@
       "show": "never",
     },
     "hide_root": true,
-    "starts_open": false,
+    "starts_open": true,
   },
   "git_panel": {
     "tree_view": true,
@@ -151,36 +152,44 @@
   },
   "profiles": {
     "zen-dark": {
-      "theme": "Gruvbox Dark",
+      "settings": {
+        "theme": "Gruvbox Dark",
+      },
     },
     "zen-light": {
-      "theme": "Gruvbox Light Hard",
+      "settings": {
+        "theme": "Gruvbox Light Hard",
+      },
     },
     "presentation": {
-      "buffer_font_size": 16,
-      "ui_font_size": 16,
-      "title_bar": {
-        "show_branch_icon": false,
-        "show_branch_name": false,
-        "show_project_items": false,
-        "show_onboarding_banner": false,
-        "show_user_picture": false,
-        "show_sign_in": false,
-        "show_menus": false,
+      "settings": {
+        "buffer_font_size": 19,
+        "ui_font_size": 15,
+        "title_bar": {
+          "show_branch_name": false,
+          "show_project_items": false,
+          "show_onboarding_banner": false,
+          "show_user_picture": false,
+          "show_sign_in": false,
+          "show_menus": false,
+        },
+        "toolbar": {
+          "breadcrumbs": false,
+          "quick_actions": false,
+          "selections_menu": false,
+          "agent_review": false,
+          "code_actions": false,
+        },
       },
-      "toolbar": {
-        "breadcrumbs": false,
-        "quick_actions": false,
-        "selections_menu": false,
-        "agent_review": false,
-        "code_actions": false,
-      },
-      "theme": "One Light",
     },
   },
-  "ui_font_size": 14,
-  "buffer_font_size": 12,
-  "theme": "macOS Classic Dark",
+  "ui_font_size": 16,
+  "buffer_font_size": 13,
+  "theme": {
+    "mode": "dark",
+    "light": "One Light",
+    "dark": "macOS Classic Dark"
+  },
   "auto_install_extensions": {
     "make": true,
     "nix": true,

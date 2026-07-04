@@ -114,7 +114,10 @@
   flake.nixosModules.titouan-autologin =
     { pkgs, ... }:
     {
-      services.greetd.enable = true;
-      services.greetd.settings.initial_session.user = "titouan";
+      services.xserver.displayManager.gdm.enable = true;
+
+      services.displayManager.autoLogin.enable = true;
+      services.displayManager.autoLogin.user = "titouan";
+      services.displayManager.defaultSession = "niri";
     };
 }

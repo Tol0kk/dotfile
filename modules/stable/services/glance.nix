@@ -18,7 +18,7 @@
 
       local = "local.${pref.topDomain}";
       public = "${pref.topDomain}";
-      port = 8080;
+      port = 8067;
 
       news = {
         tech = {
@@ -349,6 +349,30 @@
           default = pref.public;
           type = types.bool;
         };
+
+        server_service = mkOption {
+          type = types.listOf (
+            types.submodule {
+              options = {
+                title = mkOption {
+                  type = types.str;
+                };
+                url = mkOption {
+                  type = types.str;
+                };
+                check-url = mkOption {
+                  type = types.nullOr types.str;
+                  default = null;
+                };
+                icon = mkOption {
+                  type = types.str;
+                };
+              };
+            }
+          );
+          default = [ ];
+          description = "Services that register themselves for the Glance dashboard.";
+        };
       };
 
       config = {
@@ -529,7 +553,7 @@
                         type = "monitor";
                         cache = "1m";
                         title = "Services";
-                        sites = tolokServices;
+                        sites = cfg.server_service;
                       }
                     ];
                   }

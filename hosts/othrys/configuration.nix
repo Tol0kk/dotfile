@@ -29,6 +29,8 @@
     self.nixosModules.netbird-server
     self.nixosModules.netbird-client
     self.nixosModules.searxng
+    self.nixosModules.adguard
+    self.nixosModules.tino
 
     self.nixosModules.minecraft-gtnh
 
@@ -87,6 +89,9 @@
   sops.secrets."oauth2_proxy/secretSeed" = {
     sopsFile = ./secrets.yaml;
   };
+  sops.secrets."tino/env.secrets" = {
+    sopsFile = ./secrets.yaml;
+  };
 
   # ── Modules Settings ────────────────────────────────────────
 
@@ -95,6 +100,9 @@
   };
 
   # ── Miscs ────────────────────────────────────────
+
+  # Limit number of kernel that can be install at the same time to reduce the load on hte /boot partition
+  boot.loader.grub.configurationLimit = 3;
 
   systemd.network.wait-online.anyInterface = true;
 

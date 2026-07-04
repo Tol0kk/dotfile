@@ -29,10 +29,6 @@
 
       config = {
 
-        home.sessionVariables = {
-          "QT_QPA_PLATFORMTHEME" = "gtk3";
-        };
-
         home.file.".config/niri" =
           mkSource ./config "${config.dotfiles}/modules/stable/system/desktopEnvironment/niri/config";
 
@@ -73,7 +69,7 @@
         # Enable touchpad support (enabled default in most desktopManager).
         services.libinput.enable = true;
 
-        # programs.niri.enable = true;
+        programs.niri.enable = true;
         programs.niri.useNautilus = false;
         programs.xwayland.enable = false;
         security.polkit.enable = true;

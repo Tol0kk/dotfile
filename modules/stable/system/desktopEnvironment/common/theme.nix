@@ -63,6 +63,14 @@
           };
         };
 
+        stylix.targets.qt.enable = false;
+
+        qt = {
+          enable = true;
+          platformTheme.name = mkForce "kde";
+          style.name = mkForce "breeze";
+        };
+
         programs.home-manager.enable = true;
         # stylix.targets.wpaperd.enable = false;
         # services.wpaperd = {
@@ -90,22 +98,23 @@
           popups = cfg.opacity;
         };
 
+        home.packages = with pkgs.kdePackages; [
+          breeze # Breeze Qt6 widget style + color schemes
+          breeze-icons
+          plasma-integration # provides the "kde" QPA plugin that reads kdeglobals
+        ];
+
         home.pointerCursor.gtk.enable = true;
         home.pointerCursor.hyprcursor.enable = true;
         home.pointerCursor.hyprcursor.size = 24;
         home.pointerCursor.x11.enable = true;
         home.pointerCursor.x11.defaultCursor = "phinger-cursors-light";
-        gtk.gtk4.theme = null;
+        # gtk.gtk4.theme = null;
 
         stylix.cursor = {
           package = pkgs.phinger-cursors;
           name = "phinger-cursors-light";
           size = 24;
-        };
-
-        qt = {
-          enable = true;
-          platformTheme.name = mkForce "gtk3";
         };
 
         stylix.fonts = with pkgs; {

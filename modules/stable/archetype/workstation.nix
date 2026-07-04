@@ -100,12 +100,66 @@
           # imports = [ self.nixosModules.networks ];
         }
         {
+          # Gnome Keyring
+          services.gnome.gnome-keyring.enable = true;
+          security.pam.services.login.enableGnomeKeyring = true;
+
+          # Optional but handy for inspecting/managing keyrings:
+          programs.seahorse.enable = true;
+
+          boot.initrd.systemd.enable = true;
+          security.pam.services.gdm.enableGnomeKeyring = true;
+          security.pam.services.gdm-password.enableGnomeKeyring = true;
+        }
+        {
           # agents
           programs.gnupg.agent = {
             enable = true;
             pinentryPackage = pkgs.pinentry-tty;
             # enableSSHSupport = true;
           };
+        }
+        {
+          environment.systemPackages = with pkgs; [
+            kdePackages.dolphin
+            kdePackages.dolphin-plugins # extra context-menu actions
+            kdePackages.kio # separate package since 25.11
+            kdePackages.kio-extras # smb://, sftp://, fish://, mtp:// ...
+            kdePackages.kio-fuse # mount remote locations via FUSE
+            kdePackages.kio-admin # open/edit as root
+
+            kdePackages.ark
+            p7zip # 7z + zip handling (KDE marks this RECOMMENDED)
+            zip
+            unzip
+
+            kdePackages.gwenview # image viewer
+            kdePackages.kdegraphics-thumbnailers # pdf/svg/etc. thumbnails
+            kdePackages.ffmpegthumbs # video thumbnails
+            kdePackages.qtimageformats # webp, avif, ...
+
+            kdePackages.konsole # Dolphin's F4 terminal needs this
+
+            # so KDE apps behave on a non-Plasma Wayland compositor:
+            kdePackages.qtwayland
+            kdePackages.qtsvg
+            kdePackages.breeze
+            kdePackages.breeze-icons
+            kdePackages.plasma-integration
+
+            gsettings-desktop-schemas
+            glib
+            shared-mime-info
+            kdePackages.plasma-workspace # ships plasma-applications.menu
+            kdePackages.kservice
+            qdirstat
+          ];
+          xdg.mime.enable = true; # default true, but make sure it's not disabled
+          programs.dconf.enable = true;
+          environment.sessionVariables.XDG_MENU_PREFIX = "plasma-";
+
+          services.udisks2.enable = true; # removable-drive mounting
+          security.polkit.enable = true; # required for that mounting to be authorized
         }
         {
           # KDE Connect

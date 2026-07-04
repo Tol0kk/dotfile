@@ -18,7 +18,7 @@
       # nixGL.vulkan.enable = true;
       stylix.targets.zed.enable = false;
       home.file.".config/zed/settings.json" =
-        mkSource ./settings.json "${config.dotfiles}//modules/stable/apps/zed/settings.json";
+        mkSource ./settings.json "${config.dotfiles}/modules/stable/apps/zed/settings.json";
       home.file.".config/zed/keymap.json" =
         mkSource ./keymap.json "${config.dotfiles}/modules/stable/apps/zed/keymap.json";
       programs.zed-editor = {
