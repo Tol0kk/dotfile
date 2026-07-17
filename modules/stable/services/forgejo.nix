@@ -11,6 +11,8 @@
         types
         mkOption
         mkForce
+        mkIf
+        optionalAttrs
         ;
       pref = config.preferences;
       cfg = config.modules.services.forgejo;
@@ -25,6 +27,13 @@
         web = 3000;
         ssh = 2222; # Forgejo internal SSH server
       };
+
+      kanidmUrl = if pref.sso == null then "https://auth.${pref.topDomain}" else "https://${pref.sso}";
+      ssoClientId = "forgejo";
+
+      ssoName = "kanidm";
+      ssoDiscoveryUrl = "${kanidmUrl}/oauth2/openid/${ssoClientId}/.well-known/openid-configuration";
+      ssoScopes = "openid email profile";
     in
     {
       # ── Modules Settings ────────────────────────────────────────
@@ -33,6 +42,12 @@
           default = pref.public;
           type = types.bool;
           description = "Whether to expose Forgejo publicly";
+        };
+
+        sso = mkOption {
+          default = true;
+          type = types.bool;
+          description = "Whether to enable Kanidm OIDC single sign-on";
         };
       };
 
@@ -50,6 +65,16 @@
             }
           );
         };
+
+        # ── Glance Services ─────────────────────────────────────────────────────
+        modules.services.glance.server_service = [
+          {
+            title = "Forgejo";
+            url = if cfg.public then "https://${public.web}" else "https://${local.web}";
+            check-url = "https://${local.web}/api/healthz";
+            icon = "si:forgejo";
+          }
+        ];
 
         # ── Traefik Configuration ────────────────────────────────────────
         services.traefik.dynamicConfigOptions.http = {
@@ -95,11 +120,31 @@
             };
 
             service = {
-              DISABLE_REGISTRATION = true;
+              # With SSO enabled we allow account creation *only* via the
+              # external provider (no self-service local signup). Note that
+              # DISABLE_REGISTRATION = true would also block OIDC
+              # auto-registration, so it must be false here.
+              DISABLE_REGISTRATION = !cfg.sso;
+              ALLOW_ONLY_EXTERNAL_REGISTRATION = cfg.sso;
+              SHOW_REGISTRATION_BUTTON = false;
             };
 
             session = {
               COOKIE_SECURE = true;
+            };
+          }
+          // optionalAttrs cfg.sso {
+            oauth2_client = {
+              # Create local accounts automatically for new OIDC users.
+              ENABLE_AUTO_REGISTRATION = true;
+              # Link to an existing account when the email/username matches
+              # (lets the declarative admin below sign in via Kanidm).
+              # Security note: only safe because Kanidm is the sole trusted IdP.
+              ACCOUNT_LINKING = "auto";
+              # Source of the username for new accounts.
+              USERNAME = "preferred_username";
+              OPENID_CONNECT_SCOPES = ssoScopes;
+              UPDATE_AVATAR = true;
             };
           };
         };
@@ -116,9 +161,19 @@
           mode = "0400";
         };
 
+        # Env file must define: FORGEJO_OIDC_CLIENT_SECRET=<kanidm basic secret>
+        sops.secrets."forgejo/oidc-env" = mkIf cfg.sso {
+          owner = "forgejo";
+          group = "forgejo";
+          mode = "0400";
+        };
+
         # ── Declarative Admin Setup ────────────────────────────────────────
         systemd.services.forgejo-admin-setup = {
           description = "Create Forgejo Admin User";
+          environment = lib.filterAttrs (
+            n: _: lib.hasPrefix "GITEA_" n
+          ) config.systemd.services.forgejo.environment;
           requires = [ "forgejo.service" ];
           after = [ "forgejo.service" ];
           wantedBy = [ "multi-user.target" ];
@@ -138,6 +193,61 @@
               --password "$FORGEJO_ADMIN_PASSWORD" \
               --email "$FORGEJO_ADMIN_EMAIL" \
               --must-change-password=false || true
+          '';
+        };
+
+        # ── Declarative SSO (Kanidm OIDC) Setup ────────────────────────────
+        # OAuth2 auth sources live in the DB, not app.ini, so they are
+        # registered via the CLI. This is made idempotent by looking up the
+        # existing source by name and updating it, or adding it if absent.
+        systemd.services.forgejo-sso-setup = mkIf cfg.sso {
+          description = "Configure Forgejo Kanidm OIDC authentication source";
+          environment = lib.filterAttrs (
+            n: _: lib.hasPrefix "GITEA_" n
+          ) config.systemd.services.forgejo.environment;
+          path = [ pkgs.gawk ];
+          requires = [ "forgejo.service" ];
+          after = [
+            "forgejo.service"
+            "forgejo-admin-setup.service"
+          ];
+          wantedBy = [ "multi-user.target" ];
+
+          serviceConfig = {
+            Type = "oneshot";
+            User = config.systemd.services.forgejo.serviceConfig.User;
+            Group = config.systemd.services.forgejo.serviceConfig.Group;
+            WorkingDirectory = config.systemd.services.forgejo.serviceConfig.WorkingDirectory;
+            EnvironmentFile = [ config.sops.secrets."forgejo/oidc-env".path ];
+          };
+
+          script = ''
+            set -euo pipefail
+
+            forgejo="${pkgs.forgejo}/bin/forgejo"
+
+            # Find an existing auth source id by name (skip the header row).
+            existing_id="$("$forgejo" admin auth list 2>/dev/null \
+              | awk -v n="${ssoName}" 'NR > 1 && $2 == n { print $1; exit }')"
+
+            if [ -n "$existing_id" ]; then
+              "$forgejo" admin auth update-oauth \
+                --id "$existing_id" \
+                --name "${ssoName}" \
+                --provider openidConnect \
+                --key "${ssoClientId}" \
+                --secret "$FORGEJO_OIDC_CLIENT_SECRET" \
+                --auto-discover-url "${ssoDiscoveryUrl}" \
+                --scopes "${ssoScopes}"
+            else
+              "$forgejo" admin auth add-oauth \
+                --name "${ssoName}" \
+                --provider openidConnect \
+                --key "${ssoClientId}" \
+                --secret "$FORGEJO_OIDC_CLIENT_SECRET" \
+                --auto-discover-url "${ssoDiscoveryUrl}" \
+                --scopes "${ssoScopes}"
+            fi
           '';
         };
       };

@@ -39,9 +39,6 @@ in
           enable = true;
           setupKeyFile = config.sops.secrets."netbird/setup-key".path;
           systemdDependencies = [
-            "netbird-management.service"
-            "netbird-signal.service"
-            "traefik.service"
             "sops-install-secrets.service" # ensure the key file exists first
           ];
         };

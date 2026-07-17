@@ -31,6 +31,7 @@
     self.nixosModules.searxng
     self.nixosModules.adguard
     self.nixosModules.tino
+    self.nixosModules.vaultwarden
 
     self.nixosModules.minecraft-gtnh
 
@@ -68,6 +69,9 @@
   sops.secrets."forgejo/admin-env" = {
     sopsFile = ./secrets.yaml;
   };
+  sops.secrets."forgejo/oidc-env" = {
+    sopsFile = ./secrets.yaml;
+  };
   sops.secrets."coturn/auth-secret" = {
     sopsFile = ./secrets.yaml;
   };
@@ -92,6 +96,9 @@
   sops.secrets."tino/env.secrets" = {
     sopsFile = ./secrets.yaml;
   };
+  sops.secrets."vaultwarden/env.secrets" = {
+    sopsFile = ./secrets.yaml;
+  };
 
   # ── Modules Settings ────────────────────────────────────────
 
@@ -105,6 +112,7 @@
   boot.loader.grub.configurationLimit = 3;
 
   systemd.network.wait-online.anyInterface = true;
+  systemd.network.wait-online.enable = false;
 
   # services.restic.backups = {
   #   kanidm-db = {

@@ -24,6 +24,7 @@
       containerPort = 5000;
     in
     {
+      # ── Modules Settings ────────────────────────────────────────
       options.modules.services.tino = {
         public = mkOption {
           default = pref.public;
