@@ -4,12 +4,14 @@ let
     dashboard = "netbird.${pref.topDomain}";
     api = "api.netbird.${pref.topDomain}";
     signal = "signal.netbird.${pref.topDomain}";
+    relay = "relay.netbird.${pref.topDomain}";
   };
 
   ports = {
     dashboard = 11112;
     management = 33073;
     signal = 10000;
+    relay = 33080;
   };
 in
 {
@@ -17,6 +19,7 @@ in
     {
       lib,
       config,
+      pkgs-unstable,
       pkgs,
       ...
     }:
@@ -24,22 +27,22 @@ in
       public = mkPublic config.preferences;
     in
     {
+      services.resolved.enable = true;
       # ── Netbird Client ────────────────────────────────────────────────────────
       services.netbird.clients.default = {
         port = 51820;
         openFirewall = true;
         autoStart = true;
-        hardened = true;
+        # hardened = true;
 
         environment = {
-          NB_MANAGEMENT_URL = "https://${public.api}";
+          NB_MANAGEMENT_URL = "https://api.netbird.othrys.tolok.org:443";
         };
 
         login = {
           enable = true;
           setupKeyFile = config.sops.secrets."netbird/setup-key".path;
           systemdDependencies = [
-            "sops-install-secrets.service" # ensure the key file exists first
           ];
         };
       };
@@ -54,6 +57,7 @@ in
       lib,
       config,
       pkgs,
+      pkgs-unstable,
       ...
     }:
     let
@@ -94,10 +98,17 @@ in
         # ── Traefik Configuration ───────────────────────────────────────────────
         services.traefik.dynamicConfigOptions.http = {
           routers = {
-            netbird-management = {
-              rule = "Host(`${public.api}`)";
+            netbird-management-grpc = {
+              rule = "Host(`${public.api}`) && (PathPrefix(`/management.ManagementService/`) || PathPrefix(`/management.ProxyService/`))";
               entryPoints = [ "websecure" ];
-              service = "netbird-management";
+              service = "netbird-management-grpc";
+              tls.certResolver = "letsencrypt";
+            };
+            # WebSocket + REST + OAuth2 → plain http backend (HTTP/1.1, handles WS upgrade)
+            netbird-management-http = {
+              rule = "Host(`${public.api}`) && (PathPrefix(`/ws-proxy/`) || PathPrefix(`/api`) || PathPrefix(`/oauth2`) || PathPrefix(`/auth`))";
+              entryPoints = [ "websecure" ];
+              service = "netbird-management-http";
               tls.certResolver = "letsencrypt";
             };
             netbird-signal = {
@@ -106,13 +117,27 @@ in
               service = "netbird-signal";
               tls.certResolver = "letsencrypt";
             };
+            netbird-relay = {
+              rule = "Host(`${public.relay}`)";
+              entryPoints = [ "websecure" ];
+              service = "netbird-relay";
+              tls.certResolver = "letsencrypt";
+            };
           };
 
           services = {
             # Management is gRPC h2c
-            netbird-management.loadBalancer.servers = [
+            netbird-management-grpc.loadBalancer.servers = [
               { url = "h2c://127.0.0.1:${toString ports.management}"; }
             ];
+            netbird-management-http.loadBalancer.servers = [
+              { url = "http://127.0.0.1:${toString ports.management}"; } # note: http, not h2c
+            ];
+            netbird-relay.loadBalancer = {
+              servers = [ { url = "http://127.0.0.1:${toString ports.relay}"; } ]; # http, not h2c — WS upgrade
+              passHostHeader = true;
+              responseForwarding.flushInterval = "1ms";
+            };
             # Signal fronts gRPC with an HTTP/WebSocket server — use plain http,
             # let Traefik negotiate the WebSocket upgrade the stream needs
             netbird-signal.loadBalancer = {
@@ -147,6 +172,7 @@ in
 
         services.netbird.server.management = {
           enable = true;
+          package = pkgs-unstable.netbird-management;
           port = ports.management;
           domain = pref.topDomain;
 
@@ -185,6 +211,14 @@ in
             IdpManagerConfig = {
               ManagerType = "none";
             };
+
+            Relay = {
+              Addresses = [ "rels://${public.relay}:443" ];
+              Secret = {
+                _secret = config.sops.secrets."netbird/relay-secret".path;
+              };
+              CredentialsTTL = "24h";
+            };
           };
         };
 
@@ -209,11 +243,13 @@ in
 
         services.netbird.server.signal = {
           enable = true;
+          package = pkgs-unstable.netbird-signal;
           port = ports.signal;
         };
 
         services.netbird.server.dashboard = {
           enable = true;
+          package = pkgs-unstable.netbird-dashboard;
           enableNginx = true;
           domain = public.dashboard; # "netbird.${pref.topDomain}"
           managementServer = "https://${public.api}";
@@ -227,6 +263,27 @@ in
           };
         };
 
+        systemd.services.netbird-relay = {
+          description = "NetBird WebSocket relay (rels://)";
+          wantedBy = [ "multi-user.target" ];
+          after = [ "network-online.target" ];
+          wants = [ "network-online.target" ];
+          serviceConfig = {
+            ExecStart = ''
+              ${pkgs.bash}/bin/bash -c '${lib.getExe' pkgs-unstable.netbird-relay "netbird-relay"} \
+                --exposed-address rels://${public.relay}:443 \
+                --listen-address 127.0.0.1:${toString ports.relay} \
+                --metrics-port 9092 \
+                --health-listen-address 127.0.0.1:9001 \
+                --auth-secret "$NB_AUTH_SECRET"'
+            '';
+            EnvironmentFile = config.sops.templates."netbird-relay.env".path;
+            DynamicUser = true;
+            Restart = "on-failure";
+            RestartSec = 5;
+          };
+        };
+
         # ── SOPS Secrets ────────────────────────────────────────────────────────
         sops.secrets."coturn/auth-secret" = {
           owner = mkForce "root";
@@ -237,6 +294,14 @@ in
         sops.secrets."netbird/datastore-key" = {
           mode = "0400";
         };
+
+        sops.templates."netbird-relay.env" = {
+          content = ''
+            NB_AUTH_SECRET=${config.sops.placeholder."netbird/relay-secret"}
+          '';
+          mode = "0444";
+        };
+        sops.secrets."netbird/relay-secret" = { };
       };
     };
 }

@@ -72,17 +72,12 @@
 
           # Performance and Security Flags
           extraConfig = ''
-            # No-CLI for security (disables telnet admin interface)
-            no-cli
-
-            # Prevent local IP leakage/loops (don't relay to localhost/LAN)
             no-tcp-relay
-            denied-peer-ip=10.0.0.0-10.255.255.255
-            denied-peer-ip=192.168.0.0-192.168.255.255
-            denied-peer-ip=172.16.0.0-172.31.255.255
-
-            # Log settings
-            log-file=/var/log/coturn/turnserver.log
+            # Only block loopback — NetBird peers legitimately sit on RFC1918, so
+            # do NOT deny 10/8, 172.16/12, 192.168/16 or relay to peers breaks.
+            denied-peer-ip=127.0.0.0-127.255.255.255
+            denied-peer-ip=::1
+            log-file=stdout
             simple-log
           '';
         };

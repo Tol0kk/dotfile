@@ -23,7 +23,7 @@
       services.openssh = {
         settings = {
           UseDns = true;
-          PasswordAuthentication = false;
+          # PasswordAuthentication = false;
           KbdInteractiveAuthentication = false; # whether keyboard-interactive authentication is allowed
           PermitRootLogin = "no";
         };

@@ -84,6 +84,9 @@
   sops.secrets."netbird/setup-key" = {
     sopsFile = ./secrets.yaml;
   };
+  sops.secrets."netbird/relay-secret" = {
+    sopsFile = ./secrets.yaml;
+  };
   sops.secrets."searxng/env" = {
     sopsFile = ./secrets.yaml;
   };

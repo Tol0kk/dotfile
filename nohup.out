@@ -1,0 +1,230 @@
+No running instances for "/nix/store/6zbdj8j0q17nhck9qa136j1zkvix8iaf-noctalia-shell-2026-06-02_3aab45a/share/noctalia-shell/shell.qml"
+Dead instances:
+ - dt28w36gt
+ - 7jxarb2cgt
+[32m  INFO[0m: Launching config: "/nix/store/6zbdj8j0q17nhck9qa136j1zkvix8iaf-noctalia-shell-2026-06-02_3aab45a/share/noctalia-shell/shell.qml"
+[32m  INFO[0m: Shell ID: "c6a9674f772e3c791a72ea9f56f6e6ad" Path ID "c6a9674f772e3c791a72ea9f56f6e6ad"
+[32m  INFO[0m: Saving logs to "/run/user/1000/quickshell/by-id/q73bsi2cgt/log.qslog"
+[32m  INFO[97m qml[0m: [36m[20260609-000142][0m [35m   NiriService[0m Service started
+[32m  INFO[97m qml[0m: [36m[20260609-000142][0m [35m          I18n[0m Service started
+[32m  INFO[97m qml[0m: [36m[20260609-000142][0m [35m          I18n[0m Loading "en" (locale: "en-Latn-US")
+[32m  INFO[97m qml[0m: [36m[20260609-000142][0m [35m         Shell[0m ---------------------------
+[32m  INFO[97m qml[0m: [36m[20260609-000142][0m [35m         Shell[0m Noctalia Hello!
+[32m  INFO[0m: Configuration Loaded
+[32m  INFO[97m qml[0m: [36m[20260609-000142][0m [35m      Settings[0m Settings loaded
+[32m  INFO[97m qml[0m: [36m[20260609-000142][0m [35m      Settings[0m adapter.settingsVersion: 59
+[32m  INFO[97m qml[0m: [36m[20260609-000142][0m [35m          I18n[0m Loaded translations for "en"
+[32m  INFO[97m qml[0m: [36m[20260609-000142][0m [35mPluginRegistry[0m Loaded plugin states from: /home/titouan/.config/noctalia/plugins.json
+[32m  INFO[97m qml[0m: [36m[20260609-000142][0m [35mPluginRegistry[0m Scanning plugin folder: /home/titouan/.config/noctalia/plugins
+[32m  INFO[97m qml[0m: [36m[20260609-000142][0m [35mKeyboardLayout[0m Service started
+[33m  WARN[97m qt.qpa.services[0m: Failed to register with host portal QDBusError("org.freedesktop.portal.Error.Failed", "Could not register app ID: Connection already associated with an application ID")
+[32m  INFO[97m qml[0m: [36m[20260609-000142][0m [35m         Icons[0m Service started
+[32m  INFO[97m qml[0m: [36m[20260609-000142][0m [35mLockKeysServic[0m Service started (polling deferred until a consumer registers).
+[32m  INFO[97m qml[0m: [36m[20260609-000142][0m [35m    Brightness[0m Service started
+[32m  INFO[97m qml[0m: [36m[20260609-000142][0m [35mDesktopWidgetR[0m Service started
+[32m  INFO[97m qml[0m: [36m[20260609-000142][0m [35m    BarService[0m Service started
+[33m  WARN[97m [0m: inotify_add_watch(/etc/profiles) failed: (No space left on device)
+[33m  WARN[97m [0m: inotify_add_watch(/etc) failed: (No space left on device)
+[33m  WARN[97m [0m: inotify_add_watch(/run/current-system/sw/share/applications) failed: (No space left on device)
+[33m  WARN[97m [0m: inotify_add_watch(/run/current-system/sw/share) failed: (No space left on device)
+[33m  WARN[97m [0m: inotify_add_watch(/run/current-system/sw) failed: (No space left on device)
+[33m  WARN[97m [0m: inotify_add_watch(/run/current-system) failed: (No space left on device)
+[33m  WARN[97m [0m: inotify_add_watch(/run) failed: (No space left on device)
+[33m  WARN[97m [0m: inotify_add_watch(/run/current-system/sw/share/applications) failed: (No space left on device)
+[32m  INFO[97m qml[0m: [36m[20260609-000142][0m [35m    SystemStat[0m Service started (polling deferred until a consumer registers).
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m         Shell[0m ---------------------------
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m     Wallpaper[0m Service started
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m    ImageCache[0m Service started
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35mAppThemeServic[0m Service started
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m   ColorScheme[0m Service started
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35mDarkModeServic[0m Service started
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m      Location[0m Service started
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m IdleInhibitor[0m Service started
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m   IdleService[0m Service started
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m   HostService[0m Service started
+[33m  WARN[97m [0m: inotify_add_watch(/home/titouan/.config/noctalia) failed: (No space left on device)
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m        GitHub[0m Service started
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m     Supporter[0m Service started
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35mCustomButtonIP[0m Service started
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m    IPCService[0m Service started
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m      Location[0m Coordinates ready
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m   HostService[0m Detected NixOS 26.11 (Zokor)
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m   HostService[0m Looking for logo icon: nix-snowflake
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m        GitHub[0m Checking cache - timestamp: 1780955850 now: 1780956102 age: 4 minutes
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m        GitHub[0m Cache is fresh, using cached data (age: 4 minutes)
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m     Supporter[0m Cache is fresh, using cached data
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m    NightLight[0m Wlsunset started: wlsunset,-t,6000,-T,6500,-S,23:59,-s,00:00,-d,1
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35mPluginRegistry[0m Loaded plugin: catwalk - Catwalk
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35mPluginRegistry[0m Loaded plugin: kde-connect - KDE Connect
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35mPluginRegistry[0m Loaded plugin: keybind-cheatsheet - Keybind Cheatsheet
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35mPluginRegistry[0m Loaded plugin: mini-docker - Mini Docker
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35mPluginRegistry[0m Loaded plugin: netbird - NetBird
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35mPluginRegistry[0m Loaded plugin: network-indicator - Network Indicator
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35mPluginRegistry[0m Loaded plugin: network-manager-vpn - Network Manager VPN
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35mPluginRegistry[0m Loaded plugin: noctalia-supergfxctl - SuperGFX Control
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35mPluginRegistry[0m Loaded plugin: privacy-indicator - Privacy Indicator
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35mPluginRegistry[0m Loaded plugin: screen-recorder - Screen Recorder
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35mPluginRegistry[0m Loaded plugin: screenshot - Screenshot
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35mPluginRegistry[0m Loaded plugin: todo - Todo List
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35mPluginRegistry[0m Loaded plugin: weekly-calendar - Weekly Calendar
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35mPluginRegistry[0m All plugin manifests loaded. Total plugins: 13
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m PluginService[0m Initializing plugin system
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m PluginService[0m Found 13 enabled plugins: ["catwalk","kde-connect","keybind-cheatsheet","mini-docker","netbird","network-indicator","network-manager-vpn","noctalia-supergfxctl","privacy-indicator","screen-recorder","screenshot","todo","weekly-calendar"]
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m PluginService[0m Loading plugin: catwalk
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m PluginService[0m Loading plugin: kde-connect
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m PluginService[0m Loading plugin: keybind-cheatsheet
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m PluginService[0m Loading plugin: mini-docker
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m PluginService[0m Loading plugin: netbird
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m PluginService[0m Loading plugin: network-indicator
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m PluginService[0m Loading plugin: network-manager-vpn
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m PluginService[0m Loading plugin: noctalia-supergfxctl
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m PluginService[0m Loading plugin: privacy-indicator
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m PluginService[0m Loading plugin: screen-recorder
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m PluginService[0m Loading plugin: screenshot
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m PluginService[0m Loading plugin: todo
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m PluginService[0m Loading plugin: weekly-calendar
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m     Bluetooth[0m Service started
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m    SystemStat[0m Found k10temp CPU thermal sensor at /sys/class/hwmon/hwmon1
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m       Network[0m Service started
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m    ImageCache[0m ImageMagick available
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m    NightLight[0m Killed stale wlsunset process from previous session
+[33m  WARN[97m qml[0m: [36m[20260609-000143][0m [35m    NightLight[0m Wlsunset exited unexpectedly (code: 15), restarting in 2s... (attempt 1/5)
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m   HostService[0m resolved hostname desktop
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m     Wallpaper[0m Starting scan for HDMI-A-1 in /home/titouan/Pictures/Wallpapers recursive: true
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m     Wallpaper[0m Starting scan for DP-2 in /home/titouan/Pictures/Wallpapers recursive: true
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m    NightLight[0m Wlsunset started: wlsunset,-t,6000,-T,6500,-S,23:59,-s,00:00,-d,1
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m     Wallpaper[0m Scan completed for HDMI-A-1 found 28 files
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m     Wallpaper[0m Scan completed for DP-2 found 28 files
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m PluginService[0m Loaded Main.qml for plugin: catwalk
+[33m  WARN[97m qt.qml.propertyCache.append[0m: Member enabled of the object BarWidget_QMLTYPE_1284 overrides a member of the base object. Consider renaming it or adding final or override specifier
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35mBarWidgetRegis[0m Registered plugin widget: plugin:catwalk
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m PluginService[0m Loaded bar widget for plugin: catwalk
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35mDesktopWidgetR[0m Registered plugin widget: plugin:catwalk
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m PluginService[0m Loaded desktop widget for plugin: catwalk
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m PluginService[0m Plugin loaded: catwalk
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m PluginService[0m Loaded Main.qml for plugin: kde-connect
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35mBarWidgetRegis[0m Registered plugin widget: plugin:kde-connect
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m PluginService[0m Loaded bar widget for plugin: kde-connect
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35mControlCenterW[0m Registered plugin widget: plugin:kde-connect
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m PluginService[0m Loaded control center widget for plugin: kde-connect
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m PluginService[0m Plugin loaded: kde-connect
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m PluginService[0m Loaded Main.qml for plugin: keybind-cheatsheet
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35mBarWidgetRegis[0m Registered plugin widget: plugin:keybind-cheatsheet
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m PluginService[0m Loaded bar widget for plugin: keybind-cheatsheet
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m PluginService[0m Plugin loaded: keybind-cheatsheet
+[33m  WARN[97m qt.qml.propertyCache.append[0m: Member enabled of the object BarWidget_QMLTYPE_1323 overrides a member of the base object. Consider renaming it or adding final or override specifier
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35mBarWidgetRegis[0m Registered plugin widget: plugin:mini-docker
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m PluginService[0m Loaded bar widget for plugin: mini-docker
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m PluginService[0m Plugin loaded: mini-docker
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m       NetBird[0m Using user-defined terminal: netbird-default
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m PluginService[0m Loaded Main.qml for plugin: netbird
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35mBarWidgetRegis[0m Registered plugin widget: plugin:netbird
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m PluginService[0m Loaded bar widget for plugin: netbird
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m PluginService[0m Plugin loaded: netbird
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35mBarWidgetRegis[0m Registered plugin widget: plugin:network-indicator
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m PluginService[0m Loaded bar widget for plugin: network-indicator
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m PluginService[0m Plugin loaded: network-indicator
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35mNetworkManager[0m Started
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m PluginService[0m Loaded Main.qml for plugin: network-manager-vpn
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35mBarWidgetRegis[0m Registered plugin widget: plugin:network-manager-vpn
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m PluginService[0m Loaded bar widget for plugin: network-manager-vpn
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35mControlCenterW[0m Registered plugin widget: plugin:network-manager-vpn
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m PluginService[0m Loaded control center widget for plugin: network-manager-vpn
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m PluginService[0m Plugin loaded: network-manager-vpn
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m PluginService[0m Loaded Main.qml for plugin: noctalia-supergfxctl
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35mBarWidgetRegis[0m Registered plugin widget: plugin:noctalia-supergfxctl
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m PluginService[0m Loaded bar widget for plugin: noctalia-supergfxctl
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35mControlCenterW[0m Registered plugin widget: plugin:noctalia-supergfxctl
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m PluginService[0m Loaded control center widget for plugin: noctalia-supergfxctl
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m PluginService[0m Plugin loaded: noctalia-supergfxctl
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m PluginService[0m Loaded Main.qml for plugin: privacy-indicator
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35mBarWidgetRegis[0m Registered plugin widget: plugin:privacy-indicator
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m PluginService[0m Loaded bar widget for plugin: privacy-indicator
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m PluginService[0m Plugin loaded: privacy-indicator
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m PluginService[0m Loaded Main.qml for plugin: screen-recorder
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35mBarWidgetRegis[0m Registered plugin widget: plugin:screen-recorder
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m PluginService[0m Loaded bar widget for plugin: screen-recorder
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35mControlCenterW[0m Registered plugin widget: plugin:screen-recorder
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m PluginService[0m Loaded control center widget for plugin: screen-recorder
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m PluginService[0m Plugin loaded: screen-recorder
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m PluginService[0m Loaded Main.qml for plugin: screenshot
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35mBarWidgetRegis[0m Registered plugin widget: plugin:screenshot
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m PluginService[0m Loaded bar widget for plugin: screenshot
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m PluginService[0m Plugin loaded: screenshot
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m PluginService[0m Loaded Main.qml for plugin: todo
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35mBarWidgetRegis[0m Registered plugin widget: plugin:todo
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m PluginService[0m Loaded bar widget for plugin: todo
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35mDesktopWidgetR[0m Registered plugin widget: plugin:todo
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m PluginService[0m Loaded desktop widget for plugin: todo
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35mControlCenterW[0m Registered plugin widget: plugin:todo
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m PluginService[0m Loaded control center widget for plugin: todo
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m PluginService[0m Plugin loaded: todo
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m PluginService[0m Loaded Main.qml for plugin: weekly-calendar
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35mBarWidgetRegis[0m Registered plugin widget: plugin:weekly-calendar
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m PluginService[0m Loaded bar widget for plugin: weekly-calendar
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m PluginService[0m Plugin loaded: weekly-calendar
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m PluginService[0m All plugins loaded
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m PluginService[0m Refreshing available plugins
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35m      Calendar[0m Service started
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35mNetworkManager[0m Bar widget loaded
+[32m  INFO[97m qml[0m: [36m[20260609-000143][0m [35mNetworkManager[0m Bar widget loaded
+[32m  INFO[0m: file:///home/titouan/.config/noctalia/plugins/network-manager-vpn/BarWidget.qml?v=0: Object or context destroyed during incubation
+[32m  INFO[0m: file:///home/titouan/.config/noctalia/plugins/netbird/BarWidget.qml?v=0: Object or context destroyed during incubation
+[32m  INFO[0m: file:///home/titouan/.config/noctalia/plugins/kde-connect/BarWidget.qml?v=0: Object or context destroyed during incubation
+[32m  INFO[0m: file:///home/titouan/.config/noctalia/plugins/todo/BarWidget.qml?v=1: Object or context destroyed during incubation
+[32m  INFO[0m: file:///home/titouan/.config/noctalia/plugins/keybind-cheatsheet/BarWidget.qml?v=1: Object or context destroyed during incubation
+[32m  INFO[0m: file:///home/titouan/.config/noctalia/plugins/mini-docker/BarWidget.qml?v=1: Object or context destroyed during incubation
+[32m  INFO[0m: file:///home/titouan/.config/noctalia/plugins/privacy-indicator/BarWidget.qml?v=1: Object or context destroyed during incubation
+[32m  INFO[0m: file:///home/titouan/.config/noctalia/plugins/network-manager-vpn/BarWidget.qml?v=0: Object or context destroyed during incubation
+[32m  INFO[0m: file:///home/titouan/.config/noctalia/plugins/netbird/BarWidget.qml?v=0: Object or context destroyed during incubation
+[32m  INFO[0m: file:///home/titouan/.config/noctalia/plugins/kde-connect/BarWidget.qml?v=0: Object or context destroyed during incubation
+[32m  INFO[0m: file:///home/titouan/.config/noctalia/plugins/todo/BarWidget.qml?v=1: Object or context destroyed during incubation
+[32m  INFO[0m: file:///home/titouan/.config/noctalia/plugins/keybind-cheatsheet/BarWidget.qml?v=1: Object or context destroyed during incubation
+[32m  INFO[0m: file:///home/titouan/.config/noctalia/plugins/mini-docker/BarWidget.qml?v=1: Object or context destroyed during incubation
+[32m  INFO[0m: file:///home/titouan/.config/noctalia/plugins/privacy-indicator/BarWidget.qml?v=1: Object or context destroyed during incubation
+[32m  INFO[0m: qs:/nix/store/6zbdj8j0q17nhck9qa136j1zkvix8iaf-noctalia-shell-2026-06-02_3aab45a/share/noctalia-shell/Modules/Bar/Widgets/ControlCenter.qml: Object or context destroyed during incubation
+[32m  INFO[0m: qs:/nix/store/6zbdj8j0q17nhck9qa136j1zkvix8iaf-noctalia-shell-2026-06-02_3aab45a/share/noctalia-shell/Modules/Bar/Widgets/Battery.qml: Object or context destroyed during incubation
+[32m  INFO[0m: qs:/nix/store/6zbdj8j0q17nhck9qa136j1zkvix8iaf-noctalia-shell-2026-06-02_3aab45a/share/noctalia-shell/Modules/Bar/Widgets/NotificationHistory.qml: Object or context destroyed during incubation
+[32m  INFO[0m: qs:/nix/store/6zbdj8j0q17nhck9qa136j1zkvix8iaf-noctalia-shell-2026-06-02_3aab45a/share/noctalia-shell/Modules/Bar/Widgets/Volume.qml: Object or context destroyed during incubation
+[32m  INFO[0m: qs:/nix/store/6zbdj8j0q17nhck9qa136j1zkvix8iaf-noctalia-shell-2026-06-02_3aab45a/share/noctalia-shell/Modules/Bar/Widgets/Brightness.qml: Object or context destroyed during incubation
+[32m  INFO[0m: qs:/nix/store/6zbdj8j0q17nhck9qa136j1zkvix8iaf-noctalia-shell-2026-06-02_3aab45a/share/noctalia-shell/Modules/Bar/Widgets/Tray.qml: Object or context destroyed during incubation
+[32m  INFO[0m: qs:/nix/store/6zbdj8j0q17nhck9qa136j1zkvix8iaf-noctalia-shell-2026-06-02_3aab45a/share/noctalia-shell/Modules/Bar/Widgets/Network.qml: Object or context destroyed during incubation
+[32m  INFO[0m: qs:/nix/store/6zbdj8j0q17nhck9qa136j1zkvix8iaf-noctalia-shell-2026-06-02_3aab45a/share/noctalia-shell/Modules/Bar/Widgets/Bluetooth.qml: Object or context destroyed during incubation
+[32m  INFO[0m: qs:/nix/store/6zbdj8j0q17nhck9qa136j1zkvix8iaf-noctalia-shell-2026-06-02_3aab45a/share/noctalia-shell/Modules/Bar/Widgets/ControlCenter.qml: Object or context destroyed during incubation
+[32m  INFO[0m: qs:/nix/store/6zbdj8j0q17nhck9qa136j1zkvix8iaf-noctalia-shell-2026-06-02_3aab45a/share/noctalia-shell/Modules/Bar/Widgets/Battery.qml: Object or context destroyed during incubation
+[32m  INFO[0m: qs:/nix/store/6zbdj8j0q17nhck9qa136j1zkvix8iaf-noctalia-shell-2026-06-02_3aab45a/share/noctalia-shell/Modules/Bar/Widgets/NotificationHistory.qml: Object or context destroyed during incubation
+[32m  INFO[0m: qs:/nix/store/6zbdj8j0q17nhck9qa136j1zkvix8iaf-noctalia-shell-2026-06-02_3aab45a/share/noctalia-shell/Modules/Bar/Widgets/Volume.qml: Object or context destroyed during incubation
+[32m  INFO[0m: qs:/nix/store/6zbdj8j0q17nhck9qa136j1zkvix8iaf-noctalia-shell-2026-06-02_3aab45a/share/noctalia-shell/Modules/Bar/Widgets/Brightness.qml: Object or context destroyed during incubation
+[32m  INFO[0m: qs:/nix/store/6zbdj8j0q17nhck9qa136j1zkvix8iaf-noctalia-shell-2026-06-02_3aab45a/share/noctalia-shell/Modules/Bar/Widgets/Tray.qml: Object or context destroyed during incubation
+[32m  INFO[0m: qs:/nix/store/6zbdj8j0q17nhck9qa136j1zkvix8iaf-noctalia-shell-2026-06-02_3aab45a/share/noctalia-shell/Modules/Bar/Widgets/Network.qml: Object or context destroyed during incubation
+[32m  INFO[0m: qs:/nix/store/6zbdj8j0q17nhck9qa136j1zkvix8iaf-noctalia-shell-2026-06-02_3aab45a/share/noctalia-shell/Modules/Bar/Widgets/Bluetooth.qml: Object or context destroyed during incubation
+[32m  INFO[97m qml[0m: [36m[20260609-000144][0m [35m    KDEConnect[0m Found busctl command: /run/current-system/sw/bin/busctl
+[33m  WARN[97m qml[0m: [36m[20260609-000144][0m [35m      Calendar[0m Khal not available
+[33m  WARN[97m qml[0m: [36m[20260609-000144][0m [35m      Calendar[0m EDS libraries not available: unavailable: python3 not installed
+[32m  INFO[97m qml[0m: [36m[20260609-000144][0m [35m  HooksService[0m Service started
+[32m  INFO[97m qml[0m: [36m[20260609-000144][0m [35m          Font[0m Service started
+[32m  INFO[97m qml[0m: [36m[20260609-000144][0m [35m UpdateService[0m Version: v4.7.8-git
+[32m  INFO[97m qml[0m: [36m[20260609-000144][0m [35m          Font[0m Loaded 157 fonts, 119 monospace
+[32m  INFO[97m qml[0m: [36m[20260609-000145][0m [35m PluginService[0m Parsed 131 plugins manifest from 'Noctalia Plugins'
+[32m  INFO[97m qml[0m: [36m[20260609-000145][0m [35m PluginService[0m All installed plugins are up to date
+[32m  INFO[97m qml[0m: [36m[20260609-000145][0m [35m     Bluetooth[0m Auto-connecting to: WH-1000XM3
+[33m  WARN[97m quickshell.bluetooth.device[0m: Failed to connect to device BluetoothDevice(0x79a19375be00, path="/org/bluez/hci0/dev_CC_98_8B_D1_3D_40"): "br-connection-busy"
+[32m  INFO[97m qml[0m: [36m[20260609-000145][0m [35m     Bluetooth[0m Auto-connecting to: Pro Controller
+[33m  WARN[97m quickshell.bluetooth.device[0m: Failed to connect to device BluetoothDevice(0x79a193813600, path="/org/bluez/hci0/dev_E4_17_D8_CF_23_59"): "br-connection-create-socket"
+[32m  INFO[97m qml[0m: [36m[20260609-000907][0m [35m  SoundService[0m QtMultimedia found - sound playback enabled
+[33m  WARN[97m [0m: inotify_add_watch(/home/titouan/.config/noctalia/colors.json) failed: (No space left on device)
+[33m  WARN[97m [0m: inotify_add_watch(/home/titouan/.config/noctalia) failed: (No space left on device)
+[33m  WARN[97m [0m: inotify_add_watch(/home/titouan/.config/noctalia/settings.json) failed: (No space left on device)
+[33m  WARN[97m [0m: inotify_add_watch(/home/titouan/.config/noctalia) failed: (No space left on device)
+[33m  WARN[97m [0m: inotify_add_watch(/home/titouan/.config/noctalia) failed: (No space left on device)
+[32m  INFO[97m qml[0m: [36m[20260609-005733][0m [35m       Tooltip[0m No target or content
+[32m  INFO[97m qml[0m: [36m[20260609-005734][0m [35m       Tooltip[0m No target or content
+[32m  INFO[97m qt.multimedia.ffmpeg[0m: Using Qt multimedia with FFmpeg version 8.1 GPL version 3 or later
+[33m  WARN[97m qt.multimedia.pipewire.devicemonitor[0m: Ignoring dummy output: std::map(std::pair("client.id", "35"), std::pair("factory.id", "19"), std::pair("media.class", "Audio/Sink"), std::pair("node.description", "Dummy Output"), std::pair("node.name", "auto_null"), std::pair("object.serial", "39"))
+[33m  WARN[97m quickshell.service.pipewire.loop[0m: Pipewire error on object 0 with code -32 connection error
+Input #0, wav, from '/nix/store/6zbdj8j0q17nhck9qa136j1zkvix8iaf-noctalia-shell-2026-06-02_3aab45a/share/noctalia-shell/Assets/Sounds/volume-change.wav':
+  Metadata:
+    encoder         : Lavf62.3.100
+  Duration: 00:00:00.06, bitrate: 1420 kb/s
+  Stream #0:0: Audio: pcm_s16le ([1][0][0][0] / 0x0001), 44100 Hz, 2 channels, s16, 1411 kb/s
+[33m  WARN[0m: No audio device detected

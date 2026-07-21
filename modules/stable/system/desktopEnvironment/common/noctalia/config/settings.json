@@ -245,7 +245,8 @@
                     "pinned": [
                         "steam",
                         "Not connected to Syncthing\nTrying to reconnect every 30000 ms\nTap to connect now",
-                        "NetBird (Connecting)"
+                        "NetBird (Connecting)",
+                        "NetBird (Connected)"
                     ]
                 },
                 {
