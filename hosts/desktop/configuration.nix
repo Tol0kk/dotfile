@@ -55,6 +55,8 @@
   # ── Globals Preferences ────────────────────────────────────────
   preferences = {
     topDomain = "desktop.tolok.org";
+    sso = "auth.othrys.tolok.org";
+    netbird-api = "api.netbird.othrys.tolok.org";
     openFirewall = false;
     public = false;
   };

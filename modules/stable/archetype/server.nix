@@ -23,6 +23,10 @@
           type = types.nullOr types.str;
           default = null;
         };
+        netbird-api = mkOption {
+          type = types.nullOr types.str;
+          default = null;
+        };
         topDomain = mkOption {
           type = types.str;
         };

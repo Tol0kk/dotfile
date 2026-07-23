@@ -33,17 +33,15 @@ in
         port = 51820;
         openFirewall = true;
         autoStart = true;
-        # hardened = true;
+        hardened = true;
 
         environment = {
-          NB_MANAGEMENT_URL = "https://api.netbird.othrys.tolok.org:443";
+          NB_MANAGEMENT_URL = "https://${config.preferences.netbird-api}:443";
         };
 
         login = {
           enable = true;
           setupKeyFile = config.sops.secrets."netbird/setup-key".path;
-          systemdDependencies = [
-          ];
         };
       };
 
@@ -127,14 +125,18 @@ in
 
           services = {
             # Management is gRPC h2c
-            netbird-management-grpc.loadBalancer.servers = [
-              { url = "h2c://127.0.0.1:${toString ports.management}"; }
-            ];
-            netbird-management-http.loadBalancer.servers = [
-              { url = "http://127.0.0.1:${toString ports.management}"; } # note: http, not h2c
-            ];
+            netbird-management-grpc.loadBalancer = {
+              servers = [ { url = "h2c://127.0.0.1:${toString ports.management}"; } ];
+              passHostHeader = true;
+              responseForwarding.flushInterval = "1ms";
+            };
+            netbird-management-http.loadBalancer = {
+              servers = [ { url = "http://127.0.0.1:${toString ports.management}"; } ];
+              passHostHeader = true;
+              responseForwarding.flushInterval = "1ms";
+            };
             netbird-relay.loadBalancer = {
-              servers = [ { url = "http://127.0.0.1:${toString ports.relay}"; } ]; # http, not h2c — WS upgrade
+              servers = [ { url = "http://127.0.0.1:${toString ports.relay}"; } ];
               passHostHeader = true;
               responseForwarding.flushInterval = "1ms";
             };
