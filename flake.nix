@@ -17,6 +17,8 @@
     vicinae-extensions.inputs.nixpkgs.follows = "nixpkgs-unstable";
     wrappers.url = "github:BirdeeHub/nix-wrapper-modules";
     wrappers.inputs.nixpkgs.follows = "nixpkgs-unstable";
+    disko-unstable.url = "github:nix-community/disko/latest";
+    disko-unstable.inputs.nixpkgs.follows = "nixpkgs-unstable";
 
     # Stable
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-26.05";
@@ -24,6 +26,8 @@
     home-manager-stable.inputs.nixpkgs.follows = "nixpkgs-stable";
     stylix-stable.url = "github:nix-community/stylix/release-26.05";
     stylix-stable.inputs.nixpkgs.follows = "nixpkgs-stable";
+    disko-stable.url = "github:nix-community/disko/latest";
+    disko-stable.inputs.nixpkgs.follows = "nixpkgs-stable";
 
     # Both
     nixos-hardware.url = "github:NixOS/nixos-hardware/master";
@@ -58,7 +62,9 @@
         ./packages
         (lib.mkHost inputs)
         (lib.mkHome inputs)
+        (lib.mkVM inputs)
         (lib.mkOCI inputs)
+        (lib.mkISO inputs)
         (lib.mkTopology inputs) # nix build .#topology.$system.config.output
         { flake.libs = lib; }
       ];

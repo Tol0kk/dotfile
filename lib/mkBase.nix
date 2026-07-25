@@ -69,9 +69,6 @@ lib.mapAttrs' (
         ++ lib.optionals (builtins.pathExists "${self}/hosts/${name}/hardware.nix") [
           "${self}/hosts/${name}/hardware.nix"
         ]
-        ++ lib.optionals (builtins.pathExists "${self}/hosts/${name}/disko.nix") [
-          # "${self}/hosts/${name}/disko.nix"
-        ]
         ++ [
           {
             system.stateVersion = metaConfig.stateVersion;
@@ -89,6 +86,16 @@ lib.mapAttrs' (
             }
             // (import ./substituters.nix);
           }
+        ]
+        # Disko Stuff
+        ++ lib.optionals (builtins.pathExists "${self}/hosts/${name}/disko.nix") [
+          "${self}/hosts/${name}/disko.nix"
+        ]
+        ++ lib.optionals metaConfig.isUnstable [
+          inputs.disko-unstable.nixosModules.disko
+        ]
+        ++ lib.optionals (!metaConfig.isUnstable) [
+          inputs.disko-stable.nixosModules.disko
         ];
       };
     in

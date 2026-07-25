@@ -107,6 +107,11 @@ let
               default = false;
               description = "Whether to add a <host>-oci for generating an oci image (.qwoc2)";
             };
+            withVM = mkOption {
+              type = types.bool;
+              default = false;
+              description = "Whether to add a <host>-vm";
+            };
             withISO = mkOption {
               type = types.bool;
               default = false;
