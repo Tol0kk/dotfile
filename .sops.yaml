@@ -1,50 +1,33 @@
 keys:
-  - &titouan age1aejhqus9tnmuace0u4xgltzuhcjfry6rnmkjwwh6ptarr6zcf42sa7d84a
-  - &laptop age1w6v2we3gsw3jed26xl2ucpc8dcsc90a2e4n69mrcpmue2d3gdylqn2sy3q
-  - &desktop age1nwekxe0lr4xyarlurscvcr3jwkg0j8ul2794ppg8uxp8znngjpdqzqw50h
-  - &tuxlaptop age1w6v2we3gsw3jed26xl2ucpc8dcsc90a2e4n69mrcpmue2d3gdylqn2sy3q
-  - &olympus age1hqzdev2l5v7w3mjsgpnq7v0fcnznj7af5xxr5u5e4tj8zg8gugfs8jac28
+  - &titouan_user age1aejhqus9tnmuace0u4xgltzuhcjfry6rnmkjwwh6ptarr6zcf42sa7d84a
+  - &odin_user age1aejhqus9tnmuace0u4xgltzuhcjfry6rnmkjwwh6ptarr6zcf42sa7d84a
+  - &gaia_user age1aejhqus9tnmuace0u4xgltzuhcjfry6rnmkjwwh6ptarr6zcf42sa7d84a
+  - &laptop_host age1w6v2we3gsw3jed26xl2ucpc8dcsc90a2e4n69mrcpmue2d3gdylqn2sy3q
+  - &desktop_host age1nwekxe0lr4xyarlurscvcr3jwkg0j8ul2794ppg8uxp8znngjpdqzqw50h
+  - &olympus_host age16qrfh37ljns0a0ly4fyg0a0cw5kvfaqhalnvawr8j0cjmla7nsaqdlys98
   - &othrys_host age1a8cdcwdaf9v7sft5yvd4cn60ua86w22xhq9uz34lt3rmdymz8fvsg8gljx
 creation_rules:
-  - path_regex: secrets/secrets\.yaml$
+  - path_regex: hosts/othrys/secrets\.yaml$
     key_groups:
       - age:
-          - *titouan
-          - *laptop
-          - *olympus
-  - path_regex: home/titouan@laptop/secrets\.yaml$
-    key_groups:
-      - age:
-          - *titouan
-          - *laptop
-  - path_regex: home/titouan@tuxlaptop/secrets\.yaml$
-    key_groups:
-      - age:
-          - *titouan
-          - *tuxlaptop
-  - path_regex: systems/othrys/secrets\.yaml$
-    key_groups:
-      - age:
-          - *titouan
+          - *titouan_user
           - *othrys_host
-  - path_regex: parts/hosts/othrys/secrets\.yaml$
+  - path_regex: hosts/desktop/secrets\.yaml$
     key_groups:
       - age:
-          - *titouan
-          - *othrys_host
-  - path_regex: parts/hosts/desktop/secrets\.yaml$
+          - *titouan_user
+          - *desktop_host
+  - path_regex: hosts/laptop/secrets\.yaml$
     key_groups:
       - age:
-          - *titouan
-          - *desktop
+          - *titouan_user
+          - *laptop_host
+  - path_regex: hosts/olympus/secrets\.yaml$
+    key_groups:
+      - age:
+          - *titouan_user
+          - *olympus_host
   - path_regex: .*/secrets\.yaml$
     key_groups:
       - age:
-          - *titouan
-          - *laptop
-          - *olympus
-  - path_regex: systems/othrys/secrets\.yaml$
-    key_groups:
-      - age:
-          - *titouan
-          - *othrys_host
+          - *titouan_user

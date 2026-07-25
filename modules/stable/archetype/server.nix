@@ -9,7 +9,7 @@
     with lib;
     with libCustom;
     {
-      key = "nixosModules.server";
+      key = "nixosModules.server-minimal";
       imports = [
         self.nixosModules.sops
         self.nixosModules.ssh
