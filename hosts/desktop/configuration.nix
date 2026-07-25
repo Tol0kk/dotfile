@@ -22,6 +22,8 @@
     self.nixosModules.gamingstation
     self.nixosModules.builder
     self.nixosModules.securitystation-essenstials
+
+    self.nixosModules.qemu
     # self.nixosModules.server # This import traefik modules
 
     # System

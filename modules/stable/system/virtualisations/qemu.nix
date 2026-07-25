@@ -2,22 +2,23 @@
   flake.nixosModules.qemu =
     {
       lib,
+      config,
       ...
     }:
-    with lib;
+    let
+      cfg = config.modules.system.virtualisation.qemu;
+    in
     {
-      options.modules.system.virtualisation.qemu = {
-        startOnBoot = mkEnableOpt "Start libvirt vm on boot";
+      key = "nixosModules.qemu";
+      options.modules.system.virtualisation.qemu.startOnBoot =
+        lib.mkEnableOption "Start libvirt VMs on boot";
+
+      config.virtualisation.libvirtd = {
+        enable = true;
+        qemu.swtpm.enable = true;
+        onShutdown = "suspend";
+        onBoot = if cfg.startOnBoot then "start" else "ignore";
       };
-      config = {
-        virtualisation.libvirtd = {
-          enable = true;
-          qemu.swtpm.enable = true;
-          onShutdown = "suspend";
-          # onBoot = mkIf cfg.qemu.startOnBoot "start";
-          # onBoot = "start";
-        };
-        programs.virt-manager.enable = true;
-      };
+      config.programs.virt-manager.enable = true;
     };
 }
