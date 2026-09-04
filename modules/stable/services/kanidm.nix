@@ -106,6 +106,16 @@
           };
         };
 
+        # ── Glance Services ─────────────────────────────────────────────────────
+        modules.services.glance.server_service = [
+          {
+            title = "Kanidm";
+            url = "https://${cfg.domain}";
+            check-url = "https://localhost:${toString cfg.port}/status";
+            icon = "si:enpass";
+          }
+        ];
+
         # ── Traefik dynamic config ──────────────────────────────────────────────
         services.traefik.dynamicConfigOptions.http = {
           services.kanidm.loadBalancer = {

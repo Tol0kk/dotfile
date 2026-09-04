@@ -32,7 +32,7 @@
       environment.systemPackages = with pkgs; [
         prismlauncher
         # heroic
-        # lutris
+        lutris
         # bottleso
       ];
     };

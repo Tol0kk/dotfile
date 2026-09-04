@@ -25,15 +25,18 @@
       };
       ports = {
         web = 3000;
-        ssh = 2222; # Forgejo internal SSH server
+        ssh = 22; # Forgejo internal SSH server
       };
 
       kanidmUrl = if pref.sso == null then "https://auth.${pref.topDomain}" else "https://${pref.sso}";
       ssoClientId = "forgejo";
 
       ssoName = "kanidm";
+      # Kanidm's OIDC well-known discovery endpoint for this client.
       ssoDiscoveryUrl = "${kanidmUrl}/oauth2/openid/${ssoClientId}/.well-known/openid-configuration";
-      ssoScopes = "openid email profile";
+      # 'openid' is implicitly added by Forgejo, no need to repeat it.
+      ssoScopes = "email profile";
+      # Kanidm uses a simple SVG badge — skip the icon-url, Forgejo will use a default.
     in
     {
       # ── Modules Settings ────────────────────────────────────────
@@ -142,7 +145,9 @@
               # Security note: only safe because Kanidm is the sole trusted IdP.
               ACCOUNT_LINKING = "auto";
               # Source of the username for new accounts.
-              USERNAME = "preferred_username";
+              # 'nickname' uses the OIDC nickname claim
+              # (falls back to preferred_username for OpenID Connect providers).
+              USERNAME = "nickname";
               OPENID_CONNECT_SCOPES = ssoScopes;
               UPDATE_AVATAR = true;
             };
@@ -202,9 +207,12 @@
         # existing source by name and updating it, or adding it if absent.
         systemd.services.forgejo-sso-setup = mkIf cfg.sso {
           description = "Configure Forgejo Kanidm OIDC authentication source";
-          environment = lib.filterAttrs (
-            n: _: lib.hasPrefix "GITEA_" n
-          ) config.systemd.services.forgejo.environment;
+          environment = {
+            USER = config.services.forgejo.user;
+            HOME = config.services.forgejo.stateDir;
+            GITEA_WORK_DIR = config.services.forgejo.stateDir;
+            GITEA_CUSTOM = config.services.forgejo.customDir;
+          };
           path = [ pkgs.gawk ];
           requires = [ "forgejo.service" ];
           after = [
@@ -226,23 +234,30 @@
 
             forgejo="${pkgs.forgejo}/bin/forgejo"
 
-            # Find an existing auth source id by name (skip the header row).
-            existing_id="$("$forgejo" admin auth list 2>/dev/null \
-              | awk -v n="${ssoName}" 'NR > 1 && $2 == n { print $1; exit }')"
+            # Grab the auth-source table once. Tolerate a non-zero exit / empty
+            # table (e.g. no sources yet) instead of letting pipefail + set -e
+            # abort here, and let any real error reach the journal.
+            auth_list="$("$forgejo" admin auth list)"
+
+            # Parse from a here-string: awk is the only command in the
+            # substitution, so its early `exit` can't SIGPIPE an upstream
+            # process and trip pipefail.
+            existing_id="$(awk -v n="${ssoName}" \
+              'NR > 1 && $2 == n { print $1; exit }' <<< "$auth_list")"
 
             if [ -n "$existing_id" ]; then
               "$forgejo" admin auth update-oauth \
                 --id "$existing_id" \
-                --name "${ssoName}" \
                 --provider openidConnect \
+                --name "${ssoName}" \
                 --key "${ssoClientId}" \
                 --secret "$FORGEJO_OIDC_CLIENT_SECRET" \
                 --auto-discover-url "${ssoDiscoveryUrl}" \
                 --scopes "${ssoScopes}"
             else
               "$forgejo" admin auth add-oauth \
-                --name "${ssoName}" \
                 --provider openidConnect \
+                --name "${ssoName}" \
                 --key "${ssoClientId}" \
                 --secret "$FORGEJO_OIDC_CLIENT_SECRET" \
                 --auto-discover-url "${ssoDiscoveryUrl}" \

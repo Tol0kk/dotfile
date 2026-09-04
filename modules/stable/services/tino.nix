@@ -10,7 +10,6 @@
         types
         mkOption
         mkForce
-        concatStringsSep
         ;
       pref = config.preferences;
       cfg = config.modules.services.tino;

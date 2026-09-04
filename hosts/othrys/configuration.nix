@@ -32,6 +32,9 @@
     self.nixosModules.adguard
     self.nixosModules.tino
     self.nixosModules.vaultwarden
+    self.nixosModules.code-server
+    self.nixosModules.observability
+    self.nixosModules.jellyfin
 
     self.nixosModules.minecraft-gtnh
 
@@ -100,6 +103,15 @@
     sopsFile = ./secrets.yaml;
   };
   sops.secrets."vaultwarden/env.secrets" = {
+    sopsFile = ./secrets.yaml;
+  };
+  sops.secrets."observability/grafana.secret_key" = {
+    sopsFile = ./secrets.yaml;
+  };
+  sops.secrets."observability/grafana.oidc_secret" = {
+    sopsFile = ./secrets.yaml;
+  };
+  sops.secrets."jellyfin/oidc-secret" = {
     sopsFile = ./secrets.yaml;
   };
 

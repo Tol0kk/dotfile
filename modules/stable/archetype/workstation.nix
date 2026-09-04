@@ -53,6 +53,7 @@
             # Heavy
             onlyoffice-desktopeditors
             inputs.zen-browser.packages."${stdenv.hostPlatform.system}".beta
+            claude-code
 
             # obsidian
             # blender_4_0
@@ -153,6 +154,9 @@
             kdePackages.plasma-workspace # ships plasma-applications.menu
             kdePackages.kservice
             qdirstat
+
+            ente-auth
+            beets
           ];
           xdg.mime.enable = true; # default true, but make sure it's not disabled
           programs.dconf.enable = true;
@@ -246,7 +250,8 @@
           };
 
           services.ananicy = {
-            enable = true;
+            package = pkgs.ananicy-cpp;
+            enable = false;
             extraTypes = [
               {
                 nice = -10;

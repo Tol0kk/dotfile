@@ -1,4 +1,9 @@
-{ self, config, ... }:
+{
+  self,
+  config,
+  pkgs,
+  ...
+}:
 {
   # ── Topology / service catalogue ────────────────────────────────────────
   topology.self = {
@@ -107,4 +112,26 @@
   # Nvidia
   hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.legacy_580; # legacy_580 is mandatory for GTX 1070
   hardware.nvidia.open = false; # False is mandatory for 1070
+
+  systemd.services.navidrome.serviceConfig.BindReadOnlyPaths = [ "/data/media/audio" ];
+  # Tests
+  services.navidrome = {
+    enable = true;
+    plugins = with pkgs.navidromePlugins; [
+      audiomuseai
+      apple-music
+      listenbrainz-daily-playlist
+    ];
+
+    # settings.Backup = {
+    #   Path = "/data/media/";
+    #   Schedule = "0 0 * * *"; # every 24 hours at midnight
+    #   Count = 2;
+    # };
+
+    settings.PlaylistsPath = "/data/media/audio";
+
+    # The lyrics plugin bundle is named lyrics-plugin.ndp.
+    settings.LyricsPriority = ".ttml,.yaml,.yml,.elrc,.srt,lyrics-plugin,embedded,.lrc,.txt";
+  };
 }

@@ -11,6 +11,7 @@
     let
       inherit (lib) mkIf types mkOption;
       pref = config.preferences;
+      cfg = config.modules.services.traefik;
     in
     {
       key = "nixosModules.traefik";
@@ -34,6 +35,17 @@
             details = lib.mkForce { };
           };
         };
+
+        # ── Glance Services ─────────────────────────────────────────────────────
+        modules.services.glance.server_service = [
+          {
+            title = "Traefik DashBoard";
+            url =
+              if cfg.public then "https://traefik.${pref.topDomain}" else "https://traefik.${pref.topDomain}";
+            check-url = "https://traefik.${pref.topDomain}";
+            icon = "si:traefikproxy";
+          }
+        ];
 
         # ── Secrets for Traefik DNS challenges ────────────────────────────────────────────────
         systemd.services.traefik.serviceConfig = {

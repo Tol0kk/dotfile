@@ -93,6 +93,8 @@ in
           };
         };
 
+        preferences.netbird-api = lib.mkDefault public.api;
+
         # ── Traefik Configuration ───────────────────────────────────────────────
         services.traefik.dynamicConfigOptions.http = {
           routers = {
@@ -304,6 +306,24 @@ in
           mode = "0444";
         };
         sops.secrets."netbird/relay-secret" = { };
+
+        # ── prometheus scrapeConfigs ────────────────────────────────────────────────────────
+        services.prometheus.scrapeConfigs =
+          lib.mapAttrsToList
+            (job: target: {
+              job_name = job;
+              static_configs = [
+                {
+                  targets = [ target ];
+                  labels.instance = config.networking.hostName;
+                }
+              ];
+            })
+            {
+              netbird-management = "127.0.0.1:9090";
+              netbird-signal = "127.0.0.1:9091";
+              netbird-relay = "127.0.0.1:9092";
+            };
       };
     };
 }

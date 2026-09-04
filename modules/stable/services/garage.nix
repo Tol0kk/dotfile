@@ -150,6 +150,7 @@
                 ];
                 healthCheck = {
                   path = "/health";
+                  port = cfg.ports.admin;
                   interval = "10s";
                   timeout = "3s";
                 };

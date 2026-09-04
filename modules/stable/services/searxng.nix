@@ -70,6 +70,16 @@
           };
         };
 
+        # ── Glance Services ─────────────────────────────────────────────────────
+        modules.services.glance.server_service = [
+          {
+            title = "Searxng";
+            url = if cfg.public then "https://${public.search}" else "https://${local.search}";
+            check-url = "http://localhost:${toString cfg.port}/stats";
+            icon = "si:searxng";
+          }
+        ];
+
         # ── Traefik Configuration ────────────────────────────────────────
         services.traefik.dynamicConfigOptions = {
           http = {
@@ -113,7 +123,8 @@
             };
             search = {
               safe_search = 1; # 0 = None, 1 = Moderate, 2 = Strict
-              autocomplete = "google";
+              autocomplete = "duckduckgo";
+              favicon_resolver = "duckduckgo";
             };
             ui = {
               static_use_hash = true;

@@ -47,6 +47,12 @@
         documentation.info.enable = false;
         documentation.doc.enable = false;
 
+        services.logrotate.enable = true;
+        system.autoUpgrade = {
+          enable = true;
+          allowReboot = true;
+        };
+
         nix.settings.auto-optimise-store = true;
 
         networking.firewall = {

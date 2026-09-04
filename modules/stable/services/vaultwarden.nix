@@ -35,8 +35,7 @@
       config = {
         # ── Topology / service catalogue ────────────────────────────────────────
         topology.self.services = {
-          glance = {
-            name = "vaultwarden";
+          vaultwarden = {
             info = lib.mkForce "Self hosted password manager";
             details = {
               Local.text = mkForce "${local} (localhost:${toString port})";
@@ -96,7 +95,8 @@
             SSO_ENABLED = true;
             SSO_AUTHORITY = "${kanidmUrl}/oauth2/openid/${ssoClientId}";
             SSO_CLIENT_ID = ssoClientId;
-            SSO_SCOPES = "openid email profile offline_access";
+            SSO_AUTH_ONLY_NOT_SESSION = true;
+            SSO_SCOPES = "openid email profile";
             SSO_PKCE = true;
             SSO_ONLY = true;
           };

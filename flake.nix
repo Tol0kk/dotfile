@@ -10,7 +10,7 @@
     stylix-unstable.inputs.nixpkgs.follows = "nixpkgs-unstable";
     zen-browser.url = "github:0xc000022070/zen-browser-flake";
     zen-browser.inputs.nixpkgs.follows = "nixpkgs-unstable";
-    noctalia.url = "github:noctalia-dev/noctalia-shell";
+    noctalia.url = "github:noctalia-dev/noctalia/legacy-v4";
     noctalia.inputs.nixpkgs.follows = "nixpkgs-unstable";
     vicinae.url = "github:vicinaehq/vicinae"; # We use the nixpkgs from vicinar for cachix
     vicinae-extensions.url = "github:vicinaehq/extensions";
